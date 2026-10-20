@@ -1,7 +1,7 @@
-// Hero Generator service worker: lets the app start offline.
+// Natural Twenty service worker: lets the app start offline.
 // Pages: try the network first (to get updates), fall back to the saved copy.
 // Icons and fonts: use the saved copy first.
-const CACHE = 'hero-gen-v1';
+const CACHE = 'nat20-v2';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/favicon.svg'];
 
 self.addEventListener('install', e => {

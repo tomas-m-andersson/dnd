@@ -1,6 +1,6 @@
 {
-  "name": "Hero Generator",
-  "short_name": "Hero Gen",
+  "name": "Natural Twenty",
+  "short_name": "Nat 20",
   "description": "Roll up a D&D hero and take them into a monster-filled cave.",
   "id": "./",
   "start_url": "./",
