@@ -1,11 +1,11 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Hjältegeneratorn</title>
+<title>Hero Generator</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;0,800;1,400&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <style>
-/* Layout: ett rollformulär på pergament i nattens bläck; steg 1 smider hjälten, steg 2 tar hen ner i grottan där en djupstege visar vägen till bossen. */
+/* Layout: a character sheet on parchment in night ink; step 1 forges the hero, step 2 takes them into the cave where a depth ladder shows the way to the boss. */
 :root{
   --bg:#14110d; --surface:#1d1915; --card:#25201a; --line:#3b3329;
   --ink:#efe6d0; --muted:#a8997d; --blood:#d23a2f; --blood-ink:#fff4ec;
@@ -89,7 +89,7 @@ header h1{font-size:clamp(42px,7vw,72px)}
 .line .sv{display:block;font-size:12px;color:var(--muted)}
 .gen-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
-/* Äventyr */
+/* Adventure */
 .adv{display:grid;grid-template-columns:290px minmax(0,1fr);gap:20px;align-items:start}
 .status{display:grid;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
 .status .who h2{font-size:32px;overflow-wrap:anywhere}
@@ -123,6 +123,7 @@ header h1{font-size:clamp(42px,7vw,72px)}
 .door:hover{border-color:var(--gold);transform:translateY(-2px)}
 .door .knob{font-family:var(--f-display);font-size:30px;color:var(--gold);line-height:1}
 .door .hint{font-style:italic;font-size:16px}
+.door .known{font-size:14px;font-weight:700;color:var(--gold);border-top:1px dashed var(--line);padding-top:6px;margin-top:2px}
 .door .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .foe{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid color-mix(in srgb,var(--blood) 45%,var(--line));border-radius:4px;padding:12px 14px;background:color-mix(in srgb,var(--blood) 6%,var(--surface));margin-bottom:12px}
 .foe .rune{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-display);font-size:30px;color:var(--blood-ink);background:var(--blood)}
@@ -166,6 +167,7 @@ footer a{color:inherit}
   .status{position:static}
 }
 @media (max-width:560px){
+  .doors{grid-template-columns:minmax(0,1fr)!important}
   .abil{grid-template-columns:repeat(3,minmax(0,1fr))}
   .choose,.doors{grid-template-columns:minmax(0,1fr)}
   .vitals{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -178,18 +180,18 @@ footer a{color:inherit}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">D&amp;D 5e · SRD-regler · nivå 1 och uppåt</div>
-      <h1>Hjältegeneratorn</h1>
+      <div class="eyebrow">D&amp;D 5e · SRD rules · level 1 and up</div>
+      <h1>Hero Generator</h1>
     </div>
-    <nav class="tabs" role="tablist" aria-label="Steg">
-      <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Skapa hjälte</button>
-      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span>Grottan</button>
+    <nav class="tabs" role="tablist" aria-label="Steps">
+      <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Create hero</button>
+      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span>The Cave</button>
     </nav>
   </header>
 
   <main id="view"></main>
 
-  <footer>Raser, klasser, vapen, rustningar, trollformler och monster från <a href="https://www.dnd5eapi.co/" target="_blank" rel="noopener">D&amp;D 5e SRD API</a> (5e-bits), System Reference Document 5.1. Reglerna är förenklade för att passa ett snabbt äventyr.</footer>
+  <footer>Races, classes, weapons, armor, spells and monsters from <a href="https://www.dnd5eapi.co/" target="_blank" rel="noopener">D&amp;D 5e SRD API</a> (5e-bits), System Reference Document 5.1. The rules are simplified for a quick adventure.</footer>
 </div>
 
 <script id="hdata" type="application/json">{"classes":[{"i":"barbarian","n":"Barbarian","hd":12,"sv":["str","con"],"w":["battleaxe","club","crossbow-light","dagger","dart","flail","glaive","greataxe","greatclub","greatsword","halberd","handaxe","javelin","lance","light-hammer","longsword","mace","maul","morningstar","pike","quarterstaff","rapier","scimitar","shortbow","shortsword","sickle","sling","spear","trident","war-pick","warhammer","whip"],"ar":[],"sa":null},{"i":"bard","n":"Bard","hd":8,"sv":["dex","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","longsword","mace","quarterstaff","rapier","shortbow","sickle","sling","spear"],"ar":["leather-armor"],"sa":"cha"},{"i":"cleric","n":"Cleric","hd":8,"sv":["wis","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","sickle","sling","spear","warhammer"],"ar":["chain-mail","leather-armor","scale-mail","shield"],"sa":"wis"},{"i":"druid","n":"Druid","hd":8,"sv":["int","wis"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","scimitar","shortbow","sickle","sling","spear"],"ar":["leather-armor","shield"],"sa":"wis"},{"i":"fighter","n":"Fighter","hd":10,"sv":["str","con"],"w":["battleaxe","blowgun","crossbow-hand","crossbow-heavy","crossbow-light","flail","glaive","greataxe","greatsword","halberd","handaxe","lance","longbow","longsword","maul","morningstar","pike","rapier","scimitar","shortsword","trident","war-pick","warhammer","whip"],"ar":["chain-mail","leather-armor","shield"],"sa":null},{"i":"monk","n":"Monk","hd":8,"sv":["str","dex"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","shortsword","sickle","sling","spear"],"ar":[],"sa":null},{"i":"paladin","n":"Paladin","hd":10,"sv":["wis","cha"],"w":["battleaxe","blowgun","club","crossbow-hand","crossbow-heavy","crossbow-light","dagger","dart","flail","glaive","greataxe","greatclub","greatsword","halberd","handaxe","javelin","lance","light-hammer","longbow","longsword","mace","maul","morningstar","pike","quarterstaff","rapier","scimitar","shortbow","shortsword","sickle","sling","spear","trident","war-pick","warhammer","whip"],"ar":["chain-mail","shield"],"sa":null},{"i":"ranger","n":"Ranger","hd":10,"sv":["str","dex"],"w":["club","dagger","greatclub","handaxe","javelin","light-hammer","longbow","mace","quarterstaff","shortsword","sickle","spear"],"ar":["leather-armor","scale-mail"],"sa":null},{"i":"rogue","n":"Rogue","hd":8,"sv":["dex","int"],"w":["dagger","rapier","shortbow","shortsword"],"ar":["leather-armor"],"sa":null},{"i":"sorcerer","n":"Sorcerer","hd":6,"sv":["con","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","sickle","sling","spear"],"ar":[],"sa":"cha"},{"i":"warlock","n":"Warlock","hd":8,"sv":["wis","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","sickle","sling","spear"],"ar":["leather-armor"],"sa":"cha"},{"i":"wizard","n":"Wizard","hd":6,"sv":["int","wis"],"w":["dagger","quarterstaff"],"ar":[],"sa":"int"}],"races":[{"i":"dwarf","n":"Dwarf","b":{"con":2},"sp":25,"tr":["Darkvision","Dwarven Resilience","Stonecunning","Dwarven Combat Training","Tool Proficiency"]},{"i":"elf","n":"Elf","b":{"dex":2},"sp":30,"tr":["Darkvision","Fey Ancestry","Trance","Keen Senses"]},{"i":"halfling","n":"Halfling","b":{"dex":2},"sp":25,"tr":["Brave","Halfling Nimbleness","Lucky"]},{"i":"human","n":"Human","b":{"str":1,"dex":1,"con":1,"int":1,"wis":1,"cha":1},"sp":30,"tr":[]},{"i":"dragonborn","n":"Dragonborn","b":{"str":2,"cha":1},"sp":30,"tr":["Draconic Ancestry","Breath Weapon","Damage Resistance"]},{"i":"gnome","n":"Gnome","b":{"int":2},"sp":25,"tr":["Darkvision","Gnome Cunning"]},{"i":"half-elf","n":"Half-Elf","b":{"cha":2},"sp":30,"tr":["Darkvision","Fey Ancestry","Skill Versatility"]},{"i":"half-orc","n":"Half-Orc","b":{"str":2,"con":1},"sp":30,"tr":["Darkvision","Savage Attacks","Relentless Endurance","Menacing"]},{"i":"tiefling","n":"Tiefling","b":{"int":1,"cha":2},"sp":30,"tr":["Darkvision","Hellish Resistance","Infernal Legacy"]}],"weapons":{"trident":{"n":"Trident","d":"1d6","t":"piercing","r":0,"f":0,"c":"Martial"},"sling":{"n":"Sling","d":"1d4","t":"bludgeoning","r":1,"f":0,"c":"Simple"},"warhammer":{"n":"Warhammer","d":"1d8","t":"bludgeoning","r":0,"f":0,"c":"Martial"},"pike":{"n":"Pike","d":"1d10","t":"piercing","r":0,"f":0,"c":"Martial"},"javelin":{"n":"Javelin","d":"1d6","t":"piercing","r":0,"f":0,"c":"Simple"},"whip":{"n":"Whip","d":"1d4","t":"slashing","r":0,"f":1,"c":"Martial"},"maul":{"n":"Maul","d":"2d6","t":"bludgeoning","r":0,"f":0,"c":"Martial"},"scimitar":{"n":"Scimitar","d":"1d6","t":"slashing","r":0,"f":1,"c":"Martial"},"longsword":{"n":"Longsword","d":"1d8","t":"slashing","r":0,"f":0,"c":"Martial"},"war-pick":{"n":"War pick","d":"1d8","t":"piercing","r":0,"f":0,"c":"Martial"},"shortsword":{"n":"Shortsword","d":"1d6","t":"piercing","r":0,"f":1,"c":"Martial"},"dart":{"n":"Dart","d":"1d4","t":"piercing","r":1,"f":1,"c":"Simple"},"light-hammer":{"n":"Light hammer","d":"1d4","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"spear":{"n":"Spear","d":"1d6","t":"piercing","r":0,"f":0,"c":"Simple"},"morningstar":{"n":"Morningstar","d":"1d8","t":"piercing","r":0,"f":0,"c":"Martial"},"handaxe":{"n":"Handaxe","d":"1d6","t":"slashing","r":0,"f":0,"c":"Simple"},"greataxe":{"n":"Greataxe","d":"1d12","t":"slashing","r":0,"f":0,"c":"Martial"},"lance":{"n":"Lance","d":"1d12","t":"piercing","r":0,"f":0,"c":"Martial"},"mace":{"n":"Mace","d":"1d6","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"flail":{"n":"Flail","d":"1d8","t":"bludgeoning","r":0,"f":0,"c":"Martial"},"quarterstaff":{"n":"Quarterstaff","d":"1d6","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"greatsword":{"n":"Greatsword","d":"2d6","t":"slashing","r":0,"f":0,"c":"Martial"},"sickle":{"n":"Sickle","d":"1d4","t":"slashing","r":0,"f":0,"c":"Simple"},"rapier":{"n":"Rapier","d":"1d8","t":"piercing","r":0,"f":1,"c":"Martial"},"dagger":{"n":"Dagger","d":"1d4","t":"piercing","r":0,"f":1,"c":"Simple"},"glaive":{"n":"Glaive","d":"1d10","t":"slashing","r":0,"f":0,"c":"Martial"},"crossbow-light":{"n":"Crossbow, light","d":"1d8","t":"piercing","r":1,"f":0,"c":"Simple"},"shortbow":{"n":"Shortbow","d":"1d6","t":"piercing","r":1,"f":0,"c":"Simple"},"greatclub":{"n":"Greatclub","d":"1d8","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"battleaxe":{"n":"Battleaxe","d":"1d8","t":"slashing","r":0,"f":0,"c":"Martial"},"halberd":{"n":"Halberd","d":"1d10","t":"slashing","r":0,"f":0,"c":"Martial"},"club":{"n":"Club","d":"1d4","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"crossbow-heavy":{"n":"Crossbow, heavy","d":"1d10","t":"piercing","r":1,"f":0,"c":"Martial"},"crossbow-hand":{"n":"Crossbow, hand","d":"1d6","t":"piercing","r":1,"f":0,"c":"Martial"},"longbow":{"n":"Longbow","d":"1d8","t":"piercing","r":1,"f":0,"c":"Martial"},"blowgun":{"n":"Blowgun","d":"1","t":"piercing","r":1,"f":0,"c":"Martial"}},"armor":{"leather-armor":{"n":"Leather Armor","c":"Light","b":11,"dx":1,"mx":null},"shield":{"n":"Shield","c":"Shield","b":2,"dx":0,"mx":null},"chain-mail":{"n":"Chain Mail","c":"Heavy","b":16,"dx":0,"mx":null},"scale-mail":{"n":"Scale Mail","c":"Medium","b":14,"dx":1,"mx":2}},"spells":[{"i":"acid-splash","n":"Acid Splash","l":0,"c":["sorcerer","wizard"],"t":"acid","d":{"1":"1d6","5":"2d6","11":"3d6","17":"4d6"},"dc":"dex","hf":0},{"i":"burning-hands","n":"Burning Hands","l":1,"c":["sorcerer","wizard"],"t":"fire","d":"3d6","dc":"dex","hf":1},{"i":"chill-touch","n":"Chill Touch","l":0,"c":["sorcerer","warlock","wizard"],"t":"necrotic","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"cure-wounds","n":"Cure Wounds","l":1,"c":["bard","cleric","druid","paladin","ranger"],"h":"1d8+MOD"},{"i":"divine-favor","n":"Divine Favor","l":1,"c":["paladin"],"t":"radiant","d":"1d4","auto":1},{"i":"eldritch-blast","n":"Eldritch Blast","l":0,"c":["warlock"],"t":"force","d":{"1":"1d10","5":"1d10","11":"1d10","17":"1d10"},"at":1},{"i":"false-life","n":"False Life","l":1,"c":["sorcerer","wizard"],"h":"1d4+4"},{"i":"fire-bolt","n":"Fire Bolt","l":0,"c":["sorcerer","wizard"],"t":"fire","d":{"1":"1d10","5":"2d10","11":"3d10","17":"4d10"},"at":1},{"i":"guiding-bolt","n":"Guiding Bolt","l":1,"c":["cleric"],"t":"radiant","d":"4d6","at":1},{"i":"healing-word","n":"Healing Word","l":1,"c":["bard","cleric","druid"],"h":"1d4+MOD"},{"i":"hellish-rebuke","n":"Hellish Rebuke","l":1,"c":["warlock"],"t":"fire","d":"2d10","dc":"dex","hf":1},{"i":"inflict-wounds","n":"Inflict Wounds","l":1,"c":["cleric"],"t":"necrotic","d":"3d10","at":1},{"i":"magic-missile","n":"Magic Missile","l":1,"c":["sorcerer","wizard"],"t":"force","d":"3d4+3","auto":1},{"i":"poison-spray","n":"Poison Spray","l":0,"c":["sorcerer","warlock","wizard","druid"],"t":"poison","d":{"1":"1d12","5":"2d12","11":"3d12","17":"4d12"},"dc":"con","hf":0},{"i":"produce-flame","n":"Produce Flame","l":0,"c":["druid"],"t":"fire","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"ray-of-frost","n":"Ray of Frost","l":0,"c":["sorcerer","wizard"],"t":"cold","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"sacred-flame","n":"Sacred Flame","l":0,"c":["cleric"],"t":"radiant","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"dc":"dex","hf":0},{"i":"shocking-grasp","n":"Shocking Grasp","l":0,"c":["sorcerer","wizard"],"t":"lightning","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"thunderwave","n":"Thunderwave","l":1,"c":["bard","druid","sorcerer","wizard"],"t":"thunder","d":"2d8","dc":"con","hf":1},{"i":"vicious-mockery","n":"Vicious Mockery","l":0,"c":["bard"],"t":"psychic","d":{"1":"1d4","5":"2d4","11":"3d4","17":"4d4"},"dc":"wis","hf":0}]}</script>
@@ -202,28 +204,28 @@ const M=JSON.parse(document.getElementById('mdata').textContent);
 const CL=Object.fromEntries(H.classes.map(c=>[c.i,c])), RC=Object.fromEntries(H.races.map(r=>[r.i,r]));
 const W=H.weapons, AR=H.armor, SP=Object.fromEntries(H.spells.map(s=>[s.i,s]));
 
-/* ---------- Svenska namn ---------- */
-const CLS_SV={barbarian:'Barbar',bard:'Barde',cleric:'Präst',druid:'Druid',fighter:'Krigare',monk:'Munk',paladin:'Paladin',ranger:'Jägare',rogue:'Tjuv',sorcerer:'Besvärjare',warlock:'Häxmästare',wizard:'Magiker'};
-const RACE_SV={dwarf:'Dvärg',elf:'Alv',halfling:'Halvling',human:'Människa',dragonborn:'Drakfödd',gnome:'Gnom','half-elf':'Halvalv','half-orc':'Halvork',tiefling:'Tiefling'};
-const W_SV={club:'Klubba',dagger:'Dolk',greatclub:'Storklubba',handaxe:'Handyxa',javelin:'Kastspjut','light-hammer':'Lätt hammare',mace:'Stridsklubba',quarterstaff:'Stav',sickle:'Skära',spear:'Spjut','crossbow-light':'Lätt armborst',dart:'Kastpil',shortbow:'Kortbåge',sling:'Slunga',battleaxe:'Stridsyxa',flail:'Slaga',glaive:'Glav',greataxe:'Stor yxa',greatsword:'Tvåhandssvärd',halberd:'Hillebard',lance:'Lans',longsword:'Långsvärd',maul:'Slägga',morningstar:'Morgonstjärna',pike:'Pik',rapier:'Värja',scimitar:'Sabel',shortsword:'Kortsvärd',trident:'Treudd','war-pick':'Stridshacka',warhammer:'Stridshammare',whip:'Piska',blowgun:'Blåsrör','crossbow-hand':'Handarmborst','crossbow-heavy':'Tungt armborst',longbow:'Långbåge'};
-const A_SV={'leather-armor':'Läderrustning','scale-mail':'Fjällbrynja','chain-mail':'Ringbrynja',shield:'Sköld'};
-const S_SV={'fire-bolt':'Eldpil','magic-missile':'Magisk projektil','cure-wounds':'Läk sår','healing-word':'Läkande ord','sacred-flame':'Helig flamma','guiding-bolt':'Ledande blixt','inflict-wounds':'Tillfoga sår',thunderwave:'Åskvåg','vicious-mockery':'Elakt hån','burning-hands':'Brinnande händer','eldritch-blast':'Mystisk stråle','ray-of-frost':'Frostråle','shocking-grasp':'Elektrisk beröring','chill-touch':'Kall beröring','acid-splash':'Syrastänk','poison-spray':'Giftsprut','produce-flame':'Skapa flamma'};
-const DMG={acid:'syra',bludgeoning:'kross',cold:'köld',fire:'eld',force:'kraft',lightning:'blixt',necrotic:'nekrotisk',piercing:'stick',poison:'gift',psychic:'psykisk',radiant:'strålande',slashing:'hugg',thunder:'åska'};
-const SIZE={Tiny:'pytteliten',Small:'liten',Medium:'mellanstor',Large:'stor',Huge:'enorm',Gargantuan:'gigantisk'};
-const TYPE={beast:'djur',humanoid:'humanoid',dragon:'drake',monstrosity:'vidunder',fiend:'demon',undead:'odöd',elemental:'elementarväsen',giant:'jätte',swarm:'svärm',construct:'konstrukt',fey:'älvväsen',celestial:'himmelsväsen',aberration:'styggelse',plant:'växt',ooze:'slem'};
+/* ---------- Display names ---------- */
+const CLS_SV={barbarian:'Barbarian',bard:'Bard',cleric:'Cleric',druid:'Druid',fighter:'Fighter',monk:'Monk',paladin:'Paladin',ranger:'Ranger',rogue:'Rogue',sorcerer:'Sorcerer',warlock:'Warlock',wizard:'Wizard'};
+const RACE_SV={dwarf:'Dwarf',elf:'Elf',halfling:'Halfling',human:'Human',dragonborn:'Dragonborn',gnome:'Gnome','half-elf':'Half-Elf','half-orc':'Half-Orc',tiefling:'Tiefling'};
+const W_SV={};
+const A_SV={'leather-armor':'Leather Armor','scale-mail':'Scale Mail','chain-mail':'Chain Mail',shield:'Shield'};
+const S_SV={};
+const DMG={acid:'acid',bludgeoning:'bludgeoning',cold:'cold',fire:'fire',force:'force',lightning:'lightning',necrotic:'necrotic',piercing:'piercing',poison:'poison',psychic:'psychic',radiant:'radiant',slashing:'slashing',thunder:'thunder'};
+const SIZE={Tiny:'tiny',Small:'small',Medium:'medium',Large:'large',Huge:'huge',Gargantuan:'gargantuan'};
+const TYPE={beast:'beast',humanoid:'humanoid',dragon:'dragon',monstrosity:'monstrosity',fiend:'fiend',undead:'undead',elemental:'elemental',giant:'giant',swarm:'swarm',construct:'construct',fey:'fey',celestial:'celestial',aberration:'aberration',plant:'plant',ooze:'ooze'};
 const SIGIL={beast:'ᚠ',humanoid:'ᛗ',dragon:'ᛞ',monstrosity:'ᚦ',fiend:'ᛉ',undead:'ᛟ',elemental:'ᛇ',giant:'ᛃ',swarm:'ᛋ',construct:'ᛜ',fey:'ᚹ',celestial:'ᛏ',aberration:'ᛝ',plant:'ᛚ',ooze:'ᛜ'};
 const AB=['str','dex','con','int','wis','cha'];
-const AB_SV={str:'Styrka',dex:'Smidighet',con:'Fysik',int:'Intelligens',wis:'Visdom',cha:'Karisma'};
-const AB_K={str:'STY',dex:'SMI',con:'FYS',int:'INT',wis:'VIS',cha:'KAR'};
+const AB_SV={str:'Strength',dex:'Dexterity',con:'Constitution',int:'Intelligence',wis:'Wisdom',cha:'Charisma'};
+const AB_K={str:'STR',dex:'DEX',con:'CON',int:'INT',wis:'WIS',cha:'CHA'};
 const PRI={barbarian:['str','con','dex','wis','cha','int'],bard:['cha','dex','con','wis','int','str'],cleric:['wis','con','str','dex','cha','int'],druid:['wis','con','dex','int','cha','str'],fighter:['str','con','dex','wis','cha','int'],monk:['dex','wis','con','str','int','cha'],paladin:['str','cha','con','wis','dex','int'],ranger:['dex','wis','con','str','int','cha'],rogue:['dex','con','int','wis','cha','str'],sorcerer:['cha','con','dex','wis','int','str'],warlock:['cha','con','dex','wis','int','str'],wizard:['int','con','dex','wis','cha','str']};
 const KIT={barbarian:{w:['greataxe','handaxe'],ar:null},bard:{w:['rapier','dagger'],ar:'leather-armor'},cleric:{w:['mace','crossbow-light'],ar:'scale-mail',sh:1},druid:{w:['scimitar','sling'],ar:'leather-armor',sh:1},fighter:{w:['longsword','crossbow-light'],ar:'chain-mail',sh:1},monk:{w:['shortsword','dart'],ar:null},paladin:{w:['longsword','javelin'],ar:'chain-mail',sh:1},ranger:{w:['shortsword','longbow'],ar:'scale-mail'},rogue:{w:['rapier','shortbow'],ar:'leather-armor'},sorcerer:{w:['dagger','crossbow-light'],ar:null},warlock:{w:['dagger','crossbow-light'],ar:'leather-armor'},wizard:{w:['quarterstaff','dagger'],ar:null}};
-const FEAT_SV={barbarian:'Raseri: +2 skada och tål kross, stick och hugg resten av striden (2 per vila).',fighter:'Andra andningen: läk 1d10 + nivå, utan att tappa turen (1 per vila).',rogue:'Lönnhugg: extra skada när du träffar, 1d6 per två nivåer.',monk:'Kampkonst: ett extra slag med handen varje gång du anfaller.',paladin:'Helande händer: en pott med 5 liv per nivå att läka med.',ranger:'Skicklig skytt: +2 att träffa med avståndsvapen.',wizard:'Magisk rustning: rustningsvärde 13 + SMI hela äventyret.',sorcerer:'Magisk rustning: rustningsvärde 13 + SMI hela äventyret.'};
-const RACE_FT={dwarf:'Tål gift.',elf:'Skarpa sinnen, mörkerseende.',halfling:'Tur: slår om en etta.',human:'+1 på alla egenskaper.',dragonborn:'Andningsvapen 2d6 (1 per vila) och tål samma element.',gnome:'Listig mot magi, mörkerseende.','half-elf':'Mångsidig, mörkerseende.','half-orc':'Seg: faller till 1 liv i stället för 0 (1 per kapitel).',tiefling:'Tål eld, mörkerseende.'};
-const NAMES=['Sigrid','Torvald','Embla','Rurik','Astrid','Ingvar','Ylva','Hjalmar','Freja','Eskil','Saga','Grim','Tyra','Ulf','Runa','Björn','Idun','Sten','Ragna','Alrik','Solveig','Vidar','Gudrun','Erland'];
-const EPI=['den Modige','Järnhand','från Kråkberget','Eldsjäl','Skuggsteg','Stenhjärta','den Listige','Ulvbane','Stormöga','Silvertunga','den Orädde','Askfödd','Nattvandrare','Ekskölden'];
+const FEAT_SV={barbarian:'Rage: +2 damage and resistance to bludgeoning, piercing and slashing for the rest of the fight (2 per rest).',fighter:'Second Wind: heal 1d10 + level without losing your turn (1 per rest).',rogue:'Sneak Attack: extra damage when you hit, 1d6 per two levels.',monk:'Martial Arts: an extra unarmed strike every time you attack.',paladin:'Lay on Hands: a pool of 5 hit points per level to heal with.',ranger:'Sharpshooter: +2 to hit with ranged weapons.',wizard:'Mage Armor: armor class 13 + DEX for the whole adventure.',sorcerer:'Mage Armor: armor class 13 + DEX for the whole adventure.'};
+const RACE_FT={dwarf:'Resistant to poison.',elf:'Keen senses, darkvision.',halfling:'Lucky: rerolls a natural 1.',human:'+1 to every ability.',dragonborn:'Breath weapon 2d6 (1 per rest) and resistance to the same element.',gnome:'Gnome cunning against magic, darkvision.','half-elf':'Versatile, darkvision.','half-orc':'Relentless: drops to 1 hit point instead of 0 (1 per chapter).',tiefling:'Resistant to fire, darkvision.'};
+const NAMES=['Aldric','Brienne','Cedric','Delia','Edmund','Freya','Gareth','Helena','Ivor','Juna','Kael','Lyra','Marek','Nessa','Osric','Petra','Quinn','Rowan','Sable','Tamsin','Ulric','Vera','Wren','Yorick'];
+const EPI=['the Bold','Ironhand','of Crowpeak','Flameheart','Shadowstep','Stoneheart','the Cunning','Wolfsbane','Stormeye','Silvertongue','the Fearless','Ashborn','Nightwalker','Oakshield'];
 const BAD_SPELL=['false-life','hellish-rebuke','divine-favor','chill-touch'];
 
-/* ---------- Tärningar ---------- */
+/* ---------- Dice ---------- */
 const d=n=>1+Math.floor(Math.random()*n);
 const pick=a=>a[Math.floor(Math.random()*a.length)];
 const mod=s=>Math.floor((s-10)/2);
@@ -234,7 +236,7 @@ const avg=x=>{const p=parse(x);return p.n*(p.s+1)/2+p.k};
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 const crTxt=c=>c===0.125?'1/8':c===0.25?'1/4':c===0.5?'1/2':String(c);
 
-/* ---------- Hjälte ---------- */
+/* ---------- Hero ---------- */
 const XPT=[0,200,600,1500,3200,6000,10000,15000,22000,30000];
 const prof=l=>2+Math.floor((l-1)/4);
 function rollAbilities(){return Array.from({length:6},()=>{const r=[d(6),d(6),d(6),d(6)];const lo=r.indexOf(Math.min(...r));return{r,lo,t:r.reduce((a,b)=>a+b,0)-r[lo]}})}
@@ -265,22 +267,22 @@ function newHero(keep){
   resetRest(h,true);
   return h;
 }
-function resetRest(h,long){h.sw=1;h.rage=2;h.breath=1;if(long){h.relent=1;h.loh=5*h.lvl;h.slots=slotsFor(h)}if(h.cls==='warlock')h.slots=slotsFor(h)}
+function resetRest(h,long){h.curse=0;h.sw=1;h.rage=2;h.breath=1;if(long){h.relent=1;h.loh=5*h.lvl;h.slots=slotsFor(h)}if(h.cls==='warlock')h.slots=slotsFor(h)}
 function ac(h){const st=scores(h),dx=mod(st.dex);let v;
   if(h.armor){const a=AR[h.armor];v=a.b+(a.dx?(a.mx!=null?Math.min(dx,a.mx):dx):0)}
   else if(h.cls==='barbarian')v=10+dx+mod(st.con);else if(h.cls==='monk')v=10+dx+mod(st.wis);else if(h.cls==='wizard'||h.cls==='sorcerer')v=13+dx;else v=10+dx;
-  return v+(h.shield?2:0)+h.acb}
+  return v+(h.shield?2:0)+h.acb-(h.curse||0)}
 function wStats(h,wi){const w=W[wi],st=scores(h);let m;
   if(w.r)m=mod(st.dex);else if(w.f||h.cls==='monk')m=Math.max(mod(st.str),mod(st.dex));else m=mod(st.str);
-  return{w,name:W_SV[wi]||w.n,hit:prof(h.lvl)+m+h.wb+(h.cls==='ranger'&&w.r?2:0),dice:w.d,dm:m+h.wb,type:w.t,ranged:!!w.r}}
+  return{w,name:W_SV[wi]||w.n,hit:prof(h.lvl)+m+h.wb+(h.bless||0)+(h.cls==='ranger'&&w.r?2:0),dice:w.d,dm:m+h.wb,type:w.t,ranged:!!w.r}}
 function spellMod(h){return mod(scores(h)[CL[h.cls].sa])}
 function spellDice(h,s){if(typeof s.d==='string')return s.d;const keys=Object.keys(s.d).map(Number).sort((a,b)=>a-b);let k=keys[0];for(const x of keys)if(h.lvl>=x)k=x;return s.d[k]}
 function sName(i){return S_SV[i]||SP[i].n}
 
-/* ---------- Tillstånd ---------- */
+/* ---------- State ---------- */
 let hero=null, adv=null, view='gen';
 function save(){try{localStorage.setItem('hg-hero',JSON.stringify(hero));localStorage.setItem('hg-adv',JSON.stringify(adv));localStorage.setItem('hg-view',view)}catch(e){}}
-try{const h=JSON.parse(localStorage.getItem('hg-hero')||'null');if(h&&h.v===1&&CL[h.cls]&&RC[h.race])hero=h;const a=JSON.parse(localStorage.getItem('hg-adv')||'null');if(a&&hero&&a.v===1)adv=a;const v=localStorage.getItem('hg-view');if(v==='adv'&&adv)view='adv'}catch(e){}
+try{const h=JSON.parse(localStorage.getItem('hg-hero')||'null');if(h&&h.v===1&&CL[h.cls]&&RC[h.race])hero=h;const a=JSON.parse(localStorage.getItem('hg-adv')||'null');if(a&&hero&&a.v===3)adv=a;const v=localStorage.getItem('hg-view');if(v==='adv'&&adv)view='adv'}catch(e){}
 if(!hero)hero=newHero();
 
 const $view=document.getElementById('view');
@@ -288,57 +290,57 @@ function setView(v){view=v;document.getElementById('tabGen').setAttribute('aria-
 document.getElementById('tabGen').onclick=()=>setView('gen');
 document.getElementById('tabAdv').onclick=()=>{if(!adv)startAdventure();setView('adv')};
 
-/* ---------- Vy: generator ---------- */
+/* ---------- View: generator ---------- */
 function renderGen(){
   const h=hero,st=scores(h),c=CL[h.cls],r=RC[h.race],pri=PRI[h.cls];
   const inAdv=adv&&adv.phase!=='dead';
   const abil=AB.map(a=>{const b=h.base[a];const rb=r.b[a]||0;return `<div class="ab ${pri.indexOf(a)<2?'key':''}" title="${AB_SV[a]}">
     ${rb?`<span class="race">+${rb}</span>`:''}<span class="lbl">${AB_K[a]}</span><span class="val">${st[a]}</span><span class="mod">${sgn(mod(st[a]))}</span>
     <span class="dice">${b.r.map((x,i)=>`<span class="${i===b.lo?'drop':''}">${x}</span>`).join('')}</span></div>`}).join('');
-  const weapons=h.weapons.map(wi=>{const s=wStats(h,wi);return `<div class="line"><span>${esc(s.name)}<span class="sv">${s.ranged?'Avstånd':'Närstrid'}${h.wb?` · magisk +${h.wb}`:''}</span></span><code>${sgn(s.hit)} att träffa<br>${s.dice}${s.dm?sgn(s.dm):''} ${DMG[s.type]}</code></div>`}).join('');
-  const armor=`<div class="line"><span>${h.armor?A_SV[h.armor]:(h.cls==='wizard'||h.cls==='sorcerer')?'Magisk rustning':'Ingen rustning'}${h.shield?' + sköld':''}</span><code>Rustningsvärde ${ac(h)}</code></div>`;
-  const spells=h.spells.length?`<div class="block"><h3>Trollformler</h3>${h.spells.map(i=>{const s=SP[i];return `<div class="line"><span>${esc(sName(i))}<span class="sv">${s.l?'Nivå 1':'Trick, obegränsat'}</span></span><code>${s.h?`läker ${s.h.replace('MOD',sgn(spellMod(h)))}`:`${spellDice(h,s)} ${DMG[s.t]}`}<br>${s.at?'anfallsslag':s.dc?`räddning ${AB_K[s.dc]}`:'träffar alltid'}</code></div>`}).join('')}<div class="muted" style="font-size:14px">${h.slots} platser för nivå 1-formler. Formelstyrka ${AB_K[c.sa]} ${sgn(spellMod(h))}.</div></div>`:'';
+  const weapons=h.weapons.map(wi=>{const s=wStats(h,wi);return `<div class="line"><span>${esc(s.name)}<span class="sv">${s.ranged?'Ranged':'Melee'}${h.wb?` · magic +${h.wb}`:''}</span></span><code>${sgn(s.hit)} to hit<br>${s.dice}${s.dm?sgn(s.dm):''} ${DMG[s.type]}</code></div>`}).join('');
+  const armor=`<div class="line"><span>${h.armor?A_SV[h.armor]:(h.cls==='wizard'||h.cls==='sorcerer')?'Mage Armor':'No armor'}${h.shield?' + shield':''}</span><code>Armor class ${ac(h)}</code></div>`;
+  const spells=h.spells.length?`<div class="block"><h3>Spells</h3>${h.spells.map(i=>{const s=SP[i];return `<div class="line"><span>${esc(sName(i))}<span class="sv">${s.l?'Level 1':'Cantrip, unlimited'}</span></span><code>${s.h?`heals ${s.h.replace('MOD',sgn(spellMod(h)))}`:`${spellDice(h,s)} ${DMG[s.t]}`}<br>${s.at?'spell attack':s.dc?`${AB_K[s.dc]} save`:'always hits'}</code></div>`}).join('')}<div class="muted" style="font-size:14px">${h.slots} level 1 spell slots. Spellcasting ${AB_K[c.sa]} ${sgn(spellMod(h))}.</div></div>`:'';
   const feats=[FEAT_SV[h.cls],RACE_FT[h.race]+(h.dragon?` Element: ${DMG[h.dragon]}.`:'')].filter(Boolean).map(t=>`<div class="line"><span>${t}</span></div>`).join('');
   $view.innerHTML=`
   <div class="gen">
-    <section class="sheet gen-main" aria-label="Rollformulär">
+    <section class="sheet gen-main" aria-label="Character sheet">
       <div class="namebar">
-        <span class="eyebrow">Hjältens namn</span>
-        <div class="row"><input id="hname" value="${esc(h.name)}" maxlength="40" aria-label="Hjältens namn" ${inAdv?'disabled':''}><button class="btn" id="newName" type="button" ${inAdv?'disabled':''}>Nytt namn</button></div>
-        <div class="subline">${RACE_SV[h.race]} ${CLS_SV[h.cls].toLowerCase()} på nivå ${h.lvl}</div>
+        <span class="eyebrow">Hero name</span>
+        <div class="row"><input id="hname" value="${esc(h.name)}" maxlength="40" aria-label="Hero name" ${inAdv?'disabled':''}><button class="btn" id="newName" type="button" ${inAdv?'disabled':''}>New name</button></div>
+        <div class="subline">Level ${h.lvl} ${RACE_SV[h.race].toLowerCase()} ${CLS_SV[h.cls].toLowerCase()}</div>
       </div>
       <div class="choose">
-        <label for="selRace">Folk<select id="selRace" ${inAdv?'disabled':''}>${Object.keys(RACE_SV).map(k=>`<option value="${k}" ${k===h.race?'selected':''}>${RACE_SV[k]}</option>`).join('')}</select></label>
-        <label for="selCls">Klass<select id="selCls" ${inAdv?'disabled':''}>${Object.keys(CLS_SV).map(k=>`<option value="${k}" ${k===h.cls?'selected':''}>${CLS_SV[k]}</option>`).join('')}</select></label>
+        <label for="selRace">Race<select id="selRace" ${inAdv?'disabled':''}>${Object.keys(RACE_SV).map(k=>`<option value="${k}" ${k===h.race?'selected':''}>${RACE_SV[k]}</option>`).join('')}</select></label>
+        <label for="selCls">Class<select id="selCls" ${inAdv?'disabled':''}>${Object.keys(CLS_SV).map(k=>`<option value="${k}" ${k===h.cls?'selected':''}>${CLS_SV[k]}</option>`).join('')}</select></label>
       </div>
       <div class="block">
-        <div class="log-head"><span class="eyebrow">Egenskaper · 4T6, den lägsta stryks</span></div>
+        <div class="log-head"><span class="eyebrow">Abilities · 4d6, drop the lowest</span></div>
         <div class="abil">${abil}</div>
-        <div class="muted" style="font-size:14px">Slagen läggs ut efter vad en ${CLS_SV[h.cls].toLowerCase()} behöver mest (guldkant). Grönt tal är folkets bonus.</div>
+        <div class="muted" style="font-size:14px">The rolls are placed where a ${CLS_SV[h.cls].toLowerCase()} needs them most (gold border). The green number is the racial bonus.</div>
       </div>
       <div class="vitals">
-        <div><b>${h.hpMax}</b><span>Liv</span></div>
-        <div><b>${ac(h)}</b><span>Rustning</span></div>
-        <div><b>T${c.hd}</b><span>Livstärning</span></div>
-        <div><b>${r.sp}</b><span>Fart (fot)</span></div>
+        <div><b>${h.hpMax}</b><span>Hit points</span></div>
+        <div><b>${ac(h)}</b><span>Armor class</span></div>
+        <div><b>d${c.hd}</b><span>Hit die</span></div>
+        <div><b>${r.sp}</b><span>Speed (ft)</span></div>
       </div>
       <div class="gen-actions">
-        <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Slå nya egenskaper</button>
-        <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Slumpa allt</button>
+        <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Reroll abilities</button>
+        <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Randomize all</button>
         <span style="flex:1"></span>
-        <button class="btn primary" id="goAdv" type="button">${inAdv?'Fortsätt äventyret':'Ge dig ner i grottan'}</button>
+        <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':'Enter the cave'}</button>
       </div>
-      ${inAdv?`<div class="muted" style="font-size:14px">Hjälten är ute på äventyr. Avsluta äventyret i grottan för att ändra hjälten.</div>`:''}
+      ${inAdv?`<div class="muted" style="font-size:14px">Your hero is on an adventure. End the adventure in the cave to change the hero.</div>`:''}
     </section>
-    <aside class="sheet gen-side" aria-label="Utrustning och förmågor">
-      <div class="block"><h3>Vapen</h3>${weapons}${armor}</div>
+    <aside class="sheet gen-side" aria-label="Gear and features">
+      <div class="block"><h3>Weapons</h3>${weapons}${armor}</div>
       ${spells}
-      <div class="block"><h3>Förmågor</h3>${feats}</div>
-      <div class="block"><h3>Packning</h3><div class="line"><span>Läkedryck</span><code>${h.potions} st · 2T4+2</code></div><div class="line"><span>Guld</span><code>${h.gold} gm</code></div></div>
+      <div class="block"><h3>Features</h3>${feats}</div>
+      <div class="block"><h3>Pack</h3><div class="line"><span>Potion of Healing</span><code>${h.potions} × 2d4+2</code></div><div class="line"><span>Gold</span><code>${h.gold} gp</code></div></div>
     </aside>
   </div>`;
   const nm=document.getElementById('hname');
-  nm.oninput=()=>{hero.name=nm.value.trim()||'Namnlös';save()};
+  nm.oninput=()=>{hero.name=nm.value.trim()||'Nameless';save()};
   document.getElementById('newName').onclick=()=>{hero.name=`${pick(NAMES)} ${pick(EPI)}`;save();render()};
   document.getElementById('selRace').onchange=e=>{hero=newHero({name:hero.name,cls:hero.cls,race:e.target.value,rolls:hero.rolls});save();render()};
   document.getElementById('selCls').onchange=e=>{hero=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
@@ -347,159 +349,251 @@ function renderGen(){
   document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure();setView('adv')};
 }
 
-/* ---------- Äventyr: rum ---------- */
+/* ---------- Adventure: rooms ---------- */
 const DEPTH=8;
-const HINTS={
-  fight:['Du hör klor skrapa mot sten.','Något andas tungt där inne.','Ett morrande ekar i gången.','Det luktar blod och blöt päls.'],
-  treasure:['Något glimmar i mörkret.','Du ser ett gammalt kistlock.','Mynt klirrar när vinden drar.'],
-  camp:['Det luktar gammal brasa.','En torr nisch med en sovfäll.','Svagt ljus från en glödande härd.'],
-  trap:['Golvet ser misstänkt jämnt ut.','Små hål sitter i väggarna.','Det är alldeles för tyst.'],
-  well:['Vatten porlar någonstans.','En brunn med blå sken.']
-};
-function crRange(l,boss){if(boss)return l<=1?[0.5,0.5]:l===2?[1,1]:[l-2,l-1];return [[0.125,0.25],[0.25,0.5],[0.5,1],[1,2]][l-1]||[1,l-2]}
-function pickMonster(l,boss){
-  let [lo,hi]=crRange(l,boss);
+/* Each hint can lead to several kinds of room. The weights set how likely each room is. */
+const HINTS=[
+  {h:'You hear scraping and heavy footsteps.',o:{fight:5,sleeper:3,traveler:2}},
+  {h:'Something glints in the dark.',o:{treasure:3,guarded:3,trap:2,chest:2}},
+  {h:'It smells of smoke and roasting meat.',o:{camp:4,merchant:2,fight:2,guarded:2}},
+  {h:'It is far too quiet.',o:{trap:3,shrine:2,sleeper:3,treasure:2}},
+  {h:'Water trickles somewhere.',o:{well:4,fight:3,shrine:3}},
+  {h:'You hear someone whispering.',o:{traveler:3,merchant:3,fight:4}},
+  {h:'A cold wind blows through the passage.',o:{fight:3,shrine:3,chest:2,trap:2}},
+  {h:'Claw marks run along the wall.',o:{guarded:3,sleeper:3,fight:3,treasure:1}},
+  {h:'A faint light flickers ahead.',o:{camp:3,shrine:2,merchant:2,trap:3}},
+  {h:'It smells of mold and old bones.',o:{fight:4,chest:2,trap:2,treasure:2}}
+];
+const KNOWN={fight:'An enemy waits, awake and hungry.',guarded:'A monster guards something valuable.',treasure:'Nothing alive. Only things.',trap:'Something mechanical clicks. A trap.',camp:'An abandoned campsite.',merchant:'Someone is counting coins and humming.',traveler:'Someone is groaning in pain.',sleeper:'Something big is snoring.',shrine:'A holy, silent room.',chest:'A locked chest.',well:'A well.'};
+function wpick(o){const t=Object.values(o).reduce((a,b)=>a+b,0);let r=Math.random()*t;for(const k in o){r-=o[k];if(r<=0)return k}return Object.keys(o)[0]}
+function crRange(l,boss){if(boss)return l<=1?[0.5,1]:l===2?[1,1]:[l-2,l-1];return [[0.125,0.5],[0.25,1],[0.5,2],[1,3]][l-1]||[l-3,l-1]}
+function pickMonster(l,boss,opt){
+  opt=opt||{};let [lo,hi]=crRange(l+(opt.bump||0),boss);
+  if(!boss&&adv&&adv.chapter===1&&adv.depth<=2){hi=Math.min(hi,opt.bump?0.5:0.25);lo=Math.min(lo,hi)}
   let pool=M.filter(m=>m.cr>=lo&&m.cr<=hi);
   if(boss){const fav=pool.filter(m=>['dragon','giant','fiend','monstrosity','undead','aberration'].includes(m.t));if(fav.length)pool=fav}
+  if(opt.type){const f=pool.filter(m=>m.t===opt.type);pool=f.length?f:M.filter(m=>m.t===opt.type&&m.cr<=hi)}
   if(!pool.length)pool=M.filter(m=>m.cr<=hi);
   return pick(pool);
 }
-function randRoom(){const r=Math.random();return r<.5?'fight':r<.66?'treasure':r<.8?'camp':r<.92?'trap':'well'}
-function makeDoors(){if(adv.depth===DEPTH)return null;let a=randRoom(),b=randRoom();let n=0;while(b===a&&n++<5)b=randRoom();return[a,b].map(t=>({t,hint:pick(HINTS[t])}))}
+function makeDoors(){
+  if(adv.depth===DEPTH)return null;
+  const r=Math.random(),n=r<.22?1:r<.75?2:3;
+  return HINTS.slice().sort(()=>Math.random()-.5).slice(0,n).map(x=>({hint:x.h,t:wpick(x.o)}));
+}
 function startAdventure(){
-  hero.hp=hero.hpMax;resetRest(hero,true);
+  hero.hp=hero.hpMax;resetRest(hero,true);hero.bless=0;hero.curse=0;
   hero.start=JSON.parse(JSON.stringify({...hero,start:undefined}));
-  adv={v:1,chapter:1,depth:1,phase:'doors',doors:null,log:[],kills:0,xpGain:0,foe:null,room:null};
+  adv={v:3,chapter:1,depth:1,phase:'doors',doors:null,log:[],kills:0,xpGain:0,foe:null,room:null,listened:false};
   adv.doors=makeDoors();
-  log('sep',`Kapitel 1 · Grottan under Kråkberget`);
-  log('note',`${you()} tänder en fackla och kliver in i grottan.`,'·');
+  log('sep',`Chapter 1 · The Cave under Crowpeak`);
+  log('note',`${you()} lights a torch and steps into the cave.`,'·');
   save();
 }
 function you(){return `<b class="you">${esc(hero.name.split(' ')[0])}</b>`}
 function them(){return `<b class="them">${esc(adv.foe.m.n)}</b>`}
 function log(cls,html,chip,chipCls){adv.log.push({c:cls,h:html,ch:chip,cc:chipCls});if(adv.log.length>160)adv.log.splice(0,adv.log.length-160)}
+function check(ab,dc,profFor){const st=scores(hero);let b=mod(st[ab]);if(profFor&&profFor.includes(hero.cls))b+=prof(hero.lvl);const r=heroD20();return{r,b,tot:r+b,ok:r+b>=dc,dc,txt:`<span class="muted">${r}${sgn(b)} = ${r+b} vs ${dc}</span>`}}
+const cdc=base=>base+Math.floor(adv.depth/3)+adv.chapter-1;
 
-function enterRoom(t){
-  adv.room={t};
-  if(adv.depth===DEPTH)t=adv.room.t='boss';
-  log('sep',`Djup ${adv.depth} av ${DEPTH}${t==='boss'?' · Bossen':''}`);
-  if(t==='fight'||t==='boss'){
-    const m=pickMonster(hero.lvl,t==='boss');
-    adv.foe={m,hp:m.hp,charged:!!m.sv,first:true};
-    log('note',`${t==='boss'?'Grottans härskare reser sig':'Något kliver fram ur mörkret'}: ${them()}, ${SIZE[m.s]} ${TYPE[m.t]||m.t}.`,'!','fail');
-    const ini=d(20)+mod(scores(hero).dex),fi=d(20)+mod(m.st[1]);
-    log('note',`Initiativ: ${you()} ${ini}, ${them()} ${fi}.`,'INI');
-    adv.phase='fight';adv.rage=false;
-    if(fi>ini){log('note',`${them()} hinner först!`,'·');monsterTurn()}
-  }else if(t==='treasure'){
-    const items=rollLoot();adv.room.loot=items;adv.phase='room';
-    log('note',`${you()} hittar en skattkista.`,'¤','heal');
-  }else if(t==='camp'){adv.phase='room';log('note',`En trygg lägerplats. Här kan man vila en stund.`,'·')}
-  else if(t==='trap'){
-    const dc=10+Math.floor(adv.depth/2)+adv.chapter;const r=d(20),tot=r+mod(scores(hero).dex);
-    if(tot>=dc){log('',`Plattor klickar under fötterna! ${you()} kastar sig undan: <span class="muted">${r}${sgn(mod(scores(hero).dex))} = ${tot} mot ${dc}</span>. Klarade det!`,r,'hit')}
-    else{const dm=roll(`${Math.max(1,hero.lvl)}d6`);hurtHero(dm);log('',`Spjut skjuter ut ur väggen! ${you()} hinner inte undan <span class="muted">(${tot} mot ${dc})</span>. <span class="dmg">${dm} skada</span>.`,r,'fail')}
-    adv.room.done=true;adv.phase=hero.hp<=0?'dead':'room';if(hero.hp<=0)die();
-  }else if(t==='well'){adv.phase='room'}
+function listen(){
+  if(adv.listened)return;adv.listened=true;
+  const bonus=hero.race==='elf'?2:0;const c=check('wis',cdc(12),['ranger','rogue','druid','monk']);c.tot+=bonus;c.ok=c.tot>=c.dc;
+  if(c.ok){adv.doors.forEach(x=>x.known=true);log('',`${you()} presses an ear to the stone and listens ${c.txt}${bonus?' <span class="muted">(+2 elven ears)</span>':''}. Now you know what awaits.`,c.r,'hit')}
+  else if(Math.random()<.4){log('',`${you()} listens ${c.txt}, but something hears you first!`,c.r,'fail');adv.room={t:'fight'};log('sep',`Depth ${adv.depth} of ${DEPTH} · Ambush`);startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'Something rushes out of the shadows'});return}
+  else log('',`${you()} listens ${c.txt} but hears only their own heartbeat.`,c.r,'');
   save();render();
 }
-function rollLoot(){
-  const out=[];const g=roll('2d10')*hero.lvl+adv.chapter*5;out.push({k:'gold',n:`${g} guldmynt`,v:g});
-  const r=Math.random();
-  if(r<.45)out.push({k:'pot',n:'Läkedryck',sv:'Potion of Healing'});
-  else if(r<.6)out.push({k:'gpot',n:'Stor läkedryck',sv:'Potion of Greater Healing'});
-  else if(r<.75&&hero.wb<3)out.push({k:'wb',n:`Magiskt vapen +${hero.wb+1}`,sv:`Weapon, +${hero.wb+1}`});
-  else if(r<.87&&hero.acb<2)out.push({k:'acb',n:hero.acb?'Skyddsmantel':'Skyddsring',sv:hero.acb?'Cloak of Protection':'Ring of Protection'});
-  else out.push({k:'pot',n:'Läkedryck',sv:'Potion of Healing'});
-  if(Math.random()<.3)out.push({k:'xp',n:'En gammal karta med ledtrådar',v:25*hero.lvl});
+function startFight(m,opt){
+  opt=opt||{};adv.foe={m,hp:m.hp,charged:!!m.sv,first:true,asleep:!!opt.asleep};adv.phase='fight';adv.rage=false;
+  log('note',`${opt.intro||'Something steps out of the darkness'}: ${them()}, ${SIZE[m.s]} ${TYPE[m.t]||m.t}.`,'!','fail');
+  if(opt.asleep){log('note',`${them()} is asleep. Your first attack is sure to hit.`,'z','heal')}
+  else if(opt.foeFirst){log('note',`${them()} goes first!`,'·');monsterTurn()}
+  else{const ini=d(20)+mod(scores(hero).dex),fi=d(20)+mod(m.st[1]);log('note',`Initiative: ${you()} ${ini}, ${them()} ${fi}.`,'INI');if(fi>ini){log('note',`${them()} goes first!`,'·');monsterTurn()}}
+  if(hero.hp<=0)die();
+  save();render();
+}
+function enterRoom(idx){
+  const door=idx==='boss'?{t:'boss'}:adv.doors[+idx];const t=adv.depth===DEPTH?'boss':door.t;
+  adv.room={t};
+  log('sep',`Depth ${adv.depth} of ${DEPTH}${t==='boss'?' · The Boss':''}`);
+  if(t==='boss'){startFight(pickMonster(hero.lvl,true),{intro:'The master of the cave rises'});return}
+  if(t==='fight'){startFight(pickMonster(hero.lvl,false));return}
+  if(t==='guarded'){adv.room.afterLoot=true;log('note',`Behind a pile of bones stands a chest. Something is guarding it.`,'¤');startFight(pickMonster(hero.lvl,false,{bump:Math.random()<.4?1:0}),{intro:'The guardian turns toward you'});return}
+  if(t==='treasure'){adv.room.loot=rollLoot();adv.phase='room';log('note',`${you()} finds a treasure chest.`,'¤','heal')}
+  else if(t==='trap'){
+    const c=check('dex',cdc(12),['rogue','monk']);
+    if(c.ok)log('',`Tiles click underfoot! ${you()} dives aside ${c.txt}. Made it!`,c.r,'hit');
+    else{const dm=roll(`${Math.max(1,hero.lvl)+adv.chapter}d6`);hurtHero(dm);log('',`Spears shoot out of the wall! ${you()} is too slow ${c.txt}. <span class="dmg">${dm} damage</span>.`,c.r,'fail')}
+    adv.room.done=true;adv.phase='room';if(hero.hp<=0)die();
+  }
+  else if(t==='sleeper'){adv.room.m=pickMonster(hero.lvl,false,{bump:1});adv.phase='room';log('note',`A big animal... no, a ${esc(adv.room.m.n)} is sleeping in the middle of the passage.`,'z')}
+  else if(t==='chest'){adv.phase='room';adv.room.tries=0;log('note',`An iron-bound chest with a heavy lock.`,'¤')}
+  else if(t==='shrine'){adv.phase='room';log('note',`An old altar to a forgotten god.`,'†','magic')}
+  else if(t==='traveler'){adv.phase='room';log('note',`A wounded adventurer sits slumped against the wall.`,'?')}
+  else if(t==='merchant'){adv.phase='room';log('note',`A gnome merchant with a creaking cart greets you cheerfully.`,'¤','heal')}
+  else adv.phase='room';
+  save();render();
+}
+function rollLoot(rich){
+  const out=[];const g=roll('2d10')*hero.lvl+adv.chapter*5+(rich?10*hero.lvl:0);out.push({k:'gold',n:`${g} gold pieces`,v:g});
+  const items=rich?2:1;
+  for(let i=0;i<items;i++){
+    const r=Math.random();
+    if(r<.42)out.push({k:'pot',n:'Potion of Healing',sv:''});
+    else if(r<.57)out.push({k:'gpot',n:'Potion of Greater Healing',sv:''});
+    else if(r<.72&&hero.wb<3)out.push({k:'wb',n:`Weapon +${hero.wb+1}`,sv:'magic weapon'});
+    else if(r<.84&&hero.acb<2)out.push({k:'acb',n:hero.acb?'Cloak of Protection':'Ring of Protection',sv:'+1 armor class'});
+    else out.push({k:'xp',n:'An old map full of clues',v:30*hero.lvl});
+  }
   return out;
 }
-function takeLoot(){
-  for(const it of adv.room.loot){
-    if(it.k==='gold')hero.gold+=it.v;else if(it.k==='pot')hero.potions++;else if(it.k==='gpot')hero.greater++;
-    else if(it.k==='wb'){hero.wb++;hero.items.push(it.n)}else if(it.k==='acb'){hero.acb++;hero.items.push(it.n)}
-    else if(it.k==='xp'){gainXp(it.v)}
-  }
-  log('',`${you()} packar ner: ${adv.room.loot.map(i=>i.n).join(', ')}.`,'¤','heal');
-  adv.room.done=true;save();render();
+function applyLoot(list){for(const it of list){if(it.k==='gold')hero.gold+=it.v;else if(it.k==='pot')hero.potions++;else if(it.k==='gpot')hero.greater++;else if(it.k==='wb'){if(hero.wb<3){hero.wb++;hero.items=hero.items.filter(x=>!/^Weapon \+/.test(x));hero.items.push(`Weapon +${hero.wb}`)}}else if(it.k==='acb'){if(hero.acb<2){hero.acb++;hero.items.push(it.n)}}else if(it.k==='xp')gainXp(it.v)}}
+function takeLoot(){applyLoot(adv.room.loot);log('',`${you()} packs up: ${adv.room.loot.map(i=>i.n).join(', ')}.`,'¤','heal');adv.room.done=true;save();render()}
+
+/* Campsite: sleep deeply (more healing, ambush risk) or lightly (less healing, no risk) */
+function restFull(){
+  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,Math.ceil(hero.hpMax/2)));resetRest(hero,false);
+  let extra='';if(CL[hero.cls].sa&&hero.cls!=='warlock'&&hero.slots<slotsFor(hero)){hero.slots++;extra=', one spell slot back'}
+  log('',`${you()} falls asleep by the fire. <span class="heal">+${hero.hp-b} HP</span>${extra}. Features recharged.`,'z','heal');
+  adv.room.done=true;
+  if(Math.random()<.35){log('',`But the smoke drew something in! ${you()} wakes with a start.`,'!','fail');startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'A night ambush'});return}
+  save();render();
 }
-function rest(){
-  const before=hero.hp;const heal=Math.max(1,Math.ceil(hero.hpMax/2));hero.hp=Math.min(hero.hpMax,hero.hp+heal);
-  resetRest(hero,false);let extra='';if(CL[hero.cls].sa&&hero.cls!=='warlock'&&hero.slots<slotsFor(hero)){hero.slots++;extra=' och får tillbaka en formelplats'}
-  log('',`${you()} vilar vid brasan. <span class="heal">+${hero.hp-before} liv</span>${extra}. Förmågor laddade.`,'z','heal');
+function restLight(){
+  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,Math.ceil(hero.hpMax/4)));hero.curse=0;
+  log('',`${you()} rests with one eye open. <span class="heal">+${hero.hp-b} HP</span>. No features recharge.`,'z','heal');
   adv.room.done=true;save();render();
 }
 function drinkWell(){
   const r=Math.random();
-  if(r<.5){const h=roll('2d8');const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`Vattnet är klart och friskt. <span class="heal">+${hero.hp-b} liv</span>.`,'~','heal')}
-  else if(r<.8){log('',`Visdomens källa! Bilder av gamla strider fladdrar förbi.`,'~','magic');gainXp(40*hero.lvl)}
-  else{const dm=d(4);hurtHero(dm);log('',`Bittert! Vattnet var förgiftat. <span class="dmg">${dm} skada</span>.`,'~','fail');if(hero.hp<=0){die();}}
+  if(r<.45){const h=roll('2d8')+hero.lvl;const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`The water is clear and fresh. <span class="heal">+${hero.hp-b} HP</span>.`,'~','heal')}
+  else if(r<.7){log('',`A spring of wisdom! Visions of old battles flicker past.`,'~','magic');gainXp(40*hero.lvl)}
+  else if(r<.85){const dm=roll(`${hero.lvl}d4`);hurtHero(dm);log('',`Bitter! The water was poisoned. <span class="dmg">${dm} damage</span>.`,'~','fail');if(hero.hp<=0)die()}
+  else{adv.room.done=true;log('',`The water starts to bubble. A creature rises out of the well!`,'~','fail');startFight(pickMonster(hero.lvl,false,{type:Math.random()<.5?'elemental':'ooze'}),{foeFirst:true,intro:'Out of the well'});return}
   adv.room.done=true;save();render();
 }
+/* Sleeping monster */
+function sneakPast(){
+  const c=check('dex',cdc(11),['rogue','monk','ranger']);const m=adv.room.m;
+  if(c.ok){log('',`${you()} sneaks past ${c.txt}. The ${esc(m.n)} keeps snoring.`,c.r,'hit');gainXp(15*hero.lvl);adv.room.done=true;save();render()}
+  else{log('',`A pebble rattles ${c.txt}. The ${esc(m.n)} wakes up!`,c.r,'fail');startFight(m,{foeFirst:true,intro:'It wakes'})}
+}
+function ambushSleeper(){startFight(adv.room.m,{asleep:true,intro:'You creep up on'})}
+/* Locked chest */
+function forceChest(){
+  const c=check('str',cdc(13),['barbarian','fighter','paladin']);adv.room.tries++;
+  if(c.ok){adv.room.loot=rollLoot(true);log('',`${you()} pries the lid open ${c.txt}!`,c.r,'hit');adv.room.t='treasure';adv.phase='room'}
+  else{const dm=d(4);hurtHero(dm);log('',`The lock holds ${c.txt}. ${you()} scrapes their knuckles: <span class="dmg">${dm} damage</span>.`,c.r,'fail');if(hero.hp<=0){die()}}
+  save();render();
+}
+function pickChest(){
+  const c=check('dex',cdc(13),['rogue']);
+  if(c.ok)log('',`Click! ${you()} picks the lock ${c.txt}.`,c.r,'hit');
+  else{const dm=roll(`${hero.lvl}d6`);const v=resist('poison')?Math.floor(dm/2):dm;hurtHero(v);log('',`A poison needle jabs out of the lock ${c.txt}! <span class="dmg">${v} damage</span>. But the lid swings open.`,c.r,'fail')}
+  adv.room.loot=rollLoot(true);adv.room.t='treasure';if(hero.hp<=0)die();save();render();
+}
+/* Altar */
+function bless(){const r=Math.random();
+  if(r<.5){hero.hp=hero.hpMax;hero.slots=slotsFor(hero);log('',`A warm light fills the room. ${you()} is fully healed.`,'†','heal')}
+  else{hero.bless=1;log('',`The god's blessing! <b>+1 to hit</b> for the rest of the chapter.`,'†','magic')}}
+function pray(){
+  const c=check('wis',cdc(12),['cleric','paladin','druid']);
+  if(c.ok){log('',`${you()} kneels and prays ${c.txt}.`,c.r,'magic');bless()}
+  else{const dm=roll(`${hero.lvl}d4`);hero.hp=Math.max(1,hero.hp-dm);hero.curse=1;log('',`The god is angry ${c.txt}! <span class="dmg">${dm} damage</span> and <b>-1 armor class</b> until you rest.`,c.r,'fail')}
+  adv.room.done=true;save();render();
+}
+function offer(){const cost=15*hero.lvl;if(hero.gold<cost)return;hero.gold-=cost;log('',`${you()} places ${cost} gold on the altar.`,'¤');bless();adv.room.done=true;save();render()}
+/* Wounded adventurer */
+function givePotion(){
+  if(!hero.potions)return;hero.potions--;
+  if(Math.random()<.22){log('',`She drinks, smiles and draws a knife. It was a trap!`,'!','fail');adv.room.done=true;startFight(pickMonster(hero.lvl,false,{type:'humanoid'}),{foeFirst:true,intro:'The bandit'});return}
+  const reward=rollLoot(false).filter(x=>x.k!=='pot');applyLoot(reward);gainXp(30*hero.lvl);adv.nextKnown=true;
+  log('',`She thanks you and gives you ${reward.map(x=>x.n).join(' and ')}. She also tells you what waits at the next crossroads.`,'♥','heal');
+  adv.room.done=true;save();render();
+}
+function talk(){
+  const c=check('cha',cdc(12),['bard','warlock','sorcerer','paladin']);
+  if(c.ok){adv.nextKnown=true;log('',`${you()} talks calmly with her ${c.txt}. She whispers what waits at the next crossroads.`,c.r,'hit')}
+  else log('',`She doesn't trust you ${c.txt} and turns her head away.`,c.r,'');
+  adv.room.done=true;save();render();
+}
+/* Merchant */
+function shopList(){return [
+  {k:'pot',n:'Potion of Healing',sv:'',p:25},
+  {k:'gpot',n:'Potion of Greater Healing',sv:'',p:60},
+  hero.wb<3?{k:'wb',n:`Hone weapon to +${hero.wb+1}`,p:120*(hero.wb+1)}:null,
+  hero.acb<2?{k:'acb',n:hero.acb?'Cloak of Protection':'Ring of Protection',sv:'+1 armor class',p:150*(hero.acb+1)}:null
+].filter(Boolean)}
+function buy(k){const it=shopList().find(x=>x.k===k);if(!it||hero.gold<it.p)return;hero.gold-=it.p;applyLoot([it]);log('',`${you()} buys ${it.n} for ${it.p} gold.`,'¤','heal');save();render()}
 function nextRoom(){
-  if(adv.phase==='won'){adv.chapter++;adv.depth=1;hero.hp=hero.hpMax;resetRest(hero,true);log('sep',`Kapitel ${adv.chapter} · Djupare ner`);log('note',`${you()} har vilat ut och hittar en trappa längre ner i berget.`,'·')}
+  if(adv.phase==='won'){adv.chapter++;adv.depth=1;hero.hp=hero.hpMax;resetRest(hero,true);hero.bless=0;log('sep',`Chapter ${adv.chapter} · Deeper down`);log('note',`${you()} is fully rested and finds a stair leading deeper into the mountain.`,'·')}
   else adv.depth++;
-  adv.phase='doors';adv.room=null;adv.foe=null;adv.doors=makeDoors();save();render();
+  adv.phase='doors';adv.room=null;adv.foe=null;adv.listened=false;adv.doors=makeDoors();
+  if(adv.nextKnown&&adv.doors){adv.doors.forEach(x=>x.known=true);adv.nextKnown=false;adv.listened=true}
+  save();render();
 }
 
-/* ---------- Strid ---------- */
+/* ---------- Combat ---------- */
 function resist(type){const r=RC[hero.race];if(hero.race==='dwarf'&&type==='poison')return true;if(hero.race==='tiefling'&&type==='fire')return true;if(hero.dragon&&type===hero.dragon)return true;if(adv.rage&&['bludgeoning','piercing','slashing'].includes(type))return true;return false}
-function hurtHero(n){hero.hp=Math.max(0,hero.hp-n);if(hero.hp===0&&hero.race==='half-orc'&&hero.relent){hero.relent=0;hero.hp=1;log('note',`${you()} vägrar falla! Halvorkens seghet håller hen kvar med 1 liv.`,'!','heal')}}
-function foeTypeMod(n,type){const m=adv.foe.m;if(m.im&&m.im.includes(type))return{v:0,note:` <span class="muted">(immun mot ${DMG[type]})</span>`};if(m.rs&&m.rs.includes(type))return{v:Math.floor(n/2),note:` <span class="muted">(tål ${DMG[type]}, halv skada)</span>`};if(m.vu&&m.vu.includes(type))return{v:n*2,note:` <span class="muted">(sårbar för ${DMG[type]}!)</span>`};return{v:n,note:''}}
+function hurtHero(n){hero.hp=Math.max(0,hero.hp-n);if(hero.hp===0&&hero.race==='half-orc'&&hero.relent){hero.relent=0;hero.hp=1;log('note',`${you()} refuses to fall! Half-orc toughness keeps them standing with 1 HP.`,'!','heal')}}
+function foeTypeMod(n,type){const m=adv.foe.m;if(m.im&&m.im.includes(type))return{v:0,note:` <span class="muted">(immune to ${DMG[type]})</span>`};if(m.rs&&m.rs.includes(type))return{v:Math.floor(n/2),note:` <span class="muted">(resists ${DMG[type]}, half damage)</span>`};if(m.vu&&m.vu.includes(type))return{v:n*2,note:` <span class="muted">(vulnerable to ${DMG[type]}!)</span>`};return{v:n,note:''}}
 function hitFoe(n){adv.foe.hp=Math.max(0,adv.foe.hp-n);adv.shake='foe'}
-function heroD20(){let r=d(20);if(r===1&&hero.race==='halfling'){const r2=d(20);log('note',`Halvlingstur! Ettan slås om till ${r2}.`,'↻');r=r2}return r}
+function heroD20(){let r=d(20);if(r===1&&hero.race==='halfling'){const r2=d(20);log('note',`Halfling luck! The 1 is rerolled to ${r2}.`,'↻');r=r2}return r}
 
 function doAttack(wi){
   const s=wStats(hero,wi),m=adv.foe.m;
   const swing=(label,hitB,dice,dm,type,canSneak)=>{
     if(adv.foe.hp<=0)return;
-    const r=heroD20(),tot=r+hitB,crit=r===20,hit=crit||(r!==1&&tot>=m.ac);
-    if(!hit){log('',`${you()} ${label}: <span class="muted">${r}${sgn(hitB)} = ${tot} mot rustning ${m.ac}</span>. Miss.`,r,r===1?'fail':'');return false}
+    const sl=adv.foe.asleep;adv.foe.asleep=false;const r=heroD20(),tot=r+hitB,crit=r===20,hit=sl||crit||(r!==1&&tot>=m.ac);if(sl)log('note',`${them()} was asleep. The attack hits for sure!`,'z','heal');
+    if(!hit){log('',`${you()} ${label}: <span class="muted">${r}${sgn(hitB)} = ${tot} vs AC ${m.ac}</span>. Miss.`,r,r===1?'fail':'');return false}
     let raw=roll(dice,crit)+dm;let extra='';
-    if(adv.rage&&!s.ranged){raw+=2;extra+=' +2 raseri'}
-    if(canSneak&&hero.cls==='rogue'&&!adv.sneakUsed){const sn=roll(`${Math.ceil(hero.lvl/2)}d6`,crit);raw+=sn;adv.sneakUsed=true;extra+=` +${sn} lönnhugg`}
+    if(adv.rage&&!s.ranged){raw+=2;extra+=' +2 rage'}
+    if(canSneak&&hero.cls==='rogue'&&!adv.sneakUsed){const sn=roll(`${Math.ceil(hero.lvl/2)}d6`,crit);raw+=sn;adv.sneakUsed=true;extra+=` +${sn} sneak attack`}
     const t=foeTypeMod(Math.max(1,raw),type);hitFoe(t.v);
-    log('',`${you()} ${label}: <span class="muted">${r}${sgn(hitB)} = ${tot} mot ${m.ac}</span>. ${crit?'<b>Kritisk träff!</b>':'Träff!'} <span class="dmg">${t.v} skada</span> <span class="muted">(${DMG[type]}${extra})</span>${t.note}.`,r,crit?'crit':'hit');
+    log('',`${you()} ${label}: <span class="muted">${r}${sgn(hitB)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[type]}${extra})</span>${t.note}.`,r,crit?'crit':'hit');
     return true;
   };
   adv.sneakUsed=false;
-  swing(`hugger med ${esc(s.name.toLowerCase())}`.replace('hugger',s.ranged?'skjuter':'anfaller'),s.hit,s.dice,s.dm,s.type,true);
-  if(hero.cls==='monk'&&adv.foe.hp>0){const st=scores(hero),mm=Math.max(mod(st.str),mod(st.dex));swing('slår med knytnäven',prof(hero.lvl)+mm,hero.lvl>=5?'1d6':'1d4',mm,'bludgeoning',false)}
-  if(hero.cls==='fighter'&&hero.lvl>=5&&adv.foe.hp>0)swing(`anfaller igen`,s.hit,s.dice,s.dm,s.type,false);
+  swing(`${s.ranged?'shoots':'attacks'} with the ${esc(s.name.toLowerCase())}`,s.hit,s.dice,s.dm,s.type,true);
+  if(hero.cls==='monk'&&adv.foe.hp>0){const st=scores(hero),mm=Math.max(mod(st.str),mod(st.dex));swing('strikes with a fist',prof(hero.lvl)+mm,hero.lvl>=5?'1d6':'1d4',mm,'bludgeoning',false)}
+  if(hero.cls==='fighter'&&hero.lvl>=5&&adv.foe.hp>0)swing(`attacks again`,s.hit,s.dice,s.dm,s.type,false);
   endHeroTurn();
 }
 function doSpell(id){
   const s=SP[id],m=adv.foe.m,sm=spellMod(hero),pb=prof(hero.lvl),nm=esc(sName(id));
   if(s.l===1){if(hero.slots<=0)return;hero.slots--}
-  if(s.h){const h=roll(s.h.replace('MOD',sgn(sm)).replace('+-','-'));const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,h));log('',`${you()} använder ${nm}. <span class="heal">+${hero.hp-b} liv</span>.`,'✚','heal');endHeroTurn();return}
+  if(s.h){const h=roll(s.h.replace('MOD',sgn(sm)).replace('+-','-'));const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,h));log('',`${you()} casts ${nm}. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal');endHeroTurn();return}
   const dice=spellDice(hero,s);
-  if(s.at){const r=heroD20(),tot=r+pb+sm,crit=r===20,hit=crit||(r!==1&&tot>=m.ac);
-    if(!hit)log('',`${you()} kastar ${nm}: <span class="muted">${r}${sgn(pb+sm)} = ${tot} mot ${m.ac}</span>. Miss.`,r,'magic');
-    else{const t=foeTypeMod(roll(dice,crit),s.t);hitFoe(t.v);log('',`${you()} kastar ${nm}: <span class="muted">${r}${sgn(pb+sm)} = ${tot} mot ${m.ac}</span>. ${crit?'<b>Kritisk träff!</b>':'Träff!'} <span class="dmg">${t.v} skada</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic')}}
-  else if(s.dc){const dc=8+pb+sm,r=d(20),tot=r+mod(m.st[AB.indexOf(s.dc)]),ok=tot>=dc;let n=roll(dice);if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);hitFoe(t.v);
-    log('',`${you()} kastar ${nm}. ${them()} försöker stå emot (${AB_K[s.dc]}): <span class="muted">${tot} mot ${dc}</span>. ${ok?(s.hf?'Delvis!':'Klarar sig!'):'Misslyckas!'} ${t.v?`<span class="dmg">${t.v} skada</span>`:''}${t.note}`,r,'magic')}
-  else{const t=foeTypeMod(roll(dice),s.t);hitFoe(t.v);log('',`${you()} kastar ${nm}. Den träffar alltid! <span class="dmg">${t.v} skada</span>${t.note}.`,'✦','magic')}
+  const sl=adv.foe.asleep;adv.foe.asleep=false;
+  if(s.at){const r=heroD20(),tot=r+pb+sm+(hero.bless||0),crit=r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
+    if(!hit)log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(pb+sm)} = ${tot} vs ${m.ac}</span>. Miss.`,r,'magic');
+    else{const t=foeTypeMod(roll(dice,crit),s.t);hitFoe(t.v);log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(pb+sm)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic')}}
+  else if(s.dc){const dc=8+pb+sm,r=d(20),tot=r+mod(m.st[AB.indexOf(s.dc)]),ok=!sl&&tot>=dc;let n=roll(dice);if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);hitFoe(t.v);
+    log('',`${you()} casts ${nm}. ${them()} tries to resist (${AB_K[s.dc]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(s.hf?'Partly!':'Resisted!'):'Fails!'} ${t.v?`<span class="dmg">${t.v} damage</span>`:''}${t.note}`,r,'magic')}
+  else{const t=foeTypeMod(roll(dice),s.t);hitFoe(t.v);log('',`${you()} casts ${nm}. It always hits! <span class="dmg">${t.v} damage</span>${t.note}.`,'✦','magic')}
   endHeroTurn();
 }
 function doBreath(){
-  hero.breath=0;const st=scores(hero),dc=8+mod(st.con)+prof(hero.lvl),m=adv.foe.m;const ab=['cold','poison'].includes(hero.dragon)?'con':'dex';
+  hero.breath=0;adv.foe.asleep=false;const st=scores(hero),dc=8+mod(st.con)+prof(hero.lvl),m=adv.foe.m;const ab=['cold','poison'].includes(hero.dragon)?'con':'dex';
   const r=d(20),tot=r+mod(m.st[AB.indexOf(ab)]),ok=tot>=dc;let n=roll(`${hero.lvl>=6?3:2}d6`);if(ok)n=Math.floor(n/2);const t=foeTypeMod(n,hero.dragon);hitFoe(t.v);
-  log('',`${you()} sprutar ${DMG[hero.dragon]} ur käften! ${them()} slår ${tot} mot ${dc}: ${ok?'halv skada':'full träff'}. <span class="dmg">${t.v} skada</span>${t.note}.`,'≋','magic');endHeroTurn();
+  log('',`${you()} breathes ${DMG[hero.dragon]}! ${them()} rolls ${tot} vs ${dc}: ${ok?'half damage':'full hit'}. <span class="dmg">${t.v} damage</span>${t.note}.`,'≋','magic');endHeroTurn();
 }
 function doPotion(greater){if(greater){if(!hero.greater)return;hero.greater--}else{if(!hero.potions)return;hero.potions--}
   const h=roll(greater?'4d4+4':'2d4+2'),b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);
-  log('',`${you()} dricker en ${greater?'stor läkedryck':'läkedryck'}. <span class="heal">+${hero.hp-b} liv</span>.`,'✚','heal');
+  log('',`${you()} drinks a ${greater?'potion of greater healing':'potion of healing'}. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal');
   if(adv.phase==='fight')endHeroTurn();else{save();render()}}
-function doSecondWind(){hero.sw=0;const h=roll('1d10')+hero.lvl,b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`${you()} tar ett djupt andetag. Andra andningen: <span class="heal">+${hero.hp-b} liv</span>. Turen fortsätter.`,'✚','heal');save();render()}
-function doRage(){hero.rage--;adv.rage=true;log('',`${you()} vrålar och går in i raseri!`,'!','crit');save();render()}
-function doLay(){const need=hero.hpMax-hero.hp,use=Math.min(need,hero.loh);hero.loh-=use;hero.hp+=use;log('',`${you()} lägger händerna på såren. <span class="heal">+${use} liv</span>.`,'✚','heal');endHeroTurn()}
+function doSecondWind(){hero.sw=0;const h=roll('1d10')+hero.lvl,b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`${you()} takes a deep breath. Second Wind: <span class="heal">+${hero.hp-b} HP</span>. Your turn continues.`,'✚','heal');save();render()}
+function doRage(){hero.rage--;adv.rage=true;log('',`${you()} roars and flies into a rage!`,'!','crit');save();render()}
+function doLay(){const need=hero.hpMax-hero.hp,use=Math.min(need,hero.loh);hero.loh-=use;hero.hp+=use;log('',`${you()} lays hands on the wounds. <span class="heal">+${use} HP</span>.`,'✚','heal');endHeroTurn()}
 function doFlee(){
   if(adv.room&&adv.room.t==='boss')return;
   const r=d(20),tot=r+mod(scores(hero).dex),dc=10+mod(adv.foe.m.st[1]);
-  if(tot>=dc){log('',`${you()} springer för livet <span class="muted">(${tot} mot ${dc})</span> och kommer undan!`,r,'hit');adv.foe=null;adv.phase='room';adv.room.done=true;adv.rage=false;adv.fled=true;save();render()}
-  else{log('',`${you()} försöker fly men ${them()} spärrar vägen <span class="muted">(${tot} mot ${dc})</span>.`,r,'fail');endHeroTurn()}
+  if(tot>=dc){log('',`${you()} runs for their life <span class="muted">(${tot} vs ${dc})</span> and gets away!`,r,'hit');adv.foe=null;adv.phase='room';adv.room.done=true;adv.rage=false;adv.fled=true;save();render()}
+  else{log('',`${you()} tries to flee but ${them()} blocks the way <span class="muted">(${tot} vs ${dc})</span>.`,r,'fail');endHeroTurn()}
 }
 function endHeroTurn(){
+  if(adv.foe)adv.foe.asleep=false;
   if(adv.foe&&adv.foe.hp<=0){winFight();return}
   save();render();
   adv.busy=true;render();
@@ -509,21 +603,21 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function monsterTurn(){
   const f=adv.foe;if(!f||f.hp<=0||hero.hp<=0)return;const m=f.m;const myAc=ac(hero);
   const sv=m.sv;
-  if(sv&&!f.charged&&sv.r){const r=d(6);if(r>=sv.r){f.charged=true;log('note',`${them()} laddar ${esc(sv.n)} igen.`,'d6')}}
+  if(sv&&!f.charged&&sv.r){const r=d(6);if(r>=sv.r){f.charged=true;log('note',`${them()} recharges ${esc(sv.n)}.`,'d6')}}
   if(sv&&f.charged&&!f.first){
     f.charged=false;const st=scores(hero),abi=sv.ab;let saveB=mod(st[abi]||10);if(CL[hero.cls].sv.includes(abi))saveB+=prof(hero.lvl);
     const r=d(20),tot=r+saveB,ok=tot>=sv.dc;let n=0,parts=[];for(const [dc,t] of sv.d){let v=roll(dc);if(resist(t))v=Math.floor(v/2);n+=v;parts.push(DMG[t]||t)}
     if(ok)n=sv.h?Math.floor(n/2):0;hurtHero(n);adv.shake='hero';
-    log('',`${them()} använder <b>${esc(sv.n)}</b>! ${you()} försöker undvika (${AB_K[abi]}): <span class="muted">${tot} mot ${sv.dc}</span>. ${ok?(sv.h?'Halv skada.':'Undvek helt!'):'Full träff!'} ${n?`<span class="dmg">${n} skada</span> <span class="muted">(${parts.join(', ')})</span>`:''}`,r,ok?'':'fail');
+    log('',`${them()} uses <b>${esc(sv.n)}</b>! ${you()} tries to dodge (${AB_K[abi]}): <span class="muted">${tot} vs ${sv.dc}</span>. ${ok?(sv.h?'Half damage.':'Dodged it!'):'Full hit!'} ${n?`<span class="dmg">${n} damage</span> <span class="muted">(${parts.join(', ')})</span>`:''}`,r,ok?'':'fail');
   }else{
     let plan=[];if(m.m){for(const [nm,c] of m.m){const a=m.a.find(x=>x.n===nm);if(!a)continue;const cnt=typeof c==='number'?c:roll(c);for(let k=0;k<cnt;k++)plan.push(a)}}
     if(!plan.length)plan=[m.a.slice().sort((x,y)=>y.d.reduce((s,z)=>s+avg(z[0]),0)-x.d.reduce((s,z)=>s+avg(z[0]),0))[0]];
     for(const a of plan){if(hero.hp<=0)break;
       const r=d(20),tot=r+a.b,crit=r===20,hit=crit||(r!==1&&tot>=myAc);
-      if(!hit){log('',`${them()} anfaller med ${esc(a.n)}: <span class="muted">${r}${sgn(a.b)} = ${tot} mot ${myAc}</span>. Miss.`,r,'');continue}
+      if(!hit){log('',`${them()} attacks with ${esc(a.n)}: <span class="muted">${r}${sgn(a.b)} = ${tot} vs ${myAc}</span>. Miss.`,r,'');continue}
       let n=0;const parts=[];let res=false;for(const [dc,t] of a.d){let v=roll(dc,crit);if(resist(t)){v=Math.floor(v/2);res=true}n+=v;parts.push(DMG[t]||t)}
       hurtHero(n);adv.shake='hero';
-      log('',`${them()} anfaller med ${esc(a.n)}: <span class="muted">${r}${sgn(a.b)} = ${tot} mot ${myAc}</span>. ${crit?'<b>Kritisk träff!</b>':'Träff!'} <span class="dmg">${n} skada</span> <span class="muted">(${parts.join(', ')}${res?', du tål det, halv skada':''})</span>.`,r,crit?'fail':'fail');
+      log('',`${them()} attacks with ${esc(a.n)}: <span class="muted">${r}${sgn(a.b)} = ${tot} vs ${myAc}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${n} damage</span> <span class="muted">(${parts.join(', ')}${res?', you resist it, half damage':''})</span>.`,r,crit?'fail':'fail');
     }
   }
   f.first=false;
@@ -531,84 +625,99 @@ function monsterTurn(){
 }
 function winFight(){
   const m=adv.foe.m;adv.kills++;adv.rage=false;
-  log('',`${them()} faller! ${you()} får <b>${Math.max(10,m.xp)} XP</b>.`,'✝','crit');
+  log('',`${them()} falls! ${you()} gains <b>${Math.max(10,m.xp)} XP</b>.`,'✝','crit');
   gainXp(Math.max(10,m.xp));
-  if(hero.hp<hero.hpMax){const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,d(CL[hero.cls].hd)+mod(scores(hero).con)));log('',`${you()} andas ut och binder om såren. <span class="heal">+${hero.hp-b} liv</span>.`,'✚','heal')}
+  if(hero.hp<hero.hpMax){const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,d(CL[hero.cls].hd)+mod(scores(hero).con)));log('',`${you()} catches their breath and binds their wounds. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal')}
   const boss=adv.room.t==='boss';
-  if(boss){adv.phase='won';adv.room.loot=rollLoot();adv.room.loot.push({k:'gpot',n:'Stor läkedryck',sv:'Potion of Greater Healing'});takeLootSilent();}
-  else{adv.phase='room';adv.room.done=true;if(Math.random()<.35){adv.room.loot=rollLoot().slice(0,1);takeLootSilent()}}
+  if(boss){adv.phase='won';adv.room.loot=rollLoot();adv.room.loot.push({k:'gpot',n:'Potion of Greater Healing',sv:''});takeLootSilent();}
+  else if(adv.room.afterLoot){adv.phase='room';adv.room.done=false;adv.room.t='treasure';adv.room.loot=rollLoot(true);log('note',`The chest the monster was guarding stands open.`,'¤','heal')}
+  else{adv.phase='room';adv.room.done=true;adv.room.t='fight';if(Math.random()<.3){adv.room.loot=rollLoot().slice(0,1);takeLootSilent()}}
   adv.lastFoe=m.n;adv.foe=null;save();render();
 }
-function takeLootSilent(){const names=[];for(const it of adv.room.loot){if(it.k==='gold')hero.gold+=it.v;else if(it.k==='pot')hero.potions++;else if(it.k==='gpot')hero.greater++;else if(it.k==='wb'){hero.wb++;hero.items.push(it.n)}else if(it.k==='acb'){hero.acb++;hero.items.push(it.n)}else if(it.k==='xp')gainXp(it.v);names.push(it.n)}log('',`Byte: ${names.join(', ')}.`,'¤','heal')}
+function takeLootSilent(){applyLoot(adv.room.loot);log('',`Loot: ${adv.room.loot.map(x=>x.n).join(', ')}.`,'¤','heal')}
 function gainXp(n){
   hero.xp+=n;adv.xpGain+=n;
   while(hero.lvl<10&&hero.xp>=XPT[hero.lvl]){
     hero.lvl++;const st=scores(hero);const inc=Math.max(1,Math.floor(CL[hero.cls].hd/2)+1+mod(st.con));hero.hpMax+=inc;hero.hp+=inc;
     hero.loh=5*hero.lvl;const ns=slotsFor(hero);hero.slots=ns;
-    let more=[`+${inc} liv`];if(ns)more.push(`${ns} formelplatser`);if(hero.lvl===5)more.push('träffsäkerheten ökar');if(hero.cls==='fighter'&&hero.lvl===5)more.push('två anfall per tur');if(hero.cls==='rogue'&&hero.lvl%2===1)more.push('starkare lönnhugg');
-    log('',`<span class="levelup">Ny nivå! ${esc(hero.name.split(' ')[0])} är nu nivå ${hero.lvl}</span>: ${more.join(', ')}.`,'★','crit');
+    let more=[`+${inc} HP`];if(ns)more.push(`${ns} spell slots`);if(hero.lvl===5)more.push('better accuracy');if(hero.cls==='fighter'&&hero.lvl===5)more.push('two attacks per turn');if(hero.cls==='rogue'&&hero.lvl%2===1)more.push('stronger sneak attack');
+    log('',`<span class="levelup">Level up! ${esc(hero.name.split(' ')[0])} is now level ${hero.lvl}</span>: ${more.join(', ')}.`,'★','crit');
   }
 }
-function die(){adv.phase='dead';log('sep','Hjälten har fallit')}
+function die(){adv.phase='dead';log('sep','The hero has fallen')}
 function retry(){hero=JSON.parse(JSON.stringify(hero.start));startAdventure();save();render()}
 function newOne(){adv=null;hero=newHero();setView('gen')}
 
-/* ---------- Vy: äventyr ---------- */
+/* ---------- View: adventure ---------- */
 function meter(label,v,max,cls){const p=Math.max(0,Math.min(100,v/max*100));return `<div class="meter"><div class="top"><span>${label}</span><span><strong>${v}</strong> / ${max}</span></div><div class="bar ${cls||''}"><i class="${cls?'':p<30?'low':''}" style="width:${p}%"></i></div></div>`}
 function renderAdv(){
   const h=hero;const st=scores(h);
   const nextXp=h.lvl<10?XPT[h.lvl]:h.xp,prevXp=XPT[h.lvl-1];
-  const status=`<aside class="sheet status ${adv.shake==='hero'?'shake':''}" aria-label="Hjälten">
+  const status=`<aside class="sheet status ${adv.shake==='hero'?'shake':''}" aria-label="The hero">
     <div class="who"><span class="eyebrow">${RACE_SV[h.race]} ${CLS_SV[h.cls].toLowerCase()}</span><h2>${esc(h.name)}</h2></div>
-    ${meter('Liv',h.hp,h.hpMax)}
-    ${meter(`Nivå ${h.lvl} · XP`,h.xp-prevXp,nextXp-prevXp||1,'xp')}
-    <div class="minis"><div><b>${ac(h)}</b><span>Rustning</span></div><div><b>${h.lvl}</b><span>Nivå</span></div><div><b>${h.gold}</b><span>Guld</span></div></div>
-    ${CL[h.cls].sa?`<div class="block"><span class="eyebrow">Formelplatser</span><div class="pips">${Array.from({length:slotsFor(h)},(_,i)=>`<i class="${i<h.slots?'on':''}"></i>`).join('')}</div></div>`:''}
-    <div class="bag"><span class="eyebrow">Packning</span>
-      <div class="line"><span>Läkedryck</span><code>${h.potions} st</code></div>
-      ${h.greater?`<div class="line"><span>Stor läkedryck</span><code>${h.greater} st</code></div>`:''}
+    ${meter('Hit points',h.hp,h.hpMax)}
+    ${meter(`Level ${h.lvl} · XP`,h.xp-prevXp,nextXp-prevXp||1,'xp')}
+    <div class="minis"><div><b>${ac(h)}</b><span>Armor</span></div><div><b>${h.lvl}</b><span>Level</span></div><div><b>${h.gold}</b><span>Gold</span></div></div>
+    ${CL[h.cls].sa?`<div class="block"><span class="eyebrow">Spell slots</span><div class="pips">${Array.from({length:slotsFor(h)},(_,i)=>`<i class="${i<h.slots?'on':''}"></i>`).join('')}</div></div>`:''}
+    <div class="bag"><span class="eyebrow">Pack</span>
+      <div class="line"><span>Potion of Healing</span><code>× ${h.potions}</code></div>
+      ${h.greater?`<div class="line"><span>Potion of Greater Healing</span><code>× ${h.greater}</code></div>`:''}
       ${h.items.map(i=>`<div class="line"><span>${esc(i)}</span></div>`).join('')}
-      ${h.cls==='paladin'?`<div class="line"><span>Helande händer</span><code>${h.loh} liv kvar</code></div>`:''}
+      ${h.cls==='paladin'?`<div class="line"><span>Lay on Hands</span><code>${h.loh} HP left</code></div>`:''}
+      ${h.bless?`<div class="line"><span>Blessed</span><code>+1 to hit</code></div>`:''}
+      ${h.curse?`<div class="line"><span>Cursed</span><code>-1 armor class</code></div>`:''}
     </div>
-    <div class="muted" style="font-size:13px">Besegrade: ${adv.kills} · Kapitel ${adv.chapter}</div>
+    <div class="muted" style="font-size:13px">Defeated: ${adv.kills} · Chapter ${adv.chapter}</div>
   </aside>`;
-  let steps='';for(let i=1;i<=DEPTH;i++){steps+=(i>1?'<span class="rule"></span>':'')+(i===DEPTH?`<span class="step boss ${adv.depth===i?'here':''}" title="Bossen">Boss</span>`:`<span class="step ${i<adv.depth?'done':''} ${i===adv.depth?'here':''}">${i}</span>`)}
+  let steps='';for(let i=1;i<=DEPTH;i++){steps+=(i>1?'<span class="rule"></span>':'')+(i===DEPTH?`<span class="step boss ${adv.depth===i?'here':''}" title="The boss">Boss</span>`:`<span class="step ${i<adv.depth?'done':''} ${i===adv.depth?'here':''}">${i}</span>`)}
   let stage='';
   const P=adv.phase;
   if(P==='doors'){
-    if(adv.depth===DEPTH){stage=`<h2>Den sista porten</h2><p>En väldig dörr av svart järn. Bakom den väntar grottans härskare. Det finns ingen väg runt.</p><div class="actions"><button class="btn primary" data-act="enter" data-t="boss">Öppna porten</button>${h.potions&&h.hp<h.hpMax?`<button class="btn" data-act="pot">Drick läkedryck först</button>`:''}</div>`}
-    else stage=`<h2>${adv.depth===1&&adv.chapter===1?'Grottans mynning':'Två vägar'}</h2><p>Gången delar sig. Lyssna noga och välj väg.</p><div class="doors">${adv.doors.map((x,i)=>`<button class="door" type="button" data-act="enter" data-t="${x.t}"><span class="knob">${i?'ᚱ':'ᚲ'}</span><span class="lbl">${i?'Höger':'Vänster'} väg</span><span class="hint">${x.hint}</span></button>`).join('')}</div>`;
+    if(adv.depth===DEPTH){stage=`<h2>The Last Gate</h2><p>A massive door of black iron. Behind it waits the master of the cave. There is no way around.</p><div class="actions"><button class="btn primary" data-act="enter" data-t="boss">Open the gate</button>${h.potions&&h.hp<h.hpMax?`<button class="btn" data-act="pot">Drink a potion first</button>`:''}${h.greater&&h.hp<h.hpMax?`<button class="btn" data-act="gpot">Drink a greater potion first</button>`:''}</div>`}
+    else{
+      const n=adv.doors.length;const names=n===1?['Only way']:n===2?['Left path','Right path']:['Left path','Middle path','Right path'];const runes=['ᚲ','ᛟ','ᚱ'];
+      const title=adv.depth===1&&adv.chapter===1?'The Cave Mouth':n===1?'A Narrow Passage':n===2?'Two Paths':'Three Paths';
+      const intro=n===1?'The passage only goes one way. There is nothing to choose, but you can listen first.':'The passage splits. The clues can mean different things. Listen if you want to know more, but something might hear you.';
+      stage=`<h2>${title}</h2><p>${intro}</p><div class="doors" style="grid-template-columns:repeat(${n===3?3:n},minmax(0,1fr))">${adv.doors.map((x,i)=>`<button class="door" type="button" data-act="enter" data-t="${i}"><span class="knob">${runes[n===1?1:n===2?i*2:i]}</span><span class="lbl">${names[i]}</span><span class="hint">${x.hint}</span>${x.known?`<span class="known">${KNOWN[x.t]}</span>`:''}</button>`).join('')}</div>
+      <div class="actions" style="margin-top:14px"><button class="btn" data-act="listen" ${adv.listened?'disabled':''}>${adv.listened?'You have already listened':'Listen at the doors'}<small>WIS vs ${cdc(12)} · may wake something</small></button>${h.potions&&h.hp<h.hpMax/2?`<button class="btn" data-act="pot">Drink a potion</button>`:''}</div>`;
+    }
   }else if(P==='fight'){
     const f=adv.foe,m=f.m,p=f.hp/m.hp*100;
     const acts=[];
-    h.weapons.forEach(wi=>{const s=wStats(h,wi);acts.push(`<button class="btn" data-act="atk" data-w="${wi}">${s.ranged?'Skjut':'Anfall'}: ${esc(s.name)}<small>${sgn(s.hit)} · ${s.dice}${s.dm?sgn(s.dm):''}</small></button>`)});
-    h.spells.forEach(id=>{const s=SP[id];const dis=s.l===1&&h.slots<=0;acts.push(`<button class="btn magic" data-act="spell" data-s="${id}" ${dis?'disabled':''}>${esc(sName(id))}<small>${s.h?'läker':spellDice(h,s)+' '+DMG[s.t]}${s.l?' · plats':''}</small></button>`)});
-    if(h.cls==='fighter')acts.push(`<button class="btn" data-act="sw" ${h.sw?'':'disabled'}>Andra andningen<small>gratis · ${h.sw?'redo':'använd'}</small></button>`);
-    if(h.cls==='barbarian')acts.push(`<button class="btn" data-act="rage" ${h.rage&&!adv.rage?'':'disabled'}>${adv.rage?'Rasar!':'Raseri'}<small>gratis · ${h.rage} kvar</small></button>`);
-    if(h.cls==='paladin')acts.push(`<button class="btn" data-act="lay" ${h.loh&&h.hp<h.hpMax?'':'disabled'}>Helande händer<small>${h.loh} kvar</small></button>`);
-    if(h.dragon)acts.push(`<button class="btn magic" data-act="breath" ${h.breath?'':'disabled'}>Andningsvapen<small>${h.lvl>=6?3:2}T6 ${DMG[h.dragon]}</small></button>`);
-    acts.push(`<button class="btn" data-act="pot" ${h.potions&&h.hp<h.hpMax?'':'disabled'}>Läkedryck<small>${h.potions} st · 2T4+2</small></button>`);
-    if(h.greater)acts.push(`<button class="btn" data-act="gpot" ${h.hp<h.hpMax?'':'disabled'}>Stor läkedryck<small>${h.greater} st · 4T4+4</small></button>`);
-    acts.push(adv.room.t==='boss'?`<button class="btn" disabled>Fly<small>ingen väg ut</small></button>`:`<button class="btn" data-act="flee">Fly<small>SMI mot ${10+mod(m.st[1])}</small></button>`);
-    stage=`<div class="foe ${adv.shake==='foe'?'shake':''}"><div class="rune" aria-hidden="true">${SIGIL[m.t]||'ᛦ'}</div><div style="min-width:0"><h3>${esc(m.n)}</h3><div class="meta">${SIZE[m.s]} ${TYPE[m.t]||m.t} · farlighet ${crTxt(m.cr)}${m.im?` · immun: ${m.im.map(t=>DMG[t]).join(', ')}`:''}${m.rs?` · tål: ${m.rs.map(t=>DMG[t]).join(', ')}`:''}${m.vu?` · sårbar: ${m.vu.map(t=>DMG[t]).join(', ')}`:''}</div></div><div class="nums">Rustning <b>${m.ac}</b><br>Liv <b>${f.hp}</b> / ${m.hp}</div><div class="bar"><i class="${p<30?'low':''}" style="width:${p}%"></i></div></div>
+    h.weapons.forEach(wi=>{const s=wStats(h,wi);acts.push(`<button class="btn" data-act="atk" data-w="${wi}">${s.ranged?'Shoot':'Attack'}: ${esc(s.name)}<small>${sgn(s.hit)} · ${s.dice}${s.dm?sgn(s.dm):''}</small></button>`)});
+    h.spells.forEach(id=>{const s=SP[id];const dis=s.l===1&&h.slots<=0;acts.push(`<button class="btn magic" data-act="spell" data-s="${id}" ${dis?'disabled':''}>${esc(sName(id))}<small>${s.h?'heals':spellDice(h,s)+' '+DMG[s.t]}${s.l?' · slot':''}</small></button>`)});
+    if(h.cls==='fighter')acts.push(`<button class="btn" data-act="sw" ${h.sw?'':'disabled'}>Second Wind<small>free · ${h.sw?'ready':'used'}</small></button>`);
+    if(h.cls==='barbarian')acts.push(`<button class="btn" data-act="rage" ${h.rage&&!adv.rage?'':'disabled'}>${adv.rage?'Raging!':'Rage'}<small>free · ${h.rage} left</small></button>`);
+    if(h.cls==='paladin')acts.push(`<button class="btn" data-act="lay" ${h.loh&&h.hp<h.hpMax?'':'disabled'}>Lay on Hands<small>${h.loh} left</small></button>`);
+    if(h.dragon)acts.push(`<button class="btn magic" data-act="breath" ${h.breath?'':'disabled'}>Breath Weapon<small>${h.lvl>=6?3:2}d6 ${DMG[h.dragon]}</small></button>`);
+    acts.push(`<button class="btn" data-act="pot" ${h.potions&&h.hp<h.hpMax?'':'disabled'}>Potion<small>${h.potions} left · 2d4+2</small></button>`);
+    if(h.greater)acts.push(`<button class="btn" data-act="gpot" ${h.hp<h.hpMax?'':'disabled'}>Greater potion<small>${h.greater} left · 4d4+4</small></button>`);
+    acts.push(adv.room.t==='boss'?`<button class="btn" disabled>Flee<small>no way out</small></button>`:`<button class="btn" data-act="flee">Flee<small>DEX vs ${10+mod(m.st[1])}</small></button>`);
+    stage=`<div class="foe ${adv.shake==='foe'?'shake':''}"><div class="rune" aria-hidden="true">${SIGIL[m.t]||'ᛦ'}</div><div style="min-width:0"><h3>${esc(m.n)}</h3><div class="meta">${SIZE[m.s]} ${TYPE[m.t]||m.t} · challenge ${crTxt(m.cr)}${m.im?` · immune: ${m.im.map(t=>DMG[t]).join(', ')}`:''}${m.rs?` · resists: ${m.rs.map(t=>DMG[t]).join(', ')}`:''}${m.vu?` · vulnerable: ${m.vu.map(t=>DMG[t]).join(', ')}`:''}</div></div><div class="nums">Armor <b>${m.ac}</b><br>HP <b>${f.hp}</b> / ${m.hp}</div><div class="bar"><i class="${p<30?'low':''}" style="width:${p}%"></i></div></div>
       <div class="actions" aria-busy="${!!adv.busy}">${acts.join('').replace(/<button /g,adv.busy?'<button disabled ':'<button ')}</div>`;
   }else if(P==='room'){
-    const t=adv.room.t;
-    if(t==='treasure'&&!adv.room.done)stage=`<h2>En gammal kista</h2><p>Locket gnisslar när du lyfter det.</p><div class="loot">${adv.room.loot.map(i=>`<div><b>${esc(i.n)}</b><span class="muted">${i.sv||''}</span></div>`).join('')}</div><div class="actions"><button class="btn primary" data-act="take">Ta allt</button></div>`;
-    else if(t==='camp'&&!adv.room.done)stage=`<h2>Lägerplatsen</h2><p>En torr nisch, en gammal sovfäll och glöd som fortfarande lever. En kort vila läker halva ditt liv och laddar dina förmågor.</p><div class="actions"><button class="btn primary" data-act="rest">Vila en stund</button><button class="btn" data-act="next">Gå vidare utan vila</button></div>`;
-    else if(t==='well'&&!adv.room.done)stage=`<h2>Den blå brunnen</h2><p>Vattnet lyser svagt. Det kan läka, ge visdom, eller vara bittert.</p><div class="actions"><button class="btn primary" data-act="well">Drick</button><button class="btn" data-act="next">Låt bli</button></div>`;
-    else{const title=adv.fled?'Undan!':t==='fight'?'Segern är din':t==='trap'?'Fällan':t==='treasure'?'Fickorna fulla':t==='camp'?'Utvilad':'Vidare';adv.fled=false;
-      stage=`<h2>${title}</h2><p>${t==='fight'&&adv.lastFoe?`${esc(adv.lastFoe)} ligger slagen på stengolvet.`:'Gången fortsätter neråt i mörkret.'}</p><div class="actions"><button class="btn primary" data-act="next">Gå djupare</button>${h.potions&&h.hp<h.hpMax/2?`<button class="btn" data-act="pot">Drick läkedryck</button>`:''}</div>`}
+    const t=adv.room.t,R=adv.room,dn=R.done;
+    const go=`<button class="btn" data-act="next">Move on</button>`;
+    if(t==='treasure'&&!dn)stage=`<h2>A Chest Full of Loot</h2><p>The lid creaks as you lift it.</p><div class="loot">${R.loot.map(i=>`<div><b>${esc(i.n)}</b><span class="muted">${i.sv||''}</span></div>`).join('')}</div><div class="actions"><button class="btn primary" data-act="take">Take everything</button></div>`;
+    else if(t==='camp'&&!dn)stage=`<h2>The Campsite</h2><p>A dry alcove, an old bedroll and embers still glowing. A deep sleep heals more, but the fire can be seen from far away.</p><div class="actions"><button class="btn primary" data-act="restFull">Sleep deeply<small>half your HP · recharges features · risk of ambush</small></button><button class="btn" data-act="restLight">Rest with one eye open<small>a quarter of your HP · no risk</small></button>${go}</div>`;
+    else if(t==='well'&&!dn)stage=`<h2>The Blue Well</h2><p>The water glows faintly. It might heal you, grant wisdom, be poisoned, or wake something that lives down there.</p><div class="actions"><button class="btn primary" data-act="well">Drink</button>${go}</div>`;
+    else if(t==='sleeper'&&!dn){const m=R.m;stage=`<h2>The Sleeper</h2><p>A ${esc(m.n)} (${SIZE[m.s]} ${TYPE[m.t]||m.t}, challenge ${crTxt(m.cr)}) lies curled up in the middle of the passage, snoring. It looks stronger than most things you have faced.</p><div class="actions"><button class="btn primary" data-act="sneak">Sneak past<small>DEX vs ${cdc(11)} · a little XP · if you fail it wakes and goes first</small></button><button class="btn" data-act="ambush">Attack while it sleeps<small>first attack is sure to hit · full XP</small></button></div>`}
+    else if(t==='chest'){stage=`<h2>The Locked Chest</h2><p>Iron bands, a heavy padlock and tiny holes around the keyhole. Chests locked this well usually hold something good.</p><div class="actions"><button class="btn primary" data-act="force">Force it open<small>STR vs ${cdc(13)} · scraped knuckles if you fail</small></button><button class="btn" data-act="pick">Pick the lock<small>DEX vs ${cdc(13)} · always opens, but a trap may strike</small></button>${go}</div>`}
+    else if(t==='shrine'&&!dn){const cost=15*h.lvl;stage=`<h2>The Forgotten Altar</h2><p>Candles that never burn down. A silver offering bowl. Gods who live in caves can be kind, or moody.</p><div class="actions"><button class="btn primary" data-act="pray">Pray to the god<small>WIS vs ${cdc(12)} · blessing or curse</small></button><button class="btn" data-act="offer" ${h.gold<cost?'disabled':''}>Offer ${cost} gold<small>sure blessing · you have ${h.gold}</small></button>${go}</div>`}
+    else if(t==='traveler'&&!dn)stage=`<h2>The Wounded Adventurer</h2><p>She clutches her side and begs for a potion. She says she knows what lies further down. Can you trust strangers in a cave?</p><div class="actions"><button class="btn primary" data-act="give" ${h.potions?'':'disabled'}>Give her a potion<small>you have ${h.potions} · she rewards you, or not</small></button><button class="btn" data-act="talk">Talk to her<small>CHA vs ${cdc(12)} · costs nothing</small></button>${go}</div>`;
+    else if(t==='merchant'){stage=`<h2>The Gnome Merchant</h2><p>“Potions, whetstones, rings of protection! All at honest prices, almost.” You have <b>${h.gold} gold</b>.</p><div class="actions">${shopList().map(it=>`<button class="btn" data-act="buy" data-k="${it.k}" ${h.gold<it.p?'disabled':''}>${esc(it.n)}<small>${it.p} gold</small></button>`).join('')}<button class="btn primary" data-act="next">Move on</button></div>`}
+    else{const title=adv.fled?'Escaped!':t==='fight'?'Victory Is Yours':t==='trap'?'The Trap':t==='treasure'?'Pockets Full':t==='camp'?'Rested':t==='sleeper'?'Past It':t==='shrine'?'The Altar Falls Silent':t==='traveler'?'She Vanishes into the Dark':'Onward';adv.fled=false;
+      stage=`<h2>${title}</h2><p>${t==='fight'&&adv.lastFoe?`The ${esc(adv.lastFoe)} lies defeated on the stone floor.`:'The passage continues down into the dark.'}</p><div class="actions"><button class="btn primary" data-act="next">Go deeper</button>${h.potions&&h.hp<h.hpMax/2?`<button class="btn" data-act="pot">Drink a potion</button>`:''}</div>`}
   }else if(P==='won'){
-    stage=`<div class="banner"><span class="big">Kapitel ${adv.chapter} klart!</span>${esc(h.name)} besegrade ${esc(adv.lastFoe)} och blev grottans hjälte. Totalt ${adv.kills} besegrade fiender.</div><p>Längre ner i berget finns fler gångar, och farligare monster. Du vilar ut helt innan du fortsätter.</p><div class="actions"><button class="btn primary" data-act="next">Gå ner till kapitel ${adv.chapter+1}</button><button class="btn" data-act="newone">Skapa en ny hjälte</button></div>`;
+    stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${esc(h.name)} defeated the ${esc(adv.lastFoe)} and became the hero of the cave. ${adv.kills} enemies defeated in total.</div><p>Deeper in the mountain there are more passages, and more dangerous monsters. You rest fully before going on.</p><div class="actions"><button class="btn primary" data-act="next">Descend to chapter ${adv.chapter+1}</button><button class="btn" data-act="newone">Create a new hero</button></div>`;
   }else if(P==='dead'){
-    stage=`<div class="banner dead"><span class="big">${esc(h.name)} har fallit</span>på djup ${adv.depth} i kapitel ${adv.chapter}, nivå ${h.lvl}, efter ${adv.kills} besegrade fiender.</div><div class="actions"><button class="btn primary" data-act="retry">Samma hjälte, nytt försök</button><button class="btn" data-act="newone">Skapa en ny hjälte</button></div>`;
+    stage=`<div class="banner dead"><span class="big">${esc(h.name)} has fallen</span>at depth ${adv.depth} in chapter ${adv.chapter}, level ${h.lvl}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">Same hero, try again</button><button class="btn" data-act="newone">Create a new hero</button></div>`;
   }
   const logHtml=adv.log.map(e=>e.c==='sep'?`<li class="sep">${e.h}</li>`:`<li class="${e.c}"><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('');
   $view.innerHTML=`<div class="adv">${status}<section class="scene">
-    <div class="depth" aria-label="Djup i grottan">${steps}</div>
+    <div class="depth" aria-label="Depth in the cave">${steps}</div>
     <div class="sheet stage">${stage}</div>
-    <div><div class="log-head"><h3>Krönikan</h3><button class="btn" data-act="abandon" type="button" style="font-size:13px;padding:5px 10px">Avsluta äventyret</button></div><ol class="log" id="log">${logHtml}</ol></div>
+    <div><div class="log-head"><h3>Chronicle</h3><button class="btn" data-act="abandon" type="button" style="font-size:13px;padding:5px 10px">End adventure</button></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
   const lg=document.getElementById('log');lg.scrollTop=lg.scrollHeight;adv.shake=null;
 }
@@ -617,15 +726,15 @@ $view.addEventListener('click',e=>{
   const a=b.dataset.act;
   if(adv.busy&&adv.phase==='fight'&&a!=='abandon')return;
   ({enter:()=>enterRoom(b.dataset.t),atk:()=>doAttack(b.dataset.w),spell:()=>doSpell(b.dataset.s),sw:doSecondWind,rage:doRage,lay:doLay,breath:doBreath,
-    pot:()=>doPotion(false),gpot:()=>doPotion(true),flee:doFlee,take:takeLoot,rest,well:drinkWell,next:nextRoom,retry,newone:newOne,
-    abandon:()=>{if(b.dataset.confirm){adv=null;hero=hero.start?JSON.parse(JSON.stringify(hero.start)):hero;setView('gen')}else{b.dataset.confirm='1';b.textContent='Säker? Tryck igen'}}
+    pot:()=>doPotion(false),gpot:()=>doPotion(true),flee:doFlee,take:takeLoot,restFull,restLight,well:drinkWell,listen,sneak:sneakPast,ambush:ambushSleeper,force:forceChest,pick:pickChest,pray,offer,give:givePotion,talk,buy:()=>buy(b.dataset.k),next:nextRoom,retry,newone:newOne,
+    abandon:()=>{if(b.dataset.confirm){adv=null;hero=hero.start?JSON.parse(JSON.stringify(hero.start)):hero;setView('gen')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}}
   })[a]?.();
 });
 
 function render(){if(view==='adv'&&adv)renderAdv();else renderGen()}
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
-window.__t={newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,rest,drinkWell,doPotion,doFlee,monsterTurn};
+window.__t={listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monsterTurn};
 })();
 </script>
 
