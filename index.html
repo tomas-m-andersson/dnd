@@ -1,9 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="theme-color" content="#0e0f13"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/favicon.svg" type="image/svg+xml"><link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Nat 20"></head><body>
-<title>Natural Twenty</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="theme-color" content="#0e0f13"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/favicon.svg" type="image/svg+xml"><link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Nat20"></head><body>
+<title>Nat20</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
 /* Layout: a modern game HUD. Step 1 is a character builder with stat tiles; step 2 is the run, with a hero HUD, a depth track to the boss and a live combat feed. Ember for action, gold for reward, a cool blue for magic. */
 :root{
@@ -45,7 +45,7 @@ h1,h2,h3{font-family:var(--f-display);font-weight:800;margin:0;line-height:1.02;
 .recent li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;align-items:baseline;font-size:14.5px}
 
 header{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
-header h1{font-size:clamp(38px,6vw,64px)}
+header h1{font-family:"Cinzel Decorative","Cinzel",Georgia,serif;font-weight:700;letter-spacing:.01em;font-size:clamp(44px,7vw,76px);line-height:1.1;margin-top:.12em;padding-left:.1em}
 header h1 .acc{background:linear-gradient(100deg,var(--ember),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
 .tabs{display:flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow)}
 .tabs button{border:0;background:transparent;padding:9px 16px;cursor:pointer;font-weight:700;color:var(--muted);display:flex;gap:8px;align-items:center;border-radius:999px;min-height:42px;transition:background .2s,color .2s}
@@ -241,7 +241,7 @@ footer a{color:inherit}
   <header>
     <div>
       <div class="eyebrow">D&amp;D 5e · SRD rules · level 1 and up</div>
-      <h1>Natural <span class="acc">Twenty</span></h1>
+      <h1>Nat<span class="acc">20</span></h1>
     </div>
     <nav class="tabs" role="tablist" aria-label="Steps">
       <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Create hero</button>
