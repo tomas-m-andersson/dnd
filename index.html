@@ -186,26 +186,30 @@ footer a{color:inherit}
 .tray-dice{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-content:center;align-items:center;min-height:156px;padding:14px;border-radius:18px;background:var(--raised);border:1px dashed var(--line2)}
 .tray-dice:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
 .tray-dice.done{cursor:default;border-style:solid}
-.die{position:relative;width:58px;height:58px;border-radius:15px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:27px;color:var(--ember-ink);background:linear-gradient(135deg,var(--ember2),var(--ember));box-shadow:0 10px 22px -12px var(--ember),inset 0 1px 0 rgba(255,255,255,.35);font-variant-numeric:tabular-nums;transition:opacity .2s}
+.tray,.dice-opt{--die-a:#ffa04a;--die-b:#ff6b3d;--die-in:#ffb066;--die-ink:#1a0a04;--die-line:#1a0a04;--die-glow:#ff6b3d}
+[data-dice="obsidian"]{--die-a:#454a58;--die-b:#101116;--die-in:#2b2e38;--die-ink:#f3c45a;--die-line:#f3c45a;--die-glow:#000000}
+[data-dice="frost"]{--die-a:#f4fcff;--die-b:#8ccbf2;--die-in:#dcf2ff;--die-ink:#0f3554;--die-line:#2a6d9c;--die-glow:#7fc4f0}
+[data-dice="bone"]{--die-a:#fdf6e4;--die-b:#cdb98e;--die-in:#f1e4c3;--die-ink:#3b2a17;--die-line:#6b5434;--die-glow:#a88f5c}
+[data-dice="venom"]{--die-a:#c6f77a;--die-b:#36a224;--die-in:#a6e861;--die-ink:#0d2205;--die-line:#0d2a05;--die-glow:#4fc23a}
+[data-dice="blood"]{--die-a:#e2484c;--die-b:#6e0b13;--die-in:#ad1f29;--die-ink:#fff2ef;--die-line:#1e0204;--die-glow:#c0262e}
+.tray[data-dice="ember"][data-tone="heal"]{--die-a:#a6f0bf;--die-b:#2fb365;--die-in:#8fe3ac;--die-glow:#2fb365}
+.tray[data-dice="ember"][data-tone="magic"]{--die-a:#bcd3ff;--die-b:#4f84f0;--die-in:#a5c2ff;--die-glow:#4f84f0}
+.tray[data-dice="ember"][data-tone="save"],.tray[data-dice="ember"][data-tone="check"],.tray[data-dice="ember"][data-tone="crit"]{--die-a:#ffe08a;--die-b:#e6a92c;--die-in:#ffe9a8;--die-glow:#e6a92c}
+.die{position:relative;width:58px;height:58px;border-radius:15px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:27px;color:var(--die-ink);background:linear-gradient(135deg,var(--die-a),var(--die-b));box-shadow:0 10px 22px -12px var(--die-glow),inset 0 1px 0 rgba(255,255,255,.35);font-variant-numeric:tabular-nums;transition:opacity .2s}
 .die i{position:absolute;right:6px;bottom:3px;font-style:normal;font-family:var(--f-mono);font-size:9.5px;font-weight:600;opacity:.75}
 .die.drop{opacity:.3}
-.die.d20{width:132px;height:132px;background:none;box-shadow:none;color:#1a0a04}
-.die.d20 svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 12px 18px color-mix(in srgb,var(--ember) 45%,transparent))}
-.die.d20 .o{fill:var(--ember)}.die.d20 .f1{fill:#fff;opacity:.2}.die.d20 .f2{fill:#000;opacity:.18}
-.die.d20 .in{fill:var(--ember2)}.die.d20 .ln{fill:none;stroke:#1a0a04;stroke-opacity:.45;stroke-width:1.6;stroke-linejoin:round}
+.die.d20{width:132px;height:132px;background:none;box-shadow:none}
+.die.d20 svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 12px 18px color-mix(in srgb,var(--die-glow) 50%,transparent))}
+.die.d20 .o{fill:var(--die-b)}.die.d20 .f1{fill:#fff;opacity:.22}.die.d20 .f2{fill:#000;opacity:.2}
+.die.d20 .in{fill:var(--die-in)}.die.d20 .ln{fill:none;stroke:var(--die-line);stroke-opacity:.5;stroke-width:1.6;stroke-linejoin:round}
 .die.d20 b{position:relative;font-size:38px;margin-top:10px}
 .tray-dice.ready .die{animation:bob 1.6s ease-in-out infinite}
 .tray-dice.rolling .die{animation:tumble .3s linear infinite}
 .tray-dice.done .die{animation:land .32s cubic-bezier(.2,1.6,.4,1)}
-.tray-dice.nat20 .die.d20 .o,.tray-dice.nat20 .die.d20 .in{fill:var(--gold)}
-.tray-dice.nat20 .die.d20 svg{filter:drop-shadow(0 0 22px var(--gold))}
-.tray-dice.nat1 .die.d20 .o{fill:var(--bad)}.tray-dice.nat1 .die.d20 .in{fill:color-mix(in srgb,var(--bad) 70%,#fff)}
-[data-tone="heal"] .die{background:linear-gradient(135deg,color-mix(in srgb,var(--good) 70%,#fff),var(--good));box-shadow:0 10px 22px -12px var(--good)}
-[data-tone="magic"] .die{background:linear-gradient(135deg,color-mix(in srgb,var(--magic) 65%,#fff),var(--magic));box-shadow:0 10px 22px -12px var(--magic)}
-[data-tone="magic"] .die.d20{background:none;box-shadow:none}
-[data-tone="magic"] .die.d20 .o{fill:var(--magic)}[data-tone="magic"] .die.d20 .in{fill:color-mix(in srgb,var(--magic) 60%,#fff)}
-[data-tone="save"] .die.d20 .o,[data-tone="check"] .die.d20 .o{fill:var(--gold)}[data-tone="save"] .die.d20 .in,[data-tone="check"] .die.d20 .in{fill:color-mix(in srgb,var(--gold) 60%,#fff)}
-[data-tone="crit"] .die{background:linear-gradient(135deg,#ffe08a,var(--gold));box-shadow:0 10px 22px -10px var(--gold)}
+.tray-dice.nat20 .die.d20 svg{filter:drop-shadow(0 0 16px var(--gold)) drop-shadow(0 0 30px var(--gold))}
+.tray-dice.nat20 .die.d20 .in{fill:var(--gold)}
+.tray-dice.nat1 .die.d20 .in{fill:var(--bad)}
+.tray-dice.nat1 .die.d20 svg{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--bad) 70%,transparent))}
 .tray-dice.abil{flex-direction:column;gap:6px;flex-wrap:nowrap}
 .drow{display:flex;gap:6px;align-items:center;justify-content:center}
 .drow .die{width:38px;height:38px;border-radius:10px;font-size:18px}.drow .die i{display:none}
@@ -224,6 +228,31 @@ footer a{color:inherit}
 .auto{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer;min-height:44px}
 .auto input{width:20px;height:20px;accent-color:var(--ember);margin:0}
 body.tray-open{overflow:hidden}
+.hdr-r{display:flex;gap:8px;align-items:center}
+.gear{width:52px;height:52px;flex:0 0 52px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .3s}
+@media (hover:hover){.gear:hover{transform:rotate(45deg)}}
+.settings .tray-card{gap:18px}
+.set-head{display:flex;justify-content:space-between;align-items:center}
+.set-head h3{font-size:28px}
+.set-x{width:44px;padding:0;font-size:18px}
+.set-sec{display:grid;gap:10px}
+.dice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dice-opt{border:1px solid var(--line);background:var(--raised);border-radius:14px;padding:10px 6px 10px;cursor:pointer;display:grid;justify-items:center;gap:2px;text-align:center;color:var(--ink)}
+.dice-opt[aria-checked="true"]{border-color:var(--ember);box-shadow:0 0 0 3px color-mix(in srgb,var(--ember) 22%,transparent)}
+.dice-opt .die.mini{width:62px;height:62px;color:var(--die-ink)}
+.dice-opt .die.mini b{font-size:17px;margin-top:5px}
+.dice-opt .nm{font-weight:800;font-size:14.5px}
+.dice-opt .ds{font-size:11.5px;color:var(--muted);line-height:1.25}
+.set-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid var(--line)}
+.set-row:last-child{border-bottom:0}
+.set-row b{display:block;font-size:15px}
+.set-row span{display:block;font-size:12.5px;color:var(--muted)}
+.seg{display:flex;gap:3px;padding:3px;background:var(--raised);border:1px solid var(--line);border-radius:999px;flex:0 0 auto}
+.seg button{border:0;background:transparent;border-radius:999px;padding:7px 12px;min-height:36px;font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer}
+.seg button[aria-checked="true"]{background:var(--ink);color:var(--bg)}
+.tabs button{white-space:nowrap}
+@media (max-width:350px){.tabs button .n{display:none}.gear{width:46px;height:46px;flex-basis:46px}}
+@media (max-width:420px){.tabs button{padding:9px 6px;font-size:14.5px;gap:6px}.tabs button .n{width:20px;height:20px;font-size:10.5px}.set-row{flex-direction:column;align-items:stretch}.seg{justify-content:stretch}.seg button{flex:1}}
 .lh-btns{display:flex;gap:6px;align-items:center}
 .dicetog{font-size:13px;padding:5px 10px}
 .dicetog[aria-pressed="true"]{border-color:color-mix(in srgb,var(--ember) 55%,transparent);color:var(--ember)}
@@ -250,7 +279,8 @@ body.tray-open{overflow:hidden}
   body{font-size:16px;padding-block:16px 40px}
   header{align-items:stretch}
   header h1{font-size:38px}
-  .tabs{width:100%}
+  .hdr-r{width:100%}.tabs{flex:1;min-width:0}
+  .gear{width:50px;height:50px;flex-basis:50px}
   .tabs button{flex:1;justify-content:center;padding:9px 8px}
   .sheet{padding:16px;border-radius:16px}
   .stage h2{font-size:28px}
@@ -297,10 +327,10 @@ body.tray-open{overflow:hidden}
       <div class="eyebrow">D&amp;D 5e · SRD rules · level 1 and up</div>
       <h1>Nat<span class="acc">20</span></h1>
     </div>
-    <nav class="tabs" role="tablist" aria-label="Steps">
+    <div class="hdr-r"><nav class="tabs" role="tablist" aria-label="Steps">
       <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Create hero</button>
       <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span>The Cave</button>
-    </nav>
+    </nav><button class="gear" id="gear" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6a.5.5 0 0 0 .1-.6l-1.9-3.3a.5.5 0 0 0-.6-.2l-2.4 1a7.3 7.3 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-3.8a.5.5 0 0 0-.5.4l-.4 2.6a7.3 7.3 0 0 0-1.7 1l-2.4-1a.5.5 0 0 0-.6.2L2.5 8.8a.5.5 0 0 0 .1.6l2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l1.9 3.3c.1.2.4.3.6.2l2.4-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.3.4.5.4h3.8c.2 0 .5-.2.5-.4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.4 1c.2.1.5 0 .6-.2l1.9-3.3a.5.5 0 0 0-.1-.6l-2-1.6ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg></button></div>
   </header>
 
   <main id="view"></main>
@@ -702,18 +732,18 @@ function rollDice(o){
     const close=()=>{clearTimeout(autoT);btn.onclick=diceEl.onclick=null;trayEl.querySelector('.tray-back').onclick=null;hideT=setTimeout(()=>{trayEl.hidden=true;document.body.classList.remove('tray-open')},90);resolve(result)};
     const show=()=>{
       if(o.d20&&o.lucky&&vals[0]===1&&!luckUsed){luckUsed=true;paint('done nat1');resEl.innerHTML=`<div class="verdict crit">Natural 1… but halfling luck!</div><div class="sum">You may roll again.</div>`;o.onLucky&&o.onLucky();state='ready';btn.textContent='Roll again';return}
-      result=fin(vals);const nat=result.nat;
+      result=fin(vals);const nat=result.nat;if(!reduced)soundLand(o.d20&&nat===20);
       paint('done'+(o.d20&&nat===20?' nat20':o.d20&&nat===1?' nat1':''));
       const j=o.judge?o.judge(result):null;const f=o.flat||0;
       const sum=o.layout==='abil'?'4d6 for each ability, the faded die is dropped':o.d20?`${nat} ${f?`${f<0?'−':'+'} ${Math.abs(f)} = <b>${result.total}</b>`:''}`:`${vals.join(' + ')}${f?` ${f<0?'−':'+'} ${Math.abs(f)}`:''} = <b>${result.total}</b>`;
       resEl.innerHTML=`<div class="sum">${sum}</div>${j?`<div class="verdict ${j.cls}">${j.txt}</div>`:''}`;
-      btn.textContent='Continue';state='done';autoT=setTimeout(close,o.layout==='abil'?2600:1700);
+      btn.textContent='Continue';state='done';autoT=setTimeout(close,holdMs(o.layout==='abil'));
     };
     const go=()=>{
       if(state==='ready'){state='rolling';resEl.innerHTML='<div class="hint">Rolling…</div>';
-        if(reduced){vals=doRoll();show();return}
-        const iv=setInterval(()=>{vals=doRoll();paint('rolling')},60);
-        setTimeout(()=>{clearInterval(iv);vals=doRoll();show()},700)}
+        if(reduced){vals=doRoll();soundLand(false);show();return}
+        soundRoll(rollMs());const iv=setInterval(()=>{vals=doRoll();paint('rolling')},60);
+        setTimeout(()=>{clearInterval(iv);vals=doRoll();show()},rollMs())}
       else if(state==='done')close();
     };
     btn.onclick=go;diceEl.onclick=go;trayEl.querySelector('.tray-back').onclick=()=>{if(state==='done')close()};
@@ -740,6 +770,89 @@ async function rollAbilityTray(){
   const out=[];for(let k=0;k<6;k++){const row=r.vals.slice(k*4,k*4+4);const lo=row.indexOf(Math.min(...row));out.push({r:row,lo,t:row.reduce((a,b)=>a+b,0)-row[lo]})}
   return out;
 }
+
+/* ---------- Settings ---------- */
+const DICE_SETS=[
+  {id:'ember',name:'Ember',desc:'Changes color with what you do'},
+  {id:'obsidian',name:'Obsidian',desc:'Black stone, gold numbers'},
+  {id:'frost',name:'Frost',desc:'Ice crystal'},
+  {id:'bone',name:'Bone',desc:'Old-school ivory'},
+  {id:'venom',name:'Venom',desc:'Toxic green'},
+  {id:'blood',name:'Blood',desc:'Deep red, white numbers'}
+];
+let SET={dice:'ember',speed:'normal',sound:true,theme:'system'};
+try{const s=JSON.parse(localStorage.getItem('nat20-settings')||'null');if(s&&typeof s==='object')SET=Object.assign(SET,s)}catch(e){}
+if(!DICE_SETS.some(x=>x.id===SET.dice))SET.dice='ember';
+function saveSettings(){try{localStorage.setItem('nat20-settings',JSON.stringify(SET))}catch(e){}}
+function applySettings(){
+  if(trayEl&&trayEl.dataset)trayEl.dataset.dice=SET.dice;
+  const root=document.documentElement;
+  if(root&&root.dataset){if(SET.theme==='system')delete root.dataset.theme;else root.dataset.theme=SET.theme}
+}
+const rollMs=()=>SET.speed==='quick'?320:700;
+const holdMs=abil=>SET.speed==='quick'?(abil?1600:900):(abil?2600:1700);
+
+/* Dice sound: a short rattle while rolling, a clack when the die lands */
+let AC=null;
+function audio(){if(!SET.sound)return null;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
+function clack(ctx,t,vol,freq){
+  const len=Math.floor(ctx.sampleRate*.05),buf=ctx.createBuffer(1,len,ctx.sampleRate),ch=buf.getChannelData(0);
+  for(let i=0;i<len;i++)ch[i]=(Math.random()*2-1)*Math.pow(1-i/len,4);
+  const src=ctx.createBufferSource();src.buffer=buf;const f=ctx.createBiquadFilter();f.type='bandpass';f.frequency.value=freq;f.Q.value=3;
+  const g=ctx.createGain();g.gain.value=vol;src.connect(f);f.connect(g);g.connect(ctx.destination);src.start(t);
+}
+function soundRoll(ms){const ctx=audio();if(!ctx)return;const t0=ctx.currentTime;const n=Math.max(4,Math.round(ms/70));for(let i=0;i<n;i++)clack(ctx,t0+i*(ms/1000)/n+Math.random()*.02,.18+Math.random()*.12,1800+Math.random()*1600)}
+function soundLand(big){const ctx=audio();if(!ctx)return;const t=ctx.currentTime;clack(ctx,t,.5,900);clack(ctx,t+.06,.25,1400);
+  if(big){const o=ctx.createOscillator(),g=ctx.createGain();o.type='triangle';o.frequency.setValueAtTime(660,t+.05);o.frequency.exponentialRampToValueAtTime(1320,t+.35);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.12,t+.08);g.gain.exponentialRampToValueAtTime(.0001,t+.6);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+.65)}}
+
+const GEAR=`<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6a.5.5 0 0 0 .1-.6l-1.9-3.3a.5.5 0 0 0-.6-.2l-2.4 1a7.3 7.3 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-3.8a.5.5 0 0 0-.5.4l-.4 2.6a7.3 7.3 0 0 0-1.7 1l-2.4-1a.5.5 0 0 0-.6.2L2.5 8.8a.5.5 0 0 0 .1.6l2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l1.9 3.3c.1.2.4.3.6.2l2.4-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.3.4.5.4h3.8c.2 0 .5-.2.5-.4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.4 1c.2.1.5 0 .6-.2l1.9-3.3a.5.5 0 0 0-.1-.6l-2-1.6ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg>`;
+let setEl=null;
+function settingsInit(){
+  const btn=document.getElementById('gear');if(btn&&btn.addEventListener)btn.addEventListener('click',openSettings);
+  const w=document.createElement('div');
+  w.innerHTML=`<div id="settings" class="tray settings" hidden role="dialog" aria-modal="true" aria-labelledby="setTitle"><div class="tray-back"></div><div class="tray-card" id="setCard"></div></div>`;
+  setEl=w.firstElementChild;if(!setEl||!document.body||!document.body.appendChild)return;
+  document.body.appendChild(setEl);
+  setEl.addEventListener('click',onSettingsClick);
+  applySettings();
+}
+function seg(name,opts,cur){return `<div class="seg" role="radiogroup" aria-label="${name}">${opts.map(([v,l])=>`<button type="button" role="radio" aria-checked="${v===cur}" data-set="${name}" data-v="${v}">${l}</button>`).join('')}</div>`}
+function renderSettings(){
+  const card=document.getElementById('setCard');if(!card)return;
+  card.innerHTML=`
+    <div class="set-head"><h3 id="setTitle">Settings</h3><button class="btn set-x" type="button" data-set="close" aria-label="Close settings">✕</button></div>
+    <section class="set-sec"><div class="eyebrow">Dice design</div>
+      <div class="dice-grid" role="radiogroup" aria-label="Dice design">${DICE_SETS.map(x=>`<button type="button" class="dice-opt" role="radio" aria-checked="${x.id===SET.dice}" data-set="dice" data-v="${x.id}" data-dice="${x.id}"><span class="die d20 mini">${D20SVG}<b>20</b></span><span class="nm">${x.name}</span><span class="ds">${x.desc}</span></button>`).join('')}</div>
+      <button class="btn" type="button" data-set="try">Try a roll</button>
+    </section>
+    <section class="set-sec"><div class="eyebrow">Rolling</div>
+      <div class="set-row"><div><b>Who rolls the dice</b><span>Let the game roll for you to play faster</span></div>${seg('auto',[['0','You'],['1','Auto']],AUTO?'1':'0')}</div>
+      <div class="set-row"><div><b>Roll speed</b><span>How long the dice spin</span></div>${seg('speed',[['normal','Normal'],['quick','Quick']],SET.speed)}</div>
+      <div class="set-row"><div><b>Dice sound</b><span>A rattle and a clack when you roll</span></div>${seg('sound',[['1','On'],['0','Off']],SET.sound?'1':'0')}</div>
+    </section>
+    <section class="set-sec"><div class="eyebrow">Appearance</div>
+      <div class="set-row"><div><b>Theme</b><span>System follows your phone or computer</span></div>${seg('theme',[['system','System'],['dark','Dark'],['light','Light']],SET.theme)}</div>
+    </section>
+    <button class="btn primary" type="button" data-set="close">Done</button>`;
+}
+function openSettings(){if(!setEl||LOCK)return;renderSettings();setEl.hidden=false;document.body.classList.add('tray-open');setTimeout(()=>{const x=setEl.querySelector('[aria-checked="true"]');try{x&&x.focus({preventScroll:true})}catch(e){}},40)}
+function closeSettings(){if(!setEl)return;setEl.hidden=true;document.body.classList.remove('tray-open');render();const g=document.getElementById('gear');try{g&&g.focus({preventScroll:true})}catch(e){}}
+async function onSettingsClick(e){
+  if(e.target.classList&&e.target.classList.contains('tray-back')){closeSettings();return}
+  const b=e.target.closest&&e.target.closest('[data-set]');if(!b)return;
+  const k=b.dataset.set,v=b.dataset.v;
+  if(k==='close'){closeSettings();return}
+  if(k==='try'){setEl.hidden=true;const was=AUTO;AUTO=false;try{await rollDice({kind:'Test roll',title:'Try your dice',sub:`${(DICE_SETS.find(x=>x.id===SET.dice)||{}).name} dice`,groups:[{n:1,s:20}],d20:true,tone:'atk',judge:x=>x.nat===20?{txt:'Natural 20!',cls:'crit'}:x.nat===1?{txt:'Natural 1…',cls:'bad'}:{txt:`You rolled ${x.nat}`,cls:'good'}})}finally{AUTO=was}
+    setTimeout(()=>{setEl.hidden=false;document.body.classList.add('tray-open')},140);return}
+  if(k==='dice'){SET.dice=v;audio()&&soundLand(false)}
+  else if(k==='auto'){setAuto(v==='1')}
+  else if(k==='speed')SET.speed=v;
+  else if(k==='sound'){SET.sound=v==='1';if(SET.sound)soundLand(false)}
+  else if(k==='theme')SET.theme=v;
+  saveSettings();applySettings();renderSettings();
+  const again=setEl.querySelector(`[data-set="${k}"][data-v="${v}"]`);try{again&&again.focus({preventScroll:true})}catch(e){}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&setEl&&!setEl.hidden)closeSettings()});
 
 /* ---------- Combat ---------- */
 function resist(type){const r=RC[hero.race];if(hero.race==='dwarf'&&type==='poison')return true;if(hero.race==='tiefling'&&type==='fire')return true;if(hero.dragon&&type===hero.dragon)return true;if(adv.rage&&['bludgeoning','piercing','slashing'].includes(type))return true;return false}
@@ -973,7 +1086,7 @@ let lastKey=null,LOCK=false;
 function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
-trayInit();
+trayInit();settingsInit();
 window.__t={setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monsterTurn};
 })();
 </script><script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}))}</script></body></html>
