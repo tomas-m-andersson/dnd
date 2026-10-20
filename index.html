@@ -174,6 +174,60 @@ header h1 .acc{background:linear-gradient(100deg,var(--ember),var(--gold));-webk
 
 footer{text-align:center;font-size:13px;color:var(--muted)}
 footer a{color:inherit}
+/* Dice tray */
+.tray{position:fixed;inset:0;z-index:50;display:grid;align-items:end;justify-items:center}
+.tray-back{position:absolute;inset:0;background:rgba(5,6,10,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.tray-card{position:relative;width:min(540px,100%);background:var(--surface);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;padding:20px max(18px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));box-shadow:0 -24px 60px -24px rgba(0,0,0,.65);display:grid;gap:14px;animation:trayup .22s ease-out;max-height:92vh;overflow-y:auto}
+@media (min-width:700px){.tray{align-items:center}.tray-card{border-radius:24px;border-bottom:1px solid var(--line2);padding-bottom:18px}}
+@keyframes trayup{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
+.tray h3{font-size:26px}
+.tray-sub{color:var(--muted);font-size:14.5px;margin-top:4px}
+.tray-sub b{color:var(--ink)}
+.tray-dice{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-content:center;align-items:center;min-height:156px;padding:14px;border-radius:18px;background:var(--raised);border:1px dashed var(--line2)}
+.tray-dice:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.tray-dice.done{cursor:default;border-style:solid}
+.die{position:relative;width:58px;height:58px;border-radius:15px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:27px;color:var(--ember-ink);background:linear-gradient(135deg,var(--ember2),var(--ember));box-shadow:0 10px 22px -12px var(--ember),inset 0 1px 0 rgba(255,255,255,.35);font-variant-numeric:tabular-nums;transition:opacity .2s}
+.die i{position:absolute;right:6px;bottom:3px;font-style:normal;font-family:var(--f-mono);font-size:9.5px;font-weight:600;opacity:.75}
+.die.drop{opacity:.3}
+.die.d20{width:132px;height:132px;background:none;box-shadow:none;color:#1a0a04}
+.die.d20 svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 12px 18px color-mix(in srgb,var(--ember) 45%,transparent))}
+.die.d20 .o{fill:var(--ember)}.die.d20 .f1{fill:#fff;opacity:.2}.die.d20 .f2{fill:#000;opacity:.18}
+.die.d20 .in{fill:var(--ember2)}.die.d20 .ln{fill:none;stroke:#1a0a04;stroke-opacity:.45;stroke-width:1.6;stroke-linejoin:round}
+.die.d20 b{position:relative;font-size:38px;margin-top:10px}
+.tray-dice.ready .die{animation:bob 1.6s ease-in-out infinite}
+.tray-dice.rolling .die{animation:tumble .3s linear infinite}
+.tray-dice.done .die{animation:land .32s cubic-bezier(.2,1.6,.4,1)}
+.tray-dice.nat20 .die.d20 .o,.tray-dice.nat20 .die.d20 .in{fill:var(--gold)}
+.tray-dice.nat20 .die.d20 svg{filter:drop-shadow(0 0 22px var(--gold))}
+.tray-dice.nat1 .die.d20 .o{fill:var(--bad)}.tray-dice.nat1 .die.d20 .in{fill:color-mix(in srgb,var(--bad) 70%,#fff)}
+[data-tone="heal"] .die{background:linear-gradient(135deg,color-mix(in srgb,var(--good) 70%,#fff),var(--good));box-shadow:0 10px 22px -12px var(--good)}
+[data-tone="magic"] .die{background:linear-gradient(135deg,color-mix(in srgb,var(--magic) 65%,#fff),var(--magic));box-shadow:0 10px 22px -12px var(--magic)}
+[data-tone="magic"] .die.d20{background:none;box-shadow:none}
+[data-tone="magic"] .die.d20 .o{fill:var(--magic)}[data-tone="magic"] .die.d20 .in{fill:color-mix(in srgb,var(--magic) 60%,#fff)}
+[data-tone="save"] .die.d20 .o,[data-tone="check"] .die.d20 .o{fill:var(--gold)}[data-tone="save"] .die.d20 .in,[data-tone="check"] .die.d20 .in{fill:color-mix(in srgb,var(--gold) 60%,#fff)}
+[data-tone="crit"] .die{background:linear-gradient(135deg,#ffe08a,var(--gold));box-shadow:0 10px 22px -10px var(--gold)}
+.tray-dice.abil{flex-direction:column;gap:6px;flex-wrap:nowrap}
+.drow{display:flex;gap:6px;align-items:center;justify-content:center}
+.drow .die{width:38px;height:38px;border-radius:10px;font-size:18px}.drow .die i{display:none}
+.drow .rt{font-family:var(--f-display);font-weight:800;font-size:18px;min-width:48px;text-align:left}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-6deg)}}
+@keyframes tumble{0%{transform:rotate(0) scale(.94)}50%{transform:rotate(180deg) scale(1.04)}100%{transform:rotate(360deg) scale(.94)}}
+@keyframes land{0%{transform:scale(1.25)}100%{transform:scale(1)}}
+.tray-result{min-height:58px;text-align:center;display:grid;align-content:center;gap:2px}
+.tray-result .sum{font-family:var(--f-mono);font-size:15px;color:var(--muted)}
+.tray-result .sum b{color:var(--ink);font-size:17px}
+.tray-result .hint{color:var(--muted);font-weight:600}
+.verdict{font-family:var(--f-display);font-weight:800;font-size:28px;letter-spacing:-.02em;line-height:1.1}
+.verdict.good{color:var(--good)}.verdict.bad{color:var(--bad)}.verdict.crit{color:var(--gold)}
+.tray-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.tray-foot .btn{min-width:160px;flex:0 0 auto}
+.auto{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer;min-height:44px}
+.auto input{width:20px;height:20px;accent-color:var(--ember);margin:0}
+body.tray-open{overflow:hidden}
+.lh-btns{display:flex;gap:6px;align-items:center}
+.dicetog{font-size:13px;padding:5px 10px}
+.dicetog[aria-pressed="true"]{border-color:color-mix(in srgb,var(--ember) 55%,transparent);color:var(--ember)}
+@media (max-width:560px){.tray-foot .btn{flex:1 1 100%}.auto{order:2}.die.d20{width:120px;height:120px}}
 @media (max-width:860px){
   .gen,.adv{grid-template-columns:minmax(0,1fr)}
   .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;padding:12px 14px;gap:8px;grid-template-columns:minmax(0,1fr) auto;align-items:center;border-radius:0 0 var(--r) var(--r);background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
@@ -344,6 +398,7 @@ let hero=null, adv=null, view='gen';
 function save(){try{localStorage.setItem('hg-hero',JSON.stringify(hero));localStorage.setItem('hg-adv',JSON.stringify(adv));localStorage.setItem('hg-view',view)}catch(e){}}
 try{const h=JSON.parse(localStorage.getItem('hg-hero')||'null');if(h&&h.v===1&&CL[h.cls]&&RC[h.race])hero=h;const a=JSON.parse(localStorage.getItem('hg-adv')||'null');if(a&&hero&&a.v===3)adv=a;const v=localStorage.getItem('hg-view');if(v==='adv'&&adv)view='adv'}catch(e){}
 if(!hero)hero=newHero();
+if(adv)adv.busy=false;
 
 const $view=document.getElementById('view');
 function setView(v){view=v;document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
@@ -385,7 +440,7 @@ function renderGen(){
         <div><b>${r.sp}</b><span>Speed (ft)</span></div>
       </div>
       <div class="gen-actions">
-        <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Reroll abilities</button>
+        <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Roll abilities</button>
         <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Randomize all</button>
         <span style="flex:1"></span>
         <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':'Enter the cave'}</button>
@@ -404,7 +459,7 @@ function renderGen(){
   document.getElementById('newName').onclick=()=>{hero.name=`${pick(NAMES)} ${pick(EPI)}`;save();render()};
   document.getElementById('selRace').onchange=e=>{hero=newHero({name:hero.name,cls:hero.cls,race:e.target.value,rolls:hero.rolls});save();render()};
   document.getElementById('selCls').onchange=e=>{hero=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
-  document.getElementById('reroll').onclick=()=>{hero=newHero({name:hero.name,race:hero.race,cls:hero.cls});save();render()};
+  document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();hero=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
   document.getElementById('randAll').onclick=()=>{hero=newHero();save();render()};
   document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure();setView('adv')};
 }
@@ -453,39 +508,50 @@ function startAdventure(){
 function you(){return `<b class="you">${esc(hero.name.split(' ')[0])}</b>`}
 function them(){return `<b class="them">${esc(adv.foe.m.n)}</b>`}
 function log(cls,html,chip,chipCls){adv.log.push({c:cls,h:html,ch:chip,cc:chipCls});if(adv.log.length>160)adv.log.splice(0,adv.log.length-160)}
-function check(ab,dc,profFor){const st=scores(hero);let b=mod(st[ab]);if(profFor&&profFor.includes(hero.cls))b+=prof(hero.lvl);const r=heroD20();return{r,b,tot:r+b,ok:r+b>=dc,dc,txt:`<span class="muted">${r}${sgn(b)} = ${r+b} vs ${dc}</span>`}}
+async function check(ab,dc,profFor,title,extra){
+  const st=scores(hero);const trained=!!(profFor&&profFor.includes(hero.cls));let b=mod(st[ab])+(extra||0);if(trained)b+=prof(hero.lvl);
+  const r=await heroD20({kind:`${AB_SV[ab]} check`,title,sub:`d20 ${sgn(b)}${trained?' (your class is trained in this)':''} · you need <b>${dc}</b> or more`,flat:b,tone:'check',judge:judgeDc(dc)});
+  return{r,b,tot:r+b,ok:r+b>=dc,dc,txt:`<span class="muted">${r}${sgn(b)} = ${r+b} vs ${dc}</span>`};
+}
 const cdc=base=>base+Math.floor(adv.depth/3)+adv.chapter-1;
 
-function listen(){
-  if(adv.listened)return;adv.listened=true;
-  const bonus=hero.race==='elf'?2:0;const c=check('wis',cdc(12),['ranger','rogue','druid','monk']);c.tot+=bonus;c.ok=c.tot>=c.dc;
+async function listen(){
+  if(adv.listened)return;adv.listened=true;render();
+  const bonus=hero.race==='elf'?2:0;const c=await check('wis',cdc(12),['ranger','rogue','druid','monk'],'Listen at the doors',bonus);
   if(c.ok){adv.doors.forEach(x=>x.known=true);log('',`${you()} presses an ear to the stone and listens ${c.txt}${bonus?' <span class="muted">(+2 elven ears)</span>':''}. Now you know what awaits.`,c.r,'hit')}
-  else if(Math.random()<.4){log('',`${you()} listens ${c.txt}, but something hears you first!`,c.r,'fail');adv.room={t:'fight'};log('sep',`Depth ${adv.depth} of ${DEPTH} · Ambush`);startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'Something rushes out of the shadows'});return}
+  else if(Math.random()<.4){log('',`${you()} listens ${c.txt}, but something hears you first!`,c.r,'fail');adv.room={t:'fight'};log('sep',`Depth ${adv.depth} of ${DEPTH} · Ambush`);await startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'Something rushes out of the shadows'});return}
   else log('',`${you()} listens ${c.txt} but hears only their own heartbeat.`,c.r,'');
   save();render();
 }
-function startFight(m,opt){
+async function startFight(m,opt){
   opt=opt||{};adv.foe={m,hp:m.hp,charged:!!m.sv,first:true,asleep:!!opt.asleep};adv.phase='fight';adv.rage=false;
   log('note',`${opt.intro||'Something steps out of the darkness'}: ${them()}, ${SIZE[m.s]} ${TYPE[m.t]||m.t}.`,'!','fail');
+  save();render();
   if(opt.asleep){log('note',`${them()} is asleep. Your first attack is sure to hit.`,'z','heal')}
-  else if(opt.foeFirst){log('note',`${them()} goes first!`,'·');monsterTurn()}
-  else{const ini=d(20)+mod(scores(hero).dex),fi=d(20)+mod(m.st[1]);log('note',`Initiative: ${you()} ${ini}, ${them()} ${fi}.`,'INI');if(fi>ini){log('note',`${them()} goes first!`,'·');monsterTurn()}}
+  else if(opt.foeFirst){log('note',`${them()} goes first!`,'·');adv.busy=true;render();await monsterTurn();adv.busy=false}
+  else{
+    const fi=d(20)+mod(m.st[1]),dm=mod(scores(hero).dex);
+    const r=await heroD20({kind:'Initiative',title:'Roll initiative!',sub:`Who acts first? d20 ${sgn(dm)} (Dexterity) · the ${esc(m.n)} rolled <b>${fi}</b>`,flat:dm,tone:'init',judge:x=>x.total>=fi?{txt:'You go first!',cls:'good'}:{txt:`The ${esc(m.n)} goes first`,cls:'bad'}});
+    const ini=r+dm;log('note',`Initiative: ${you()} ${ini}, ${them()} ${fi}.`,'INI');
+    if(fi>ini){log('note',`${them()} goes first!`,'·');adv.busy=true;render();await monsterTurn();adv.busy=false}
+  }
   if(hero.hp<=0)die();
   save();render();
 }
-function enterRoom(idx){
+async function enterRoom(idx){
   const door=idx==='boss'?{t:'boss'}:adv.doors[+idx];const t=adv.depth===DEPTH?'boss':door.t;
   adv.room={t};
   log('sep',`Depth ${adv.depth} of ${DEPTH}${t==='boss'?' · The Boss':''}`);
-  if(t==='boss'){startFight(pickMonster(hero.lvl,true),{intro:'The master of the cave rises'});return}
-  if(t==='fight'){startFight(pickMonster(hero.lvl,false));return}
-  if(t==='guarded'){adv.room.afterLoot=true;log('note',`Behind a pile of bones stands a chest. Something is guarding it.`,'¤');startFight(pickMonster(hero.lvl,false,{bump:Math.random()<.4?1:0}),{intro:'The guardian turns toward you'});return}
+  if(t==='boss'){await startFight(pickMonster(hero.lvl,true),{intro:'The master of the cave rises'});return}
+  if(t==='fight'){await startFight(pickMonster(hero.lvl,false));return}
+  if(t==='guarded'){adv.room.afterLoot=true;log('note',`Behind a pile of bones stands a chest. Something is guarding it.`,'¤');await startFight(pickMonster(hero.lvl,false,{bump:Math.random()<.4?1:0}),{intro:'The guardian turns toward you'});return}
   if(t==='treasure'){adv.room.loot=rollLoot();adv.phase='room';log('note',`${you()} finds a treasure chest.`,'¤','heal')}
   else if(t==='trap'){
-    const c=check('dex',cdc(12),['rogue','monk']);
+    adv.phase='room';adv.room.done=true;save();render();
+    const c=await check('dex',cdc(12),['rogue','monk'],'Tiles click underfoot! Dodge!');
     if(c.ok)log('',`Tiles click underfoot! ${you()} dives aside ${c.txt}. Made it!`,c.r,'hit');
-    else{const dm=roll(`${Math.max(1,hero.lvl)+adv.chapter}d6`);hurtHero(dm);log('',`Spears shoot out of the wall! ${you()} is too slow ${c.txt}. <span class="dmg">${dm} damage</span>.`,c.r,'fail')}
-    adv.room.done=true;adv.phase='room';if(hero.hp<=0)die();
+    else{const dm=roll(`${Math.max(1,hero.lvl)+adv.chapter}d6`);hurtHero(dm);adv.shake='hero';log('',`Spears shoot out of the wall! ${you()} is too slow ${c.txt}. <span class="dmg">${dm} damage</span>.`,c.r,'fail')}
+    if(hero.hp<=0)die();
   }
   else if(t==='sleeper'){adv.room.m=pickMonster(hero.lvl,false,{bump:1});adv.phase='room';log('note',`A big animal... no, a ${esc(adv.room.m.n)} is sleeping in the middle of the passage.`,'z')}
   else if(t==='chest'){adv.phase='room';adv.room.tries=0;log('note',`An iron-bound chest with a heavy lock.`,'¤')}
@@ -512,12 +578,12 @@ function applyLoot(list){for(const it of list){if(it.k==='gold')hero.gold+=it.v;
 function takeLoot(){applyLoot(adv.room.loot);log('',`${you()} packs up: ${adv.room.loot.map(i=>i.n).join(', ')}.`,'¤','heal');adv.room.done=true;save();render()}
 
 /* Campsite: sleep deeply (more healing, ambush risk) or lightly (less healing, no risk) */
-function restFull(){
+async function restFull(){
   const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,Math.ceil(hero.hpMax/2)));resetRest(hero,false);
   let extra='';if(CL[hero.cls].sa&&hero.cls!=='warlock'&&hero.slots<slotsFor(hero)){hero.slots++;extra=', one spell slot back'}
   log('',`${you()} falls asleep by the fire. <span class="heal">+${hero.hp-b} HP</span>${extra}. Features recharged.`,'z','heal');
   adv.room.done=true;
-  if(Math.random()<.35){log('',`But the smoke drew something in! ${you()} wakes with a start.`,'!','fail');startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'A night ambush'});return}
+  if(Math.random()<.35){log('',`But the smoke drew something in! ${you()} wakes with a start.`,'!','fail');await startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'A night ambush'});return}
   save();render();
 }
 function restLight(){
@@ -525,30 +591,30 @@ function restLight(){
   log('',`${you()} rests with one eye open. <span class="heal">+${hero.hp-b} HP</span>. No features recharge.`,'z','heal');
   adv.room.done=true;save();render();
 }
-function drinkWell(){
+async function drinkWell(){
   const r=Math.random();
   if(r<.45){const h=roll('2d8')+hero.lvl;const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`The water is clear and fresh. <span class="heal">+${hero.hp-b} HP</span>.`,'~','heal')}
   else if(r<.7){log('',`A spring of wisdom! Visions of old battles flicker past.`,'~','magic');gainXp(40*hero.lvl)}
   else if(r<.85){const dm=roll(`${hero.lvl}d4`);hurtHero(dm);log('',`Bitter! The water was poisoned. <span class="dmg">${dm} damage</span>.`,'~','fail');if(hero.hp<=0)die()}
-  else{adv.room.done=true;log('',`The water starts to bubble. A creature rises out of the well!`,'~','fail');startFight(pickMonster(hero.lvl,false,{type:Math.random()<.5?'elemental':'ooze'}),{foeFirst:true,intro:'Out of the well'});return}
+  else{adv.room.done=true;log('',`The water starts to bubble. A creature rises out of the well!`,'~','fail');await startFight(pickMonster(hero.lvl,false,{type:Math.random()<.5?'elemental':'ooze'}),{foeFirst:true,intro:'Out of the well'});return}
   adv.room.done=true;save();render();
 }
 /* Sleeping monster */
-function sneakPast(){
-  const c=check('dex',cdc(11),['rogue','monk','ranger']);const m=adv.room.m;
+async function sneakPast(){
+  const m=adv.room.m;const c=await check('dex',cdc(11),['rogue','monk','ranger'],`Sneak past the ${m.n}`);
   if(c.ok){log('',`${you()} sneaks past ${c.txt}. The ${esc(m.n)} keeps snoring.`,c.r,'hit');gainXp(15*hero.lvl);adv.room.done=true;save();render()}
-  else{log('',`A pebble rattles ${c.txt}. The ${esc(m.n)} wakes up!`,c.r,'fail');startFight(m,{foeFirst:true,intro:'It wakes'})}
+  else{log('',`A pebble rattles ${c.txt}. The ${esc(m.n)} wakes up!`,c.r,'fail');await startFight(m,{foeFirst:true,intro:'It wakes'})}
 }
-function ambushSleeper(){startFight(adv.room.m,{asleep:true,intro:'You creep up on'})}
+function ambushSleeper(){return startFight(adv.room.m,{asleep:true,intro:'You creep up on'})}
 /* Locked chest */
-function forceChest(){
-  const c=check('str',cdc(13),['barbarian','fighter','paladin']);adv.room.tries++;
+async function forceChest(){
+  const c=await check('str',cdc(13),['barbarian','fighter','paladin'],'Force the chest open');adv.room.tries++;
   if(c.ok){adv.room.loot=rollLoot(true);log('',`${you()} pries the lid open ${c.txt}!`,c.r,'hit');adv.room.t='treasure';adv.phase='room'}
   else{const dm=d(4);hurtHero(dm);log('',`The lock holds ${c.txt}. ${you()} scrapes their knuckles: <span class="dmg">${dm} damage</span>.`,c.r,'fail');if(hero.hp<=0){die()}}
   save();render();
 }
-function pickChest(){
-  const c=check('dex',cdc(13),['rogue']);
+async function pickChest(){
+  const c=await check('dex',cdc(13),['rogue'],'Pick the lock');
   if(c.ok)log('',`Click! ${you()} picks the lock ${c.txt}.`,c.r,'hit');
   else{const dm=roll(`${hero.lvl}d6`);const v=resist('poison')?Math.floor(dm/2):dm;hurtHero(v);log('',`A poison needle jabs out of the lock ${c.txt}! <span class="dmg">${v} damage</span>. But the lid swings open.`,c.r,'fail')}
   adv.room.loot=rollLoot(true);adv.room.t='treasure';if(hero.hp<=0)die();save();render();
@@ -557,23 +623,23 @@ function pickChest(){
 function bless(){const r=Math.random();
   if(r<.5){hero.hp=hero.hpMax;hero.slots=slotsFor(hero);log('',`A warm light fills the room. ${you()} is fully healed.`,'†','heal')}
   else{hero.bless=1;log('',`The god's blessing! <b>+1 to hit</b> for the rest of the chapter.`,'†','magic')}}
-function pray(){
-  const c=check('wis',cdc(12),['cleric','paladin','druid']);
+async function pray(){
+  const c=await check('wis',cdc(12),['cleric','paladin','druid'],'Pray to the god');
   if(c.ok){log('',`${you()} kneels and prays ${c.txt}.`,c.r,'magic');bless()}
   else{const dm=roll(`${hero.lvl}d4`);hero.hp=Math.max(1,hero.hp-dm);hero.curse=1;log('',`The god is angry ${c.txt}! <span class="dmg">${dm} damage</span> and <b>-1 armor class</b> until you rest.`,c.r,'fail')}
   adv.room.done=true;save();render();
 }
 function offer(){const cost=15*hero.lvl;if(hero.gold<cost)return;hero.gold-=cost;log('',`${you()} places ${cost} gold on the altar.`,'¤');bless();adv.room.done=true;save();render()}
 /* Wounded adventurer */
-function givePotion(){
+async function givePotion(){
   if(!hero.potions)return;hero.potions--;
-  if(Math.random()<.22){log('',`She drinks, smiles and draws a knife. It was a trap!`,'!','fail');adv.room.done=true;startFight(pickMonster(hero.lvl,false,{type:'humanoid'}),{foeFirst:true,intro:'The bandit'});return}
+  if(Math.random()<.22){log('',`She drinks, smiles and draws a knife. It was a trap!`,'!','fail');adv.room.done=true;await startFight(pickMonster(hero.lvl,false,{type:'humanoid'}),{foeFirst:true,intro:'The bandit'});return}
   const reward=rollLoot(false).filter(x=>x.k!=='pot');applyLoot(reward);gainXp(30*hero.lvl);adv.nextKnown=true;
   log('',`She thanks you and gives you ${reward.map(x=>x.n).join(' and ')}. She also tells you what waits at the next crossroads.`,'♥','heal');
   adv.room.done=true;save();render();
 }
-function talk(){
-  const c=check('cha',cdc(12),['bard','warlock','sorcerer','paladin']);
+async function talk(){
+  const c=await check('cha',cdc(12),['bard','warlock','sorcerer','paladin'],'Talk to the stranger');
   if(c.ok){adv.nextKnown=true;log('',`${you()} talks calmly with her ${c.txt}. She whispers what waits at the next crossroads.`,c.r,'hit')}
   else log('',`She doesn't trust you ${c.txt} and turns her head away.`,c.r,'');
   adv.room.done=true;save();render();
@@ -594,79 +660,176 @@ function nextRoom(){
   save();render();
 }
 
+/* ---------- Dice tray: the player rolls ---------- */
+let AUTO=false;try{AUTO=localStorage.getItem('hg-auto')==='1'}catch(e){}
+function setAuto(v){AUTO=!!v;try{localStorage.setItem('hg-auto',AUTO?'1':'0')}catch(e){}const cb=document.getElementById('trayAuto');if(cb)cb.checked=AUTO}
+let trayEl=null,hideT=null;
+function trayInit(){
+  const w=document.createElement('div');
+  w.innerHTML=`<div id="tray" class="tray" hidden role="dialog" aria-modal="true" aria-labelledby="trayTitle">
+    <div class="tray-back"></div>
+    <div class="tray-card">
+      <div><div class="eyebrow" id="trayKind">Your roll</div><h3 id="trayTitle"></h3><div class="tray-sub" id="traySub"></div></div>
+      <button class="tray-dice" id="trayDice" type="button" aria-label="Roll the dice"></button>
+      <div class="tray-result" id="trayRes" aria-live="polite"></div>
+      <div class="tray-foot"><label class="auto" for="trayAuto"><input type="checkbox" id="trayAuto"> Roll for me from now on</label><button class="btn primary" id="trayBtn" type="button">Roll</button></div>
+    </div></div>`;
+  trayEl=w.firstElementChild;if(!trayEl||!document.body||!document.body.appendChild)return;
+  document.body.appendChild(trayEl);
+  const cb=document.getElementById('trayAuto');if(cb){cb.checked=AUTO;cb.onchange=()=>{setAuto(cb.checked);render()}}
+}
+const D20SVG=`<svg viewBox="0 0 100 100" aria-hidden="true"><polygon class="o" points="50,3 91,26.5 91,73.5 50,97 9,73.5 9,26.5"/><polygon class="f1" points="50,3 91,26.5 50,24"/><polygon class="f2" points="91,73.5 50,97 75,70"/><polygon class="in" points="50,24 75,70 25,70"/><path class="ln" d="M50 3 50 24 M91 26.5 50 24 M9 26.5 50 24 M91 26.5 75 70 M9 26.5 25 70 M91 73.5 75 70 M9 73.5 25 70 M50 97 75 70 M50 97 25 70 M50 3 91 26.5 91 73.5 50 97 9 73.5 9 26.5Z"/></svg>`;
+function dieHtml(s,v,drop){return s===20?`<span class="die d20">${D20SVG}<b>${v}</b></span>`:`<span class="die ${drop?'drop':''}"><b>${v}</b><i>d${s}</i></span>`}
+/* o: {title, sub, kind, tone, groups:[{n,s}], flat, d20, lucky, onLucky, judge(r)->{txt,cls}, layout:'abil'} */
+function rollDice(o){
+  const sides=[];o.groups.forEach(g=>{for(let i=0;i<g.n;i++)sides.push(g.s)});
+  const doRoll=()=>sides.map(s=>d(s));
+  const fin=v=>({vals:v,nat:o.d20?v[0]:0,total:v.reduce((a,b)=>a+b,0)+(o.flat||0)});
+  if(AUTO||!trayEl){let v=doRoll();if(o.d20&&o.lucky&&v[0]===1){v=doRoll();o.onLucky&&o.onLucky(v[0])}return Promise.resolve(fin(v))}
+  return new Promise(resolve=>{
+    clearTimeout(hideT);trayEl.hidden=false;document.body.classList.add('tray-open');trayEl.dataset.tone=o.tone||'';
+    const $=id=>document.getElementById(id),diceEl=$('trayDice'),resEl=$('trayRes'),btn=$('trayBtn');
+    $('trayKind').textContent=o.kind||'Your roll';$('trayTitle').textContent=o.title||'Roll';$('traySub').innerHTML=o.sub||'';
+    let state='ready',vals=sides.map(()=>'?'),luckUsed=false,autoT=null,result=null;
+    const dropIdx=v=>{if(o.layout!=='abil')return[];const out=[];for(let r=0;r<6;r++){const row=v.slice(r*4,r*4+4);if(row.includes('?'))continue;out.push(r*4+row.indexOf(Math.min(...row)))}return out};
+    const paint=cls=>{
+      const dr=dropIdx(vals);
+      if(o.layout==='abil'){let h='';for(let r=0;r<6;r++){const row=vals.slice(r*4,r*4+4);const ok=!row.includes('?');const t=ok?row.reduce((a,b)=>a+b,0)-Math.min(...row):'';h+=`<span class="drow">${row.map((v,i)=>dieHtml(6,v,dr.includes(r*4+i))).join('')}<b class="rt">${ok?'= '+t:''}</b></span>`}diceEl.innerHTML=h}
+      else diceEl.innerHTML=sides.map((s,i)=>dieHtml(s,vals[i],false)).join('');
+      diceEl.className='tray-dice '+(o.layout==='abil'?'abil ':'')+(cls||'');
+    };
+    paint('ready');resEl.innerHTML=`<div class="hint">Tap the ${sides.length>1?'dice':'die'} to roll</div>`;btn.textContent=sides.length>1?'Roll the dice':'Roll the die';
+    const close=()=>{clearTimeout(autoT);btn.onclick=diceEl.onclick=null;trayEl.querySelector('.tray-back').onclick=null;hideT=setTimeout(()=>{trayEl.hidden=true;document.body.classList.remove('tray-open')},90);resolve(result)};
+    const show=()=>{
+      if(o.d20&&o.lucky&&vals[0]===1&&!luckUsed){luckUsed=true;paint('done nat1');resEl.innerHTML=`<div class="verdict crit">Natural 1… but halfling luck!</div><div class="sum">You may roll again.</div>`;o.onLucky&&o.onLucky();state='ready';btn.textContent='Roll again';return}
+      result=fin(vals);const nat=result.nat;
+      paint('done'+(o.d20&&nat===20?' nat20':o.d20&&nat===1?' nat1':''));
+      const j=o.judge?o.judge(result):null;const f=o.flat||0;
+      const sum=o.layout==='abil'?'4d6 for each ability, the faded die is dropped':o.d20?`${nat} ${f?`${f<0?'−':'+'} ${Math.abs(f)} = <b>${result.total}</b>`:''}`:`${vals.join(' + ')}${f?` ${f<0?'−':'+'} ${Math.abs(f)}`:''} = <b>${result.total}</b>`;
+      resEl.innerHTML=`<div class="sum">${sum}</div>${j?`<div class="verdict ${j.cls}">${j.txt}</div>`:''}`;
+      btn.textContent='Continue';state='done';autoT=setTimeout(close,o.layout==='abil'?2600:1700);
+    };
+    const go=()=>{
+      if(state==='ready'){state='rolling';resEl.innerHTML='<div class="hint">Rolling…</div>';
+        if(reduced){vals=doRoll();show();return}
+        const iv=setInterval(()=>{vals=doRoll();paint('rolling')},60);
+        setTimeout(()=>{clearInterval(iv);vals=doRoll();show()},700)}
+      else if(state==='done')close();
+    };
+    btn.onclick=go;diceEl.onclick=go;trayEl.querySelector('.tray-back').onclick=()=>{if(state==='done')close()};
+    setTimeout(()=>{try{btn.focus({preventScroll:true})}catch(e){}},40);
+  });
+}
+async function heroD20(o){
+  const r=await rollDice(Object.assign({kind:'d20 roll',groups:[{n:1,s:20}],d20:true,lucky:hero.race==='halfling',onLucky:()=>log('note',`Halfling luck! The 1 is rerolled.`,'↻')},o));
+  return r.nat;
+}
+/* parts: dice strings like '1d8' or '2d6+3'; returns {total, sums:[per part]} */
+async function rollDmg(o){
+  const groups=[];let flat=o.flat||0;
+  for(const p of o.parts){const q=parse(p);if(q.n)groups.push({n:o.crit?q.n*2:q.n,s:q.s});flat+=q.k}
+  if(!groups.length)return{total:Math.max(0,flat),sums:[]};
+  const r=await rollDice({kind:o.kind||(o.tone==='heal'?'Healing':'Damage'),title:o.title,sub:o.sub,tone:o.tone||'dmg',groups,flat,judge:x=>o.tone==='heal'?{txt:`+${Math.max(0,x.total)} HP`,cls:'good'}:{txt:`${Math.max(0,x.total)} damage!`,cls:'crit'}});
+  let i=0;const sums=groups.map(g=>{let s=0;for(let k=0;k<g.n;k++)s+=r.vals[i++];return s});
+  return{total:Math.max(0,r.total),sums};
+}
+const judgeAtk=ac=>x=>x.nat===20?{txt:'Natural 20! Critical hit!',cls:'crit'}:x.nat===1?{txt:'Natural 1. Miss!',cls:'bad'}:x.total>=ac?{txt:'Hit!',cls:'good'}:{txt:'Miss',cls:'bad'};
+const judgeDc=(dc,okTxt,badTxt)=>x=>x.total>=dc?{txt:okTxt||'Success!',cls:'good'}:{txt:badTxt||'Failed',cls:'bad'};
+async function rollAbilityTray(){
+  const r=await rollDice({kind:'Ability scores',title:'Roll your abilities',sub:'Six rolls of 4d6. The lowest die in each row is dropped.',tone:'',groups:[{n:24,s:6}],layout:'abil'});
+  const out=[];for(let k=0;k<6;k++){const row=r.vals.slice(k*4,k*4+4);const lo=row.indexOf(Math.min(...row));out.push({r:row,lo,t:row.reduce((a,b)=>a+b,0)-row[lo]})}
+  return out;
+}
+
 /* ---------- Combat ---------- */
 function resist(type){const r=RC[hero.race];if(hero.race==='dwarf'&&type==='poison')return true;if(hero.race==='tiefling'&&type==='fire')return true;if(hero.dragon&&type===hero.dragon)return true;if(adv.rage&&['bludgeoning','piercing','slashing'].includes(type))return true;return false}
 function hurtHero(n){hero.hp=Math.max(0,hero.hp-n);if(hero.hp===0&&hero.race==='half-orc'&&hero.relent){hero.relent=0;hero.hp=1;log('note',`${you()} refuses to fall! Half-orc toughness keeps them standing with 1 HP.`,'!','heal')}}
 function foeTypeMod(n,type){const m=adv.foe.m;if(m.im&&m.im.includes(type))return{v:0,note:` <span class="muted">(immune to ${DMG[type]})</span>`};if(m.rs&&m.rs.includes(type))return{v:Math.floor(n/2),note:` <span class="muted">(resists ${DMG[type]}, half damage)</span>`};if(m.vu&&m.vu.includes(type))return{v:n*2,note:` <span class="muted">(vulnerable to ${DMG[type]}!)</span>`};return{v:n,note:''}}
 function hitFoe(n){adv.foe.hp=Math.max(0,adv.foe.hp-n);adv.shake='foe'}
-function heroD20(){let r=d(20);if(r===1&&hero.race==='halfling'){const r2=d(20);log('note',`Halfling luck! The 1 is rerolled to ${r2}.`,'↻');r=r2}return r}
 
-function doAttack(wi){
+async function doAttack(wi){
   const s=wStats(hero,wi),m=adv.foe.m;
-  const swing=(label,hitB,dice,dm,type,canSneak)=>{
-    if(adv.foe.hp<=0)return;
-    const sl=adv.foe.asleep;adv.foe.asleep=false;const r=heroD20(),tot=r+hitB,crit=r===20,hit=sl||crit||(r!==1&&tot>=m.ac);if(sl)log('note',`${them()} was asleep. The attack hits for sure!`,'z','heal');
-    if(!hit){log('',`${you()} ${label}: <span class="muted">${r}${sgn(hitB)} = ${tot} vs AC ${m.ac}</span>. Miss.`,r,r===1?'fail':'');return false}
-    let raw=roll(dice,crit)+dm;let extra='';
-    if(adv.rage&&!s.ranged){raw+=2;extra+=' +2 rage'}
-    if(canSneak&&hero.cls==='rogue'&&!adv.sneakUsed){const sn=roll(`${Math.ceil(hero.lvl/2)}d6`,crit);raw+=sn;adv.sneakUsed=true;extra+=` +${sn} sneak attack`}
-    const t=foeTypeMod(Math.max(1,raw),type);hitFoe(t.v);
-    log('',`${you()} ${label}: <span class="muted">${r}${sgn(hitB)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[type]}${extra})</span>${t.note}.`,r,crit?'crit':'hit');
-    return true;
+  const swing=async(label,title,hitB,dice,dm,type,canSneak)=>{
+    if(!adv.foe||adv.foe.hp<=0)return;
+    const sl=adv.foe.asleep;adv.foe.asleep=false;let r=0;
+    if(sl)log('note',`${them()} was asleep. The attack hits for sure!`,'z','heal');
+    else r=await heroD20({kind:'Attack roll',title,sub:`d20 ${sgn(hitB)} · you need <b>${m.ac}</b> to hit (its armor)`,flat:hitB,tone:'atk',judge:judgeAtk(m.ac)});
+    const tot=r+hitB,crit=!sl&&r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
+    const rTxt=sl?'<span class="muted">asleep</span>':`<span class="muted">${r}${sgn(hitB)} = ${tot} vs ${m.ac}</span>`;
+    if(!hit){log('',`${you()} ${label}: ${rTxt}. Miss.`,r,r===1?'fail':'');render();return false}
+    const parts=[dice];let sneak=false;if(canSneak&&hero.cls==='rogue'&&!adv.sneakUsed){parts.push(`${Math.ceil(hero.lvl/2)}d6`);sneak=true;adv.sneakUsed=true}
+    const rage=adv.rage&&!s.ranged?2:0;const flat=dm+rage;
+    const dr=await rollDmg({title:crit?'Critical hit! Roll damage':'Hit! Roll damage',sub:`${dice}${sgn(dm)} ${DMG[type]}${sneak?` + ${parts[1]} sneak attack`:''}${rage?' + 2 rage':''}${crit?' · <b>double dice</b> for a critical hit':''}`,parts,flat,crit,tone:crit?'crit':'dmg'});
+    let extra='';if(rage)extra+=' +2 rage';if(sneak)extra+=` +${dr.sums[1]} sneak attack`;
+    const t=foeTypeMod(Math.max(1,dr.total),type);hitFoe(t.v);
+    log('',`${you()} ${label}: ${rTxt}. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[type]}${extra})</span>${t.note}.`,sl?'z':r,crit?'crit':'hit');
+    render();return true;
   };
   adv.sneakUsed=false;
-  swing(`${s.ranged?'shoots':'attacks'} with the ${esc(s.name.toLowerCase())}`,s.hit,s.dice,s.dm,s.type,true);
-  if(hero.cls==='monk'&&adv.foe.hp>0){const st=scores(hero),mm=Math.max(mod(st.str),mod(st.dex));swing('strikes with a fist',prof(hero.lvl)+mm,hero.lvl>=5?'1d6':'1d4',mm,'bludgeoning',false)}
-  if(hero.cls==='fighter'&&hero.lvl>=5&&adv.foe.hp>0)swing(`attacks again`,s.hit,s.dice,s.dm,s.type,false);
-  endHeroTurn();
+  await swing(`${s.ranged?'shoots':'attacks'} with the ${esc(s.name.toLowerCase())}`,`${s.ranged?'Shoot':'Attack'} with the ${s.name.toLowerCase()}`,s.hit,s.dice,s.dm,s.type,true);
+  if(hero.cls==='monk'&&adv.foe.hp>0){const st=scores(hero),mm=Math.max(mod(st.str),mod(st.dex));await swing('strikes with a fist','Bonus strike with your fist',prof(hero.lvl)+mm,hero.lvl>=5?'1d6':'1d4',mm,'bludgeoning',false)}
+  if(hero.cls==='fighter'&&hero.lvl>=5&&adv.foe.hp>0)await swing(`attacks again`,'Extra attack',s.hit,s.dice,s.dm,s.type,false);
+  return endHeroTurn();
 }
-function doSpell(id){
-  const s=SP[id],m=adv.foe.m,sm=spellMod(hero),pb=prof(hero.lvl),nm=esc(sName(id));
+async function doSpell(id){
+  const s=SP[id],m=adv.foe.m,sm=spellMod(hero),pb=prof(hero.lvl),nm=esc(sName(id)),name=sName(id);
   if(s.l===1){if(hero.slots<=0)return;hero.slots--}
-  if(s.h){const h=roll(s.h.replace('MOD',sgn(sm)).replace('+-','-'));const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,h));log('',`${you()} casts ${nm}. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal');endHeroTurn();return}
+  if(s.h){const q=parse(s.h.replace('MOD',sgn(sm)).replace('+-','-'));const hr=await rollDmg({kind:'Healing',title:`${name} heals you`,sub:`${q.n}d${q.s}${q.k?sgn(q.k):''} hit points`,parts:[`${q.n}d${q.s}`],flat:q.k,tone:'heal'});
+    const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,hr.total));log('',`${you()} casts ${nm}. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal');return endHeroTurn()}
   const dice=spellDice(hero,s);
   const sl=adv.foe.asleep;adv.foe.asleep=false;
-  if(s.at){const r=heroD20(),tot=r+pb+sm+(hero.bless||0),crit=r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
-    if(!hit)log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(pb+sm)} = ${tot} vs ${m.ac}</span>. Miss.`,r,'magic');
-    else{const t=foeTypeMod(roll(dice,crit),s.t);hitFoe(t.v);log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(pb+sm)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic')}}
-  else if(s.dc){const dc=8+pb+sm,r=d(20),tot=r+mod(m.st[AB.indexOf(s.dc)]),ok=!sl&&tot>=dc;let n=roll(dice);if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);hitFoe(t.v);
+  if(s.at){const hb=pb+sm+(hero.bless||0);let r=20;
+    if(!sl)r=await heroD20({kind:'Spell attack',title:`Cast ${name}`,sub:`d20 ${sgn(hb)} · you need <b>${m.ac}</b> to hit`,flat:hb,tone:'magic',judge:judgeAtk(m.ac)});
+    const tot=r+hb,crit=!sl&&r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
+    if(!hit)log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. Miss.`,r,'magic');
+    else{const dr=await rollDmg({title:crit?`Critical! ${name} damage`:`${name} hits! Roll damage`,sub:`${dice} ${DMG[s.t]}${crit?' · <b>double dice</b>':''}`,parts:[dice],crit,tone:'magic'});
+      const t=foeTypeMod(dr.total,s.t);hitFoe(t.v);log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic')}}
+  else if(s.dc){const dc=8+pb+sm;const dr=await rollDmg({title:`Cast ${name}: roll damage`,sub:`${dice} ${DMG[s.t]} · then the ${esc(m.n)} tries a ${AB_SV[s.dc]} save against <b>${dc}</b>${s.hf?' (half damage if it succeeds)':' (no damage if it succeeds)'}`,parts:[dice],tone:'magic'});
+    const r=d(20),tot=r+mod(m.st[AB.indexOf(s.dc)]),ok=!sl&&tot>=dc;let n=dr.total;if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);hitFoe(t.v);
     log('',`${you()} casts ${nm}. ${them()} tries to resist (${AB_K[s.dc]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(s.hf?'Partly!':'Resisted!'):'Fails!'} ${t.v?`<span class="dmg">${t.v} damage</span>`:''}${t.note}`,r,'magic')}
-  else{const t=foeTypeMod(roll(dice),s.t);hitFoe(t.v);log('',`${you()} casts ${nm}. It always hits! <span class="dmg">${t.v} damage</span>${t.note}.`,'✦','magic')}
-  endHeroTurn();
+  else{const dr=await rollDmg({title:`${name} always hits!`,sub:`${dice} ${DMG[s.t]}`,parts:[dice],tone:'magic'});const t=foeTypeMod(dr.total,s.t);hitFoe(t.v);log('',`${you()} casts ${nm}. It always hits! <span class="dmg">${t.v} damage</span>${t.note}.`,'✦','magic')}
+  return endHeroTurn();
 }
-function doBreath(){
+async function doBreath(){
   hero.breath=0;adv.foe.asleep=false;const st=scores(hero),dc=8+mod(st.con)+prof(hero.lvl),m=adv.foe.m;const ab=['cold','poison'].includes(hero.dragon)?'con':'dex';
-  const r=d(20),tot=r+mod(m.st[AB.indexOf(ab)]),ok=tot>=dc;let n=roll(`${hero.lvl>=6?3:2}d6`);if(ok)n=Math.floor(n/2);const t=foeTypeMod(n,hero.dragon);hitFoe(t.v);
-  log('',`${you()} breathes ${DMG[hero.dragon]}! ${them()} rolls ${tot} vs ${dc}: ${ok?'half damage':'full hit'}. <span class="dmg">${t.v} damage</span>${t.note}.`,'≋','magic');endHeroTurn();
+  const dice=`${hero.lvl>=6?3:2}d6`;
+  const dr=await rollDmg({title:`Breathe ${DMG[hero.dragon]}!`,sub:`${dice} ${DMG[hero.dragon]} · the ${esc(m.n)} tries a ${AB_SV[ab]} save against <b>${dc}</b> for half damage`,parts:[dice],tone:'magic'});
+  const r=d(20),tot=r+mod(m.st[AB.indexOf(ab)]),ok=tot>=dc;let n=dr.total;if(ok)n=Math.floor(n/2);const t=foeTypeMod(n,hero.dragon);hitFoe(t.v);
+  log('',`${you()} breathes ${DMG[hero.dragon]}! ${them()} rolls ${tot} vs ${dc}: ${ok?'half damage':'full hit'}. <span class="dmg">${t.v} damage</span>${t.note}.`,'≋','magic');return endHeroTurn();
 }
-function doPotion(greater){if(greater){if(!hero.greater)return;hero.greater--}else{if(!hero.potions)return;hero.potions--}
-  const h=roll(greater?'4d4+4':'2d4+2'),b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);
+async function doPotion(greater){if(greater){if(!hero.greater)return;hero.greater--}else{if(!hero.potions)return;hero.potions--}
+  const hr=await rollDmg({kind:'Healing',title:greater?'Drink a potion of greater healing':'Drink a potion of healing',sub:greater?'4d4+4 hit points':'2d4+2 hit points',parts:[greater?'4d4+4':'2d4+2'],tone:'heal'});
+  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+hr.total);
   log('',`${you()} drinks a ${greater?'potion of greater healing':'potion of healing'}. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal');
-  if(adv.phase==='fight')endHeroTurn();else{save();render()}}
-function doSecondWind(){hero.sw=0;const h=roll('1d10')+hero.lvl,b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`${you()} takes a deep breath. Second Wind: <span class="heal">+${hero.hp-b} HP</span>. Your turn continues.`,'✚','heal');save();render()}
+  if(adv.phase==='fight')return endHeroTurn();save();render()}
+async function doSecondWind(){hero.sw=0;const hr=await rollDmg({kind:'Healing',title:'Second Wind',sub:`1d10 + ${hero.lvl} (your level) hit points · your turn continues`,parts:['1d10'],flat:hero.lvl,tone:'heal'});
+  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+hr.total);log('',`${you()} takes a deep breath. Second Wind: <span class="heal">+${hero.hp-b} HP</span>. Your turn continues.`,'✚','heal');save();render()}
 function doRage(){hero.rage--;adv.rage=true;log('',`${you()} roars and flies into a rage!`,'!','crit');save();render()}
 function doLay(){const need=hero.hpMax-hero.hp,use=Math.min(need,hero.loh);hero.loh-=use;hero.hp+=use;log('',`${you()} lays hands on the wounds. <span class="heal">+${use} HP</span>.`,'✚','heal');endHeroTurn()}
-function doFlee(){
+async function doFlee(){
   if(adv.room&&adv.room.t==='boss')return;
-  const r=d(20),tot=r+mod(scores(hero).dex),dc=10+mod(adv.foe.m.st[1]);
+  const dm=mod(scores(hero).dex),dc=10+mod(adv.foe.m.st[1]);
+  const r=await heroD20({kind:'Dexterity check',title:'Run for it!',sub:`d20 ${sgn(dm)} · you need <b>${dc}</b> to get away`,flat:dm,tone:'check',judge:judgeDc(dc,'You get away!','Blocked!')});
+  const tot=r+dm;
   if(tot>=dc){log('',`${you()} runs for their life <span class="muted">(${tot} vs ${dc})</span> and gets away!`,r,'hit');adv.foe=null;adv.phase='room';adv.room.done=true;adv.rage=false;adv.fled=true;save();render()}
-  else{log('',`${you()} tries to flee but ${them()} blocks the way <span class="muted">(${tot} vs ${dc})</span>.`,r,'fail');endHeroTurn()}
+  else{log('',`${you()} tries to flee but ${them()} blocks the way <span class="muted">(${tot} vs ${dc})</span>.`,r,'fail');return endHeroTurn()}
 }
 function endHeroTurn(){
   if(adv.foe)adv.foe.asleep=false;
-  if(adv.foe&&adv.foe.hp<=0){winFight();return}
-  save();render();
-  adv.busy=true;render();
-  setTimeout(()=>{adv.busy=false;monsterTurn();save();render()},reduced?120:650);
+  if(adv.foe&&adv.foe.hp<=0){winFight();return Promise.resolve()}
+  adv.busy=true;save();render();
+  return new Promise(res=>setTimeout(async()=>{try{await monsterTurn()}finally{adv.busy=false;save();render();res()}},reduced?120:650));
 }
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-function monsterTurn(){
+async function monsterTurn(){
   const f=adv.foe;if(!f||f.hp<=0||hero.hp<=0)return;const m=f.m;const myAc=ac(hero);
   const sv=m.sv;
   if(sv&&!f.charged&&sv.r){const r=d(6);if(r>=sv.r){f.charged=true;log('note',`${them()} recharges ${esc(sv.n)}.`,'d6')}}
   if(sv&&f.charged&&!f.first){
     f.charged=false;const st=scores(hero),abi=sv.ab;let saveB=mod(st[abi]||10);if(CL[hero.cls].sv.includes(abi))saveB+=prof(hero.lvl);
-    const r=d(20),tot=r+saveB,ok=tot>=sv.dc;let n=0,parts=[];for(const [dc,t] of sv.d){let v=roll(dc);if(resist(t))v=Math.floor(v/2);n+=v;parts.push(DMG[t]||t)}
+    save();render();
+    const r=await heroD20({kind:`${AB_SV[abi]} saving throw`,title:`${m.n} uses ${sv.n}! Dodge!`,sub:`d20 ${sgn(saveB)} · you need <b>${sv.dc}</b>${sv.h?' to take only half damage':' to avoid it'}`,flat:saveB,tone:'save',judge:judgeDc(sv.dc,sv.h?'Half damage!':'Dodged it!','Full hit!')});
+    const tot=r+saveB,ok=tot>=sv.dc;let n=0,parts=[];for(const [dc,t] of sv.d){let v=roll(dc);if(resist(t))v=Math.floor(v/2);n+=v;parts.push(DMG[t]||t)}
     if(ok)n=sv.h?Math.floor(n/2):0;hurtHero(n);adv.shake='hero';
     log('',`${them()} uses <b>${esc(sv.n)}</b>! ${you()} tries to dodge (${AB_K[abi]}): <span class="muted">${tot} vs ${sv.dc}</span>. ${ok?(sv.h?'Half damage.':'Dodged it!'):'Full hit!'} ${n?`<span class="dmg">${n} damage</span> <span class="muted">(${parts.join(', ')})</span>`:''}`,r,ok?'':'fail');
   }else{
@@ -784,7 +947,7 @@ function renderAdv(){
   $view.innerHTML=`<div class="adv">${status}<section class="scene">
     <div class="depth" aria-label="Depth in the cave">${steps}</div>
     <div class="sheet stage">${stage}</div>
-    <div><div class="log-head"><h3>Chronicle</h3><button class="btn" data-act="abandon" type="button" style="font-size:13px;padding:5px 10px">End adventure</button></div><ol class="log" id="log">${logHtml}</ol></div>
+    <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn dicetog" data-act="dice" type="button" aria-pressed="${!AUTO}">${AUTO?'Dice: auto':'Dice: you roll'}</button><button class="btn" data-act="abandon" type="button" style="font-size:13px;padding:5px 10px">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
   const lg=document.getElementById('log');lg.scrollTop=lg.scrollHeight;adv.shake=null;
   const more=document.getElementById('more');if(more&&!wide)more.addEventListener('toggle',()=>{adv.moreOpen=more.open});
@@ -795,17 +958,22 @@ function renderAdv(){
 $view.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||!adv||b.disabled)return;
   const a=b.dataset.act;
-  if(adv.busy&&adv.phase==='fight'&&a!=='abandon')return;
-  ({enter:()=>enterRoom(b.dataset.t),atk:()=>doAttack(b.dataset.w),spell:()=>doSpell(b.dataset.s),sw:doSecondWind,rage:doRage,lay:doLay,breath:doBreath,
+  if(adv.busy&&adv.phase==='fight'&&a!=='abandon'&&a!=='dice')return;
+  const fn=({dice:()=>{setAuto(!AUTO);render()},enter:()=>enterRoom(b.dataset.t),atk:()=>doAttack(b.dataset.w),spell:()=>doSpell(b.dataset.s),sw:doSecondWind,rage:doRage,lay:doLay,breath:doBreath,
     pot:()=>doPotion(false),gpot:()=>doPotion(true),flee:doFlee,take:takeLoot,restFull,restLight,well:drinkWell,listen,sneak:sneakPast,ambush:ambushSleeper,force:forceChest,pick:pickChest,pray,offer,give:givePotion,talk,buy:()=>buy(b.dataset.k),next:nextRoom,retry,newone:newOne,
     abandon:()=>{if(b.dataset.confirm){adv=null;hero=hero.start?JSON.parse(JSON.stringify(hero.start)):hero;setView('gen')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}}
-  })[a]?.();
+  })[a];
+  if(!fn)return;
+  if(a==='abandon'||a==='dice'){fn();return}
+  if(LOCK)return;LOCK=true;
+  Promise.resolve().then(fn).catch(err=>console.error(err)).finally(()=>{LOCK=false;render()});
 });
 
-let lastKey=null;
+let lastKey=null,LOCK=false;
 function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
-window.__t={listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monsterTurn};
+trayInit();
+window.__t={setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monsterTurn};
 })();
 </script><script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}))}</script></body></html>
