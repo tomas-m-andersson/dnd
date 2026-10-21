@@ -766,6 +766,7 @@ function renderGen(){
 /* ---------- Adventure: rooms ---------- */
 const DEPTH=8;
 /* Each hint can lead to several kinds of room. The weights set how likely each room is. */
+/* Clues by the paths: some fit everywhere, some belong to one place. Each clue hints at what may wait behind it. */
 const HINTS=[
   {h:'You hear scraping and heavy footsteps.',o:{fight:5,sleeper:3,traveler:2}},
   {h:'Something glints in the dark.',o:{treasure:3,guarded:3,trap:2,chest:2}},
@@ -773,12 +774,70 @@ const HINTS=[
   {h:'It is far too quiet.',o:{trap:3,shrine:2,sleeper:3,treasure:2}},
   {h:'Water trickles somewhere.',o:{well:4,fight:3,shrine:3}},
   {h:'You hear someone whispering.',o:{traveler:3,merchant:3,fight:4}},
-  {h:'A cold wind blows through the passage.',o:{fight:3,shrine:3,chest:2,trap:2}},
-  {h:'Claw marks run along the wall.',o:{guarded:3,sleeper:3,fight:3,treasure:1}},
   {h:'A faint light flickers ahead.',o:{camp:3,shrine:2,merchant:2,trap:3}},
-  {h:'It smells of mold and old bones.',o:{fight:4,chest:2,trap:2,treasure:2}}
+  {h:'Something snores, deep and slow.',o:{sleeper:6,fight:2,camp:2}},
+  {h:'You hear coins clinking.',o:{merchant:4,treasure:3,guarded:3}},
+  {h:'A soft song drifts towards you.',o:{shrine:3,traveler:3,merchant:2,trap:2}},
+  {h:'Fresh blood on the ground.',o:{fight:5,guarded:3,traveler:2}},
+  {h:'Someone has scratched a warning here.',o:{trap:5,guarded:3,fight:2}},
+  {h:'A sweet, flowery smell.',o:{well:3,shrine:3,trap:2,treasure:2}},
+  {h:'Tiny footprints lead that way.',o:{merchant:3,treasure:3,trap:2,fight:2}},
+  {h:'A low growl, then silence.',o:{fight:5,sleeper:3,guarded:2}},
+  {h:'You feel warmth on your face.',o:{camp:4,shrine:2,trap:2,fight:2}},
+  {h:'Someone is coughing.',o:{traveler:5,camp:3,fight:2}},
+  {h:'Broken arrows litter the ground.',o:{fight:3,trap:3,chest:2,treasure:2}},
+  {h:'A strange humming fills the air.',o:{shrine:5,trap:2,well:3}},
+  {h:'Nothing. Just darkness.',o:{fight:2,treasure:2,trap:2,sleeper:2,chest:2}}
 ];
-const KNOWN={fight:'An enemy waits, awake and hungry.',guarded:'A monster guards something valuable.',treasure:'Nothing alive. Only things.',trap:'Something mechanical clicks. A trap.',camp:'An abandoned campsite.',merchant:'Someone is counting coins and humming.',traveler:'Someone is groaning in pain.',sleeper:'Something big is snoring.',shrine:'A holy, silent room.',chest:'A locked chest.',well:'A well.'};
+const LOC_HINTS={
+  castle:[
+    {h:'Rusty chains rattle in the draft.',o:{fight:4,trap:3,chest:3}},
+    {h:'A portrait follows you with its eyes.',o:{fight:3,trap:3,shrine:2,treasure:2}},
+    {h:'Candles burn in an empty hall.',o:{shrine:4,camp:2,fight:2,traveler:2}},
+    {h:'Organ music echoes from far away.',o:{shrine:3,sleeper:3,fight:4}},
+    {h:'A suit of armor stands slightly crooked.',o:{fight:5,guarded:3,trap:2}},
+    {h:'Cold air pours from a crypt door.',o:{fight:5,chest:2,treasure:3}},
+    {h:'A rat runs past with a gold ring in its teeth.',o:{treasure:4,chest:3,guarded:3}},
+    {h:'Wine has been spilled on the carpet.',o:{merchant:3,camp:3,fight:2,traveler:2}},
+    {h:'It smells of mold and old bones.',o:{fight:4,chest:2,trap:2,treasure:2}},
+    {h:'A cold wind howls through the corridor.',o:{fight:3,shrine:3,chest:2,trap:2}}],
+  caves:[
+    {h:'Something drips from the ceiling. Not water.',o:{fight:4,trap:3,guarded:3}},
+    {h:'Glowing mushrooms light the way.',o:{well:3,shrine:3,merchant:2,trap:2}},
+    {h:'You hear the clicking of many legs.',o:{fight:6,sleeper:2,guarded:2}},
+    {h:'The tunnel narrows to a crawl.',o:{trap:4,treasure:3,chest:3}},
+    {h:'Bones are piled neatly against the rock.',o:{guarded:4,fight:3,sleeper:3}},
+    {h:"A miner's pick lies abandoned.",o:{treasure:3,chest:3,traveler:2,trap:2}},
+    {h:'Warm air rises from below.',o:{camp:3,fight:3,well:2,trap:2}},
+    {h:'Crystals sparkle in the rock.',o:{treasure:4,guarded:3,shrine:3}},
+    {h:'Claw marks run along the wall.',o:{guarded:3,sleeper:3,fight:3,treasure:1}},
+    {h:'Slime glistens on the stones.',o:{fight:5,trap:3,well:2}}],
+  woods:[
+    {h:'Branches snap under something heavy.',o:{fight:5,sleeper:3,guarded:2}},
+    {h:'Fireflies dance between the trees.',o:{shrine:3,well:3,camp:2,traveler:2}},
+    {h:'A wolf howls, close by.',o:{fight:6,sleeper:2,guarded:2}},
+    {h:'Mushrooms grow in a perfect ring.',o:{shrine:4,trap:3,treasure:3}},
+    {h:'An owl hoots three times.',o:{sleeper:3,traveler:3,trap:2,fight:2}},
+    {h:'Smoke curls up from a hidden chimney.',o:{merchant:4,camp:4,traveler:2}},
+    {h:'Thick webs hang between the trunks.',o:{fight:4,trap:3,guarded:3}},
+    {h:'A stream babbles over the stones.',o:{well:5,camp:3,fight:2}},
+    {h:'A broken wagon wheel lies in the moss.',o:{chest:3,treasure:3,fight:2,traveler:2}},
+    {h:'The trees seem to lean closer.',o:{fight:3,trap:3,shrine:2,sleeper:2}}],
+  hell:[
+    {h:'Screams echo from far below.',o:{fight:5,traveler:3,trap:2}},
+    {h:'The floor glows red hot.',o:{trap:5,fight:3,treasure:2}},
+    {h:'Chains clank and a whip cracks.',o:{fight:5,guarded:3,sleeper:2}},
+    {h:'It smells of sulfur and burnt hair.',o:{fight:4,trap:3,camp:3}},
+    {h:'Someone laughs. It is not a nice laugh.',o:{fight:4,merchant:3,trap:3}},
+    {h:'A river of lava hisses nearby.',o:{trap:4,treasure:3,well:3}},
+    {h:'Gold coins lie melted into the stone.',o:{treasure:4,guarded:4,chest:2}},
+    {h:'A demon is haggling with someone.',o:{merchant:5,fight:3,traveler:2}},
+    {h:'Ash falls like snow.',o:{sleeper:3,shrine:3,fight:2,trap:2}},
+    {h:'A cold altar stands untouched by the heat.',o:{shrine:6,trap:2,fight:2}}]
+};
+
+const KNOWN={fight:['An enemy waits, awake and hungry.','Weapons are being sharpened.','Something is pacing back and forth.'],guarded:['A monster guards something valuable.','Something big sits on a pile of loot.','Treasure, and a guard who will not share.'],treasure:['Nothing alive. Only things.','Loot, left all alone.','Someone forgot their riches here.'],trap:['Something mechanical clicks. A trap.','A thin wire stretches across the way.','The floor sounds hollow. A trap.'],camp:['An abandoned campsite.','A safe place to rest.','Embers still glow in a fire pit.'],merchant:['Someone is counting coins and humming.','A trader is setting out wares.','Someone shouts: "Best prices in the land!"'],traveler:['Someone is groaning in pain.','A lost adventurer calls for help.','A stranger sits alone, hurt.'],sleeper:['Something big is snoring.','A beast sleeps deeply.','Heavy, slow breathing. It sleeps.'],shrine:['A holy, silent room.','An old altar waits.','You feel the gods watching.'],chest:['A locked chest.','A chest with a heavy lock.','Iron bands and a padlock.'],well:['A well.','The sound of deep water.','A well glows faintly blue.']};
+const knownTxt=d=>{const v=KNOWN[d.t];return Array.isArray(v)?v[(d.kv||0)%v.length]:v};
 /* Difficulty: monster hit points and to-hit, check and save DCs, trap damage, starting potions per hero, healing after fights, monster level */
 const DIFF={
   easy:{name:'Easy',hp:.7,atk:-2,dc:-2,trap:.5,pot:3,heal:1.5,lvl:-1,desc:'Weaker monsters, easier checks, more potions. Good for kids and new players.'},
@@ -820,7 +879,9 @@ function encounter(boss,opt){
 function makeDoors(){
   if(adv.depth===DEPTH)return null;
   const r=Math.random(),n=r<.22?1:r<.75?2:3;
-  return HINTS.slice().sort(()=>Math.random()-.5).slice(0,n).map(x=>({hint:x.h,t:wpick(x.o)}));
+  const own=(LOC_HINTS[locKey()]||[]).slice().sort(()=>Math.random()-.5),any=HINTS.slice().sort(()=>Math.random()-.5);const picks=[];
+  while(picks.length<n){const src=own.length&&(Math.random()<.6||!any.length)?own:any;const h=src.shift();if(h&&!picks.includes(h))picks.push(h)}
+  return picks.map(x=>({hint:x.h,t:wpick(x.o),kv:Math.floor(Math.random()*3)}));
 }
 function startAdventure(o){o=o||plan;const grand=o.mode==='grand',loc=grand?'castle':LOCS[o.loc]?o.loc:'castle',P0=LOCS[loc];
   party.forEach(h=>{h.hp=h.hpMax;resetRest(h,true);h.bless=0;h.curse=0;h.raging=false;h.items=h.items||[]});
@@ -3373,7 +3434,7 @@ function renderAdv(){
       const n=adv.doors.length;const names=n===1?['Only way']:n===2?['Left path','Right path']:['Left path','Middle path','Right path'];const runes=['ᚲ','ᛟ','ᚱ'];
       const title=adv.depth===1&&(adv.chapter===1||adv.grand)?LOC().mouth:n===1?'A Narrow Passage':n===2?'Two Paths':'Three Paths';
       const intro=n===1?'The passage only goes one way. There is nothing to choose, but you can listen first.':'The passage splits. The clues can mean different things. Listen if you want to know more, but something might hear you.';
-      stage=`<h2>${title}</h2><p>${intro}</p><div class="doors" style="grid-template-columns:repeat(${n===3?3:n},minmax(0,1fr))">${adv.doors.map((x,i)=>`<button class="door" type="button" data-act="enter" data-t="${i}"><span class="knob">${runes[n===1?1:n===2?i*2:i]}</span><span class="lbl">${names[i]}</span><span class="hint">${x.hint}</span>${x.known?`<span class="known">${KNOWN[x.t]}</span>`:''}</button>`).join('')}</div>
+      stage=`<h2>${title}</h2><p>${intro}</p><div class="doors" style="grid-template-columns:repeat(${n===3?3:n},minmax(0,1fr))">${adv.doors.map((x,i)=>`<button class="door" type="button" data-act="enter" data-t="${i}"><span class="knob">${runes[n===1?1:n===2?i*2:i]}</span><span class="lbl">${names[i]}</span><span class="hint">${x.hint}</span>${x.known?`<span class="known">${knownTxt(x)}</span>`:''}</button>`).join('')}</div>
       ${adv.listened?'':whoHtml('Who listens?')}
       <div class="actions" style="margin-top:14px"><button class="btn" data-act="listen" ${adv.listened?'disabled':''}>${adv.listened?'You have already listened':'Listen at the doors'}<small>${adv.listened?'':chkSub('listen',cdc(12))+' · may wake something'}</small></button>${potBtns()}</div>`;
     }
