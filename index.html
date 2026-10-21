@@ -368,6 +368,32 @@ body.tray-open{overflow:hidden}
 .seg button{min-height:36px;padding:0 10px;background:transparent;color:var(--g1);border:2px solid var(--g2);border-radius:4px;font-size:8px}
 .seg button[aria-checked="true"]{background:var(--w);color:var(--k);border-color:var(--w)}
 
+
+/* monster library */
+.lib .tray-card{width:min(1040px,100%);height:min(920px,calc(100vh - 24px));grid-template-rows:auto auto auto minmax(0,1fr);overflow:hidden;gap:12px}
+.lib-ctl{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px}
+.lib-ctl input,.lib-ctl select{background:var(--blue);color:var(--w);border:3px solid var(--w);border-radius:4px;min-height:44px;padding:0 10px;font-size:10px;min-width:0}
+.lib-ctl input::placeholder{color:var(--g1)}
+.lib-ctl input:focus,.lib-ctl select:focus{outline:0;border-color:var(--y)}
+.lib-ctl select option{background:var(--k)}
+.lib-count{font-size:8px;color:var(--g1)}
+.lib-grid{overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;align-content:start;padding:2px 4px 8px 0;overscroll-behavior:contain}
+.lib-card{border:3px solid var(--g2);border-radius:6px;padding:10px;display:grid;gap:6px;align-content:start;font-size:7px;line-height:1.9}
+.lib-pic{height:96px;display:grid;place-items:center;background:var(--g3);border-radius:4px;background-image:repeating-linear-gradient(0deg,#2c2c2c 0 2px,transparent 2px 8px)}
+.lib-pic canvas{image-rendering:pixelated;image-rendering:crisp-edges}
+.lib-card h3{font-size:9px;color:var(--y);line-height:1.6}
+.lib-meta{color:var(--g1)}
+.lib-nums{display:flex;gap:10px;flex-wrap:wrap}
+.lib-nums b{color:var(--w);font-size:8px}
+.lib-atk{color:var(--w)}
+.lib-sp{color:var(--sky)}
+.lib-im{color:var(--g1)}.lib-im b{color:var(--w)}
+.lib-rs b{color:var(--y)}
+.lib-vu{color:var(--green)}
+.lib-ab{color:var(--g1)}.lib-ab .hi{color:var(--salmon)}.lib-ab .lo{color:var(--green)}
+.lib-key{color:var(--g2);border-top:2px solid var(--g3);padding-top:4px}
+@media (max-width:560px){.lib .tray-card{height:96vh;max-height:96vh}.lib-ctl{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.lib-ctl input{grid-column:1/-1}.lib-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lib-card{padding:8px}.lib-pic{height:80px}}
+@media (max-width:340px){.lib-grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:860px){
   .gen,.adv{grid-template-columns:minmax(0,1fr)}
   .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;border-radius:0 0 8px 8px;border-top-width:0}
@@ -609,6 +635,7 @@ function renderGen(){
         <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Roll abilities</button>
         <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Randomize hero</button>
         ${party.length>1&&!inAdv?`<button class="btn" id="removeHero" type="button">Remove from party</button>`:''}
+        <button class="btn" id="openLib" type="button">Monster library<small>Every monster, its strengths and weaknesses</small></button>
       </div>
       <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':party.length>1?`Enter the cave · ${party.length} heroes`:'Enter the cave'}</button>
       <div class="press" aria-hidden="true">- Press to start -</div>
@@ -636,6 +663,7 @@ function renderGen(){
   document.querySelectorAll('.arr[data-cyc]').forEach(b=>b.onclick=()=>{const sel=document.getElementById(b.dataset.cyc);if(!sel||sel.disabled)return;const n=sel.options.length;sel.selectedIndex=(sel.selectedIndex+ +b.dataset.d+n)%n;sel.onchange({target:sel});const nb=document.querySelector(`.arr[data-cyc="${b.dataset.cyc}"][data-d="${b.dataset.d}"]`);try{nb&&nb.focus({preventScroll:true})}catch(e){}});
   document.getElementById('selCls').onchange=e=>{party[edit]=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
   document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();party[edit]=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
+  document.getElementById('openLib').onclick=openLib;
   document.getElementById('randAll').onclick=()=>{party[edit]=newHero({skip:hero});save();render()};
   document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure();setView('adv')};
 }
@@ -1044,6 +1072,58 @@ async function onSettingsClick(e){
   const again=k==='diff'?(setEl.querySelector(`.arr[data-set="diff"][aria-label="${b.getAttribute('aria-label')}"]:not(:disabled)`)||setEl.querySelector('.arr[data-set="diff"]:not(:disabled)')):setEl.querySelector(`[data-set="${k}"][data-v="${v}"]`);try{again&&again.focus({preventScroll:true})}catch(e){}
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&setEl&&!setEl.hidden)closeSettings()});
+
+
+/* ---------- Monster library: every monster with its picture, numbers, strengths and weaknesses ---------- */
+let libEl=null;const LIB={q:'',t:'all',sort:'cr'};
+function libInit(){
+  const w=document.createElement('div');
+  w.innerHTML=`<div id="lib" class="tray lib" hidden role="dialog" aria-modal="true" aria-labelledby="libTitle"><div class="tray-back"></div><div class="tray-card">
+    <div class="set-head"><h3 id="libTitle">Monster library</h3><button class="btn set-x" type="button" id="libX" aria-label="Close the monster library">X</button></div>
+    <div class="lib-ctl"><input id="libQ" type="search" placeholder="Search…" aria-label="Search monsters" autocomplete="off">
+      <select id="libT" aria-label="Monster type"><option value="all">All types</option>${[...new Set(M.map(m=>m.t))].sort().map(t=>`<option value="${t}">${TYPE[t]||t}</option>`).join('')}</select>
+      <select id="libS" aria-label="Sort"><option value="cr">By challenge</option><option value="name">By name</option><option value="hp">By hit points</option></select></div>
+    <div class="lib-count" id="libN" aria-live="polite"></div>
+    <div class="lib-grid" id="libGrid"></div></div></div>`;
+  libEl=w.firstElementChild;if(!libEl||!document.body||!document.body.appendChild)return;
+  document.body.appendChild(libEl);
+  const $=id=>document.getElementById(id);
+  $('libX').onclick=closeLib;libEl.querySelector('.tray-back').onclick=closeLib;
+  let qt=null;$('libQ').oninput=e=>{clearTimeout(qt);qt=setTimeout(()=>{LIB.q=e.target.value.trim().toLowerCase();renderLib()},120)};
+  $('libT').onchange=e=>{LIB.t=e.target.value;renderLib()};$('libS').onchange=e=>{LIB.sort=e.target.value;renderLib()};
+}
+function openLib(){if(!libEl||LOCK)return;renderLib();libEl.hidden=false;document.body.classList.add('tray-open');setTimeout(()=>{try{document.getElementById('libX').focus({preventScroll:true})}catch(e){}},40)}
+function closeLib(){if(!libEl)return;libEl.hidden=true;document.body.classList.remove('tray-open');const b=document.getElementById('openLib');try{b&&b.focus({preventScroll:true})}catch(e){}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&libEl&&!libEl.hidden)closeLib()});
+function libCard(m,i){
+  const L=monLook(m),s=sprSize(L.key),many=!!L.swarm;const cw=many?Math.round(s.w*1.9):s.w,ch=many?Math.round(s.h*1.6):s.h;
+  const sc=Math.max(1,Math.min(Math.floor(150/cw),Math.floor(72/ch),6));
+  const dm=x=>x.map(t=>DMG[t]||t).join(', ');
+  const ab=AB.map((k,j)=>({k,v:m.st[j]})),hi=ab.slice().sort((a,b)=>b.v-a.v)[0],lo=ab.slice().sort((a,b)=>a.v-b.v)[0];
+  const atk=m.a.slice(0,3).map(a=>`${esc(a.n)} ${sgn(a.b)} · ${a.d.map(x=>`${x[0]} ${DMG[x[1]]||x[1]}`).join(' + ')}`).join('<br>');
+  const multi=m.m&&m.m.length?`<br><span class="lib-meta">${m.m.reduce((n,x)=>n+x[1],0)} attacks per turn</span>`:'';
+  return `<article class="lib-card"><div class="lib-pic"><canvas data-li="${i}" width="${cw}" height="${ch}" style="width:${cw*sc}px;height:${ch*sc}px" role="img" aria-label="${esc(m.n)}"></canvas></div>
+    <h3>${esc(m.n)}</h3><div class="lib-meta">CR ${crTxt(m.cr)} · ${SIZE[m.s]||m.s} ${TYPE[m.t]||m.t}</div>
+    <div class="lib-nums"><span>Armor <b>${m.ac}</b></span><span>HP <b>${m.hp}</b></span><span>XP <b>${m.xp}</b></span></div>
+    <div class="lib-atk">${atk}${multi}</div>
+    ${m.sv?`<div class="lib-sp">${esc(m.sv.n)}: ${m.sv.d.map(x=>`${x[0]} ${DMG[x[1]]||x[1]}`).join(' + ')} · ${AB_K[m.sv.ab]||m.sv.ab} save ${m.sv.dc}${m.sv.r>1&&m.sv.r<7?` · recharge ${m.sv.r}–6`:''}</div>`:''}
+    ${m.im?`<div class="lib-im">Immune: <b>${dm(m.im)}</b></div>`:''}
+    ${m.rs?`<div class="lib-rs">Resists: <b>${dm(m.rs)}</b></div>`:''}
+    ${m.vu?`<div class="lib-vu">Weak to: ${dm(m.vu)}</div>`:''}
+    <div class="lib-ab">Strongest <span class="hi">${AB_K[hi.k]} ${hi.v}</span> · weakest <span class="lo">${AB_K[lo.k]} ${lo.v}</span></div>
+    <div class="lib-key">Picture: ${L.key}${many?' (swarm)':''}</div></article>`;
+}
+function renderLib(){
+  const g=document.getElementById('libGrid');if(!g)return;
+  let list=M.map((m,i)=>({m,i})).filter(({m})=>(LIB.t==='all'||m.t===LIB.t)&&(!LIB.q||m.n.toLowerCase().includes(LIB.q)));
+  list.sort((a,b)=>LIB.sort==='name'?a.m.n.localeCompare(b.m.n):LIB.sort==='hp'?a.m.hp-b.m.hp||a.m.n.localeCompare(b.m.n):a.m.cr-b.m.cr||a.m.n.localeCompare(b.m.n));
+  document.getElementById('libN').textContent=`${list.length} of ${M.length} monsters`;
+  g.innerHTML=list.length?list.map(({m,i})=>libCard(m,i)).join(''):'<div class="lib-meta">No monster with that name.</div>';
+  g.scrollTop=0;
+  g.querySelectorAll('canvas[data-li]').forEach(cv=>{const m=M[+cv.dataset.li],L=monLook(m),s=sprSize(L.key);const x=cv.getContext&&cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;
+    if(L.swarm){[[0,Math.round(s.h*.6)],[Math.round(s.w*.9),Math.round(s.h*.55)],[Math.round(s.w*.45),0]].forEach(([px,py])=>drawSpr(x,L.key,L.pal,px,py,{}))}
+    else drawSpr(x,L.key,L.pal,0,0,{flip:L.flip})});
+}
 
 /* ---------- NES sprites ---------- */
 /* Fixed NES colors. Sprites also use a/m/z (main color light/mid/dark), S/s (skin), H (hair), c (accent), e (eyes). */
@@ -2239,7 +2319,7 @@ let lastKey=null,LOCK=false;
 function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
-trayInit();settingsInit();
+trayInit();settingsInit();libInit();
 /* test hooks */
 window.__M=M;window.__t={drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,doRage,doLay,
   startAdventure:()=>{startAdventure()},get hero(){return hero},set hero(v){hero=v},get party(){return party},set party(v){party=v},get adv(){return adv},get bag(){return bag},SET,
