@@ -394,6 +394,59 @@ body.tray-open{overflow:hidden}
 .lib-key{color:var(--g2);border-top:2px solid var(--g3);padding-top:4px}
 @media (max-width:560px){.lib .tray-card{height:96vh;max-height:96vh}.lib-ctl{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.lib-ctl input{grid-column:1/-1}.lib-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lib-card{padding:8px}.lib-pic{height:80px}}
 @media (max-width:340px){.lib-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* start screen, place picker, panels */
+body.at-home .tabs,body.at-home #homeBtn{display:none}
+body.at-home header{align-items:center}
+.home-btn svg{display:block;width:28px;height:25px}
+.home{display:grid;gap:14px;max-width:640px;width:100%;margin:0 auto}
+.home-cv{aspect-ratio:192/70}
+.home-menu{padding:8px 12px}
+.home-menu .btn{font-size:11px}
+.home .press{margin-top:2px}
+.pick{display:grid;gap:14px}
+.pick-head{display:flex;gap:12px;align-items:center}
+.pick-head h2{font-size:14px;color:var(--y)}
+.pick-head .btn{font-size:8px}
+.pick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pick-card{background:var(--k);border:4px solid var(--g2);border-radius:8px;padding:8px;display:grid;gap:8px;text-align:left;color:var(--w)}
+.pick-card canvas{width:100%;aspect-ratio:192/70;image-rendering:pixelated;image-rendering:crisp-edges;border:2px solid var(--g3);border-radius:4px;display:block}
+.pick-card b{font-size:11px;color:var(--y)}
+.pick-card small{font-size:8px;color:var(--g1);line-height:1.8}
+.pick-card.on,.pick-card:focus-visible{border-color:var(--y);outline:0}
+@media (hover:hover){.pick-card:hover{border-color:var(--w)}}
+.plan-bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px}
+.plan-bar>div{display:grid;gap:4px;min-width:0}
+.plan-bar b{color:var(--y);font-size:10px}
+.plan-bar .btn{font-size:8px;flex:0 0 auto}
+.pan .tray-card{grid-template-rows:auto minmax(0,1fr)}
+.pan-body{display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px;min-height:0}
+.pan-tabs{justify-self:start}
+.pan-grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.pan-grid .lib-pic{gap:6px;display:flex;justify-content:center;align-items:center}
+.pan-spr{image-rendering:pixelated;image-rendering:crisp-edges;flex:0 0 auto}
+.pan-scroll{overflow-y:auto;display:grid;gap:12px;align-content:start;padding-right:4px;overscroll-behavior:contain;grid-row:1/-1}
+.pan-scroll h4{margin:8px 0 0;font-size:10px;font-weight:400;color:var(--y)}
+.pan-scroll>.btn{justify-self:start;font-size:8px}
+.fame-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center}
+.fame-stats div{background:var(--blue);border-radius:4px;padding:8px 2px;display:grid;gap:4px}
+.fame-stats b{font-size:14px}
+.fame-stats span{font-size:7px;color:var(--g1)}
+.fame-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.fame-run{font-size:7px;line-height:1.9;display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;border:3px solid var(--g2);border-radius:6px;padding:8px}
+.fame-run:first-child{border-color:var(--y)}
+.fame-run .rank{font-size:10px;color:var(--y);text-align:center}
+.fr-main{min-width:0;display:grid;gap:4px}
+.fr-party{display:flex;gap:4px;align-items:flex-end;flex-wrap:wrap}
+.fr-party b{font-size:9px;margin-left:4px;overflow-wrap:anywhere}
+.fr-side{display:grid;justify-items:end;gap:3px;text-align:right}
+.fr-side b{font-size:12px}.fr-side span{font-size:7px;color:var(--g1)}
+.bd{font-style:normal;font-size:7px;padding:2px 4px;border:2px solid}
+.bd.v{color:var(--y)}.bd.f{color:var(--salmon)}.bd.r{color:var(--g1)}.bd.a{color:var(--green)}
+.fame-slain{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.fame-slain li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:8px;border-bottom:2px solid var(--g3);padding:4px 0}
+.fame-slain li canvas{justify-self:center}
+@media (max-width:560px){.pick-grid{grid-template-columns:minmax(0,1fr)}.fame-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pan-grid{grid-template-columns:minmax(0,1fr)}.home-menu .btn{font-size:10px}}
 @media (max-width:860px){
   .gen,.adv{grid-template-columns:minmax(0,1fr)}
   .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;border-radius:0 0 8px 8px;border-top-width:0}
@@ -449,8 +502,8 @@ body.tray-open{overflow:hidden}
     </div>
     <div class="hdr-r"><nav class="tabs" role="tablist" aria-label="Steps">
       <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Party</button>
-      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span>Cave</button>
-    </nav><button class="gear" id="gear" type="button" aria-label="Options" title="Options"><svg viewBox="0 0 16 16" width="32" height="32" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM13 1h1v1h-1zM14 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM12 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM0 7h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM11 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM15 8h1v1h-1zM0 9h1v1h-1zM1 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM15 9h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM9 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM1 13h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM1 14h1v1h-1zM2 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM8 14h1v1h-1zM9 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM8 15h1v1h-1zM9 15h1v1h-1z"/></svg></button></div>
+      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span><span id="tabAdvTxt">Castle</span></button>
+    </nav><button class="gear home-btn" id="homeBtn" type="button" aria-label="Home" title="Home"><svg viewBox="0 0 16 14" width="32" height="28" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M8 0h1v1h-1zM9 0h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM12 1h1v1h-1zM13 1h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM14 5h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM10 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM11 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM13 10h1v1h-1zM2 11h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM13 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1z"/></svg></button><button class="gear" id="gear" type="button" aria-label="Options" title="Options"><svg viewBox="0 0 16 16" width="32" height="32" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM13 1h1v1h-1zM14 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM12 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM0 7h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM11 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM15 8h1v1h-1zM0 9h1v1h-1zM1 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM15 9h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM9 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM1 13h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM1 14h1v1h-1zM2 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM8 14h1v1h-1zM9 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM8 15h1v1h-1zM9 15h1v1h-1z"/></svg></button></div>
   </header>
 
   <main id="view"></main>
@@ -561,8 +614,32 @@ function spellMod(h){return mod(scores(h)[CL[h.cls].sa])}
 function spellDice(h,s){if(typeof s.d==='string')return s.d;const keys=Object.keys(s.d).map(Number).sort((a,b)=>a-b);let k=keys[0];for(const x of keys)if(h.lvl>=x)k=x;return s.d[k]}
 function sName(i){return S_SV[i]||SP[i].n}
 
+/* ---------- Places: four backdrops for the same kind of adventure ---------- */
+const LOCS={
+  castle:{name:'Haunted Castle',short:'Castle',the:'the castle',enter:'Enter the castle',mouth:'The Castle Gate',noun:'castle',intro:'The Haunted Castle of Ravenmoor',step:['push open the creaking gate and step','pushes open the creaking gate and steps'],into:'into the castle',deeper:'a winding stair leading down into the dungeons',desc:'Cold halls, rattling chains and something on the throne.'},
+  caves:{name:'Infested Caves',short:'Caves',the:'the caves',enter:'Enter the caves',mouth:'The Cave Mouth',noun:'cave',intro:'The Infested Caves under Crowpeak',step:['light their torches and crawl','lights a torch and crawls'],into:'into the caves',deeper:'a crack leading deeper into the mountain',desc:'Dripping tunnels full of things that bite.'},
+  woods:{name:'Dark Woods',short:'Woods',the:'the woods',enter:'Enter the woods',mouth:'The Forest Edge',noun:'forest',intro:'The Dark Woods of Thornmere',step:['leave the road and step','leaves the road and steps'],into:'into the dark woods',deeper:'an overgrown path leading deeper into the woods',desc:'Moonlight, mist and eyes between the trees.'},
+  hell:{name:'Hell',short:'Hell',the:'Hell',enter:'Enter Hell',mouth:'The Gates of Hell',noun:'realm',intro:'The Burning Pits of Hell',step:['take a deep breath and step','takes a deep breath and steps'],into:'through the gates of Hell',deeper:'a bridge of chains over the lava, leading deeper',desc:'Lava, brimstone and the worst of the worst.'}
+};
+const GRAND=['castle','caves','woods','hell'];
+let plan={mode:'adventure',loc:'castle'};try{const p=JSON.parse(localStorage.getItem('nat20-plan')||'null');if(p&&LOCS[p.loc])plan=Object.assign(plan,p)}catch(e){}
+function savePlan(){try{localStorage.setItem('nat20-plan',JSON.stringify(plan))}catch(e){}}
+const locKey=()=>adv&&LOCS[adv.loc]?adv.loc:plan.mode==='grand'?'castle':LOCS[plan.loc]?plan.loc:'castle';
+const LOC=()=>LOCS[locKey()];
+const planName=()=>plan.mode==='grand'?'Grand adventure':LOCS[plan.loc].name;
+
+/* ---------- Records: every adventure is written into the Hall of Fame ---------- */
+const REC0=()=>({v:1,runs:[],stats:{started:0,grandWins:0,bosses:0,kills:0,fallen:0,nat20:0,nat1:0,rolls:0},slain:{}});
+let REC=REC0();
+try{const r=JSON.parse(localStorage.getItem('nat20-records')||'null');if(r&&r.v===1){REC=Object.assign(REC0(),r);REC.stats=Object.assign(REC0().stats,r.stats||{});REC.slain=r.slain||{};REC.runs=Array.isArray(r.runs)?r.runs:[]}}catch(e){}
+function saveRec(){try{localStorage.setItem('nat20-records',JSON.stringify(REC))}catch(e){}}
+function recStat(k,n){REC.stats[k]=(REC.stats[k]||0)+(n==null?1:n);saveRec()}
+function recordRun(outcome){if(!adv)return;
+  const run={id:adv.id||Date.now(),date:Date.now(),mode:adv.grand?'grand':'adventure',loc:adv.loc||'castle',diff:SET.diff,party:party.map(h=>({n:String(h.name),r:h.race,c:h.cls,l:h.lvl})),chapter:adv.chapter,depth:adv.depth,kills:adv.kills,glory:adv.glory||0,outcome};
+  REC.runs=REC.runs.filter(x=>x.id!==run.id);REC.runs.push(run);REC.runs.sort((a,b)=>b.glory-a.glory||b.date-a.date);REC.runs=REC.runs.slice(0,60);saveRec()}
+
 /* ---------- State ---------- */
-let party=[],hero=null,bag={gold:0,potions:0,greater:0},adv=null,view='gen',edit=0,F=null;
+let party=[],hero=null,bag={gold:0,potions:0,greater:0},adv=null,view='home',edit=0,F=null;
 const MAXP=3;
 function save(){try{localStorage.setItem('nat20-party',JSON.stringify({v:1,heroes:party,bag,edit}));localStorage.setItem('hg-adv',JSON.stringify(adv));localStorage.setItem('hg-view',view)}catch(e){}}
 try{
@@ -570,7 +647,7 @@ try{
   if(p&&p.v===1&&Array.isArray(p.heroes)){party=p.heroes.filter(h=>h&&CL[h.cls]&&RC[h.race]).slice(0,MAXP);if(p.bag)bag=Object.assign(bag,p.bag);edit=Math.max(0,Math.min(p.edit||0,party.length-1))}
   else{const h=JSON.parse(localStorage.getItem('hg-hero')||'null');if(h&&h.v===1&&CL[h.cls]&&RC[h.race])party=[h]}
   const a=JSON.parse(localStorage.getItem('hg-adv')||'null');if(a&&party.length&&a.v===4&&a.start)adv=a;
-  const v=localStorage.getItem('hg-view');if(v==='adv'&&adv)view='adv';
+  const v=localStorage.getItem('hg-view');if(v==='adv'&&adv)view='adv';else if(v==='gen')view='gen';if(adv&&!LOCS[adv.loc])adv.loc='castle';
 }catch(e){}
 if(!party.length)party=[newHero()];
 party.forEach(h=>{h.items=h.items||[]});
@@ -580,9 +657,10 @@ const first=h=>esc(String(h.name).split(' ')[0]);
 const alive=()=>party.filter(h=>h.hp>0);
 
 const $view=document.getElementById('view');
-function setView(v){view=v;document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
+function setView(v){view=v;document.body.classList.toggle('at-home',v==='home'||v==='pick');const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent=adv?LOC().short:plan.mode==='grand'?'Grand':LOCS[plan.loc].short;document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
 document.getElementById('tabGen').onclick=()=>setView('gen');
-document.getElementById('tabAdv').onclick=()=>{if(!adv)startAdventure();setView('adv')};
+document.getElementById('tabAdv').onclick=()=>{if(!adv)startAdventure(plan);setView('adv')};
+document.getElementById('homeBtn').onclick=()=>setView('home');
 
 /* small hero icons in tabs and the party panel */
 function drawHeroIcons(){
@@ -628,7 +706,7 @@ function renderGen(){
         <div><b>d${c.hd}</b><span>Hit die</span></div>
         <div><b>${r.sp}</b><span>Speed</span></div>
       </div>
-      ${inAdv?`<div class="gen-note">Your ${party.length>1?'party is':'hero is'} on an adventure. End the adventure in the cave to make changes.</div>`:''}
+      ${inAdv?`<div class="gen-note">Your ${party.length>1?'party is':'hero is'} on an adventure. End the adventure to make changes.</div>`:''}
     </section>
     <div class="gen-actions">
       <div class="win menu" aria-label="Commands">
@@ -637,7 +715,8 @@ function renderGen(){
         ${party.length>1&&!inAdv?`<button class="btn" id="removeHero" type="button">Remove from party</button>`:''}
         <button class="btn" id="openLib" type="button">Monster library<small>Every monster, its strengths and weaknesses</small></button>
       </div>
-      <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':party.length>1?`Enter the cave · ${party.length} heroes`:'Enter the cave'}</button>
+      <div class="win plan-bar"><div><span class="eyebrow">${inAdv?'On the way':'Next adventure'}</span><b>${inAdv?(adv.grand?'Grand adventure · '+LOC().name:LOC().name):planName()}</b></div>${inAdv?'':`<button class="btn" id="changePlan" type="button">Change</button>`}</div>
+      <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':plan.mode==='grand'?'Begin the grand adventure':LOCS[plan.loc].enter}</button>
       <div class="press" aria-hidden="true">- Press to start -</div>
     </div></div>
     <aside class="sheet gen-side" aria-label="Gear and features">
@@ -665,7 +744,8 @@ function renderGen(){
   document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();party[edit]=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
   document.getElementById('openLib').onclick=openLib;
   document.getElementById('randAll').onclick=()=>{party[edit]=newHero({skip:hero});save();render()};
-  document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure();setView('adv')};
+  document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure(plan);setView('adv')};
+  const cp=document.getElementById('changePlan');if(cp)cp.onclick=()=>setView('pick');
 }
 
 /* ---------- Adventure: rooms ---------- */
@@ -716,13 +796,14 @@ function makeDoors(){
   const r=Math.random(),n=r<.22?1:r<.75?2:3;
   return HINTS.slice().sort(()=>Math.random()-.5).slice(0,n).map(x=>({hint:x.h,t:wpick(x.o)}));
 }
-function startAdventure(){
+function startAdventure(o){o=o||plan;const grand=o.mode==='grand',loc=grand?'castle':LOCS[o.loc]?o.loc:'castle',P0=LOCS[loc];
   party.forEach(h=>{h.hp=h.hpMax;resetRest(h,true);h.bless=0;h.curse=0;h.raging=false;h.items=h.items||[]});
   bag={gold:party.reduce(s=>s+d(10)+5,0),potions:D().pot*party.length,greater:0};
-  adv={v:4,chapter:1,depth:1,phase:'doors',doors:null,log:[],kills:0,foes:[],room:null,listened:false,pick:0,turn:0,acted:[],tgt:0,round:1,start:JSON.parse(JSON.stringify(party))};
+  adv={v:4,loc,grand,glory:0,id:Date.now(),chapter:1,depth:1,phase:'doors',doors:null,log:[],kills:0,foes:[],room:null,listened:false,pick:0,turn:0,acted:[],tgt:0,round:1,start:JSON.parse(JSON.stringify(party))};
   adv.doors=makeDoors();
-  log('sep',`Chapter 1 · The Cave under Crowpeak`);
-  log('note',`${partyNames()} ${party.length>1?'light their torches and step':'lights a torch and steps'} into the cave.`,'·');
+  log('sep',`${grand?'Grand adventure · ':''}Chapter 1 · ${P0.intro}`);
+  log('note',`${partyNames()} ${party.length>1?P0.step[0]:P0.step[1]} ${P0.into}.`,'·');
+  recStat('started');
   save();
 }
 function partyNames(){const n=party.map(h=>`<b class="you">${first(h)}</b>`);return n.length<2?n[0]:n.slice(0,-1).join(', ')+' and '+n[n.length-1]}
@@ -775,7 +856,7 @@ async function enterRoom(idx){
   const door=idx==='boss'?{t:'boss'}:adv.doors[+idx];const t=adv.depth===DEPTH?'boss':door.t;
   adv.room={t};
   log('sep',`Depth ${adv.depth} of ${DEPTH}${t==='boss'?' · The Boss':''}`);
-  if(t==='boss'){await startFight(encounter(true),{intro:'The master of the cave rises'});return}
+  if(t==='boss'){await startFight(encounter(true),{intro:`The master of ${LOC().the} rises`});return}
   if(t==='fight'){await startFight(encounter(false));return}
   if(t==='guarded'){adv.room.afterLoot=true;log('note',`Behind a pile of bones stands a chest. Something is guarding it.`,'¤');await startFight(encounter(false,{bump:Math.random()<.4?1:0}),{intro:'The guardians turn toward you'});return}
   if(t==='treasure'){adv.room.loot=rollLoot();adv.phase='room';log('note',`${party.length>1?'The party finds':you()+' finds'} a treasure chest.`,'¤','heal')}
@@ -891,7 +972,11 @@ function shopList(){const h=picked();return [
 ].filter(Boolean)}
 function buy(k){const it=shopList().find(x=>x.k===k);if(!it||bag.gold<it.p)return;bag.gold-=it.p;applyLoot([it],picked());log('',`The party buys ${it.n} for ${it.p} gold.`,'¤','heal');save();render()}
 function nextRoom(){
-  if(adv.phase==='won'){adv.chapter++;adv.depth=1;party.forEach(h=>{h.hp=h.hpMax;resetRest(h,true);h.bless=0});log('sep',`Chapter ${adv.chapter} · Deeper down`);log('note',`${partyNames()} ${party.length>1?'are':'is'} fully rested and find${party.length>1?'':'s'} a stair leading deeper into the mountain.`,'·')}
+  if(adv.phase==='won'){
+    if(adv.grand){const i=GRAND.indexOf(adv.loc);adv.loc=GRAND[Math.min(GRAND.length-1,i+1)]}
+    adv.chapter++;adv.depth=1;party.forEach(h=>{h.hp=h.hpMax;resetRest(h,true);h.bless=0});const P1=LOC();
+    if(adv.grand){log('sep',`Chapter ${adv.chapter} · ${P1.intro}`);log('note',`${partyNames()} ${party.length>1?'are':'is'} fully rested, travel${party.length>1?'':'s'} on and ${party.length>1?P1.step[0].replace(/^(\w+)/,'$1'):P1.step[1]} ${P1.into}.`,'·')}
+    else{log('sep',`Chapter ${adv.chapter} · Deeper down`);log('note',`${partyNames()} ${party.length>1?'are':'is'} fully rested and find${party.length>1?'':'s'} ${P1.deeper}.`,'·')}}
   else adv.depth++;
   adv.phase='doors';adv.room=null;adv.foes=[];adv.listened=false;adv.doors=makeDoors();
   if(adv.nextKnown&&adv.doors){adv.doors.forEach(x=>x.known=true);adv.nextKnown=false;adv.listened=true}
@@ -968,6 +1053,7 @@ function rollDice(o){
 }
 async function heroD20(o){
   const r=await rollDice(Object.assign({kind:'d20 roll',groups:[{n:1,s:20}],d20:true,lucky:hero.race==='halfling',onLucky:()=>log('note',`Halfling luck! The 1 is rerolled.`,'↻')},o));
+  REC.stats.rolls++;if(r.nat===20)REC.stats.nat20++;if(r.nat===1)REC.stats.nat1++;saveRec();
   return r.nat;
 }
 /* parts: dice strings like '1d8' or '2d6+3'; returns {total, sums:[per part]} */
@@ -2822,15 +2908,56 @@ function sceneSync(){
 }
 const WALLS=[{b:'#3c3c3c',h:'#7c7c7c',f:'#503000',F:'#ac7c00'},{b:'#0000a8',h:'#0058f8',f:'#3c3c3c',F:'#7c7c7c'},{b:'#881400',h:'#a81000',f:'#503000',F:'#ac7c00'},{b:'#005800',h:'#00a800',f:'#3c3c3c',F:'#7c7c7c'}];
 const SW=192,SH=96,FEET=66,BOXY=70;
-function sceneBg(x,wall,arches){
+const hr=(a,b)=>{let h=(a*374761393+b*668265263)|0;h=Math.imul(h^(h>>>13),1274126177);return((h^(h>>>16))>>>0)/4294967296};
+function sceneBg(x,wall,arches,loc){loc=loc||locKey();const ch=adv?adv.chapter:1;
   x.fillStyle=NP.K;x.fillRect(0,0,SW,SH);
+  if(loc==='caves')bgCaves(x,ch);else if(loc==='woods')bgWoods(x,ch);else if(loc==='hell')bgHell(x,ch);else bgCastle(x,wall||WALLS[0]);
+  (arches||[]).forEach(a=>loc==='caves'?caveHole(x,a.x,a.top||20,a.w||20):loc==='woods'?treeGap(x,a.x,a.top||20,a.w||20):narch(x,a.x,a.top||20,a.w||20,a.col||(loc==='hell'?NP.R:null)));
+}
+function bgCastle(x,wall){
   for(let y=10;y<56;y+=6){for(let i=((y-10)/6%2)*6-6;i<SW;i+=12){x.fillStyle=wall.b;x.fillRect(i,y,11,5);x.fillStyle=wall.h;x.fillRect(i,y,11,1);x.fillStyle=NP.K;x.fillRect(i+10,y+1,1,4)}}
   x.fillStyle=wall.f;x.fillRect(0,56,SW,14);for(let y=56;y<70;y+=4)for(let i=((y-56)/4%2)*4;i<SW;i+=8){x.fillStyle=wall.F;x.fillRect(i,y,7,3)}x.fillStyle=NP.K;x.fillRect(0,56,SW,1);
-  (arches||[]).forEach(a=>narch(x,a.x,a.top||20,a.w||20,a.col));
+  /* haunted touches: cobwebs in the corners and a moonlit window */
+  x.fillStyle=NP.G;for(let k=0;k<9;k++){x.fillRect(k,10+k,1,1);x.fillRect(SW-1-k,10+k,1,1)}for(let k=0;k<7;k++){x.fillRect(k,16,1,1);x.fillRect(6,10+k,1,1);x.fillRect(SW-1-k,16,1,1);x.fillRect(SW-7,10+k,1,1)}
+  x.fillStyle=NP.K;x.fillRect(170,16,12,18);x.fillRect(172,14,8,2);x.fillStyle=NP.b;x.fillRect(172,18,8,14);x.fillRect(174,16,4,2);x.fillStyle=NP.W;x.fillRect(176,20,3,3);x.fillStyle=NP.K;x.fillRect(175,16,2,16);x.fillRect(172,24,8,1);
+}
+function bgCaves(x,ch){
+  const pal=[['#503000','#ac7c00','#2c1800'],['#3c3c3c','#7c7c7c','#1c1c1c'],['#305830','#58a858','#183018'],['#4428bc','#6844fc','#200868']][(ch-1)%4];
+  for(let row=0;row<8;row++){const y=10+row*6;for(let i=-1;i<20;i++){const w=7+Math.floor(hr(i,row)*6),xx=i*11+Math.floor(hr(row,i)*5)-(row%2)*5,c=hr(i*3+1,row*7+2);
+    x.fillStyle=c<.55?pal[0]:c<.85?pal[2]:pal[1];x.fillRect(xx,y,w,5);if(c<.55){x.fillStyle=pal[1];x.fillRect(xx+1,y,w-3,1)}x.fillStyle=NP.K;x.fillRect(xx+w,y,1,5);x.fillRect(xx,y+5,w,1)}}
+  for(let i=0;i<13;i++){const sx=Math.floor(hr(i,99)*SW),len=4+Math.floor(hr(99,i)*12);for(let k=0;k<len;k++){const w=Math.max(1,4-Math.floor(k*4/len));x.fillStyle=NP.K;x.fillRect(sx-Math.floor(w/2)-1,10+k,w+2,1);x.fillStyle=k<2?pal[1]:pal[0];x.fillRect(sx-Math.floor(w/2),10+k,w,1)}}
+  if(!reduced&&SCN.f%10<5){x.fillStyle=NP.U;const i=Math.floor(SCN.f/10)%13;x.fillRect(Math.floor(hr(i,99)*SW),26+SCN.f%5*6,1,2)}
+  x.fillStyle='#2c1800';x.fillRect(0,56,SW,14);x.fillStyle=pal[2];for(let i=0;i<SW;i+=3)x.fillRect(i,55+Math.floor(hr(i,7)*3),3,2);
+  for(let i=0;i<60;i++){const px=Math.floor(hr(i,11)*SW),py=58+Math.floor(hr(11,i)*11);x.fillStyle=hr(i,i)<.5?'#503000':'#7c7c7c';x.fillRect(px,py,2,1)}
+  x.fillStyle=NP.K;x.fillRect(0,56,SW,1);
+}
+function caveHole(x,cx,top,w){for(let y=top;y<56;y++){const t=Math.min(1,(y-top+2)/8),hw=Math.round(w/2*Math.sqrt(t))+Math.floor(hr(cx,y)*2);x.fillStyle=NP.K;x.fillRect(cx-hw,y,hw*2,1);x.fillStyle='#7c7c7c';x.fillRect(cx-hw-1,y,1,1);x.fillRect(cx+hw,y,1,1)}}
+function bgWoods(x,ch){
+  const sky=['#000000','#000000','#00003c','#0000a8'];for(let y=10;y<56;y++){x.fillStyle=y<26?sky[0]:y<38?sky[2]:y<48?'#00006c':sky[3];x.fillRect(0,y,SW,1)}
+  for(let i=0;i<34;i++){x.fillStyle=hr(i,5)<.3?NP.U:NP.W;x.fillRect(Math.floor(hr(i,3)*SW),10+Math.floor(hr(3,i)*24),1,1)}
+  const mx=ch%2?150:40;x.fillStyle=NP.W;x.fillRect(mx-3,13,7,9);x.fillRect(mx-4,15,9,5);x.fillStyle=NP.G;x.fillRect(mx-1,15,2,2);x.fillRect(mx+2,18,1,1);
+  for(let i=0;i<SW;i+=2){const h=8+Math.floor(hr(i>>2,21)*10);x.fillStyle='#003c00';x.fillRect(i,56-h-12,2,h+12)}
+  for(let k=0;k<7;k++){const tx=8+k*28+Math.floor(hr(k,31)*10),tw=5+Math.floor(hr(31,k)*4);x.fillStyle='#2c1800';x.fillRect(tx,22,tw,34);x.fillStyle='#503000';x.fillRect(tx,22,1,34);x.fillStyle=NP.K;x.fillRect(tx+tw,22,1,34);
+    x.fillStyle=NP.D;x.fillRect(tx-7,12,tw+14,12);x.fillStyle=NP.V;for(let j=0;j<10;j++)x.fillRect(tx-7+Math.floor(hr(k,j)*(tw+12)),12+Math.floor(hr(j,k)*10),2,2);x.fillStyle=NP.K;x.fillRect(tx-7,24,tw+14,1)}
+  x.fillStyle=NP.D;x.fillRect(0,56,SW,14);x.fillStyle='#503000';x.fillRect(30,60,132,6);x.fillStyle=NP.V;for(let i=0;i<SW;i+=2)x.fillRect(i,55+Math.floor(hr(i,9)*3),1,3);
+  for(let i=0;i<40;i++){x.fillStyle=NP.L;x.fillRect(Math.floor(hr(i,17)*SW),57+Math.floor(hr(17,i)*12),1,2)}
+  if(!reduced)for(let k=0;k<5;k++){if((SCN.f+k*3)%8<5){x.fillStyle='#d8f878';x.fillRect(Math.floor(hr(k,41)*SW)+((SCN.f>>2)+k)%3,30+Math.floor(hr(41,k)*20)+((SCN.f>>3)+k)%2,1,1)}}
+  x.fillStyle=NP.K;x.fillRect(0,56,SW,1);
+}
+function treeGap(x,cx,top,w){x.fillStyle=NP.K;x.fillRect(cx-w/2,top+4,w,56-top-4);x.fillRect(cx-w/2+2,top,w-4,4);x.fillStyle=NP.V;for(let i=0;i<w+4;i+=2)x.fillRect(cx-w/2-2+i,top-1+Math.floor(hr(cx,i)*3),2,2);x.fillStyle='#503000';x.fillRect(cx-w/2-2,top+4,2,56-top-4);x.fillRect(cx+w/2,top+4,2,56-top-4)}
+function bgHell(x,ch){
+  for(let row=0;row<8;row++){const y=10+row*6;for(let i=-1;i<20;i++){const w=8+Math.floor(hr(i+50,row)*5),xx=i*11+Math.floor(hr(row,i+50)*4)-(row%2)*5,c=hr(i*5+3,row*3+1);
+    x.fillStyle=c<.6?'#881400':c<.9?'#3c0000':'#a81000';x.fillRect(xx,y,w,5);x.fillStyle=NP.K;x.fillRect(xx+w,y,1,5);x.fillRect(xx,y+5,w,1)}}
+  const glow=['#3c0000','#881400','#d82800'];for(let y=46;y<56;y++){if(hr(y,1)<.5)continue;x.fillStyle=glow[Math.min(2,Math.floor((y-46)/4))];for(let i=0;i<SW;i+=4)if(hr(i,y)<.35)x.fillRect(i,y,2,1)}
+  for(let i=0;i<9;i++){const sx=Math.floor(hr(i,77)*SW),h=6+Math.floor(hr(77,i)*10);for(let k=0;k<h;k++){const w=Math.max(1,Math.round((h-k)*3/h));x.fillStyle=NP.K;x.fillRect(sx-w,55-k,w*2,1)}}
+  x.fillStyle=NP.R;x.fillRect(0,56,SW,14);for(let y=56;y<70;y+=3)for(let i=0;i<SW;i+=6){const c=hr(i,y+Math.floor(SCN.f/6));x.fillStyle=c<.2?NP.Y:c<.5?'#fca044':c<.85?NP.R:'#881400';x.fillRect(i+(y%2)*3,y,5,2)}
+  x.fillStyle='#1c1c1c';x.fillRect(20,62,152,5);x.fillStyle='#3c3c3c';for(let i=20;i<172;i+=8)x.fillRect(i,62,7,1);
+  if(!reduced)for(let k=0;k<8;k++){const py=55-((SCN.f*2+k*9)%44);x.fillStyle=k%2?NP.Y:'#fca044';x.fillRect(Math.floor(hr(k,61)*SW)+(py%3),py,1,1)}
+  x.fillStyle=NP.K;x.fillRect(0,56,SW,1);
 }
 function narch(x,cx,top,w,col){const bot=56;x.fillStyle=NP.K;x.fillRect(cx-w/2,top+4,w,bot-top-4);x.fillRect(cx-w/2+2,top+2,w-4,2);x.fillRect(cx-w/2+4,top,w-8,2);
   x.fillStyle=col||NP.G;x.fillRect(cx-w/2-2,top+4,2,bot-top-4);x.fillRect(cx+w/2,top+4,2,bot-top-4);x.fillRect(cx-w/2,top+2,2,2);x.fillRect(cx+w/2-2,top+2,2,2);x.fillRect(cx-w/2+2,top,2,2);x.fillRect(cx+w/2-4,top,2,2);x.fillRect(cx-w/2+4,top-2,w-8,2)}
-function ntorch(x,px,py){drawSpr(x,SCN.f%2?'torch2':'torch',null,px-1,py-4,{scale:2})}
+function ntorch(x,px,py){if(locKey()==='woods'){if(SCN.f%6<4){x.fillStyle='#d8f878';x.fillRect(px+(SCN.f%3),py+4,2,2);x.fillStyle=NP.L;x.fillRect(px+(SCN.f%3)-1,py+5,1,1)}return}drawSpr(x,SCN.f%2?'torch2':'torch',null,px-1,py-4,{scale:2})}
 function nbox(x,lines){x.fillStyle=NP.K;x.fillRect(0,BOXY,SW,SH-BOXY);x.fillStyle=NP.W;x.fillRect(2,BOXY+2,SW-4,SH-BOXY-4);x.fillStyle=NP.b;x.fillRect(3,BOXY+3,SW-6,SH-BOXY-6);
   lines.slice(0,2).forEach((l,i)=>ntext(x,l,8,BOXY+6+i*9))}
 function focusHero(){if(adv.phase==='fight'&&adv.turn>=0)return party[adv.turn];return picked()}
@@ -2880,10 +3007,11 @@ function sceneText(){
   const fh=focusHero();const name=String(fh.name).split(' ')[0];const P=adv.phase,R=adv.room||{};
   if(P==='dead')return[party.length>1?'the party has fallen...':`${name} has fallen...`,'try again?'];
   if(P==='won')return['victory!',`chapter ${adv.chapter} clear!`];
+  if(P==='victory')return['hell is conquered!','a legend is born.'];
   if(P==='doors'){if(adv.depth===DEPTH)return['the last gate.','the master waits beyond.'];const n=adv.doors.length;return[n===1?'one path leads on.':n===2?'two paths. choose one.':'three paths. choose one.',adv.doors.some(d=>d.known)?'you know what lies ahead.':'listen... or just go.']}
   if(P==='fight'){const live=foesLeft();const ms=live.map(f=>f.m);const tf=tgtFoe();
     if(adv.busy)return[live.length>1?'the enemies strike!':`the ${ms[0]?ms[0].n:'enemy'} strikes!`];
-    const head=R.t==='boss'&&adv.round===1?`the ${adv.foes[0].m.n} rules this cave!`:adv.round===1?`${groupTxt(ms)} ${ms.length>1?'attack':'attacks'}!`:live.some(f=>f.asleep)?'they are asleep...':`round ${adv.round}.`;
+    const head=R.t==='boss'&&adv.round===1?`the ${adv.foes[0].m.n} rules this ${LOC().noun}!`:adv.round===1?`${groupTxt(ms)} ${ms.length>1?'attack':'attacks'}!`:live.some(f=>f.asleep)?'they are asleep...':`round ${adv.round}.`;
     return[head,party.length>1?`${name}'s turn.`:tf?`armor ${tf.m.ac}  hp ${tf.hp}/${tf.max}`:'']}
   const t=R.t,d=R.done;
   if(t==='treasure'&&!d)return['a chest full of loot!','take it all?'];
@@ -2918,7 +3046,7 @@ function drawScene(cv){
     if(adv.foes.length>1)adv.foes.forEach((f,i)=>{if(f.hp>0&&fp[i])miniBar(x,fp[i].x,f.hp,f.max)});
     if(party.length>1)party.forEach((h,i)=>{if(heroPos[i])miniBar(x,heroPos[i].x,h.hp,h.hpMax)});
     if(adv.foes.some(f=>f.asleep&&f.hp>0)&&!reduced){const z=SCN.f%12;ntext(x,'Z',176+(z>5?2:0),Math.max(12,24-Math.floor(z/2)),NP.U)}
-  }else if(P==='won'){
+  }else if(P==='won'||P==='victory'){
     sceneBg(x,wall,[{x:96,top:18,w:22}]);obj(x,'chestOpen',150);if(!reduced&&SCN.f%4<2){x.fillStyle=NP.W;x.fillRect(138+(SCN.f%8)*3,42,2,2);x.fillRect(156,38-(SCN.f%3),2,2)}
     heroPos=drawParty(x,'room');
   }else if(P==='dead'){
@@ -3104,7 +3232,7 @@ async function monsterTurn(){
   f.first=false;
 }
 function winFight(){
-  const dead=adv.foes;const xp=dead.reduce((s,f)=>s+Math.max(10,f.m.xp),0);const share=Math.ceil(xp/party.length);
+  const dead=adv.foes;const xp=dead.reduce((s,f)=>s+Math.max(10,f.m.xp),0);adv.glory=(adv.glory||0)+xp;dead.forEach(f=>{REC.slain[f.m.n]=(REC.slain[f.m.n]||0)+1});recStat('kills',dead.length);const share=Math.ceil(xp/party.length);
   const top=dead.slice().sort((a,b)=>b.m.cr-a.m.cr)[0].m.n;adv.lastFoe=dead.length>1?`${top} and its allies`:top;
   log('',`Victory! ${party.length>1?`Each hero gains <b>${share} XP</b>.`:`${you()} gains <b>${share} XP</b>.`}`,'★','crit');
   party.forEach(h=>{h.raging=false;
@@ -3112,7 +3240,7 @@ function winFight(){
     else if(h.hp<h.hpMax){const got=healHero(h,Math.round((d(CL[h.cls].hd)+mod(scores(h).con))*D().heal));log('',`<b class="you">${first(h)}</b> catches their breath and binds their wounds. <span class="heal">+${got} HP</span>.`,'✚','heal')}});
   party.forEach(h=>gainXp(h,share));
   const boss=adv.room.t==='boss';adv.foes=[];F=null;
-  if(boss){adv.phase='won';adv.room.loot=rollLoot();adv.room.loot.push({k:'gpot',n:'Potion of Greater Healing',sv:''});takeLootSilent();}
+  if(boss){recStat('bosses');adv.phase=adv.grand&&adv.loc==='hell'?'victory':'won';adv.room.loot=rollLoot();adv.room.loot.push({k:'gpot',n:'Potion of Greater Healing',sv:''});takeLootSilent();if(adv.phase==='victory'){recStat('grandWins');recordRun('victory')}else recordRun('alive');}
   else if(adv.room.afterLoot){adv.phase='room';adv.room.done=false;adv.room.t='treasure';adv.room.loot=rollLoot(true);log('note',`The chest they were guarding stands open.`,'¤','heal')}
   else{adv.phase='room';adv.room.done=true;adv.room.t='fight';if(Math.random()<.3){adv.room.loot=rollLoot().slice(0,1);takeLootSilent()}}
   save();render();
@@ -3128,9 +3256,10 @@ function gainXp(h,n){
     log('',`<span class="levelup">Level up! ${first(h)} is now level ${h.lvl}</span>: ${more.join(', ')}.`,'★','crit');
   }
 }
-function die(){adv.phase='dead';adv.busy=false;log('sep',party.length>1?'The party has fallen':'The hero has fallen')}
-function retry(){party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure();save();render()}
-function newOne(){adv=null;party=[];party=[newHero()];edit=0;hero=party[0];setView('gen')}
+function die(){adv.phase='dead';adv.busy=false;recStat('fallen',party.length);recordRun('fallen');log('sep',party.length>1?'The party has fallen':'The hero has fallen')}
+function retry(){const o={mode:adv.grand?'grand':'adventure',loc:adv.grand?'castle':adv.loc};party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure(o);save();render()}
+function newOne(){adv=null;party=[];party=[newHero()];edit=0;hero=party[0];setView('home')}
+function endRun(){if(adv&&adv.phase!=='dead'&&adv.phase!=='victory'&&adv.kills>0)recordRun('retired');if(adv&&adv.phase==='victory')party.forEach(h=>{h.hp=h.hpMax;h.raging=false;h.bless=0;h.curse=0});else party=adv&&adv.start?JSON.parse(JSON.stringify(adv.start)):party;adv=null;edit=0;hero=party[0]}
 
 /* ---------- View: adventure ---------- */
 const snap=p=>p<=0?0:Math.min(100,Math.max(10,Math.round(p/10)*10));
@@ -3166,10 +3295,10 @@ function renderAdv(){
   let stage='';const h=hero;
   const potBtn=(cls,label)=>bag.potions&&party.some(x=>x.hp<x.hpMax)?`<button class="btn ${cls||''}" data-act="pot">${label||'Use a potion'}<small>for ${first(healTarget())} · ${bag.potions} left</small></button>`:'';
   if(P==='doors'){
-    if(adv.depth===DEPTH){stage=`<h2>The Last Gate</h2><p>A massive door of black iron. Behind it waits the master of the cave${party.length>1?' and its servants':''}. There is no way around.</p><div class="actions"><button class="btn primary" data-act="enter" data-t="boss">Open the gate</button>${potBtn('','Use a potion first')}${bag.greater&&party.some(x=>x.hp<x.hpMax)?`<button class="btn" data-act="gpot">Greater potion first<small>for ${first(healTarget())}</small></button>`:''}</div>`}
+    if(adv.depth===DEPTH){stage=`<h2>The Last Gate</h2><p>A massive door of black iron. Behind it waits the master of ${LOC().the}${party.length>1?' and its servants':''}. There is no way around.</p><div class="actions"><button class="btn primary" data-act="enter" data-t="boss">Open the gate</button>${potBtn('','Use a potion first')}${bag.greater&&party.some(x=>x.hp<x.hpMax)?`<button class="btn" data-act="gpot">Greater potion first<small>for ${first(healTarget())}</small></button>`:''}</div>`}
     else{
       const n=adv.doors.length;const names=n===1?['Only way']:n===2?['Left path','Right path']:['Left path','Middle path','Right path'];const runes=['ᚲ','ᛟ','ᚱ'];
-      const title=adv.depth===1&&adv.chapter===1?'The Cave Mouth':n===1?'A Narrow Passage':n===2?'Two Paths':'Three Paths';
+      const title=adv.depth===1&&(adv.chapter===1||adv.grand)?LOC().mouth:n===1?'A Narrow Passage':n===2?'Two Paths':'Three Paths';
       const intro=n===1?'The passage only goes one way. There is nothing to choose, but you can listen first.':'The passage splits. The clues can mean different things. Listen if you want to know more, but something might hear you.';
       stage=`<h2>${title}</h2><p>${intro}</p><div class="doors" style="grid-template-columns:repeat(${n===3?3:n},minmax(0,1fr))">${adv.doors.map((x,i)=>`<button class="door" type="button" data-act="enter" data-t="${i}"><span class="knob">${runes[n===1?1:n===2?i*2:i]}</span><span class="lbl">${names[i]}</span><span class="hint">${x.hint}</span>${x.known?`<span class="known">${KNOWN[x.t]}</span>`:''}</button>`).join('')}</div>
       ${adv.listened?'':whoHtml('Who listens?')}
@@ -3200,20 +3329,22 @@ function renderAdv(){
     else if(t==='well'&&!dn)stage=`<h2>The Blue Well</h2><p>The water glows faintly. It might heal you, grant wisdom, be poisoned, or wake something that lives down there.</p>${whoHtml('Who drinks?')}<div class="actions"><button class="btn primary" data-act="well">${party.length>1?`${first(h)} drinks`:'Drink'}</button>${go}</div>`;
     else if(t==='sleeper'&&!dn){const ms=R.ms||[R.m];stage=`<h2>The Sleepers</h2><p>${foeListTxt(ms)} ${ms.length>1?'lie':'lies'} curled up in the middle of the passage, snoring. ${ms.length>1?'They look':'It looks'} stronger than most things you have faced.</p>${whoHtml('Who leads the way?')}<div class="actions"><button class="btn primary" data-act="sneak">Sneak past<small>${chkSub('sneak',cdc(11))} · if you fail they wake and go first</small></button><button class="btn" data-act="ambush">Attack while they sleep<small>first attacks are sure to hit · full XP</small></button></div>`}
     else if(t==='chest'){stage=`<h2>The Locked Chest</h2><p>Iron bands, a heavy padlock and tiny holes around the keyhole. Chests locked this well usually hold something good.</p>${whoHtml()}<div class="actions"><button class="btn primary" data-act="force">Force it open<small>${chkSub('force',cdc(13))} · scraped knuckles if you fail</small></button><button class="btn" data-act="picklock">Pick the lock<small>${chkSub('picklock',cdc(13))} · always opens, but a trap may strike</small></button>${go}</div>`}
-    else if(t==='shrine'&&!dn){const cost=offerCost();stage=`<h2>The Forgotten Altar</h2><p>Candles that never burn down. A silver offering bowl. Gods who live in caves can be kind, or moody. A blessing touches the whole party.</p>${whoHtml('Who prays?')}<div class="actions"><button class="btn primary" data-act="pray">Pray to the god<small>${chkSub('pray',cdc(12))} · blessing or curse</small></button><button class="btn" data-act="offer" ${bag.gold<cost?'disabled':''}>Offer ${cost} gold<small>sure blessing · you have ${bag.gold}</small></button>${go}</div>`}
-    else if(t==='traveler'&&!dn)stage=`<h2>The Wounded Adventurer</h2><p>She clutches her side and begs for a potion. She says she knows what lies further down. Can you trust strangers in a cave?</p>${whoHtml('Who talks to her?')}<div class="actions"><button class="btn primary" data-act="give" ${bag.potions?'':'disabled'}>Give her a potion<small>you have ${bag.potions} · she rewards you, or not</small></button><button class="btn" data-act="talk">Talk to her<small>${chkSub('talk',cdc(12))} · costs nothing</small></button>${go}</div>`;
+    else if(t==='shrine'&&!dn){const cost=offerCost();stage=`<h2>The Forgotten Altar</h2><p>Candles that never burn down. A silver offering bowl. Gods of forgotten places can be kind, or moody. A blessing touches the whole party.</p>${whoHtml('Who prays?')}<div class="actions"><button class="btn primary" data-act="pray">Pray to the god<small>${chkSub('pray',cdc(12))} · blessing or curse</small></button><button class="btn" data-act="offer" ${bag.gold<cost?'disabled':''}>Offer ${cost} gold<small>sure blessing · you have ${bag.gold}</small></button>${go}</div>`}
+    else if(t==='traveler'&&!dn)stage=`<h2>The Wounded Adventurer</h2><p>She clutches her side and begs for a potion. She says she knows what lies further down. Can you trust strangers down here?</p>${whoHtml('Who talks to her?')}<div class="actions"><button class="btn primary" data-act="give" ${bag.potions?'':'disabled'}>Give her a potion<small>you have ${bag.potions} · she rewards you, or not</small></button><button class="btn" data-act="talk">Talk to her<small>${chkSub('talk',cdc(12))} · costs nothing</small></button>${go}</div>`;
     else if(t==='merchant'){stage=`<h2>The Gnome Merchant</h2><p>“Potions, whetstones, rings of protection! All at honest prices, almost.” The party has <b>${bag.gold} gold</b>.</p>${whoHtml('Upgrades for')}<div class="actions">${shopList().map(it=>`<button class="btn" data-act="buy" data-k="${it.k}" ${bag.gold<it.p?'disabled':''}>${esc(it.n)}<small>${it.p} gold</small></button>`).join('')}<button class="btn primary" data-act="next">Move on</button></div>`}
     else{const title=adv.fled?'Escaped!':t==='fight'?'Victory Is Yours':t==='trap'?'The Trap':t==='treasure'?'Pockets Full':t==='camp'?'Rested':t==='sleeper'?'Past Them':t==='shrine'?'The Altar Falls Silent':t==='traveler'?'She Vanishes into the Dark':'Onward';adv.fled=false;
       stage=`<h2>${title}</h2><p>${t==='fight'&&adv.lastFoe?`The ${esc(adv.lastFoe)} ${adv.lastFoe.includes(' and ')?'lie':'lies'} defeated on the stone floor.`:'The passage continues down into the dark.'}</p><div class="actions"><button class="btn primary" data-act="next">Go deeper</button>${party.some(x=>x.hp<x.hpMax/2)?potBtn():''}</div>`}
   }else if(P==='won'){
-    stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${partyNames()} defeated the ${esc(adv.lastFoe)} and became the ${party.length>1?'heroes':'hero'} of the cave. ${adv.kills} enemies defeated in total.</div><p>Deeper in the mountain there are more passages, and more dangerous monsters. You rest fully before going on.</p><div class="actions"><button class="btn primary" data-act="next">Descend to chapter ${adv.chapter+1}</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
+    stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${partyNames()} defeated the ${esc(adv.lastFoe)} and became the ${party.length>1?'heroes':'hero'} of ${LOC().the}. ${adv.kills} enemies defeated in total.</div><p>${adv.grand?`Next stop: <b>${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}</b>. You rest fully before the journey.`:'Further in there are more passages, and more dangerous monsters. You rest fully before going on.'}</p><div class="actions"><button class="btn primary" data-act="next">${adv.grand?`Travel to ${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}`:`Descend to chapter ${adv.chapter+1}`}</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="abandon">End the adventure here</button></div>`;
+  }else if(P==='victory'){
+    stage=`<div class="banner"><span class="big">Grand adventure complete!</span>${partyNames()} fought through the castle, the caves, the woods and Hell itself, and defeated the ${esc(adv.lastFoe)}. ${adv.kills} enemies defeated. <b class="you">${adv.glory} glory</b>.</div><p>Your names are written in the Hall of Fame.</p><div class="actions"><button class="btn primary" data-act="fame">See the Hall of Fame</button><button class="btn" data-act="abandon">Back to the start screen</button></div>`;
   }else if(P==='dead'){
-    stage=`<div class="banner dead"><span class="big">${party.length>1?'The party has fallen':esc(h.name)+' has fallen'}</span>at depth ${adv.depth} in chapter ${adv.chapter}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">${party.length>1?'Same party':'Same hero'}, try again</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
+    stage=`<div class="banner dead"><span class="big">${party.length>1?'The party has fallen':esc(h.name)+' has fallen'}</span>at depth ${adv.depth} in chapter ${adv.chapter}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">${party.length>1?'Same party':'Same hero'}, try again</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
   }
   const logHtml=adv.log.map(e=>e.c==='sep'?`<li class="sep">${e.h}</li>`:`<li class="${e.c}"><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('');
   $view.innerHTML=`<div class="adv">${status}<section class="scene">
     <canvas id="scene" class="scene-cv" width="192" height="96" role="img" aria-label="${esc(sceneText().filter(Boolean).join(' '))}"></canvas>
-    <div class="depth" aria-label="Depth in the cave">${steps}</div>
+    <div class="depth" aria-label="How deep you are">${steps}</div>
     <div class="win stage">${stage}</div>
     <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn dicetog" data-act="dice" type="button" aria-pressed="${!AUTO}">${AUTO?'Dice: auto':'Dice: you roll'}</button><button class="btn" data-act="abandon" type="button">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
@@ -3225,6 +3356,109 @@ function renderAdv(){
   if(!wide&&key!==lastKey&&lastKey!==null){const stg=document.getElementById('scene')||document.querySelector('.stage'),bar=document.querySelector('.status');const top=stg.getBoundingClientRect().top,off=(bar?bar.offsetHeight:0)+10;if(Math.abs(top-off)>4)window.scrollTo({top:scrollY+top-off,behavior:reduced?'auto':'smooth'})}
   lastKey=key;
 }
+
+/* ---------- Start screen ---------- */
+function drawHomeScene(cv,loc,noParty){if(!cv||!cv.getContext)return;const x=cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;
+  const xs=[60,132];sceneBg(x,WALLS[0],loc==='hell'||loc==='castle'?[{x:96,top:18,w:22}]:xs.map(cx=>({x:cx,top:20,w:20})),loc);
+  if(loc!=='woods'){ntorch(x,80,26);ntorch(x,112,26)}else{x.fillStyle='#d8f878';x.fillRect(84,34,1,1);x.fillRect(108,40,1,1)}
+  if(!noParty)party.forEach((h,i)=>{const L0=heroLook(h),sz=sprSize(L0.key);const cx=heroXs('center')[i];drawSpr(x,L0.key,L0.pal,cx-sz.w,FEET-sz.h*2,{scale:2})});
+  x.fillStyle=NP.K;x.fillRect(0,0,SW,10);ntext(x,LOCS[loc].name,4,2,NP.W);
+}
+let homeT=null;
+function renderHome(){
+  const live=adv&&adv.phase!=='dead';const runs=REC.runs.length;
+  $view.innerHTML=`<section class="home">
+    <canvas id="homeCv" class="scene-cv home-cv" width="192" height="70" role="img" aria-label="Your party at the ${esc(LOC().name)}"></canvas>
+    <nav class="win menu home-menu" aria-label="Play">
+      ${live?`<button class="btn" data-home="continue">Continue<small>${adv.grand?'Grand adventure · ':''}${esc(LOC().name)} · chapter ${adv.chapter} · depth ${adv.depth}</small></button>`:''}
+      <button class="btn" data-home="adventure">Adventure<small>Pick a place and see how far you get</small></button>
+      <button class="btn" data-home="grand">Grand adventure<small>Castle, caves, woods, then Hell</small></button>
+      <button class="btn" data-home="party">Party<small>${party.map(h=>first(h)).join(', ')} · build up to three heroes</small></button>
+    </nav>
+    <nav class="win menu home-menu" aria-label="More">
+      <button class="btn" data-home="heroes">Hero library<small>Every race and class</small></button>
+      <button class="btn" data-home="monsters">Monster library<small>${M.length} monsters, strengths and weaknesses</small></button>
+      <button class="btn" data-home="fame">Hall of Fame<small>${runs?`${runs} adventure${runs===1?'':'s'} recorded`:'Records and the bravest heroes'}</small></button>
+      <button class="btn" data-home="options">Options<small>Dice, difficulty and sound</small></button>
+    </nav>
+    <div class="press" aria-hidden="true">- Press to start -</div>
+  </section>`;
+  const keys=Object.keys(LOCS);let k=Math.max(0,keys.indexOf(locKey()));const cv=document.getElementById('homeCv');drawHomeScene(cv,keys[k]);
+  clearInterval(homeT);if(cv&&cv.getContext&&typeof setInterval==='function')homeT=setInterval(()=>{const c=document.getElementById('homeCv');if(!c||view!=='home'){clearInterval(homeT);return}SCN.f++;if(SCN.f%40===0)k=(k+1)%keys.length;drawHomeScene(c,keys[k])},220);
+  document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>homeAct(b));
+}
+function confirmNew(b,go){if(adv&&adv.phase!=='dead'&&adv.phase!=='victory'&&!b.dataset.confirm){b.dataset.confirm='1';b.innerHTML=`Sure?<small>Your current adventure ends. Tap again.</small>`;return}if(adv)endRun();go()}
+function homeAct(b){const a=b.dataset.home;
+  if(a==='continue'){setView(adv?'adv':'gen');return}
+  if(a==='adventure'){confirmNew(b,()=>setView('pick'));return}
+  if(a==='grand'){confirmNew(b,()=>{plan={mode:'grand',loc:'castle'};savePlan();setView('gen')});return}
+  if(a==='party'){setView('gen');return}
+  if(a==='heroes'){openPanel('heroes');return}
+  if(a==='monsters'){openLib();return}
+  if(a==='fame'){openPanel('fame');return}
+  if(a==='options'){openSettings();return}
+}
+function renderPick(){
+  $view.innerHTML=`<section class="pick"><div class="pick-head"><button class="btn" id="pickBack" type="button">◀ Back</button><h2>Choose a place</h2></div>
+    <div class="pick-grid">${Object.entries(LOCS).map(([k,l])=>`<button type="button" class="pick-card ${plan.mode==='adventure'&&plan.loc===k?'on':''}" data-loc="${k}"><canvas width="192" height="70" data-pick="${k}" aria-hidden="true"></canvas><b>${l.name}</b><small>${l.desc}</small></button>`).join('')}</div>
+    <div class="gen-note">Every place has the same kind of rooms and monsters, with its own backdrop. Beat the boss to go a chapter deeper.</div></section>`;
+  document.querySelectorAll('canvas[data-pick]').forEach(c=>drawHomeScene(c,c.dataset.pick,true));
+  document.querySelectorAll('.pick-card').forEach(b=>b.onclick=()=>{plan={mode:'adventure',loc:b.dataset.loc};savePlan();setView('gen')});
+  {const pb=document.getElementById('pickBack');if(pb)pb.onclick=()=>setView('home')}
+}
+
+/* ---------- Panels: hero library and Hall of Fame ---------- */
+let panEl=null,PAN={kind:'heroes',tab:'classes'};
+function panelInit(){
+  const w=document.createElement('div');
+  w.innerHTML=`<div id="panel" class="tray lib pan" hidden role="dialog" aria-modal="true" aria-labelledby="panTitle"><div class="tray-back"></div><div class="tray-card"><div class="set-head"><h3 id="panTitle"></h3><button class="btn set-x" type="button" id="panX" aria-label="Close">X</button></div><div class="pan-body" id="panBody"></div></div></div>`;
+  panEl=w.firstElementChild;if(!panEl||!document.body||!document.body.appendChild)return;document.body.appendChild(panEl);
+  document.getElementById('panX').onclick=closePanel;panEl.querySelector('.tray-back').onclick=closePanel;
+  panEl.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-pan]');if(!t)return;const k=t.dataset.pan;
+    if(k==='tab'){PAN.tab=t.dataset.v;renderPanel()}
+    else if(k==='reset'){if(t.dataset.confirm){REC=REC0();saveRec();renderPanel()}else{t.dataset.confirm='1';t.textContent='Sure? Tap again'}}});
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panEl&&!panEl.hidden)closePanel()});
+function openPanel(kind){if(!panEl||LOCK)return;PAN.kind=kind;renderPanel();panEl.hidden=false;document.body.classList.add('tray-open');setTimeout(()=>{try{document.getElementById('panX').focus({preventScroll:true})}catch(e){}},40)}
+function closePanel(){if(!panEl)return;panEl.hidden=true;document.body.classList.remove('tray-open');if(view==='home')render()}
+function sprCv(look,max){const s=sprSize(look.key);const sc=Math.max(1,Math.min(Math.floor((max||64)/s.h),4));return `<canvas class="pan-spr" width="${s.w}" height="${s.h}" style="width:${s.w*sc}px;height:${s.h*sc}px" data-spr='${esc(JSON.stringify(look))}' aria-hidden="true"></canvas>`}
+function drawPanSprites(){panEl.querySelectorAll('canvas[data-spr]').forEach(cv=>{const L0=JSON.parse(cv.dataset.spr);const x=cv.getContext&&cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;drawSpr(x,L0.key,L0.pal,0,0,{})})}
+function renderPanel(){
+  const body=document.getElementById('panBody'),title=document.getElementById('panTitle');if(!body)return;
+  if(PAN.kind==='heroes'){title.textContent='Hero library';
+    const tabs=`<div class="seg pan-tabs" role="tablist">${[['classes','Classes'],['races','Races']].map(([v,l])=>`<button type="button" role="tab" aria-checked="${PAN.tab===v}" aria-selected="${PAN.tab===v}" data-pan="tab" data-v="${v}">${l}</button>`).join('')}</div>`;
+    let cards='';
+    if(PAN.tab==='classes')cards=Object.keys(CLS_SV).map(k=>{const c=CL[k],kit=KIT[k],ex=newHero({cls:k,race:'human',name:'Sample'});
+      const wpn=ex.weapons.map(wi=>{const st=wStats(ex,wi);return `${esc(st.name)} ${st.dice} ${DMG[st.type]}`}).join('<br>');
+      const sp=ex.spells.length?`<div class="lib-sp">Spells: ${ex.spells.map(i=>esc(sName(i))).join(', ')}</div>`:'';
+      return `<article class="lib-card"><div class="lib-pic">${sprCv(heroLook({cls:k,race:'human'}),64)}</div><h3>${CLS_SV[k]}</h3>
+        <div class="lib-meta">Hit die d${c.hd} · best at ${PRI[k].slice(0,2).map(a=>AB_K[a]).join(' + ')} · saves ${c.sv.map(a=>AB_K[a]).join(', ')}</div>
+        <div class="lib-atk">${wpn}<br>${kit.ar?A_SV[kit.ar]:(k==='wizard'||k==='sorcerer')?'Mage Armor':'No armor'}${kit.sh?' + shield':''}</div>
+        <div class="lib-rs">${FEAT_SV[k]||''}</div>${sp}</article>`}).join('');
+    else cards=Object.keys(RACE_SV).map(k=>{const r=RC[k];const bon=Object.entries(r.b||{}).map(([a,v])=>`${AB_K[a]||a.toUpperCase()} +${v}`).join(', ');
+      return `<article class="lib-card"><div class="lib-pic">${['fighter','wizard','rogue'].map(c=>sprCv(heroLook({cls:c,race:k}),56)).join('')}</div><h3>${RACE_SV[k]}</h3>
+        <div class="lib-meta">Speed ${r.sp} ft${bon?' · '+bon:''}</div>
+        <div class="lib-rs">${RACE_FT[k]||''}</div>
+        <div class="lib-im">${(r.tr||[]).slice(0,5).map(esc).join(' · ')}</div></article>`}).join('');
+    body.innerHTML=tabs+`<div class="lib-grid pan-grid">${cards}</div>`;
+  }else{title.textContent='Hall of Fame';const st=REC.stats;
+    const statRow=[['Adventures',st.started],['Grand wins',st.grandWins],['Bosses slain',st.bosses],['Monsters slain',st.kills],['Heroes fallen',st.fallen],['Natural 20s',st.nat20],['Natural 1s',st.nat1],['d20 rolls',st.rolls]].map(([l,v])=>`<div><b>${v||0}</b><span>${l}</span></div>`).join('');
+    const badge={victory:['Victory','v'],fallen:['Fallen','f'],retired:['Retired','r'],alive:['On the way','a']};
+    const runs=REC.runs.slice(0,10).map((r,i)=>{const bd=badge[r.outcome]||badge.alive;return `<li class="fame-run"><span class="rank">${i+1}</span><div class="fr-main"><div class="fr-party">${r.party.map(p=>sprCv(heroLook({cls:p.c,race:p.r}),32)).join('')}<b>${r.party.map(p=>esc(p.n.split(' ')[0])).join(', ')}</b></div>
+      <div class="lib-meta">${r.mode==='grand'?'Grand adventure · ':''}${LOCS[r.loc]?LOCS[r.loc].name:''} · chapter ${r.chapter}, depth ${r.depth} · ${r.kills} slain · ${(DIFF[r.diff]||DIFF.normal).name} · ${new Date(r.date).toLocaleDateString()}</div></div><div class="fr-side"><b class="y">${r.glory}</b><span>glory</span><em class="bd ${bd[1]}">${bd[0]}</em></div></li>`}).join('');
+    const H2={};REC.runs.forEach(r=>r.party.forEach(p=>{const k=p.n+'|'+p.r+'|'+p.c;const o=H2[k]||(H2[k]={n:p.n,r:p.r,c:p.c,l:0,glory:0,runs:0,wins:0});o.l=Math.max(o.l,p.l);o.glory+=Math.round(r.glory/r.party.length);o.runs++;if(r.outcome==='victory')o.wins++}));
+    const heroes=Object.values(H2).sort((a,b)=>b.glory-a.glory||b.l-a.l).slice(0,10).map((h,i)=>`<li class="fame-run"><span class="rank">${i+1}</span><div class="fr-main"><div class="fr-party">${sprCv(heroLook({cls:h.c,race:h.r}),32)}<b>${esc(h.n)}</b></div><div class="lib-meta">${RACE_SV[h.r]} ${CLS_SV[h.c]} · reached level ${h.l} · ${h.runs} adventure${h.runs===1?'':'s'}${h.wins?` · ${h.wins} grand win${h.wins===1?'':'s'}`:''}</div></div><div class="fr-side"><b class="y">${h.glory}</b><span>glory</span></div></li>`).join('');
+    const slain=Object.entries(REC.slain).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([n,c])=>{const m=M.find(x=>x.n===n);return `<li>${m?sprCv(monLook(m),24):''}<span>${esc(n)}</span><b>${c}</b></li>`}).join('');
+    body.innerHTML=`<div class="pan-scroll"><div class="fame-stats">${statRow}</div>
+      <h4>Greatest parties</h4>${runs?`<ol class="fame-list">${runs}</ol>`:'<div class="gen-note">No adventures yet. Glory is the XP of every monster you defeat.</div>'}
+      <h4>Greatest heroes</h4>${heroes?`<ol class="fame-list">${heroes}</ol>`:'<div class="gen-note">Your heroes will show up here.</div>'}
+      <h4>Most hunted monsters</h4>${slain?`<ul class="fame-slain">${slain}</ul>`:'<div class="gen-note">Nothing slain yet.</div>'}
+      <div class="gen-note">Glory is the XP of every monster your party defeats. Records are saved on this device.</div>
+      <button class="btn" type="button" data-pan="reset">Reset all records</button></div>`;
+  }
+  drawPanSprites();
+}
+
 const FIGHT_ACTS=new Set(['atk','spell','sw','rage','lay','breath','flee']);
 $view.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||!adv||b.disabled)return;
@@ -3234,23 +3468,24 @@ $view.addEventListener('click',e=>{
   if(a==='tgt'){adv.tgt=+b.dataset.i;save();render();return}
   const fn=({dice:()=>{setAuto(!AUTO);render()},enter:()=>enterRoom(b.dataset.t),atk:()=>doAttack(b.dataset.w),spell:()=>doSpell(b.dataset.s),sw:doSecondWind,rage:doRage,lay:doLay,breath:doBreath,
     pot:()=>doPotion(false),gpot:()=>doPotion(true),flee:doFlee,take:takeLoot,restFull,restLight,well:drinkWell,listen,sneak:sneakPast,ambush:ambushSleeper,force:forceChest,picklock:pickChest,pray,offer,give:givePotion,talk,buy:()=>buy(b.dataset.k),next:nextRoom,retry,newone:newOne,
-    abandon:()=>{if(b.dataset.confirm){party=adv.start?JSON.parse(JSON.stringify(adv.start)):party;adv=null;edit=0;hero=party[0];setView('gen')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}}
+    abandon:()=>{if(b.dataset.confirm){endRun();setView('home')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}},home:()=>setView('home'),fame:()=>openPanel('fame')
   })[a];
   if(!fn)return;
-  if(a==='abandon'||a==='dice'){fn();return}
+  if(a==='abandon'||a==='dice'||a==='home'||a==='fame'){fn();return}
   if(LOCK)return;LOCK=true;
   if(adv.phase==='fight'&&(FIGHT_ACTS.has(a)||a==='pot'||a==='gpot')&&adv.turn>=0)hero=party[adv.turn];
   Promise.resolve().then(fn).catch(err=>console.error(err)).finally(()=>{LOCK=false;render()});
 });
 
 let lastKey=null,LOCK=false;
-function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
+function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);document.body.classList.toggle('at-home',view==='home'||view==='pick');{const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent=adv?LOC().short:plan.mode==='grand'?'Grand':LOCS[plan.loc].short}
+  if(view==='home'){lastKey=null;renderHome()}else if(view==='pick'){lastKey=null;renderPick()}else if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
-trayInit();settingsInit();libInit();
+trayInit();settingsInit();libInit();panelInit();
 /* test hooks */
-window.__M=M;window.__t={drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,doRage,doLay,
-  startAdventure:()=>{startAdventure()},get hero(){return hero},set hero(v){hero=v},get party(){return party},set party(v){party=v},get adv(){return adv},get bag(){return bag},SET,
+window.__M=M;window.__t={setView,get plan(){return plan},set plan(v){plan=v},get REC(){return REC},openPanel,drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,doRage,doLay,
+  startAdventure:o=>{startAdventure(o)},get hero(){return hero},set hero(v){hero=v},get party(){return party},set party(v){party=v},get adv(){return adv},get bag(){return bag},SET,
   enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monstersTurn,actor:()=>{if(adv.turn>=0)hero=party[adv.turn];return hero}};
 })();
 </script><script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}))}</script></body></html>
