@@ -2,7 +2,7 @@
 // The page, the app manifest and this file always try the network first,
 // so a new name, icon or version shows up right away. The saved copy is only
 // used when there is no internet. Icons and fonts use the saved copy first.
-const CACHE = 'nat20-v55';
+const CACHE = 'nat20-v56';
 const CORE = ['./', './index.html', './manifest.webmanifest?v=5', './icons/icon-192.png', './icons/icon-512.png', './icons/favicon.svg'];
 
 self.addEventListener('install', e => {

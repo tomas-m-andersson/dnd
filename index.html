@@ -413,13 +413,13 @@ body.at-home header{align-items:center}
 .arena .scene-cv{width:100%;max-width:640px;justify-self:center;height:auto;image-rendering:pixelated;border:4px solid var(--w);border-radius:8px;background:#000}
 .arn-corners{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:stretch}
 .arn-vs{align-self:center;font-size:14px;color:var(--y);text-shadow:2px 2px 0 #881400}
-.arn-corner{border:4px solid var(--g2);border-radius:8px;padding:10px;display:grid;gap:8px;align-content:start;background:var(--k);min-width:0}
+.arn-corner{border:4px solid var(--g2);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--k);min-width:0}
 .arn-corner.red{border-color:#d82800}.arn-corner.blue{border-color:#0058f8}
 .arn-corner.won{box-shadow:0 0 0 3px #f8b800}
 .arn-corner .eyebrow{font-size:7px;color:var(--g1)}.arn-corner.red .eyebrow{color:#f87858}.arn-corner.blue .eyebrow{color:#3cbcfc}
 .arn-corner b{font-size:9px;line-height:1.6;color:var(--w);overflow-wrap:anywhere}
 .arn-corner small{font-size:7px;line-height:1.7;color:var(--g1)}
-.arn-cbtn{display:flex;gap:6px;flex-wrap:wrap}.arn-cbtn .btn{font-size:7px;padding:8px}
+.arn-cbtn{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:4px}.arn-cbtn .btn{font-size:7px;padding:8px}
 .arn-go{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
 .arn-go .btn.primary{background:#e45c10;box-shadow:0 6px 0 #a81000;margin:0}
 .arn-go .btn{font-size:8px}
@@ -3960,7 +3960,7 @@ function arnUI(logOnly){const b=document.getElementById('arnBody');if(!b)return;
     <div class="arn-go">${ARN.busy?`<button class="btn" type="button" data-arn="skip">Skip to the end</button>`:`<button class="btn primary" id="arnFight" type="button" data-arn="fight" ${ready?'':'disabled'}>${ARN.winner?'Rematch!':'Fight!'}</button><button class="btn" type="button" data-arn="rndboth">Random match</button>`}</div>
     <ol class="log arn-log" id="arnLog" aria-live="polite" ${logHtml?'':'hidden'}>${logHtml}</ol>`}
 function arnClick(e){const t=e.target.closest&&e.target.closest('[data-arn]');if(!t)return;const a=t.dataset.arn;
-  if(a==='pick'){if(ARN.busy)return;ARN.choose=t.dataset.side;ARN.q='';arnUI();setTimeout(()=>{try{document.getElementById('arnQ').focus({preventScroll:true})}catch(e){}},30);return}
+  if(a==='pick'){if(ARN.busy)return;ARN.choose=t.dataset.side;ARN.q='';arnUI();window.scrollTo({top:0,behavior:'smooth'});return}
   if(a==='set'){const side=ARN.choose;const sel=t.dataset.k==='hero'?{k:'hero'}:{k:'mon',i:t.dataset.i};const other=side==='a'?'b':'a';
     if(sel.k==='hero'&&ARN[other]&&ARN[other].k==='hero')arnSel(other,ARN[side]);arnSel(side,sel);ARN.choose=null;arnUI();window.scrollTo({top:0,behavior:'smooth'});return}
   if(a==='rnd'){if(ARN.busy)return;arnRandom(t.dataset.side);arnUI();return}
