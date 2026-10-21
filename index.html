@@ -3701,7 +3701,7 @@ function homeAct(b){const a=b.dataset.home;
   if(a==='options'){openSettings();return}
 }
 function renderPick(){
-  $view.innerHTML=`<section class="pick"><div class="pick-head"><button class="btn" id="pickBack" type="button"><span class="back-ico" aria-hidden="true"></span>Back</button><h2>Choose a place</h2></div>
+  $view.innerHTML=`<section class="pick"><div class="pick-head"><button class="btn" id="pickBack" type="button"><span class="back-ico" aria-hidden="true"></span>Back</button><h2>Choose your adventure</h2></div>
     <div class="pick-grid">${Object.entries(LOCS).map(([k,l])=>`<button type="button" class="pick-card ${plan.mode==='adventure'&&plan.loc===k?'on':''}" data-loc="${k}"><canvas width="192" height="70" data-pick="${k}" aria-hidden="true"></canvas><b>${l.name}</b><small>${l.desc}</small></button>`).join('')}</div>
     <div class="gen-note">Every place has the same kind of rooms and monsters, with its own backdrop. Beat the boss to go a chapter deeper.</div></section>`;
   document.querySelectorAll('canvas[data-pick]').forEach(c=>drawHomeScene(c,c.dataset.pick,true));
