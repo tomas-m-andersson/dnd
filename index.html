@@ -458,8 +458,26 @@ const PRI={barbarian:['str','con','dex','wis','cha','int'],bard:['cha','dex','co
 const KIT={barbarian:{w:['greataxe','handaxe'],ar:null},bard:{w:['rapier','dagger'],ar:'leather-armor'},cleric:{w:['mace','crossbow-light'],ar:'scale-mail',sh:1},druid:{w:['scimitar','sling'],ar:'leather-armor',sh:1},fighter:{w:['longsword','crossbow-light'],ar:'chain-mail',sh:1},monk:{w:['shortsword','dart'],ar:null},paladin:{w:['longsword','javelin'],ar:'chain-mail',sh:1},ranger:{w:['shortsword','longbow'],ar:'scale-mail'},rogue:{w:['rapier','shortbow'],ar:'leather-armor'},sorcerer:{w:['dagger','crossbow-light'],ar:null},warlock:{w:['dagger','crossbow-light'],ar:'leather-armor'},wizard:{w:['quarterstaff','dagger'],ar:null}};
 const FEAT_SV={barbarian:'Rage: +2 damage and resistance to bludgeoning, piercing and slashing for the rest of the fight (2 per rest).',fighter:'Second Wind: heal 1d10 + level without losing your turn (1 per rest).',rogue:'Sneak Attack: extra damage when you hit, 1d6 per two levels.',monk:'Martial Arts: an extra unarmed strike every time you attack.',paladin:'Lay on Hands: a pool of 5 hit points per level to heal with.',ranger:'Sharpshooter: +2 to hit with ranged weapons.',wizard:'Mage Armor: armor class 13 + DEX for the whole adventure.',sorcerer:'Mage Armor: armor class 13 + DEX for the whole adventure.'};
 const RACE_FT={dwarf:'Resistant to poison.',elf:'Keen senses, darkvision.',halfling:'Lucky: rerolls a natural 1.',human:'+1 to every ability.',dragonborn:'Breath weapon 2d6 (1 per rest) and resistance to the same element.',gnome:'Gnome cunning against magic, darkvision.','half-elf':'Versatile, darkvision.','half-orc':'Relentless: drops to 1 hit point instead of 0 (1 per chapter).',tiefling:'Resistant to fire, darkvision.'};
-const NAMES=['Aldric','Brienne','Cedric','Delia','Edmund','Freya','Gareth','Helena','Ivor','Juna','Kael','Lyra','Marek','Nessa','Osric','Petra','Quinn','Rowan','Sable','Tamsin','Ulric','Vera','Wren','Yorick'];
-const EPI=['the Bold','Ironhand','of Crowpeak','Flameheart','Shadowstep','Stoneheart','the Cunning','Wolfsbane','Stormeye','Silvertongue','the Fearless','Ashborn','Nightwalker','Oakshield'];
+/* Hero names: a first name (often fitting the race) and a colorful epithet (often fitting the class). No two heroes in a party share a first name or an epithet word. */
+const NAMES=['Aldric','Brienne','Cedric','Delia','Edmund','Freya','Gareth','Helena','Ivor','Juna','Kael','Lyra','Marek','Nessa','Osric','Petra','Quinn','Rowan','Sable','Tamsin','Ulric','Vera','Wren','Yorick','Bram','Corwin','Dagny','Elspeth','Fenwick','Greta','Hamish','Isolde','Jory','Leofric','Magda','Odo','Perrin','Rosalind','Silas','Thea','Wulfric'];
+const RNAMES={dwarf:['Thorgrim','Brunhild','Durgan','Helga','Barundar','Ragna','Gimbrok','Vistra','Orsik','Dagna'],elf:['Aelar','Sylvara','Thalion','Naivara','Erevan','Lia','Faelor','Shava','Quarion','Ielenia'],halfling:['Pip','Rosie','Milo','Bree','Cade','Lavinia','Wellby','Merric','Callie','Tobble'],dragonborn:['Arjhan','Sorasha','Kriv','Medrash','Biri','Nadarr','Thava','Ghesh','Kava','Rhogar'],gnome:['Fizzwick','Nim','Bimble','Ellywick','Orryn','Zook','Carlin','Lilli','Wrenn','Boddynock'],'half-orc':['Grukk','Ushka','Thokk','Volen','Engong','Sutha','Dench','Baggi','Krusk','Ovak'],tiefling:['Mordai','Zephyra','Akmenos','Nemeia','Kallista','Damakos','Orianna','Skamos','Rieta','Leucis'],'half-elf':['Thalia','Corin','Elowen','Daevin','Sariel','Torin','Liriel','Aris']};
+const EPI=['the Bold','the Unwashed','Who Bit the Bear','the Thrice-Hanged','the Mildly Cursed','Kettlebreaker','of the Seventh Tavern','Last of the Grimwalds','the Unlucky','Goatfriend','the Barely Adequate','of Crowpeak','the Fearless','Who Owes Everyone','the Soggy','Doomwhistle','the Twice-Buried','of No Fixed Abode','the Loud','Who Came Back Wrong','the Damp','Ratcatcher','the Overconfident','of the Muddy Boots','Who Fears Geese','the Slightly Famous','Moonfool','the Late','Ditchborn','the Unbreakable'];
+const EPI_PRE=['Iron','Storm','Ash','Blood','Grim','Frost','Thunder','Bone','Night','Ember','Raven','Wolf','Oak','Stone','Hollow','Rust','Silver','Black'];
+const EPI_SUF=['heart','hand','bane','fist','brow','tooth','mantle','shield','eye','song','walker','breaker','cloak','helm','howl'];
+const CEPI={barbarian:['Skullsplitter','Who Fought the Mountain','the Unchained','Axe-Mad','Bearwrestler','the Bellowing'],bard:['Silvertongue','the Off-Key','Who Rhymes Too Much','Lutebreaker','of the Hundred Ballads','the Shameless'],cleric:['Lightbringer','the Devout','Who Heard the Gods Sneeze','Candlekeeper','the Merciful','of the Cracked Bell'],druid:['Mossbeard','Who Talks to Badgers','the Feral','Thornwalker','of the Old Wood','Mushroomkin'],fighter:['Shieldbreaker','the Unyielding','of a Thousand Scars','Who Never Retreats','Sword-Sworn','the Dented'],monk:['Thousand Fists','the Silent','Who Walks on Rice Paper','of the Empty Hand','Stillwater','the Barefoot'],paladin:['Oathsworn','the Radiant','Who Polishes Daily','Dawnshield','the Incorruptible','of the Shining Vow'],ranger:['Wolfsbane','Arrowstorm','Who Tracks the Wind','the Far-Sighted','of the Green March','Beastcaller'],rogue:['Quickfingers','Who Was Never There','the Light-Footed','Pursecutter','of the Back Alleys','the Innocent (Allegedly)'],sorcerer:['Stormblood','the Unstable','Who Sneezed Fire','Wildspark','the Chosen-ish','of the Burning Blood'],warlock:['Pactbound','Who Signed Too Fast','the Hollow-Eyed','Hexwhisper','of the Smiling Patron','the Owed'],wizard:['the Singed','Spellbinder','of the Burnt Tower','Who Read the Wrong Book','Inkfinger','the Absent-Minded']};
+const REPI={dwarf:['Ale-Drinker','Stonebeard','of the Deep Halls','Grudgekeeper'],elf:['the Ageless','Starborn','of the Silver Leaf','Moonwhisper'],halfling:['Second Breakfast','Bigfoot','of the Shire Road','the Small but Fierce'],dragonborn:['Scaleborn','Firebreath','of the Bronze Clan','Wyrmblood'],gnome:['the Tinkerer','Gearspinner','Who Exploded Once','of the Clockwork Burrow'],'half-orc':['Tuskgrin','the Gentle','Ironjaw','of the Red Tusk'],tiefling:['Hellborn','the Horned','of the Ninth Ember','Brimstone'],'half-elf':['of Two Worlds','the Wanderer','Halfmoon','the Unclaimed'],human:['the Ordinary','of Riverford','Plowman','the Stubborn']};
+function makeName(cls,race,skip){
+  let others=[];try{others=(party||[]).filter(p=>p&&p!==skip)}catch(e){}
+  const usedFirst=new Set(others.map(p=>String(p.name).split(' ')[0]));
+  const usedWords=new Set(others.flatMap(p=>String(p.name).split(' ').slice(1).join(' ').toLowerCase().match(/[a-z]{4,}/g)||[]));
+  const freeWords=e=>!(e.toLowerCase().match(/[a-z]{4,}/g)||[]).some(w=>usedWords.has(w)||[...usedWords].some(u=>u.startsWith(w)||w.startsWith(u)));
+  const firsts=(Math.random()<.6&&RNAMES[race]?RNAMES[race]:NAMES).filter(n=>!usedFirst.has(n));
+  const first=pick(firsts.length?firsts:NAMES.filter(n=>!usedFirst.has(n)));
+  for(let t=0;t<40;t++){const r=Math.random();
+    const e=r<.38&&CEPI[cls]?pick(CEPI[cls]):r<.55&&REPI[race]?pick(REPI[race]):r<.75?pick(EPI_PRE)+pick(EPI_SUF):pick(EPI);
+    if(freeWords(e))return `${first} ${e}`}
+  return `${first} ${pick(EPI)}`;
+}
 const BAD_SPELL=['false-life','hellish-rebuke','divine-favor','chill-touch'];
 
 /* ---------- Dice ---------- */
@@ -483,7 +501,7 @@ function scores(h){const r=RC[h.race];return Object.fromEntries(AB.map(a=>[a,h.b
 function newHero(keep){
   const cls=keep&&keep.cls||pick(Object.keys(CLS_SV)), race=keep&&keep.race||pick(Object.keys(RACE_SV));
   const rolls=keep&&keep.rolls||rollAbilities();
-  const h={v:1,name:keep&&keep.name||`${pick(NAMES)} ${pick(EPI)}`,cls,race,rolls,lvl:1,xp:0};
+  const h={v:1,name:keep&&keep.name||makeName(cls,race,keep&&keep.skip),cls,race,rolls,lvl:1,xp:0};
   h.base=assign(rolls,cls);
   const kit=KIT[cls];h.weapons=kit.w.filter(w=>W[w]);if(!h.weapons.length)h.weapons=['dagger'];
   h.armor=kit.ar;h.shield=!!kit.sh;
@@ -612,12 +630,12 @@ function renderGen(){
   document.querySelectorAll('.ptab[data-pi]').forEach(b=>b.onclick=()=>{edit=+b.dataset.pi;save();render()});
   const add=document.getElementById('addHero');if(add)add.onclick=()=>{party.push(newHero());edit=party.length-1;save();render()};
   const rem=document.getElementById('removeHero');if(rem)rem.onclick=()=>{if(rem.dataset.confirm){party.splice(edit,1);edit=Math.max(0,edit-1);save();render()}else{rem.dataset.confirm='1';rem.textContent='Sure? Tap again'}};
-  document.getElementById('newName').onclick=()=>{hero.name=`${pick(NAMES)} ${pick(EPI)}`;save();render()};
+  document.getElementById('newName').onclick=()=>{hero.name=makeName(hero.cls,hero.race,hero);save();render()};
   document.getElementById('selRace').onchange=e=>{party[edit]=newHero({name:hero.name,cls:hero.cls,race:e.target.value,rolls:hero.rolls});save();render()};
   document.querySelectorAll('.arr[data-cyc]').forEach(b=>b.onclick=()=>{const sel=document.getElementById(b.dataset.cyc);if(!sel||sel.disabled)return;const n=sel.options.length;sel.selectedIndex=(sel.selectedIndex+ +b.dataset.d+n)%n;sel.onchange({target:sel});const nb=document.querySelector(`.arr[data-cyc="${b.dataset.cyc}"][data-d="${b.dataset.d}"]`);try{nb&&nb.focus({preventScroll:true})}catch(e){}});
   document.getElementById('selCls').onchange=e=>{party[edit]=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
   document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();party[edit]=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
-  document.getElementById('randAll').onclick=()=>{party[edit]=newHero();save();render()};
+  document.getElementById('randAll').onclick=()=>{party[edit]=newHero({skip:hero});save();render()};
   document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure();setView('adv')};
 }
 
@@ -2079,7 +2097,7 @@ function gainXp(h,n){
 }
 function die(){adv.phase='dead';adv.busy=false;log('sep',party.length>1?'The party has fallen':'The hero has fallen')}
 function retry(){party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure();save();render()}
-function newOne(){adv=null;party=[newHero()];edit=0;hero=party[0];setView('gen')}
+function newOne(){adv=null;party=[];party=[newHero()];edit=0;hero=party[0];setView('gen')}
 
 /* ---------- View: adventure ---------- */
 const snap=p=>p<=0?0:Math.min(100,Math.max(10,Math.round(p/10)*10));
