@@ -457,7 +457,7 @@ body.at-home header{align-items:center}
 .bag .line code{display:flex;align-items:center;justify-content:flex-end}
 @media (max-width:860px){
   .gen,.adv{grid-template-columns:minmax(0,1fr)}
-  .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;border-radius:0 0 8px 8px;border-top-width:0}
+  .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;border-radius:8px}
   .more summary{display:block}
   .more[open] .more-in{padding-top:8px}
   body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#000}
@@ -499,6 +499,8 @@ body.at-home header{align-items:center}
   body{font-size:11px}
   .ab .val{font-size:20px}
 }
+@media (max-width:420px){.hdr-r .gear{width:50px;flex-basis:50px}.tabs button{font-size:9px;padding:0 4px;gap:6px}}
+@media (max-width:350px){.hdr-r .gear{width:44px;flex-basis:44px}.hdr-r .gear svg{width:24px;height:24px}.home-btn svg{width:22px;height:20px}.tabs button{font-size:8px;padding:0 2px}.tabs button::before{display:none}.tabs{padding:3px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 
@@ -511,7 +513,7 @@ body.at-home header{align-items:center}
     </div>
     <div class="hdr-r"><nav class="tabs" role="tablist" aria-label="Steps">
       <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Party</button>
-      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span><span id="tabAdvTxt">Castle</span></button>
+      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span><span id="tabAdvTxt">Adventure</span></button>
     </nav><button class="gear home-btn" id="homeBtn" type="button" aria-label="Home" title="Home"><svg viewBox="0 0 16 14" width="32" height="28" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M8 0h1v1h-1zM9 0h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM10 1h1v1h-1zM12 1h1v1h-1zM13 1h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM11 2h1v1h-1zM13 2h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM13 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM7 5h1v1h-1zM8 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM13 5h1v1h-1zM14 5h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM9 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM5 7h1v1h-1zM6 7h1v1h-1zM7 7h1v1h-1zM8 7h1v1h-1zM9 7h1v1h-1zM10 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM5 8h1v1h-1zM6 8h1v1h-1zM7 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM10 8h1v1h-1zM11 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM13 10h1v1h-1zM2 11h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM13 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM4 13h1v1h-1zM5 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM10 13h1v1h-1zM11 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1z"/></svg></button><button class="gear" id="gear" type="button" aria-label="Options" title="Options"><svg viewBox="0 0 16 16" width="32" height="32" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM13 1h1v1h-1zM14 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM12 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM0 7h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM11 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM15 8h1v1h-1zM0 9h1v1h-1zM1 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM15 9h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM9 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM1 13h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM1 14h1v1h-1zM2 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM8 14h1v1h-1zM9 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM8 15h1v1h-1zM9 15h1v1h-1z"/></svg></button></div>
   </header>
 
@@ -666,7 +668,7 @@ const first=h=>esc(String(h.name).split(' ')[0]);
 const alive=()=>party.filter(h=>h.hp>0);
 
 const $view=document.getElementById('view');
-function setView(v){view=v;document.body.classList.toggle('at-home',v==='home'||v==='pick');const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent=adv?LOC().short:plan.mode==='grand'?'Grand':LOCS[plan.loc].short;document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
+function setView(v){view=v;document.body.classList.toggle('at-home',v==='home'||v==='pick');const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent='Adventure';document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
 document.getElementById('tabGen').onclick=()=>setView('gen');
 document.getElementById('tabAdv').onclick=()=>{if(!adv)startAdventure(plan);setView('adv')};
 document.getElementById('homeBtn').onclick=()=>setView('home');
@@ -3535,7 +3537,7 @@ $view.addEventListener('click',e=>{
 });
 
 let lastKey=null,LOCK=false;
-function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);document.body.classList.toggle('at-home',view==='home'||view==='pick');{const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent=adv?LOC().short:plan.mode==='grand'?'Grand':LOCS[plan.loc].short}
+function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);document.body.classList.toggle('at-home',view==='home'||view==='pick');{const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent='Adventure'}
   if(view==='home'){lastKey=null;renderHome()}else if(view==='pick'){lastKey=null;renderPick()}else if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
