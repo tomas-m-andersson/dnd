@@ -377,9 +377,9 @@ body.tray-open{overflow:hidden}
 /* monster library */
 .lib .tray-card{width:min(1040px,100%);height:min(920px,calc(100vh - 24px));grid-template-rows:auto auto auto minmax(0,1fr);overflow:hidden;gap:12px}
 .lib-ctl{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px}
-.lib-ctl input,.lib-ctl select{background:var(--blue);color:var(--w);border:3px solid var(--w);border-radius:4px;min-height:44px;padding:0 10px;font-size:10px;min-width:0}
-.lib-ctl input::placeholder{color:var(--g1)}
-.lib-ctl input:focus,.lib-ctl select:focus{outline:0;border-color:var(--y)}
+#arnQ,.lib-ctl input,.lib-ctl select{background:var(--blue);color:var(--w);border:3px solid var(--w);border-radius:4px;min-height:44px;padding:0 10px;font-size:10px;min-width:0}
+#arnQ::placeholder,.lib-ctl input::placeholder{color:var(--g1)}
+#arnQ:focus,.lib-ctl input:focus,.lib-ctl select:focus{outline:0;border-color:var(--y)}
 .lib-ctl select option{background:var(--k)}
 .lib-count{font-size:8px;color:var(--g1)}
 .lib-grid{overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;align-content:start;padding:2px 4px 8px 0;overscroll-behavior:contain}
@@ -410,6 +410,31 @@ body.at-home header{align-items:center}
 .home-menu .btn{font-size:14px;min-height:46px}.home-menu .btn::before{margin-top:-.3em}.home-menu .btn small{display:none}
 .home .press{margin-top:2px}
 .pick{display:grid;gap:14px}
+.arena .scene-cv{width:100%;max-width:640px;justify-self:center;height:auto;image-rendering:pixelated;border:4px solid var(--w);border-radius:8px;background:#000}
+.arn-corners{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:stretch}
+.arn-vs{align-self:center;font-size:14px;color:var(--y);text-shadow:2px 2px 0 #881400}
+.arn-corner{border:4px solid var(--g2);border-radius:8px;padding:10px;display:grid;gap:8px;align-content:start;background:var(--k);min-width:0}
+.arn-corner.red{border-color:#d82800}.arn-corner.blue{border-color:#0058f8}
+.arn-corner.won{box-shadow:0 0 0 3px #f8b800}
+.arn-corner .eyebrow{font-size:7px;color:var(--g1)}.arn-corner.red .eyebrow{color:#f87858}.arn-corner.blue .eyebrow{color:#3cbcfc}
+.arn-corner b{font-size:9px;line-height:1.6;color:var(--w);overflow-wrap:anywhere}
+.arn-corner small{font-size:7px;line-height:1.7;color:var(--g1)}
+.arn-cbtn{display:flex;gap:6px;flex-wrap:wrap}.arn-cbtn .btn{font-size:7px;padding:8px}
+.arn-go{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}
+.arn-go .btn.primary{background:#e45c10;box-shadow:0 6px 0 #a81000;margin:0}
+.arn-go .btn{font-size:8px}
+.arn-go .btn:only-child{grid-column:1/-1}
+.arn-red{color:#f87858}.arn-blue{color:#3cbcfc}
+.arn-choose{display:grid;gap:10px;padding:12px}
+.arn-list{display:grid;gap:4px;max-height:56vh;overflow-y:auto}
+.arn-opt{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:center;text-align:left;background:var(--k);color:var(--w);border:0;border-bottom:2px solid var(--g3);padding:8px 4px;font:inherit;font-size:8px;cursor:pointer}
+.arn-opt span{color:var(--y);font-size:7px;text-align:center}.arn-opt small{font-size:6px;color:var(--g1)}
+.arn-opt.champ{border:3px solid #f8b800;border-radius:6px}
+@media (hover:hover){.arn-opt:hover{background:#1c1c1c}}
+.arn-log{max-height:280px}
+@media (max-width:560px){.arn-corners{gap:6px}.arn-corner{padding:8px}.arn-vs{font-size:10px}.arn-cbtn{display:grid}.arn-go{grid-template-columns:minmax(0,1fr)}}
+.arn-log[hidden]{display:none}
+
 .pick-head{display:flex;gap:12px;align-items:center}
 .pick-head h2{font-size:14px;color:var(--y)}
 .pick-head .btn{font-size:8px}
@@ -670,7 +695,7 @@ function fameIco(l){const m=FAME_ICO[l];if(!m)return'';let r='';m.forEach((row,y
 function saveRec(){try{localStorage.setItem('nat20-records',JSON.stringify(REC))}catch(e){}}
 function recStat(k,n){REC.stats[k]=(REC.stats[k]||0)+(n==null?1:n);saveRec()}
 function recordRun(outcome){if(!adv)return;
-  const run={id:adv.id||Date.now(),date:Date.now(),mode:adv.grand?'grand':'adventure',loc:adv.loc||'castle',diff:SET.diff,party:party.map(h=>({n:String(h.name),r:h.race,c:h.cls,l:h.lvl})),chapter:adv.chapter,depth:adv.depth,kills:adv.kills,glory:adv.glory||0,outcome};
+  const run={id:adv.id||Date.now(),date:Date.now(),mode:adv.grand?'grand':'adventure',loc:adv.loc||'castle',diff:SET.diff,party:party.map(h=>({n:String(h.name),r:h.race,c:h.cls,l:h.lvl,x:(()=>{try{const c=JSON.parse(JSON.stringify(h));delete c.log;return c}catch(e){return null}})()})),chapter:adv.chapter,depth:adv.depth,kills:adv.kills,glory:adv.glory||0,outcome};
   REC.runs=REC.runs.filter(x=>x.id!==run.id);REC.runs.push(run);REC.runs.sort((a,b)=>b.glory-a.glory||b.date-a.date);REC.runs=REC.runs.slice(0,60);saveRec()}
 
 /* ---------- State ---------- */
@@ -692,7 +717,7 @@ const first=h=>esc(String(h.name).split(' ')[0]);
 const alive=()=>party.filter(h=>h.hp>0);
 
 const $view=document.getElementById('view');
-function setView(v){view=v;document.body.classList.toggle('at-home',v==='home'||v==='pick');const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent='Adventure';document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
+function setView(v){view=v;document.body.classList.toggle('at-home',v==='home'||v==='pick'||v==='arena');const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent='Adventure';document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
 document.getElementById('tabGen').onclick=()=>setView('gen');
 document.getElementById('tabAdv').onclick=async()=>{if(LOCK)return;if(!adv){startAdventure(plan);if(adv.grand){LOCK=true;try{await showTravel('village','castle')}finally{LOCK=false}}}setView('adv')};
 document.getElementById('homeBtn').onclick=()=>setView('home');
@@ -3646,6 +3671,7 @@ function renderHome(){
       ${live?`<button class="btn" data-home="continue">Continue<small>${adv.grand?'Epic adventure · ':''}${esc(LOC().name)} · chapter ${adv.chapter} · depth ${adv.depth}</small></button>`:''}
       <button class="btn" data-home="adventure">Short adventure<small>Pick a place and see how far you get</small></button>
       <button class="btn" data-home="grand">Epic adventure<small>Embark on an epic quest</small></button>
+      <button class="btn" data-home="arena">Arena<small>Pit two fighters against each other</small></button>
       <button class="btn" data-home="party">Party<small>${party.map(h=>first(h)).join(', ')} · build up to three heroes</small></button>
     </nav>
     <nav class="win menu home-menu" aria-label="More">
@@ -3665,6 +3691,7 @@ function homeAct(b){const a=b.dataset.home;
   if(a==='continue'){setView(adv?'adv':'gen');return}
   if(a==='adventure'){confirmNew(b,()=>setView('pick'));return}
   if(a==='grand'){confirmNew(b,()=>{plan={mode:'grand',loc:'castle'};savePlan();setView('gen')});return}
+  if(a==='arena'){setView('arena');return}
   if(a==='party'){setView('gen');return}
   if(a==='heroes'){openPanel('heroes');return}
   if(a==='monsters'){openLib();return}
@@ -3808,8 +3835,141 @@ $view.addEventListener('click',e=>{
 });
 
 let lastKey=null,LOCK=false;
-function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);document.body.classList.toggle('at-home',view==='home'||view==='pick');{const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent='Adventure'}
-  if(view==='home'){lastKey=null;renderHome()}else if(view==='pick'){lastKey=null;renderPick()}else if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
+/* ---------- Arena: pit any two fighters against each other, one on one ---------- */
+const ARN={a:null,b:null,fa:null,fb:null,choose:null,q:'',busy:false,fast:false,log:[],big:[],msg:'',lunge:{},flash:{},ko:null,winner:null,tok:0,round:0,bg:null};
+const ABI=['str','dex','con','int','wis','cha'];
+/* the hero with the most glory in the Hall of Fame */
+function champion(){const H2={};REC.runs.forEach(r=>r.party.forEach(p=>{const k=p.n+'|'+p.r+'|'+p.c;const o=H2[k]||(H2[k]={n:p.n,r:p.r,c:p.c,l:0,glory:0,x:null});if(p.x&&p.l>=o.l)o.x=p.x;o.l=Math.max(o.l,p.l);o.glory+=Math.round(r.glory/r.party.length)}));
+  return Object.values(H2).sort((a,b)=>b.glory-a.glory||b.l-a.l)[0]||null}
+function champHero(c){let h;
+  if(c.x){h=JSON.parse(JSON.stringify(c.x))}
+  else{h=newHero({cls:c.c,race:c.r,name:c.n});while(h.lvl<c.l){h.lvl++;const inc=Math.max(1,Math.floor(CL[h.cls].hd/2)+1+mod(scores(h).con));h.hpMax+=inc}}
+  h.hp=h.hpMax;h.raging=false;h.bless=0;h.curse=0;return h}
+const avgOf=x=>{const p=parse(x);return p.n*(p.s+1)/2+p.k};
+function heroOpts(h){const out=(h.weapons||[]).filter(w=>W[w]).map(w=>{const s=wStats(h,w);const dm=s.dm+(h.cls==='barbarian'&&!s.ranged?2:0);return{n:s.name,hit:s.hit,parts:[[s.dice+(dm?sgn(dm):''),s.type]],avg:avgOf(s.dice)+dm}});
+  (h.spells||[]).forEach(i=>{const s=SP[i];if(!s||s.l!==0||s.h||!s.d||!s.t)return;const dice=spellDice(h,s),sm=spellMod(h);
+    if(s.at)out.push({n:sName(i),hit:prof(h.lvl)+sm,parts:[[dice,s.t]],avg:avgOf(dice),spell:1});
+    else if(s.dc)out.push({n:sName(i),ab:s.dc,dc:8+prof(h.lvl)+sm,hf:s.hf,parts:[[dice,s.t]],avg:avgOf(dice)*.85,spell:1})});
+  if(!out.length)out.push({n:'Fists',hit:prof(h.lvl)+mod(scores(h).str),parts:[['1',"bludgeoning"]],avg:1});
+  return out.sort((a,b)=>b.avg-a.avg)}
+function arnFighter(sel,side){if(!sel)return null;
+  if(sel.k==='hero'){const c=champion();if(!c)return null;const h=champHero(c);
+    return{side,hero:h,nm:String(h.name).split(' ')[0],full:String(h.name),ac:ac(h),hp:h.hpMax,max:h.hpMax,look:heroLook(h),dex:mod(scores(h).dex),pots:2,opts:heroOpts(h),sub:`Champion · level ${h.lvl} ${RACE_SV[h.race]||h.race} ${CLS_SV[h.cls]||h.cls}`}}
+  const m=M.find(x=>x.i===sel.i);if(!m)return null;
+  return{side,m,nm:m.n,full:m.n,ac:m.ac,hp:m.hp,max:m.hp,look:monLook(m),dex:mod(m.st[1]),charged:!!m.sv,sub:`CR ${crTxt(m.cr)} · ${m.s} ${m.t}`}}
+function arnReset(F){if(!F)return;F.hp=F.max;F.pots=2;F.charged=!!(F.m&&F.m.sv)}
+function arnTypeMod(T,n,type){if(T.m){const m=T.m;if(m.im&&m.im.includes(type))return[0,`immune to ${type}`];if(m.rs&&m.rs.includes(type))return[Math.floor(n/2),`resists ${type}`];if(m.vu&&m.vu.includes(type))return[n*2,`vulnerable to ${type}!`];return[n,'']}
+  const h=T.hero;const rs=(h.race==='dwarf'&&type==='poison')||(h.race==='tiefling'&&type==='fire')||(h.dragon&&h.dragon===type)||(h.cls==='barbarian'&&['bludgeoning','piercing','slashing'].includes(type));return rs?[Math.floor(n/2),`resists ${type}`]:[n,'']}
+function arnSaveB(T,ab){return T.m?mod(T.m.st[ABI.indexOf(ab)]??10):mod(scores(T.hero)[ab]??10)}
+const arnTag=F=>`<b class="${F.side==='red'?'arn-red':'arn-blue'}">${esc(F.nm)}</b>`;
+function arnLog(h,ch,cc){ARN.log.unshift({h,ch,cc});ARN.log=ARN.log.slice(0,80);arnUI(true)}
+function arnFx(side,word,col,msg){ARN.big=ARN.big.filter(b=>b.side!==side);ARN.big.push({side,word,col,t:performance.now()});if(msg)ARN.msg=msg}
+const arnWait=ms=>ARN.fast?Promise.resolve():wait(reduced?Math.min(ms,120):ms);
+async function arnLunge(F){ARN.lunge[F.side]=performance.now()+220;await arnWait(220)}
+function arnHurt(T,n){T.hp=Math.max(0,T.hp-n);ARN.flash[T.side]=performance.now()+420}
+async function arnSwing(A,T,o){const r=d(20),tot=r+o.hit,crit=r===20,hit=crit||(r!==1&&tot>=T.ac);await arnLunge(A);
+  const head=`${arnTag(A)} ${o.spell?'casts':'attacks with'} ${esc(o.n)}: <span class="muted">${r}${sgn(o.hit)} = ${tot} vs AC ${T.ac}</span>.`;
+  if(!hit){arnLog(head+(r===1?' A fumble!':' Miss.'),r,r===1?'fail':'');arnFx(T.side,r===1?'fumble':'miss',NP.G,`${A.nm} ${r===1?'fumbles':'misses'}!`);return}
+  let sum=0;const notes=[];for(const [dc,ty] of o.parts){const [v,nt]=arnTypeMod(T,roll(dc,crit),ty);sum+=v;if(nt)notes.push(nt)}
+  arnHurt(T,sum);arnLog(head+` ${crit?'<b>Critical hit!</b> ':'Hit! '}<span class="dmg">${sum} damage</span>${notes.length?` <span class="muted">(${esc(notes.join(', '))})</span>`:''}.`,r,crit?'crit':'hit');
+  arnFx(T.side,`${crit?'crit!':'hit!'} ${sum}`,crit?NP.Y:NP.W,`${A.nm} ${crit?'crits':'hits'} ${T.nm}! ${sum} damage.`)}
+async function arnSave(A,T,o){const sb=arnSaveB(T,o.ab),r=d(20),ok=r+sb>=o.dc;await arnLunge(A);
+  let sum=0;const notes=[];for(const [dc,ty] of o.parts){const [v,nt]=arnTypeMod(T,roll(dc),ty);sum+=v;if(nt)notes.push(nt)}
+  if(ok)sum=o.hf?Math.floor(sum/2):0;if(sum)arnHurt(T,sum);
+  arnLog(`${arnTag(A)} uses ${esc(o.n)}! ${arnTag(T)} tries to dodge <span class="muted">(${o.ab.toUpperCase()} ${r}${sgn(sb)} = ${r+sb} vs ${o.dc})</span>: ${ok?(sum?'partly dodges':'dodges'):'is caught'}. ${sum?`<span class="dmg">${sum} damage</span>`:'No damage'}${notes.length?` <span class="muted">(${esc(notes.join(', '))})</span>`:''}.`,'!','magic');
+  arnFx(T.side,sum?`${ok?'half':'hit!'} ${sum}`:'dodge',ok?NP.G:NP.U,`${A.nm} uses ${o.n.toLowerCase()}!`)}
+function monActs(m){const A=(m.a||[]).filter(a=>a.d&&a.d.length);if(!A.length)return[];const best=A.slice().sort((p,q)=>q.d.reduce((s,[x])=>s+avgOf(x),0)-p.d.reduce((s,[x])=>s+avgOf(x),0))[0];
+  if(m.m&&m.m.length){const out=[];m.m.forEach(([n,c])=>{const a=A.find(x=>x.n===n)||best;for(let i=0;i<c;i++)out.push(a)});return out.slice(0,4)}
+  return[best]}
+async function arnTurn(F,T){
+  if(F.hero){const h=F.hero;
+    if(F.hp<F.max*.35&&F.pots>0){F.pots--;const n=roll('2d4+2');F.hp=Math.min(F.max,F.hp+n);arnLog(`${arnTag(F)} drinks a potion of healing. <span class="heal">+${n} HP</span>.`,'✚','heal');arnFx(F.side,`+${n}`,NP.L,`${F.nm} drinks a potion!`);return}
+    const o=F.opts[0];const n=h.cls==='fighter'&&h.lvl>=5&&!o.spell?2:1;let sneak=h.cls==='rogue';
+    for(let i=0;i<n&&T.hp>0;i++){const oo=sneak&&!o.spell?Object.assign({},o,{parts:[...o.parts,[`${Math.ceil(h.lvl/2)}d6`,o.parts[0][1]]]}):o;
+      const before=T.hp;if(o.dc)await arnSave(F,T,o);else await arnSwing(F,T,oo);if(T.hp<before)sneak=false;if(i<n-1)await arnWait(450)}
+    return}
+  const m=F.m;
+  if(m.sv&&!F.charged&&m.sv.r&&d(6)>=m.sv.r){F.charged=true;arnLog(`${arnTag(F)} gathers its power again...`,'·','')}
+  if(m.sv&&F.charged){F.charged=false;await arnSave(F,T,{n:m.sv.n,ab:m.sv.ab,dc:m.sv.dc,hf:m.sv.h,parts:m.sv.d});return}
+  const acts=monActs(m);if(!acts.length){arnLog(`${arnTag(F)} has no way to hurt ${arnTag(T)} and just glares.`,'·','');ARN.msg=`${F.nm} glares...`;return}
+  for(let i=0;i<acts.length&&T.hp>0;i++){const a=acts[i];await arnSwing(F,T,{n:a.n,hit:a.b||0,parts:a.d});if(i<acts.length-1)await arnWait(450)}}
+async function arnFight(){if(ARN.busy)return;const A=ARN.fa,B=ARN.fb;if(!A||!B)return;const tok=++ARN.tok;
+  ARN.busy=true;ARN.fast=false;ARN.log=[];ARN.winner=null;ARN.ko=null;ARN.big=[];arnReset(A);arnReset(B);ARN.round=0;
+  const ia=d(20)+A.dex,ib=d(20)+B.dex;const order=ia>=ib?[A,B]:[B,A];
+  arnLog(`<b>Fight!</b> ${arnTag(order[0])} is quicker and strikes first <span class="muted">(initiative ${Math.max(ia,ib)} vs ${Math.min(ia,ib)})</span>.`,'!','crit');ARN.msg='fight!';arnFx('mid','fight!',NP.Y);arnUI();
+  await arnWait(900);
+  while(A.hp>0&&B.hp>0&&ARN.round<30){ARN.round++;arnLog(`Round ${ARN.round}`,'·','sep');
+    for(const F of order){const T=F===A?B:A;if(F.hp<=0||T.hp<=0)break;await arnTurn(F,T);if(tok!==ARN.tok)return;arnUI();await arnWait(700);if(tok!==ARN.tok)return}}
+  let win;if(A.hp<=0)win=B;else if(B.hp<=0)win=A;else win=(A.hp/A.max>=B.hp/B.max)?A:B;const lose=win===A?B:A;
+  ARN.winner=win.side;if(lose.hp<=0)ARN.ko={side:lose.side,t:performance.now()};
+  arnLog(lose.hp<=0?`${arnTag(lose)} falls! <b>${arnTag(win)} wins</b> after ${ARN.round} round${ARN.round===1?'':'s'}.`:`Time is up after ${ARN.round} rounds! ${arnTag(win)} has more health left and <b>wins on points</b>.`,'★','crit');
+  ARN.msg=`${win.nm} wins!`;ARN.big=[];arnFx(win.side,'winner!',NP.Y);ARN.busy=false;arnUI()}
+/* the TV: a colosseum with a cheering crowd */
+function arnBg(){if(ARN.bg)return ARN.bg;const c=document.createElement('canvas');c.width=SW;c.height=SH;const x=c.getContext&&c.getContext('2d');if(!x)return null;
+  x.fillStyle='#000';x.fillRect(0,0,SW,SH);x.fillStyle='#0000bc';x.fillRect(0,10,SW,4);
+  x.fillStyle='#3c3c3c';x.fillRect(0,14,SW,16);
+  x.fillStyle='#ac7c00';x.fillRect(0,30,SW,18);x.fillStyle='#503000';for(let y=30;y<48;y+=6)x.fillRect(0,y,SW,1);for(let y=30,r=0;y<48;y+=6,r++)for(let i=(r%2)*8;i<SW;i+=16)x.fillRect(i,y,1,6);
+  x.fillStyle='#fca044';x.fillRect(0,30,SW,1);
+  for(let i=0;i<5;i++){const ax=12+i*42;x.fillStyle='#000';x.fillRect(ax,36,16,12);x.fillRect(ax+2,34,12,2);x.fillRect(ax+4,33,8,1)}
+  [[30,'#d82800'],[96,'#f8b800'],[162,'#0058f8']].forEach(([bx,c0])=>{x.fillStyle='#7c7c7c';x.fillRect(bx,11,1,20);x.fillStyle=c0;x.fillRect(bx+1,12,9,6);x.fillRect(bx+1,18,3,2);x.fillRect(bx+7,18,3,2)});
+  x.fillStyle='#e45c10';x.fillRect(0,48,SW,SH-48);x.fillStyle='#fca044';for(let i=0;i<120;i++)x.fillRect(Math.floor(hr(i,3)*SW),49+Math.floor(hr(3,i)*20),2,1);
+  x.fillStyle='#ac7c00';for(let i=0;i<60;i++)x.fillRect(Math.floor(hr(i,9)*SW),49+Math.floor(hr(9,i)*20),1,1);
+  x.fillStyle='#881400';x.fillRect(0,48,SW,1);
+  return ARN.bg=c}
+const CROWD=['#f87858','#fca044','#f8b800','#58d854','#3cbcfc','#d8b8f8','#fcfcfc','#f0d0b0'];
+function arnFighterDraw(x,F,cx,now){if(!F)return;const L=F.look,left=F.side==='red';const lg=(ARN.lunge[F.side]||0)>now?(left?7:-7):0;
+  const fl=ARN.flash[F.side]||0,white=now<fl&&Math.floor(now/70)%2===0,shake=now<fl?(Math.floor(now/60)%2?1:-1):0;
+  const ko=ARN.ko&&ARN.ko.side===F.side?Math.min(1,(now-ARN.ko.t)/900):null;
+  if(F.hero){const s=sprSize(L.key),px=cx-s.w+lg+shake,py=FEET-s.h*2;if(ko!=null){drawDissolve(x,{key:L.key,pal:L.pal,flip:!left},px,py,ko,2);return}drawSpr(x,L.key,L.pal,px,py,{scale:2,flip:!left,white});return}
+  const flip=left?!L.flip:!!L.flip;const s=sprSize(L.key);
+  if(L.swarm){if(ko===1)return;[[-16,0],[10,-12],[-4,8],[16,6]].forEach(([dx,dy],i)=>drawSpr(x,L.key,L.pal,cx+dx-s.w+lg+shake+(Math.floor(now/120+i)%4<2?1:0),FEET-s.h*2-6+dy,{scale:2,flip,white,alpha:ko!=null?1-ko:null}));return}
+  let sc=L.scale||2;while(sc>1&&s.w*sc>84)sc--;const w=s.w*sc,h=s.h*sc;const px=cx-w/2+lg+shake,py=Math.max(11,FEET-h);
+  if(ko!=null){drawDissolve(x,Object.assign({},L,{flip}),px,py,ko,sc);return}drawSpr(x,L.key,L.pal,px,py,{scale:sc,flip,white})}
+function arnBar(x,F,left){if(!F)return;let nm=F.nm.toUpperCase().replace(/^(ADULT|YOUNG|ANCIENT|GIANT) /,'').slice(0,10);const bw=26;
+  const bx=left?2+nm.length*6+3:SW-2-nm.length*6-3-bw;ntext(x,nm,left?2:SW-2-nm.length*6,2,left?'#f87858':'#3cbcfc');
+  x.fillStyle=NP.W;x.fillRect(bx,3,bw+2,5);x.fillStyle=NP.K;x.fillRect(bx+1,4,bw,3);x.fillStyle=F.hp/F.max<.3?NP.R:'#58d854';x.fillRect(bx+1,4,Math.ceil(bw*Math.max(0,F.hp)/F.max),3)}
+function drawArena(cv){if(!cv||!cv.getContext)return;const x=cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;const now=performance.now();const bg=arnBg();if(bg)x.drawImage(bg,0,0);
+  for(let i=0;i<48;i++){const cx0=2+i*4,row=i%3,j=reduced?0:((Math.floor(now/(ARN.busy?140:420))+i*7)%5===0?1:0);x.fillStyle=CROWD[Math.floor(hr(i,5)*CROWD.length)];x.fillRect(cx0,16+row*4-j,3,3);x.fillStyle='#000';if(j&&ARN.busy)x.fillRect(cx0+1,15+row*4-j,1,1)}
+  arnFighterDraw(x,ARN.fa,50,now);arnFighterDraw(x,ARN.fb,142,now);
+  x.fillStyle=NP.K;x.fillRect(0,0,SW,10);arnBar(x,ARN.fa,true);arnBar(x,ARN.fb,false);
+  ARN.big=ARN.big.filter(b=>now-b.t<1100);ARN.big.forEach(b=>{const s=String(b.word).toUpperCase(),cx=b.side==='red'?50:b.side==='blue'?142:96;const up=reduced?0:Math.min(8,Math.floor((now-b.t)/60));ntextBig(x,s,Math.round(cx-s.length*6),24-up,b.col)});
+  const lines=ARN.msg?nwrap(ARN.msg,30):(ARN.fa&&ARN.fb?[`${ARN.fa.nm} vs ${ARN.fb.nm}`.slice(0,60)]:['choose two fighters!']);nbox(x,ARN.fa&&ARN.fb&&!ARN.msg?nwrap(lines[0],30):lines)}
+function arnSel(side,sel){ARN[side]=sel;ARN[side==='a'?'fa':'fb']=arnFighter(sel,side==='a'?'red':'blue');ARN.msg='';ARN.winner=null;ARN.ko=null;ARN.log=[];try{localStorage.setItem('nat20-arena',JSON.stringify({a:ARN.a,b:ARN.b}))}catch(e){}}
+function arnRandom(side){const pool=M.filter(m=>monActs(m).length);arnSel(side,{k:'mon',i:pick(pool).i})}
+function arnCorner(F,side){const lbl=side==='a'?'Red corner':'Blue corner';if(!F)return `<div class="arn-corner ${side==='a'?'red':'blue'}"><div class="eyebrow">${lbl}</div><b>Empty</b><button class="btn" type="button" data-arn="pick" data-side="${side}">Choose</button></div>`;
+  return `<div class="arn-corner ${side==='a'?'red':'blue'}${ARN.winner===F.side?' won':''}"><div class="eyebrow">${lbl}${ARN.winner===F.side?' · winner':''}</div><b>${esc(F.full)}</b><small>${esc(F.sub)}</small><small>HP ${F.max} · AC ${F.ac}</small>
+    <div class="arn-cbtn"><button class="btn" type="button" data-arn="pick" data-side="${side}" ${ARN.busy?'disabled':''}>Change</button><button class="btn" type="button" data-arn="rnd" data-side="${side}" ${ARN.busy?'disabled':''}>Random</button></div></div>`}
+function arnList(){const q=ARN.q.trim().toLowerCase();const c=champion();
+  const champ=c?`<button type="button" class="arn-opt champ" data-arn="set" data-k="hero"><span>★</span><b>${esc(c.n)}</b><small>Hall of Fame champion · level ${c.l}</small></button>`:`<div class="gen-note">No champion yet. Finish an adventure and the hero with the most glory will be crowned here.</div>`;
+  const ms=M.filter(m=>(!q||m.n.toLowerCase().includes(q))&&monActs(m).length).sort((a,b)=>a.cr-b.cr||a.n.localeCompare(b.n)).map(m=>`<button type="button" class="arn-opt" data-arn="set" data-k="mon" data-i="${m.i}"><span>${crTxt(m.cr)}</span><b>${esc(m.n)}</b><small>${m.s} ${m.t}</small></button>`).join('');
+  return `${!q||(c&&c.n.toLowerCase().includes(q))?champ:''}${ms||'<div class="gen-note">No monster by that name.</div>'}`}
+function renderArena(){const sel=ARN.choose;
+  $view.innerHTML=`<section class="pick arena"><div class="pick-head"><button class="btn" id="arnBack" type="button">◀ Back</button><h2>Arena</h2></div>
+    <canvas id="arnCv" class="scene-cv" width="192" height="96" role="img" aria-label="The arena"></canvas>
+    <div id="arnBody"></div></section>`;
+  document.getElementById('arnBack').onclick=()=>{if(ARN.choose){ARN.choose=null;arnUI();return}ARN.tok++;ARN.busy=false;setView('home')};
+  $view.querySelector('.arena').addEventListener('click',arnClick);arnUI();
+  const cv=document.getElementById('arnCv');drawArena(cv);clearInterval(ARN.t);if(cv&&cv.getContext&&typeof setInterval==='function')ARN.t=setInterval(()=>{const c=document.getElementById('arnCv');if(!c||view!=='arena'){clearInterval(ARN.t);return}drawArena(c)},70)}
+function arnUI(logOnly){const b=document.getElementById('arnBody');if(!b)return;
+  const logHtml=ARN.log.map(e=>e.cc==='sep'?`<li class="sep">${e.h}</li>`:`<li><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('');
+  if(logOnly&&!ARN.choose){const l=document.getElementById('arnLog');if(l){l.innerHTML=logHtml;l.hidden=!logHtml;return}}
+  if(ARN.choose){b.innerHTML=`<div class="win arn-choose"><div class="eyebrow">${ARN.choose==='a'?'Red corner':'Blue corner'} · choose a fighter</div><input id="arnQ" class="lib-q" type="search" placeholder="Search monsters" value="${esc(ARN.q)}" autocomplete="off"><div class="arn-list" id="arnList">${arnList()}</div></div>`;
+    const q=document.getElementById('arnQ');q.oninput=()=>{ARN.q=q.value;document.getElementById('arnList').innerHTML=arnList()};return}
+  const ready=ARN.fa&&ARN.fb;
+  b.innerHTML=`<div class="arn-corners">${arnCorner(ARN.fa,'a')}<div class="arn-vs">VS</div>${arnCorner(ARN.fb,'b')}</div>
+    <div class="arn-go">${ARN.busy?`<button class="btn" type="button" data-arn="skip">Skip to the end</button>`:`<button class="btn primary" id="arnFight" type="button" data-arn="fight" ${ready?'':'disabled'}>${ARN.winner?'Rematch!':'Fight!'}</button><button class="btn" type="button" data-arn="rndboth">Random match</button>`}</div>
+    <ol class="log arn-log" id="arnLog" aria-live="polite" ${logHtml?'':'hidden'}>${logHtml}</ol>`}
+function arnClick(e){const t=e.target.closest&&e.target.closest('[data-arn]');if(!t)return;const a=t.dataset.arn;
+  if(a==='pick'){if(ARN.busy)return;ARN.choose=t.dataset.side;ARN.q='';arnUI();setTimeout(()=>{try{document.getElementById('arnQ').focus({preventScroll:true})}catch(e){}},30);return}
+  if(a==='set'){const side=ARN.choose;const sel=t.dataset.k==='hero'?{k:'hero'}:{k:'mon',i:t.dataset.i};const other=side==='a'?'b':'a';
+    if(sel.k==='hero'&&ARN[other]&&ARN[other].k==='hero')arnSel(other,ARN[side]);arnSel(side,sel);ARN.choose=null;arnUI();window.scrollTo({top:0,behavior:'smooth'});return}
+  if(a==='rnd'){if(ARN.busy)return;arnRandom(t.dataset.side);arnUI();return}
+  if(a==='rndboth'){if(ARN.busy)return;arnRandom('a');arnRandom('b');arnUI();return}
+  if(a==='fight'){arnFight();return}
+  if(a==='skip'){ARN.fast=true;return}}
+try{const s=JSON.parse(localStorage.getItem('nat20-arena')||'null');if(s){if(s.a)arnSel('a',s.a);if(s.b)arnSel('b',s.b)}}catch(e){}
+function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);document.body.classList.toggle('at-home',view==='home'||view==='pick'||view==='arena');{const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent='Adventure'}
+  if(view==='home'){lastKey=null;renderHome()}else if(view==='pick'){lastKey=null;renderPick()}else if(view==='arena'){lastKey=null;renderArena()}else if(view==='adv'&&adv)renderAdv();else{lastKey=null;renderGen()}}
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
 trayInit();settingsInit();libInit();panelInit();travelInit();
