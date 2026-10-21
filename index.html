@@ -41,7 +41,8 @@ b,strong{font-weight:400}
 .win.blue{background:var(--blue);box-shadow:0 0 0 3px var(--k)}
 
 /* header */
-header{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+header{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+header>div:first-child{display:grid;justify-items:center;width:100%}
 header h1{font-size:34px;line-height:1.1;letter-spacing:2px;text-shadow:4px 4px 0 var(--dred);margin-top:6px}
 header h1 .acc{color:var(--y)}
 header h1 .logo{display:block;width:291px;height:87px;image-rendering:pixelated;image-rendering:crisp-edges}
