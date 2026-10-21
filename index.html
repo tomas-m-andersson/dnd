@@ -2975,6 +2975,8 @@ function bgHell(x,ch){
 function narch(x,cx,top,w,col){const bot=56;x.fillStyle=NP.K;x.fillRect(cx-w/2,top+4,w,bot-top-4);x.fillRect(cx-w/2+2,top+2,w-4,2);x.fillRect(cx-w/2+4,top,w-8,2);
   x.fillStyle=col||NP.G;x.fillRect(cx-w/2-2,top+4,2,bot-top-4);x.fillRect(cx+w/2,top+4,2,bot-top-4);x.fillRect(cx-w/2,top+2,2,2);x.fillRect(cx+w/2-2,top+2,2,2);x.fillRect(cx-w/2+2,top,2,2);x.fillRect(cx+w/2-4,top,2,2);x.fillRect(cx-w/2+4,top-2,w-8,2)}
 function ntorch(x,px,py){if(locKey()==='woods'){if(SCN.f%6<4){x.fillStyle='#d8f878';x.fillRect(px+(SCN.f%3),py+4,2,2);x.fillStyle=NP.L;x.fillRect(px+(SCN.f%3)-1,py+5,1,1)}return}drawSpr(x,SCN.f%2?'torch2':'torch',null,px-1,py-4,{scale:2})}
+function ntextBig(x,str,px,py,col){const s=String(str).toUpperCase();const draw=(ox,oy,c)=>{x.fillStyle=c;let cx=px+ox;for(const ch of s){const g=NF[ch];if(g)for(let j=0;j<7;j++)for(let i=0;i<5;i++)if(g[j][i]==='#')x.fillRect(cx+i*2,py+oy+j*2,2,2);cx+=12}};
+  [[-1,0],[1,0],[0,-1],[0,1],[2,2],[1,2],[2,1]].forEach(([a,b])=>draw(a,b,NP.K));draw(0,0,col)}
 function nbox(x,lines){x.fillStyle=NP.K;x.fillRect(0,BOXY,SW,SH-BOXY);x.fillStyle=NP.W;x.fillRect(2,BOXY+2,SW-4,SH-BOXY-4);x.fillStyle=NP.b;x.fillRect(3,BOXY+3,SW-6,SH-BOXY-6);
   lines.slice(0,2).forEach((l,i)=>ntext(x,l,8,BOXY+6+i*9))}
 function focusHero(){if(adv.phase==='fight'&&adv.turn>=0)return party[adv.turn];return picked()}
@@ -3083,10 +3085,14 @@ function drawScene(cv){
   }
   SCN.dis=SCN.dis.filter(dd=>{const k=(now-dd.t)/700;if(k>=1)return false;drawMonAt(x,dd.m,dd.x,{dissolve:Math.min(.98,k),many:true});return true});
   nhud(x);
-  SCN.pops=SCN.pops.filter(p=>now-p.t<900);
+  SCN.pops=SCN.pops.filter(p=>now-p.t<900&&!(p.k&&SCN.big&&SCN.big.some(b=>b.k===p.k&&now-b.t<1400)));
   SCN.pops.forEach(p=>{const k=(now-p.t)/900;let base=null;if(p.k&&p.k[0]==='h')base=SCN.heroPos[+p.k.slice(1)];else if(p.k&&p.k[0]==='f')base=SCN.foePos[+p.k.slice(1)];else base={x:p.x,top:p.top};if(!base)return;
     const tx=base.x-p.txt.length*3,ty=Math.max(11,base.top-10-Math.round(k*10));ntext(x,p.txt,tx+1,ty+1,NP.K);ntext(x,p.txt,tx,ty,p.col)});
-  nbox(x,(function(){const L=sceneText().filter(Boolean);const out=[];L.forEach(l=>nwrap(l,29).forEach(w=>out.push(w)));return out})());
+  if(SCN.big&&SCN.big.length){SCN.big=SCN.big.filter(b=>now-b.t<1400);SCN.big.forEach(b=>{const k=(now-b.t)/1400;let base=null;if(b.k[0]==='h')base=SCN.heroPos[+b.k.slice(1)];else base=SCN.foePos[+b.k.slice(1)];if(!base)base={x:b.k[0]==='h'?50:142,top:30};
+    const w=String(b.word).length*12;let px=Math.round(base.x-w/2);px=Math.max(2,Math.min(SW-w-2,px));const pop=k<.12?Math.round((.12-k)*40):0;let py=Math.max(12,base.top-22)-pop-Math.round(Math.max(0,k-.7)*20);
+    const col=(b.col===NP.Y&&SCN.f%2)?NP.W:b.col;ntextBig(x,b.word,px,py,col)})}
+  const msgOn=SCN.msg&&now-SCN.msg.t<2600&&adv.phase==='fight';
+  nbox(x,msgOn?nwrap(SCN.msg.txt,29):(function(){const L=sceneText().filter(Boolean);const out=[];L.forEach(l=>nwrap(l,29).forEach(w=>out.push(w)));return out})());
 }
 function sceneLoop(ts){
   requestAnimationFrame(sceneLoop);
@@ -3118,6 +3124,11 @@ function healTarget(){return party.slice().sort((a,b)=>a.hp/a.hpMax-b.hp/b.hpMax
 function healTxt(t){return t===hero?'you':first(t)}
 function healHero(t,amt){const b=Math.max(0,t.hp);t.hp=Math.min(t.hpMax,b+Math.max(1,amt));return t.hp-b}
 
+/* Big words over the one who is hit or missed, and a short line in the scene's text box */
+const nmH=h=>String((h||hero).name).split(' ')[0];
+const nmF=f=>{let n=String((f||F).m.n).toLowerCase();if(n.length>16)n=n.replace(/^(adult|young|ancient|giant) /,'');return n};
+const fk=f=>'f'+adv.foes.indexOf(f||F),hk=h=>'h'+party.indexOf(h||hero);
+function fx(key,word,col,msg){const now=performance.now();if(!SCN.big)SCN.big=[];SCN.big=SCN.big.filter(b=>b.k!==key);SCN.big.push({k:key,word,col,t:now});if(msg)SCN.msg={txt:msg,t:now}}
 async function doAttack(wi){
   const s=wStats(hero,wi);F=tgtFoe();if(!F)return;
   const swing=async(label,title,hitB,dice,dm,type,canSneak)=>{
@@ -3127,14 +3138,14 @@ async function doAttack(wi){
     else r=await heroD20({kind:'Attack roll',title:`${party.length>1?first(hero)+': ':''}${title}`,sub:`Target: the ${esc(m.n)} · d20 ${sgn(hitB)} · you need <b>${m.ac}</b> to hit (its armor)`,flat:hitB,tone:'atk',judge:judgeAtk(m.ac)});
     const tot=r+hitB,crit=!sl&&r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
     const rTxt=sl?'<span class="muted">asleep</span>':`<span class="muted">${r}${sgn(hitB)} = ${tot} vs ${m.ac}</span>`;
-    if(!hit){log('',`${you()} ${label} at ${them()}: ${rTxt}. Miss.`,r,r===1?'fail':'');render();return false}
+    if(!hit){log('',`${you()} ${label} at ${them()}: ${rTxt}. Miss.`,r,r===1?'fail':'');fx(fk(),r===1?'fumble':'miss',NP.G,r===1?`${nmH()} fumbles! a natural 1.`:`${nmH()} misses the ${nmF()}!`);render();return false}
     const parts=[dice];let sneak=false;if(canSneak&&hero.cls==='rogue'&&!adv.sneakUsed){parts.push(`${Math.ceil(hero.lvl/2)}d6`);sneak=true;adv.sneakUsed=true}
     const rage=hero.raging&&!s.ranged?2:0;const flat=dm+rage;
     const dr=await rollDmg({title:crit?'Critical hit! Roll damage':'Hit! Roll damage',sub:`${dice}${sgn(dm)} ${DMG[type]}${sneak?` + ${parts[1]} sneak attack`:''}${rage?' + 2 rage':''}${crit?' · <b>double dice</b> for a critical hit':''}`,parts,flat,crit,tone:crit?'crit':'dmg'});
     let extra='';if(rage)extra+=' +2 rage';if(sneak)extra+=` +${dr.sums[1]} sneak attack`;
     const t=foeTypeMod(Math.max(1,dr.total),type);
     log('',`${you()} ${label} at ${them()}: ${rTxt}. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[type]}${extra})</span>${t.note}.`,sl?'z':r,crit?'crit':'hit');
-    hitFoe(t.v);render();return true;
+    fx(fk(),`${crit?'crit!':'hit!'} ${t.v}`,crit?NP.Y:NP.W,`${nmH()} ${crit?'crits':'hits'} the ${nmF()}! ${t.v} damage.`);hitFoe(t.v);render();return true;
   };
   adv.sneakUsed=false;
   await swing(`${s.ranged?'shoots':'swings'} the ${esc(s.name.toLowerCase())}`,`${s.ranged?'Shoot':'Attack'} with the ${s.name.toLowerCase()}`,s.hit,s.dice,s.dm,s.type,true);
@@ -3146,27 +3157,27 @@ async function doSpell(id){
   const s=SP[id],sm=spellMod(hero),pb=prof(hero.lvl),nm=esc(sName(id)),name=sName(id),who=party.length>1?first(hero)+': ':'';
   if(s.l===1){if(hero.slots<=0)return;hero.slots--}
   if(s.h){const tg=healTarget();const q=parse(s.h.replace('MOD',sgn(sm)).replace('+-','-'));const hr=await rollDmg({kind:'Healing',title:`${who}${name} heals ${healTxt(tg)}`,sub:`${q.n}d${q.s}${q.k?sgn(q.k):''} hit points${tg.hp<=0?' · wakes them up':''}`,parts:[`${q.n}d${q.s}`],flat:q.k,tone:'heal'});
-    const got=healHero(tg,hr.total);log('',`${you()} casts ${nm} on <b class="you">${first(tg)}</b>. <span class="heal">+${got} HP</span>.`,'✚','heal');return endHeroTurn()}
+    const got=healHero(tg,hr.total);log('',`${you()} casts ${nm} on <b class="you">${first(tg)}</b>. <span class="heal">+${got} HP</span>.`,'✚','heal');fx(hk(tg),`+${got}`,NP.L,`${nmH(tg)} is healed for ${got} hp.`);return endHeroTurn()}
   const dice=spellDice(hero,s);
   if(AREA.has(id)&&s.dc){
     const dc=8+pb+sm;const targets=foesLeft();
     const dr=await rollDmg({title:`${who}Cast ${name}: roll damage`,sub:`${dice} ${DMG[s.t]} · hits <b>every enemy</b> · each tries a ${AB_SV[s.dc]} save against <b>${dc}</b>${s.hf?' for half damage':''}`,parts:[dice],tone:'magic'});
     log('',`${you()} casts ${nm}!`,'✦','magic');
     for(const f of targets){F=f;f.asleep=false;const r=d(20),tot=r+mod(f.m.st[AB.indexOf(s.dc)]),ok=tot>=dc;let n=dr.total;if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);
-      log('',`${them()} ${ok?(s.hf?'partly dodges':'resists'):'is caught'} <span class="muted">(${tot} vs ${dc})</span>. ${t.v?`<span class="dmg">${t.v} damage</span>`:'No damage'}${t.note}.`,r,'magic');hitFoe(t.v)}
+      log('',`${them()} ${ok?(s.hf?'partly dodges':'resists'):'is caught'} <span class="muted">(${tot} vs ${dc})</span>. ${t.v?`<span class="dmg">${t.v} damage</span>`:'No damage'}${t.note}.`,r,'magic');fx(fk(f),ok?(t.v?`half ${t.v}`:'resist'):`hit! ${t.v}`,ok?NP.G:NP.U,`${nmH()} casts ${name.toLowerCase()}! it hits every enemy.`);hitFoe(t.v)}
     render();return endHeroTurn();
   }
   F=tgtFoe();if(!F)return;const m=F.m;const sl=F.asleep;F.asleep=false;
   if(s.at){const hb=pb+sm+(hero.bless||0);let r=20;
     if(!sl)r=await heroD20({kind:'Spell attack',title:`${who}Cast ${name}`,sub:`Target: the ${esc(m.n)} · d20 ${sgn(hb)} · you need <b>${m.ac}</b> to hit`,flat:hb,tone:'magic',judge:judgeAtk(m.ac)});
     const tot=r+hb,crit=!sl&&r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
-    if(!hit)log('',`${you()} casts ${nm} at ${them()}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. Miss.`,r,'magic');
+    if(!hit){log('',`${you()} casts ${nm} at ${them()}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. Miss.`,r,'magic');fx(fk(),'miss',NP.G,`${nmH()}'s ${name.toLowerCase()} misses the ${nmF()}!`)}
     else{const dr=await rollDmg({title:crit?`Critical! ${name} damage`:`${name} hits! Roll damage`,sub:`${dice} ${DMG[s.t]}${crit?' · <b>double dice</b>':''}`,parts:[dice],crit,tone:'magic'});
-      const t=foeTypeMod(dr.total,s.t);log('',`${you()} casts ${nm} at ${them()}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic');hitFoe(t.v)}}
+      const t=foeTypeMod(dr.total,s.t);log('',`${you()} casts ${nm} at ${them()}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic');fx(fk(),`${crit?'crit!':'hit!'} ${t.v}`,crit?NP.Y:NP.U,`${nmH()}'s ${name.toLowerCase()} hits the ${nmF()}! ${t.v} damage.`);hitFoe(t.v)}}
   else if(s.dc){const dc=8+pb+sm;const dr=await rollDmg({title:`${who}Cast ${name}: roll damage`,sub:`${dice} ${DMG[s.t]} · then the ${esc(m.n)} tries a ${AB_SV[s.dc]} save against <b>${dc}</b>${s.hf?' (half damage if it succeeds)':' (no damage if it succeeds)'}`,parts:[dice],tone:'magic'});
     const r=d(20),tot=r+mod(m.st[AB.indexOf(s.dc)]),ok=!sl&&tot>=dc;let n=dr.total;if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);
-    log('',`${you()} casts ${nm}. ${them()} tries to resist (${AB_K[s.dc]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(s.hf?'Partly!':'Resisted!'):'Fails!'} ${t.v?`<span class="dmg">${t.v} damage</span>`:''}${t.note}`,r,'magic');hitFoe(t.v)}
-  else{const dr=await rollDmg({title:`${who}${name} always hits!`,sub:`Target: the ${esc(m.n)} · ${dice} ${DMG[s.t]}`,parts:[dice],tone:'magic'});const t=foeTypeMod(dr.total,s.t);log('',`${you()} casts ${nm} at ${them()}. It always hits! <span class="dmg">${t.v} damage</span>${t.note}.`,'✦','magic');hitFoe(t.v)}
+    log('',`${you()} casts ${nm}. ${them()} tries to resist (${AB_K[s.dc]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(s.hf?'Partly!':'Resisted!'):'Fails!'} ${t.v?`<span class="dmg">${t.v} damage</span>`:''}${t.note}`,r,'magic');fx(fk(),ok?(t.v?`half ${t.v}`:'resist'):`hit! ${t.v}`,ok?NP.G:NP.U,ok?`the ${nmF()} resists${s.hf?' half':''}! ${t.v} damage.`:`${name.toLowerCase()} hits the ${nmF()}! ${t.v} damage.`);hitFoe(t.v)}
+  else{const dr=await rollDmg({title:`${who}${name} always hits!`,sub:`Target: the ${esc(m.n)} · ${dice} ${DMG[s.t]}`,parts:[dice],tone:'magic'});const t=foeTypeMod(dr.total,s.t);log('',`${you()} casts ${nm} at ${them()}. It always hits! <span class="dmg">${t.v} damage</span>${t.note}.`,'✦','magic');fx(fk(),`hit! ${t.v}`,NP.U,`${name.toLowerCase()} hits the ${nmF()}! ${t.v} damage.`);hitFoe(t.v)}
   render();return endHeroTurn();
 }
 async function doBreath(){
@@ -3175,26 +3186,26 @@ async function doBreath(){
   const dr=await rollDmg({title:`${party.length>1?first(hero)+': ':''}Breathe ${DMG[hero.dragon]}!`,sub:`${dice} ${DMG[hero.dragon]} · hits <b>every enemy</b> · each tries a ${AB_SV[ab]} save against <b>${dc}</b> for half damage`,parts:[dice],tone:'magic'});
   log('',`${you()} breathes ${DMG[hero.dragon]}!`,'≋','magic');
   for(const f of targets){F=f;f.asleep=false;const r=d(20),tot=r+mod(f.m.st[AB.indexOf(ab)]),ok=tot>=dc;let n=dr.total;if(ok)n=Math.floor(n/2);const t=foeTypeMod(n,hero.dragon);
-    log('',`${them()} rolls ${tot} vs ${dc}: ${ok?'half damage':'full hit'}. <span class="dmg">${t.v} damage</span>${t.note}.`,r,'magic');hitFoe(t.v)}
+    log('',`${them()} rolls ${tot} vs ${dc}: ${ok?'half damage':'full hit'}. <span class="dmg">${t.v} damage</span>${t.note}.`,r,'magic');fx(fk(f),`${ok?'half':'hit!'} ${t.v}`,ok?NP.G:NP.Y,`${nmH()} breathes ${DMG[hero.dragon]} on every enemy!`);hitFoe(t.v)}
   render();return endHeroTurn();
 }
 async function doPotion(greater){if(greater){if(!bag.greater)return;bag.greater--}else{if(!bag.potions)return;bag.potions--}
   const tg=healTarget();const self=tg===hero||adv.phase!=='fight';
   const hr=await rollDmg({kind:'Healing',title:greater?`Potion of greater healing for ${healTxt(tg)}`:`Potion of healing for ${healTxt(tg)}`,sub:`${greater?'4d4+4':'2d4+2'} hit points${tg.hp<=0?' · wakes them up':''}`,parts:[greater?'4d4+4':'2d4+2'],tone:'heal'});
-  const got=healHero(tg,hr.total);
+  const got=healHero(tg,hr.total);if(adv.phase==='fight')fx(hk(tg),`+${got}`,NP.L,`${nmH(tg)} drinks a potion. +${got} hp.`);
   log('',self?`<b class="you">${first(tg)}</b> drinks a ${greater?'potion of greater healing':'potion of healing'}. <span class="heal">+${got} HP</span>.`:`${you()} pours a potion into <b class="you">${first(tg)}</b>'s mouth. <span class="heal">+${got} HP</span>.`,'✚','heal');
   if(adv.phase==='fight')return endHeroTurn();save();render()}
 async function doSecondWind(){hero.sw=0;const hr=await rollDmg({kind:'Healing',title:'Second Wind',sub:`1d10 + ${hero.lvl} (your level) hit points · your turn continues`,parts:['1d10'],flat:hero.lvl,tone:'heal'});
-  const got=healHero(hero,hr.total);log('',`${you()} takes a deep breath. Second Wind: <span class="heal">+${got} HP</span>. The turn continues.`,'✚','heal');save();render()}
-function doRage(){hero.rage--;hero.raging=true;log('',`${you()} roars and flies into a rage!`,'!','crit');save();render()}
-function doLay(){const tg=healTarget();const use=Math.min(tg.hpMax-Math.max(0,tg.hp),hero.loh);hero.loh-=use;const got=healHero(tg,use);log('',`${you()} lays hands on <b class="you">${first(tg)}</b>. <span class="heal">+${got} HP</span>.`,'✚','heal');return endHeroTurn()}
+  const got=healHero(hero,hr.total);fx(hk(),`+${got}`,NP.L,`second wind! ${nmH()} heals ${got} hp.`);log('',`${you()} takes a deep breath. Second Wind: <span class="heal">+${got} HP</span>. The turn continues.`,'✚','heal');save();render()}
+function doRage(){hero.rage--;hero.raging=true;fx(hk(),'rage!',NP.R,`${nmH()} flies into a rage!`);log('',`${you()} roars and flies into a rage!`,'!','crit');save();render()}
+function doLay(){const tg=healTarget();const use=Math.min(tg.hpMax-Math.max(0,tg.hp),hero.loh);hero.loh-=use;const got=healHero(tg,use);fx(hk(tg),`+${got}`,NP.L,`${nmH()} lays hands on ${nmH(tg)}. +${got} hp.`);log('',`${you()} lays hands on <b class="you">${first(tg)}</b>. <span class="heal">+${got} HP</span>.`,'✚','heal');return endHeroTurn()}
 async function doFlee(){
   if(adv.room&&adv.room.t==='boss')return;
   const dm=mod(scores(hero).dex),dc=10+Math.max(...foesLeft().map(f=>mod(f.m.st[1])));
   const r=await heroD20({kind:'Dexterity check',title:party.length>1?`${first(hero)} leads the escape!`:'Run for it!',sub:`d20 ${sgn(dm)} · you need <b>${dc}</b> to get away`,flat:dm,tone:'check',judge:judgeDc(dc,'You get away!','Blocked!')});
   const tot=r+dm;
   if(tot>=dc){log('',`${party.length>1?'The party runs':you()+' runs'} for their lives <span class="muted">(${tot} vs ${dc})</span> and gets away!`,r,'hit');adv.foes=[];F=null;adv.phase='room';adv.room.done=true;adv.fled=true;party.forEach(h=>{h.raging=false;if(h.hp<=0)h.hp=1});save();render()}
-  else{log('',`${you()} tries to flee but the way is blocked <span class="muted">(${tot} vs ${dc})</span>.`,r,'fail');return endHeroTurn()}
+  else{fx(hk(),'blocked',NP.G,`${nmH()} tries to flee, but the way is blocked!`);log('',`${you()} tries to flee but the way is blocked <span class="muted">(${tot} vs ${dc})</span>.`,r,'fail');return endHeroTurn()}
 }
 function endHeroTurn(){
   adv.foes.forEach(f=>f.asleep=false);
@@ -3211,7 +3222,7 @@ async function monstersTurn(){
   for(const f of adv.foes){
     if(f.hp<=0)continue;if(!alive().length)break;F=f;
     await monsterTurn();render();
-    await wait(reduced?60:380);
+    await wait(reduced?60:700);
   }
   adv.busy=false;F=tgtFoe();
   if(!alive().length)die();
@@ -3230,6 +3241,7 @@ async function monsterTurn(){
       const r=await heroD20({kind:`${AB_SV[abi]} saving throw`,title:`${party.length>1?first(h)+': ':''}${m.n} uses ${sv.n}! Dodge!`,sub:`d20 ${sgn(saveB)} · you need <b>${dc}</b>${sv.h?' to take only half damage':' to avoid it'}`,flat:saveB,tone:'save',judge:judgeDc(dc,sv.h?'Half damage!':'Dodged it!','Full hit!')});
       const tot=r+saveB,ok=tot>=dc;let n=0;for(const [v0,t] of parts){let v=v0;if(resist(t))v=Math.floor(v/2);n+=v}
       if(ok)n=sv.h?Math.floor(n/2):0;
+      fx(hk(h),ok?(n?`half ${n}`:'dodge'):`hit! ${n}`,ok?NP.L:'#f87858',`${nmF()} uses ${String(sv.n).toLowerCase()}! ${nmH(h)} ${ok?(sv.h?'takes half':'dodges it'):'takes'} ${n} damage.`);
       log('',`${you()} tries to dodge (${AB_K[abi]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(sv.h?'Half damage.':'Dodged it!'):'Full hit!'} ${n?`<span class="dmg">${n} damage</span> <span class="muted">(${parts.map(p=>DMG[p[1]]||p[1]).join(', ')})</span>`:''}`,r,ok?'':'fail');
       if(n){hurtHero(n);adv.shake='hero'}
     }
@@ -3237,13 +3249,15 @@ async function monsterTurn(){
     let plan=[];if(m.m){for(const [nm,c] of m.m){const a=m.a.find(x=>x.n===nm);if(!a)continue;const cnt=typeof c==='number'?c:roll(c);for(let k=0;k<cnt;k++)plan.push(a)}}
     if(!plan.length)plan=[m.a.slice().sort((x,y)=>y.d.reduce((s,z)=>s+avg(z[0]),0)-x.d.reduce((s,z)=>s+avg(z[0]),0))[0]];
     hero=pick(alive());
-    for(const a of plan){if(!alive().length)break;if(hero.hp<=0)hero=pick(alive());
+    for(let pi=0;pi<plan.length;pi++){const a=plan[pi];if(!alive().length)break;if(hero.hp<=0)hero=pick(alive());
       const myAc=ac(hero),bonus=a.b+dd.atk;
       const r=d(20),tot=r+bonus,crit=r===20,hit=crit||(r!==1&&tot>=myAc);
-      if(!hit){log('',`${them()} attacks ${you()} with ${esc(a.n)}: <span class="muted">${r}${sgn(bonus)} = ${tot} vs ${myAc}</span>. Miss.`,r,'');continue}
+      if(pi>0)await wait(reduced?60:520);
+      if(!hit){log('',`${them()} attacks ${you()} with ${esc(a.n)}: <span class="muted">${r}${sgn(bonus)} = ${tot} vs ${myAc}</span>. Miss.`,r,'');fx(hk(),'dodge',NP.L,`the ${nmF()} misses ${nmH()}!`);render();continue}
       let n=0;const ps=[];let res=false;for(const [dz,t] of a.d){let v=roll(dz,crit);if(resist(t)){v=Math.floor(v/2);res=true}n+=v;ps.push(DMG[t]||t)}
       log('',`${them()} attacks ${you()} with ${esc(a.n)}: <span class="muted">${r}${sgn(bonus)} = ${tot} vs ${myAc}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${n} damage</span> <span class="muted">(${ps.join(', ')}${res?', resisted, half damage':''})</span>.`,r,'fail');
-      hurtHero(n);adv.shake='hero';
+      fx(hk(),`${crit?'crit!':'hit!'} ${n}`,crit?NP.Y:'#f87858',`the ${nmF()} ${crit?'crits':'hits'} ${nmH()}! ${n} damage.`);
+      hurtHero(n);adv.shake='hero';render();
     }
   }
   f.first=false;
