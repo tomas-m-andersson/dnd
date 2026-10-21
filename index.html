@@ -2966,15 +2966,27 @@ function bgWoods(x,ch){
   x.fillStyle=NP.K;x.fillRect(0,56,SW,1);
 }
 function treeGap(x,cx,top,w){
-  /* a dark opening in the thicket, with leafy edges */
-  for(let y=top+4;y<57;y++){const t=(y-top-4)/(53-top);const hw=Math.round(2+t*(w/2));x.fillStyle=t<.25?'#001800':'#000800';x.fillRect(cx-hw,y,hw*2,1);
-    if(y%2===0){x.fillStyle=NP.V;x.fillRect(cx-hw-1,y,2,1);x.fillRect(cx+hw-1,y,2,1)}}
-  x.fillStyle=NP.D;for(let i=-w/2-4;i<w/2+4;i+=2)x.fillRect(cx+i,top+2+Math.floor(hr(cx,i)*4),2,3);
-  /* the dirt path, wider as it comes closer */
-  for(let y=55;y<70;y++){const t=(y-55)/15;const hw=Math.round(3+t*(w/2+4));x.fillStyle='#503000';x.fillRect(cx-hw,y,hw*2,1);x.fillStyle='#2c1800';x.fillRect(cx-hw,y,1,1);x.fillRect(cx+hw-1,y,1,1);
+  const gl=cx-Math.round(w/2),gr=cx+Math.round(w/2),tw=11;
+  /* the dark way in between the trunks */
+  x.fillStyle='#000000';x.fillRect(gl,16,gr-gl,41);x.fillStyle='#001400';for(let y=44;y<57;y+=2)x.fillRect(gl,y,gr-gl,1);
+  /* the path on the ground, wider as it comes closer */
+  for(let y=55;y<70;y++){const t=(y-55)/15;const hw=Math.round(w/2-3+t*7);x.fillStyle='#503000';x.fillRect(cx-hw,y,hw*2,1);x.fillStyle='#2c1800';x.fillRect(cx-hw,y,1,1);x.fillRect(cx+hw-1,y,1,1);
     if(y%2===0){x.fillStyle='#ac7c00';x.fillRect(cx-hw+1+Math.floor(hr(cx,y)*(hw*2-3)),y,2,1)}}
-  /* a little wooden sign by the path */
-  const sx=cx+Math.round(w/2)+3;x.fillStyle=NP.K;x.fillRect(sx-1,40,3,17);x.fillRect(sx-5,38,11,6);x.fillStyle='#ac7c00';x.fillRect(sx,41,1,15);x.fillStyle='#fca044';x.fillRect(sx-4,39,9,4);x.fillStyle='#503000';x.fillRect(sx-3,40,6,1);x.fillRect(sx-2,42,4,1)}
+  /* two thick old trunks with bark and roots */
+  [[gl-tw,1],[gr,-1]].forEach(([tx,side])=>{
+    x.fillStyle='#3c2000';x.fillRect(tx,4,tw,53);
+    for(let k=0;k<4;k++){const bx=tx+2+Math.floor(hr(tx,k)*(tw-4));x.fillStyle='#5c3400';x.fillRect(bx,6+Math.floor(hr(k,tx)*8),1,40+Math.floor(hr(tx+k,3)*8))}
+    x.fillStyle='#1c0c00';x.fillRect(side>0?tx:tx+tw-2,4,2,53);
+    x.fillStyle='#3c2000';x.fillRect(tx-3,52,tw+6,5);x.fillRect(tx-5,55,tw+10,2);x.fillStyle='#1c0c00';x.fillRect(tx-5,56,tw+10,1);
+    x.fillStyle=NP.K;x.fillRect(side>0?tx-1:tx+tw,4,1,48);
+    x.fillStyle='#1c0c00';x.fillRect(tx+3,26,3,4);x.fillStyle=NP.K;x.fillRect(tx+4,27,1,2);
+  });
+  /* the leaves meet over the path */
+  const cl=gl-tw-6,cr=gr+tw+6;x.fillStyle='#003000';x.fillRect(cl,0,cr-cl,16);
+  x.fillStyle=NP.D;for(let k=0;k<26;k++)x.fillRect(cl+Math.floor(hr(cx,k)*(cr-cl-3)),Math.floor(hr(k,cx)*14),3,3);
+  x.fillStyle=NP.V;for(let k=0;k<10;k++)x.fillRect(cl+Math.floor(hr(cx+7,k)*(cr-cl-2)),Math.floor(hr(k,cx+7)*11),2,1);
+  x.fillStyle='#003000';for(let i2=cl;i2<cr;i2+=3)x.fillRect(i2,16,3,1+Math.floor(hr(i2,cx)*5));
+}
 function bgHell(x,ch){
   for(let row=0;row<8;row++){const y=10+row*6;for(let i=-1;i<20;i++){const w=8+Math.floor(hr(i+50,row)*5),xx=i*11+Math.floor(hr(row,i+50)*4)-(row%2)*5,c=hr(i*5+3,row*3+1);
     x.fillStyle=c<.6?'#881400':c<.9?'#3c0000':'#a81000';x.fillRect(xx,y,w,5);x.fillStyle=NP.K;x.fillRect(xx+w,y,1,5);x.fillRect(xx,y+5,w,1)}}topFill(x);
