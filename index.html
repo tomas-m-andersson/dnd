@@ -2374,6 +2374,23 @@ rocks:[
 "KGGGKKKKKKKGGGGggK",
 "KGWGGgKKGGGKKKKKKK",
 "KKKKKKKKKKKKKKKKKK"],
+lion:[
+".....KKKKKKK..............",
+"...KKqqqqqqqKK............",
+"..KqqqnqqqnqqqK...........",
+".KqqKKKKqqqnqqqK..........",
+".KqKmmmmKqqqnqqK.......KK.",
+"KqKmmemmmKqqqqqKKKKKKKKqqK",
+"KKmmmmmmmKqqnqqmmmmmmmKKqK",
+"KaaKmmmmmKqqqqammmmmmmmmKK",
+"KaaaammmKqqnqqmmmmmmmmmmK.",
+".KKaaaaKqqqqqmmmmmmmmmmmK.",
+"..KqKKKqqnqqmmmmmmmmmmmmK.",
+"..KqqqqqqqnmmzzzzzzzzmmmK.",
+"...KKqKqKmmK..KmmK.KmmKmK.",
+"........KmmK..KmmK.KmmKmK.",
+".......KmmK..KmmK.KmmK.KmK",
+".......KKKK..KKKK.KKKK.KKK"],
 harpy:[
 "K.......................K",
 "KaK...................KaK",
@@ -2960,6 +2977,7 @@ function monLook(m){
   else if(has(/\belk\b/)){key='elk';col='brown'}
   else if(has(/\bgoat\b/)){key='goat';col='white'}
   else if(has(/\bboar\b/)&&!has(/human|hybrid/)){key='boar';col='brown';extra={q:'#f0d0b0'}}
+  else if(has(/\blion\b/)&&!has(/human|hybrid|sea/)){key='lion';col='sand';extra={q:'#c84c0c',n:'#7c2800',e:'#000000'}}
   else if(has(/panther|leopard|\blion\b|tiger|\bcat\b/)&&!has(/human|hybrid/)){key='cat';col=has(/panther/)?'black':has(/lion/)?'sand':has(/tiger/)?'orange':'gray';extra={e:has(/panther/)?'#58d854':'#d82800'}}
   else if(has(/\bfrog\b|\btoad\b/)){key='frog';col=has(/toad/)?'brown':'green';extra={a:has(/toad/)?'#f0d0b0':'#d8f878'}}
   else if(has(/eagle|hawk|vulture/)){key='eagle';col=has(/vulture/)?'black':has(/blood/)?'red':'brown'}
