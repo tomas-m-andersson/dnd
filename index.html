@@ -1096,7 +1096,7 @@ function openLib(){if(!libEl||LOCK)return;renderLib();libEl.hidden=false;documen
 function closeLib(){if(!libEl)return;libEl.hidden=true;document.body.classList.remove('tray-open');const b=document.getElementById('openLib');try{b&&b.focus({preventScroll:true})}catch(e){}}
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&libEl&&!libEl.hidden)closeLib()});
 function libCard(m,i){
-  const L=monLook(m),s=sprSize(L.key),many=!!L.swarm;const cw=many?Math.round(s.w*1.9):s.w,ch=many?Math.round(s.h*1.6):s.h;
+  const L=monLook(m),s=sprSize(L.key),many=!!L.swarm,tiny=many&&s.w<=12;const cw=tiny?Math.ceil(s.w*2.6):many?Math.round(s.w*1.9):s.w,ch=tiny?Math.ceil(s.h*2.2):many?Math.round(s.h*1.6):s.h;
   const sc=Math.max(1,Math.min(Math.floor(120/cw),Math.floor(72/ch),6));
   const dm=x=>x.map(t=>DMG[t]||t).join(', ');
   const ab=AB.map((k,j)=>({k,v:m.st[j]})),hi=ab.slice().sort((a,b)=>b.v-a.v)[0],lo=ab.slice().sort((a,b)=>a.v-b.v)[0];
@@ -1121,7 +1121,7 @@ function renderLib(){
   g.innerHTML=list.length?list.map(({m,i})=>libCard(m,i)).join(''):'<div class="lib-meta">No monster with that name.</div>';
   g.scrollTop=0;
   g.querySelectorAll('canvas[data-li]').forEach(cv=>{const m=M[+cv.dataset.li],L=monLook(m),s=sprSize(L.key);const x=cv.getContext&&cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;
-    if(L.swarm){[[0,Math.round(s.h*.6)],[Math.round(s.w*.9),Math.round(s.h*.55)],[Math.round(s.w*.45),0]].forEach(([px,py])=>drawSpr(x,L.key,L.pal,px,py,{}))}
+    if(L.swarm){(s.w<=12?[[0,1],[.8,1.15],[1.55,.6],[.45,.1],[1.25,0]]:[[0,.6],[.9,.55],[.45,0]]).forEach(([px,py])=>drawSpr(x,L.key,L.pal,Math.round(px*s.w),Math.round(py*s.h),{}))}
     else drawSpr(x,L.key,L.pal,0,0,{flip:L.flip})});
 }
 
@@ -1581,6 +1581,175 @@ dturtle:[
 "......KKaaaK......KaaaaK......",
 ".......KaaK........KaaK.......",
 "........KK..........KK........"],
+camel:[
+"..KKK..................",
+".KmmmK.................",
+"KmemmK.................",
+"KammmK.....KK....KK....",
+".KKmmK....KmmK..KmmK...",
+"...KmK...KmmmmKKmmmmK..",
+"...KmK..KmmmmmmmmmmmmK.",
+"...KmmKKmmmmmmmmmmmmmmK",
+"....KmmmmmmmmmmmmmmmmmK",
+"....KmmmmmmmmmmmmmmmmmK",
+".....KmmmaaaaaaaaammmK.",
+"......KmK.KmK..KmK.KmK.",
+"......KmK.KmK..KmK.KmK.",
+"......KmK.KmK..KmK.KmK.",
+"......KmK.KmK..KmK.KmK.",
+"......KzK.KzK..KzK.KzK.",
+".....KKKK.KKK.KKKK.KKK."],
+crab:[
+".KKK..............KKK.",
+"KmmmK............KmmmK",
+"KK.KmK..........KmK.KK",
+"KmKKmK..........KmKKmK",
+".KKmmK.KK....KK.KmmKK.",
+"...KmmKeK....KeKmmK...",
+"....KKmmmmmmmmmmKK....",
+"....KmmmmmmmmmmmmK....",
+"...KmmmaaaaaaaammmK...",
+"..K.KmmmmmmmmmmmK.K...",
+".K.K.KzKzKzKzKzK.K.K..",
+"K.K.K.K.......K.K.K.K."],
+axebeak:[
+"...KKKK..........",
+"..KmmmmK.........",
+".KmmemmK.........",
+"KYYYKmmK.........",
+"KYYYYKmK.........",
+".KYYKKmK.........",
+"..KK.KmK......KK.",
+".....KmmK....KmmK",
+".....KmmmKKKKmmmK",
+"....KmmmmmmmmmmK.",
+"....KmmmmmmmmmmmK",
+"....KmmmmmmmmmmzK",
+".....KmmmmmmmzzK.",
+"......KzzmmmzzK..",
+".......KKmmmKK...",
+"........KY.YK....",
+"........KY.YK....",
+"........KY.YK....",
+"........KY.YK....",
+".......KYYKYYK...",
+".......KKKKKKK..."],
+lizardfolk:[
+".....KKKK.....",
+"....KLmmmK....",
+"...KmemmmK....",
+"..KmmmmmmK....",
+"KKKmmmmmK.....",
+"KWKWmmmmK.....",
+".KKKmmmKK.....",
+"..KGKmmmmmK...",
+".KGGKmmmmmmK..",
+"KGGGKmLmmmmmK.",
+"KGYGKmLmmKmmK.",
+"KGGGKmLmmKmK..",
+".KGGKmmmmKmK..",
+"..KGKmmmmKKK..",
+"....KmmmmmK...",
+"....KmmKmmmK..",
+"....KmK.KmmmK.",
+"....KmK..KmmmK",
+"...KmmK...KmmK",
+"...KKKK....KK."],
+sahuagin:[
+"......KK......",
+"...KKKmK......",
+"..KmmmmmK.....",
+".KmmmmemK.....",
+"KmmmmmmK......",
+"KWKWKmmK......",
+".KKKKmmmKK....",
+"....KmmmmmK...",
+"...KmmaammmK..",
+"..KmKaaaamKmK.",
+".KmK.KaamK.KmK",
+".KK..KmmmK..KK",
+"....KmmKmmK...",
+"....KmK.KmK...",
+"...KmmK.KmmK..",
+"..KmmmK.KmmmK.",
+"..KKKKK.KKKKK."],
+satyr:[
+"...K....K...",
+"..KGK..KGK..",
+"..KGKKKKGK..",
+"...KHHHHK...",
+"..KHSSSSHK..",
+"..KSeSSeSK..",
+"..KSSSSSSK..",
+"...KSHHSK...",
+"...KHHHHK...",
+"..KSSSSSSK..",
+".KSKSSSSKSK.",
+"KSK.KSSK.KSK",
+"KK..KmmK..KK",
+"...KmmmmK...",
+"...KmmmmK...",
+"..KmmKmmK...",
+"..KmK.KmK...",
+"...KmKKmK...",
+"..KmK.KmK...",
+"..KzK.KzK...",
+".KKK.KKK...."],
+raven:[
+"..........KK",
+"KK.......KaK",
+"KaK.....KaaK",
+".KaK...KaamK",
+"..KaK.KaammK",
+"..KKaKKammK.",
+"KYYKmmmmmK..",
+".KKmmmmmK...",
+"...KKmKmK...",
+".....K.K...."],
+sbeetle:[
+".K...K.",
+"..KKK..",
+".KmamK.",
+"KmmammK",
+"KmmammK",
+".KmamK.",
+"K.KKK.K"],
+scent:[
+"K.K.K.K.K.",
+".KKKKKKKKK",
+"KemmmmmmmK",
+".KKKKKKKK.",
+"K.K.K.K.K."],
+sfly:[
+".KK.KK.",
+"KWWKWWK",
+".KKmKK.",
+"KemmmK.",
+".KzmzK.",
+"..KK..."],
+swasp:[
+"..KK.KK..",
+".KWWKWWK.",
+"..KKKKK..",
+".KYKYKYK.",
+"KeKzKzKKK",
+".KYKYKYK.",
+"..KKKKK.."],
+squip:[
+"..KKKK...K",
+".KmmmmK.KK",
+"KeWmmmmKmK",
+"KWKmmmmmmK",
+".KKmmmmK.K",
+"..KKKK...K"],
+sspider:[
+"K.K..K.K",
+".K.KK.K.",
+"KKKmmKKK",
+".KmemmK.",
+"KKKmmKKK",
+".K.KK.K.",
+"K......K"],
 harpy:[
 "K.......................K",
 "KaK...................KaK",
@@ -2087,7 +2256,13 @@ function monLook(m){
   const n=m.n.toLowerCase(),t=m.t,sz=m.s;const big=sz==='Huge'||sz==='Gargantuan';
   let key='beast',col='tan',flip=false,scale=0,extra={},swarm=null;
   const has=r=>r.test(n);
-  if(t==='swarm'){swarm=has(/rat/)?'rat':has(/bat/)?'bat':has(/snake/)?'snake':has(/spider/)?'spider':'bug';key=swarm;col={rat:'brown',bat:'purple',snake:'green',spider:'black',bug:'red'}[swarm];scale=2}
+  if(t==='swarm'){swarm=has(/rat/)?'rat':has(/bat/)?'bat':has(/snake/)?'snake':has(/spider/)?'sspider':has(/raven/)?'raven':has(/beetle/)?'sbeetle':has(/centipede/)?'scent':has(/wasp/)?'swasp':has(/quipper|piranha|fish/)?'squip':'sfly';key=swarm;col={rat:'brown',bat:'purple',snake:'green',sspider:'brown',raven:'black',sbeetle:'green',scent:'red',swasp:'black',squip:'blue',sfly:'green'}[swarm];if(swarm==='squip')extra={m:'#3cbcfc'};if(swarm==='raven')extra={m:'#141414',a:'#7c7c7c'};scale=2}
+  else if(has(/\bcamel\b/)){key='camel';col='tan'}
+  else if(has(/\bcrab\b/)){key='crab';col='red'}
+  else if(has(/axe beak/)){key='axebeak';col='brown'}
+  else if(has(/lizardfolk/)){key='lizardfolk';col='green';extra={G:'#ac7c00',Y:'#f8b800',L:'#d8f878'}}
+  else if(has(/sahuagin/)){key='sahuagin';col='teal';extra={e:'#f8b800'}}
+  else if(has(/satyr/)){key='satyr';col='brown';extra={S:'#fcbcb0',H:'#503000',G:'#f0d0b0',e:'#000000'}}
   else if(has(/flying sword/)){key='sword';col='gray'}
   else if(has(/homunculus|\bimp\b|quasit/)){key='imp';col=has(/\bimp\b/)?'red':has(/quasit/)?'green':'rot';extra={e:'#f8b800'}}
   else if(has(/merfolk|merrow/)){key='merfolk';col=has(/merrow/)?'green':'teal';scale=2;extra={S:has(/merrow/)?'#58d854':'#b8f8d8',H:has(/merrow/)?'#005800':'#005858',e:'#000000'}}
@@ -2201,7 +2376,7 @@ function heroXs(kind){const n=party.length;if(kind==='center')return n===1?[96]:
 function drawParty(x,kind){const xs=heroXs(kind);SCN.heroPos=party.map((h,i)=>drawHeroAt(x,h,i,xs[i]));return SCN.heroPos}
 function obj(x,key,cx,o){o=o||{};const s=sprSize(key),sc=o.scale||2;drawSpr(x,key,o.pal||null,cx-s.w*sc/2,FEET-s.h*sc+(o.dy||0),{scale:sc,flip:o.flip})}
 function drawMonAt(x,m,cx,o){o=o||{};const L=monLook(m);const now=performance.now();const fk=o.i!=null?SCN.flash['f'+o.i]||0:0;
-  if(L.swarm){const s=sprSize(L.key);const pos=[[-20,0],[12,-14],[-6,10],[18,8]];pos.forEach(([dx,dy],i)=>drawSpr(x,L.key,L.pal,cx+dx*.7-s.w+((SCN.f+i)%4<2?1:0),FEET-s.h*2-6+dy,{scale:2,white:now<fk&&SCN.f%2===0}));return{x:cx,top:FEET-44}}
+  if(L.swarm){const s=sprSize(L.key);const fly=/^(bat|raven|swasp|sfly)$/.test(L.key)?12:0;const pos=(s.w<=12?[[-24,2],[10,-14],[-8,10],[20,6],[-16,-16],[2,-2],[26,-10]]:[[-20,0],[12,-14],[-6,10],[18,8]]).map(([a,b])=>[a,b-fly]);pos.forEach(([dx,dy],i)=>drawSpr(x,L.key,L.pal,cx+dx*.7-s.w+((SCN.f+i)%4<2?1:0),FEET-s.h*2-6+dy,{scale:2,white:now<fk&&SCN.f%2===0}));return{x:cx,top:FEET-44}}
   const s=sprSize(L.key);let sc=L.scale;if(o.many)while(sc>1&&s.w*sc>(o.cap||42))sc--;const w=s.w*sc,h=s.h*sc;
   const floatUp=(L.key==='bat'||L.key==='fairy'||L.key==='ghost'||L.key==='angel'||((L.key==='bird'||L.key==='eagle'||L.key==='imp'||L.key==='sword')&&!o.asleep))?10:0;
   let px=cx-w/2,py=FEET-h-floatUp+(o.dy||0);if(py<11)py=11;
