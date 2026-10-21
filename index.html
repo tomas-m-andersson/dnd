@@ -674,7 +674,7 @@ const alive=()=>party.filter(h=>h.hp>0);
 const $view=document.getElementById('view');
 function setView(v){view=v;document.body.classList.toggle('at-home',v==='home'||v==='pick');const tt=document.getElementById('tabAdvTxt');if(tt)tt.textContent='Adventure';document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
 document.getElementById('tabGen').onclick=()=>setView('gen');
-document.getElementById('tabAdv').onclick=()=>{if(!adv)startAdventure(plan);setView('adv')};
+document.getElementById('tabAdv').onclick=async()=>{if(LOCK)return;if(!adv){startAdventure(plan);if(adv.grand){LOCK=true;try{await showTravel('village','castle')}finally{LOCK=false}}}setView('adv')};
 document.getElementById('homeBtn').onclick=()=>setView('home');
 
 /* small hero icons in tabs and the party panel */
@@ -759,7 +759,7 @@ function renderGen(){
   document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();party[edit]=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
   document.getElementById('openLib').onclick=openLib;
   document.getElementById('randAll').onclick=()=>{party[edit]=newHero({skip:hero});save();render()};
-  document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure(plan);setView('adv')};
+  document.getElementById('goAdv').onclick=async()=>{if(LOCK)return;if(!inAdv){startAdventure(plan);if(adv.grand){LOCK=true;try{await showTravel('village','castle')}finally{LOCK=false}}}setView('adv')};
   const cp=document.getElementById('changePlan');if(cp)cp.onclick=()=>setView('pick');
 }
 
@@ -3554,20 +3554,25 @@ function renderPanel(){
 
 /* ---------- Travel map for the epic adventure ---------- */
 const MAP_W=192,MAP_H=128;
-const MAP_PTS={castle:[34,98],caves:[70,40],woods:[132,86],hell:[168,28]};
-const MAP_ROUTE={castle:[[34,98],[46,84],[50,66],[62,52],[70,40]],caves:[[70,40],[92,44],[104,60],[118,74],[132,86]],woods:[[132,86],[150,78],[158,58],[160,42],[168,28]]};
+const MAP_PTS={village:[86,104],castle:[34,98],caves:[70,40],woods:[132,86],hell:[168,28]};
+const MAP_ROUTE={village:[[86,104],[74,108],[60,106],[46,102],[34,98]],castle:[[34,98],[46,84],[50,66],[62,52],[70,40]],caves:[[70,40],[92,44],[104,60],[118,74],[132,86]],woods:[[132,86],[150,78],[158,58],[160,42],[168,28]]};
 let mapBase=null,trvEl=null;
 function mapPaint(){if(mapBase)return mapBase;if(!document.createElement)return null;const c=document.createElement('canvas');c.width=MAP_W;c.height=MAP_H;const x=c.getContext&&c.getContext('2d');if(!x)return null;
   x.fillStyle='#0058f8';x.fillRect(0,0,MAP_W,MAP_H);
   x.fillStyle='#fcfcfc';for(let i=0;i<40;i++){const px=Math.floor(hr(i,201)*MAP_W),py=Math.floor(hr(201,i)*MAP_H);x.fillRect(px,py,3,1)}
   /* the land: a blobby island built from rows */
-  for(let y=6;y<MAP_H-6;y++){const t=y/MAP_H;const l=14+Math.round(10*Math.sin(t*7)+hr(y>>2,7)*6),r=MAP_W-12-Math.round(8*Math.cos(t*5)+hr(y>>2,9)*6);x.fillStyle='#fce0a8';x.fillRect(l-2,y,r-l+4,1);x.fillStyle='#00a800';x.fillRect(l,y,r-l,1)}
+  const edgeL=y=>14+Math.round(10*Math.sin(y/MAP_H*7)+hr(y>>2,7)*6),edgeR=y=>MAP_W-12-Math.round(8*Math.cos(y/MAP_H*5)+hr(y>>2,9)*6);
+  const edgeT=xx=>4+Math.round(4+4*Math.sin(xx/11)+2*Math.sin(xx/4.7)+hr(xx>>3,11)*2),edgeB=xx=>MAP_H-4-Math.round(4+4*Math.sin(xx/9+1)+2*Math.sin(xx/3.9)+hr(xx>>3,13)*2);
+  for(let y=0;y<MAP_H;y++)for(let xx=0;xx<MAP_W;xx++){const l=edgeL(y),r=edgeR(y),t=edgeT(xx),b=edgeB(xx);
+    if(xx>=l&&xx<r&&y>=t&&y<b){x.fillStyle='#00a800';x.fillRect(xx,y,1,1)}else if(xx>=l-2&&xx<r+2&&y>=t-2&&y<b+2){x.fillStyle='#fce0a8';x.fillRect(xx,y,1,1)}}
   x.fillStyle='#58d854';for(let i=0;i<120;i++){const px=20+Math.floor(hr(i,301)*150),py=10+Math.floor(hr(301,i)*108);x.fillRect(px,py,2,1)}
   /* mountains */
   const mount=(mx,my,s,col)=>{for(let k=0;k<s;k++){x.fillStyle=k<2?'#fcfcfc':col;x.fillRect(mx-k,my+k,k*2+1,1)}x.fillStyle='#000';x.fillRect(mx-s,my+s,s*2+1,1)};
   [[56,22,9],[86,20,8],[100,30,7],[44,40,6],[118,40,6],[26,64,5],[150,108,5]].forEach(([a,b,c2])=>mount(a,b,c2,'#7c7c7c'));
   /* a river */
-  x.fillStyle='#3cbcfc';for(let y=58;y<120;y++){const rx=100+Math.round(6*Math.sin(y/6));x.fillRect(rx,y,3,1)}
+  x.fillStyle='#3cbcfc';for(let y=50;y<MAP_H;y++){const rx=100+Math.round(6*Math.sin(y/6));if(y<edgeB(rx)+1)x.fillRect(rx,y,3,1)}
+  /* the village by the river: little houses with red roofs */
+  [[78,100],[86,104],[80,108],[91,99],[93,108]].forEach(([hx,hy])=>{x.fillStyle='#000';x.fillRect(hx-1,hy-3,7,7);x.fillStyle='#d82800';x.fillRect(hx,hy-2,5,2);x.fillStyle='#fcbcb0';x.fillRect(hx,hy,5,3);x.fillStyle='#503000';x.fillRect(hx+2,hy+1,1,2)});
   /* the dark woods */
   for(let k=0;k<14;k++){const tx=118+Math.floor(hr(k,401)*30),ty=80+Math.floor(hr(401,k)*18);x.fillStyle='#000';x.fillRect(tx-3,ty-1,7,6);x.fillStyle='#005800';x.fillRect(tx-2,ty,5,4);x.fillStyle='#00a800';x.fillRect(tx-1,ty,2,1);x.fillStyle='#503000';x.fillRect(tx,ty+4,1,2)}
   /* the hell volcano with lava */
@@ -3584,7 +3589,7 @@ function routePt(seg,t){let L=0;const d=[];for(let i=1;i<seg.length;i++){const l
   let r=t*L;for(let i=0;i<d.length;i++){if(r<=d[i]||i===d.length-1){const k=Math.min(1,r/d[i]);return[seg[i][0]+(seg[i+1][0]-seg[i][0])*k,seg[i][1]+(seg[i+1][1]-seg[i][1])*k]}r-=d[i]}return seg[seg.length-1]}
 function drawRoute(x,seg,t,col){const steps=Math.max(2,Math.round(60*t));for(let i=0;i<=steps;i++){if(i%2)continue;const [px,py]=routePt(seg,t*i/steps);x.fillStyle='#000';x.fillRect(Math.round(px)-1,Math.round(py)-1,3,3);x.fillStyle=col;x.fillRect(Math.round(px),Math.round(py),1,1)}}
 function drawMap(cv,from,t){const x=cv.getContext&&cv.getContext('2d');const base=mapPaint();if(!x||!base)return;x.imageSmoothingEnabled=false;x.drawImage(base,0,0);
-  const order=GRAND;const fi=order.indexOf(from);
+  const order=['village',...GRAND];const fi=order.indexOf(from);
   for(let i=0;i<fi;i++)drawRoute(x,MAP_ROUTE[order[i]],1,'#bcbcbc');
   const seg=MAP_ROUTE[from];if(seg){drawRoute(x,seg,t,'#f8b800');const [px,py]=routePt(seg,t);const h=party.find(z=>z.hp>0)||party[0];const L0=heroLook(h),sz=sprSize(L0.key);
     drawSpr(x,L0.key,L0.pal,Math.round(px-sz.w/2),Math.round(py-sz.h-1+(Math.floor(performance.now()/160)%2)),{})}
@@ -3595,7 +3600,7 @@ function travelInit(){const w=document.createElement('div');
   trvEl=w.firstElementChild;if(!trvEl||!document.body||!document.body.appendChild)return;document.body.appendChild(trvEl)}
 function showTravel(from,to){if(!trvEl||!document.getElementById('mapCv')||!document.getElementById('mapCv').getContext)return Promise.resolve();
   return new Promise(res=>{const cv=document.getElementById('mapCv'),btn=document.getElementById('trvBtn');
-    document.getElementById('trvTitle').textContent=`Travelling to ${LOCS[to].name}`;document.getElementById('trvSub').textContent=`${LOCS[from].name} lies behind you. ${LOCS[to].desc}`;
+    document.getElementById('trvTitle').textContent=`Travelling to ${LOCS[to].name}`;document.getElementById('trvSub').textContent=`${from==='village'?'You leave the village of Millbrook by the river.':LOCS[from].name+' lies behind you.'} ${LOCS[to].desc}`;
     trvEl.hidden=false;document.body.classList.add('tray-open');const T=reduced?1:3200,t0=performance.now();let done=false,iv=null,autoT=null;
     const close=()=>{clearInterval(iv);clearTimeout(autoT);trvEl.hidden=true;document.body.classList.remove('tray-open');btn.onclick=null;cv.onclick=null;res()};
     const tick=()=>{const t=Math.min(1,(performance.now()-t0)/T);drawMap(cv,from,t);if(t>=1&&!done){done=true;if(AUTO)autoT=setTimeout(close,1400)}};
