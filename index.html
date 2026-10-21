@@ -887,7 +887,7 @@ const KNOWN={fight:['An enemy waits, awake and hungry.','Weapons are being sharp
 const knownTxt=d=>{const v=KNOWN[d.t];return Array.isArray(v)?v[(d.kv||0)%v.length]:v};
 /* Difficulty: monster hit points and to-hit, check and save DCs, trap damage, starting potions per hero, healing after fights, monster level */
 const DIFF={
-  easy:{name:'Easy',hp:.7,atk:-2,dc:-2,trap:.5,pot:3,heal:1.5,lvl:-1,desc:'Weaker monsters, easier checks, more potions. Good for kids and new players.'},
+  easy:{name:'Easy',hp:.7,atk:-2,dc:-2,trap:.5,pot:3,heal:1.5,lvl:-1,desc:'Weaker monsters, easier checks, more potions. Recommended for new players.'},
   normal:{name:'Normal',hp:1,atk:0,dc:0,trap:1,pot:2,heal:1,lvl:0,desc:'The standard adventure.'},
   hard:{name:'Hard',hp:1.15,atk:1,dc:2,trap:1.25,pot:1,heal:.75,lvl:1,desc:'Tougher monsters that hit harder, harder checks, fewer potions.'}
 };
