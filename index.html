@@ -3554,8 +3554,8 @@ function renderPanel(){
 
 /* ---------- Travel map for the epic adventure ---------- */
 const MAP_W=192,MAP_H=128;
-const MAP_PTS={village:[86,104],castle:[34,98],caves:[70,40],woods:[132,86],hell:[168,28]};
-const MAP_ROUTE={village:[[86,104],[74,108],[60,106],[46,102],[34,98]],castle:[[34,98],[46,84],[50,66],[62,52],[70,40]],caves:[[70,40],[92,44],[104,60],[118,74],[132,86]],woods:[[132,86],[150,78],[158,58],[160,42],[168,28]]};
+const MAP_PTS={village:[86,104],castle:[34,98],caves:[70,40],woods:[132,86],hell:[154,38]};
+const MAP_ROUTE={village:[[86,104],[74,108],[60,106],[46,102],[34,98]],castle:[[34,98],[46,84],[50,66],[62,52],[70,40]],caves:[[70,40],[92,44],[104,60],[118,74],[132,86]],woods:[[132,86],[146,76],[150,62],[152,50],[154,38]]};
 let mapBase=null,trvEl=null;
 function mapPaint(){if(mapBase)return mapBase;if(!document.createElement)return null;const c=document.createElement('canvas');c.width=MAP_W;c.height=MAP_H;const x=c.getContext&&c.getContext('2d');if(!x)return null;
   x.fillStyle='#0058f8';x.fillRect(0,0,MAP_W,MAP_H);
@@ -3576,8 +3576,8 @@ function mapPaint(){if(mapBase)return mapBase;if(!document.createElement)return 
   /* the dark woods */
   for(let k=0;k<14;k++){const tx=118+Math.floor(hr(k,401)*30),ty=80+Math.floor(hr(401,k)*18);x.fillStyle='#000';x.fillRect(tx-3,ty-1,7,6);x.fillStyle='#005800';x.fillRect(tx-2,ty,5,4);x.fillStyle='#00a800';x.fillRect(tx-1,ty,2,1);x.fillStyle='#503000';x.fillRect(tx,ty+4,1,2)}
   /* the hell volcano with lava */
-  for(let k=0;k<12;k++){x.fillStyle=k<3?'#d82800':'#3c3c3c';x.fillRect(168-k-2,20+k,k*2+5,1)}x.fillStyle='#f8b800';x.fillRect(166,18,5,2);x.fillStyle='#d82800';x.fillRect(164,16,2,2);x.fillRect(171,15,2,2);x.fillRect(167,12,2,3);
-  x.fillStyle='#d82800';for(let y=32;y<38;y++)x.fillRect(166+(y%2),y,2,1);
+  {const vx=154,vy=30;for(let k=0;k<12;k++){x.fillStyle=k<3?'#d82800':'#3c3c3c';x.fillRect(vx-k-2,vy+k,k*2+5,1)}x.fillStyle='#000';x.fillRect(vx-14,vy+12,29,1);x.fillStyle='#f8b800';x.fillRect(vx-2,vy-2,5,2);x.fillStyle='#d82800';x.fillRect(vx-4,vy-4,2,2);x.fillRect(vx+3,vy-5,2,2);x.fillRect(vx-1,vy-8,2,3);
+  x.fillStyle='#d82800';for(let y=vy+3;y<vy+11;y++)x.fillRect(vx-2+(y%2),y,2,1)}
   /* the cave mountain */
   mount(70,26,12,'#7c4c00');x.fillStyle='#000';x.fillRect(66,32,9,6);x.fillRect(67,31,7,1);
   /* the haunted castle */
