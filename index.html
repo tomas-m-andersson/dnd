@@ -1,371 +1,415 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="theme-color" content="#0e0f13"><link rel="manifest" href="manifest.webmanifest?v=4"><link rel="icon" href="icons/favicon.svg" type="image/svg+xml"><link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Nat20"></head><body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fcfcfc}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><meta name="theme-color" content="#000000"><link rel="manifest" href="manifest.webmanifest?v=4"><link rel="icon" href="icons/favicon.svg" type="image/svg+xml"><link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Nat20"></head><body>
 <title>Nat20</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap">
 <style>
-/* Layout: a modern game HUD. Step 1 is a character builder with stat tiles; step 2 is the run, with a hero HUD, a depth track to the boss and a live combat feed. Ember for action, gold for reward, a cool blue for magic. */
+/* Layout: an 8-bit console game. Black screen, white-bordered windows, blue windows for story and selection, a pixel arrow as the menu cursor, segmented life bars and a red START button. One pixel font everywhere, always uppercase. */
 :root{
-  --bg:#0e0f13; --bg2:#15161c; --surface:#1b1d24; --raised:#232631; --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
-  --ink:#f1f0ee; --muted:#9a9ba5; --ember:#ff6b3d; --ember2:#ff9a3d; --ember-ink:#1a0a04;
-  --gold:#f3c45a; --good:#5fd38a; --bad:#ff5a5f; --magic:#7aa7ff; --track:rgba(255,255,255,.07);
-  --shadow:0 1px 0 rgba(255,255,255,.05) inset,0 20px 40px -24px rgba(0,0,0,.7);
-  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
-  --f-body:"Figtree","Segoe UI",system-ui,-apple-system,sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
-  --r:18px; --r-sm:12px; color-scheme:dark;
+  --k:#000000; --w:#fcfcfc; --blue:#0000bc; --y:#f8b800; --red:#d82800; --dred:#881400;
+  --g1:#bcbcbc; --g2:#7c7c7c; --g3:#3c3c3c; --green:#58d854; --salmon:#f87858; --sky:#3cbcfc;
+  --f:"Press Start 2P","Courier New",ui-monospace,monospace;
+  --cur:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1z' fill='%23fcfcfc'/%3E%3C/svg%3E");
+  --cury:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1z' fill='%23f8b800'/%3E%3C/svg%3E");
+  color-scheme:dark;
 }
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
-  --bg:#eef0f3; --bg2:#e6e9ee; --surface:#ffffff; --raised:#f5f6f8; --line:rgba(15,20,35,.09); --line2:rgba(15,20,35,.16);
-  --ink:#16181f; --muted:#5f6370; --ember:#e8501f; --ember2:#f27a1f; --ember-ink:#ffffff;
-  --gold:#a8750c; --good:#1d9a52; --bad:#d6323a; --magic:#2f62d6; --track:rgba(15,20,35,.08);
-  --shadow:0 1px 2px rgba(15,20,35,.06),0 14px 32px -20px rgba(15,20,35,.28); color-scheme:light}}
-:root[data-theme="light"]{
-  --bg:#eef0f3; --bg2:#e6e9ee; --surface:#ffffff; --raised:#f5f6f8; --line:rgba(15,20,35,.09); --line2:rgba(15,20,35,.16);
-  --ink:#16181f; --muted:#5f6370; --ember:#e8501f; --ember2:#f27a1f; --ember-ink:#ffffff;
-  --gold:#a8750c; --good:#1d9a52; --bad:#d6323a; --magic:#2f62d6; --track:rgba(15,20,35,.08);
-  --shadow:0 1px 2px rgba(15,20,35,.06),0 14px 32px -20px rgba(15,20,35,.28); color-scheme:light}
-
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.5;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px;
-  background-image:radial-gradient(60% 40% at 15% 0%,color-mix(in srgb,var(--ember) 12%,transparent),transparent 70%),radial-gradient(50% 35% at 100% 10%,color-mix(in srgb,var(--magic) 8%,transparent),transparent 70%);background-attachment:fixed}
-.wrap{max-width:1120px;margin:0 auto;display:grid;gap:20px}
-button,input,select{font:inherit;color:inherit}
+html{background:#000}
+body{margin:0;background:var(--k);color:var(--w);font-family:var(--f);font-size:10px;line-height:1.8;text-transform:uppercase;
+  -webkit-font-smoothing:none;font-smooth:never;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:22px 40px}
+.wrap{max-width:1120px;margin:0 auto;display:grid;gap:16px}
+#view{display:grid;gap:16px;min-width:0}
+button,input,select{font:inherit;color:inherit;text-transform:inherit;letter-spacing:inherit}
 button,select,summary{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
-h1,h2,h3{font-family:var(--f-display);font-weight:800;margin:0;line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
-.eyebrow{font-family:var(--f-mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.muted{color:var(--muted)}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+h1,h2,h3{font-family:var(--f);font-weight:400;margin:0;line-height:1.5}
+b,strong{font-weight:400}
+.eyebrow{font-size:8px;color:var(--g1);letter-spacing:.5px}
+.muted{color:var(--g1)}
+.y{color:var(--y)}
 .more summary{display:none}
 .status .first{display:none}
-.more-in{display:grid;gap:14px}
-.recent{display:none;list-style:none;margin:12px 0 0;padding:12px 0 0;gap:6px;border-top:1px solid var(--line)}
-.recent li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;align-items:baseline;font-size:14.5px}
+.more-in{display:grid;gap:12px}
+.recent{display:none;list-style:none;margin:10px 0 0;padding:10px 0 0;gap:6px;border-top:2px solid var(--g3)}
+.recent li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:baseline;font-size:8px}
 
-header{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
-header h1{font-family:"Cinzel Decorative","Cinzel",Georgia,serif;font-weight:700;letter-spacing:.01em;font-size:clamp(44px,7vw,76px);line-height:1.1;margin-top:.12em;padding-left:.1em}
-header h1 .acc{background:linear-gradient(100deg,var(--ember),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
-.tabs{display:flex;gap:4px;padding:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:var(--shadow)}
-.tabs button{border:0;background:transparent;padding:9px 16px;cursor:pointer;font-weight:700;color:var(--muted);display:flex;gap:8px;align-items:center;border-radius:999px;min-height:42px;transition:background .2s,color .2s}
-.tabs button .n{font-family:var(--f-mono);font-size:11.5px;background:var(--raised);border-radius:999px;width:22px;height:22px;display:grid;place-items:center}
-.tabs button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
-.tabs button[aria-selected="true"] .n{background:var(--ember);color:var(--ember-ink)}
+/* windows */
+.win,.sheet{background:var(--k);border:4px solid var(--w);border-radius:8px;padding:14px;position:relative}
+.win.blue{background:var(--blue);box-shadow:0 0 0 3px var(--k)}
 
-.btn{min-height:44px;border:1px solid var(--line);background:var(--raised);border-radius:var(--r-sm);padding:9px 14px;cursor:pointer;font-weight:700;font-size:15px;transition:transform .12s,border-color .15s,background .15s}
-@media (hover:hover){.btn:hover:not(:disabled){border-color:var(--line2);background:color-mix(in srgb,var(--raised) 85%,var(--ink) 6%)}}
-.btn:active:not(:disabled){transform:scale(.98)}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn.primary{background:linear-gradient(135deg,var(--ember),var(--ember2));border-color:transparent;color:var(--ember-ink);padding:12px 22px;font-size:16.5px;box-shadow:0 10px 24px -12px color-mix(in srgb,var(--ember) 80%,transparent)}
-@media (hover:hover){.btn.primary:hover:not(:disabled){filter:brightness(1.06);background:linear-gradient(135deg,var(--ember),var(--ember2))}}
-.btn.magic{border-color:color-mix(in srgb,var(--magic) 45%,transparent);background:color-mix(in srgb,var(--magic) 10%,var(--raised))}
-.btn small{display:block;font-weight:500;font-size:12px;color:var(--muted);font-family:var(--f-mono);letter-spacing:-.01em}
-.btn.primary small{color:inherit;opacity:.8}
+/* header */
+header{display:flex;justify-content:space-between;align-items:end;gap:14px;flex-wrap:wrap}
+header h1{font-size:34px;line-height:1.1;letter-spacing:2px;text-shadow:4px 4px 0 var(--dred);margin-top:6px}
+header h1 .acc{color:var(--y)}
+.hdr-r{display:flex;gap:8px;align-items:stretch}
+.tabs{display:flex;gap:0;padding:4px;background:var(--k);border:4px solid var(--w);border-radius:8px}
+.tabs button{border:0;background:transparent;padding:0 16px;font-size:10px;color:var(--g1);display:flex;gap:8px;align-items:center;justify-content:center;border-radius:4px;min-height:40px;white-space:nowrap}
+.tabs button::before{content:"";width:8px;height:14px;flex:0 0 8px;background:var(--cury) center/contain no-repeat;visibility:hidden}
+.tabs button .n{display:none}
+.tabs button[aria-selected="true"]{background:var(--blue);color:var(--y)}
+.tabs button[aria-selected="true"]::before{visibility:visible}
+.gear{width:60px;flex:0 0 60px;border:4px solid var(--w);border-radius:8px;background:var(--k);color:var(--w);font-size:9px;display:grid;place-items:center;min-height:56px}
+@media (hover:hover){.gear:hover,.tabs button:hover{color:var(--y)}}
 
-.sheet{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:22px;position:relative;box-shadow:var(--shadow)}
+/* buttons */
+.btn{min-height:44px;border:3px solid var(--g2);background:var(--k);border-radius:4px;padding:8px 12px;font-size:10px;line-height:1.6;color:var(--w);text-align:center}
+@media (hover:hover){.btn:hover:not(:disabled){border-color:var(--w);color:var(--y)}}
+.btn:active:not(:disabled){transform:translateY(2px)}
+.btn:disabled{color:var(--g2);border-color:var(--g3);cursor:not-allowed}
+.btn small{display:block;font-size:8px;color:var(--g1);margin-top:4px;line-height:1.6}
+.btn.primary{min-height:60px;background:var(--red);border:4px solid var(--w);border-radius:8px;box-shadow:0 6px 0 var(--dred);color:var(--w);font-size:12px;letter-spacing:1px;padding:12px 18px;margin-bottom:6px}
+@media (hover:hover){.btn.primary:hover:not(:disabled){color:var(--y);background:#e43c14}}
+.btn.primary:active:not(:disabled){transform:translateY(4px);box-shadow:0 2px 0 var(--dred)}
+.btn.primary small{color:#fcd8a8}
+.btn.magic small{color:var(--sky)}
 
-/* Generator */
-.gen{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:20px;align-items:start}
-.gen-main{display:grid;gap:20px;grid-template-columns:minmax(0,1fr)}
+/* menus: a column of text rows, the pixel arrow marks the row under the finger or focus (the first row by default) */
+.menu{display:flex;flex-direction:column;gap:0}
+.menu .btn,.actions .btn{display:grid;grid-template-columns:14px minmax(0,1fr) auto;column-gap:8px;align-items:center;text-align:left;border:0;background:transparent;border-radius:4px;padding:6px 4px;min-height:44px;margin:0;box-shadow:none;font-size:10px;letter-spacing:0}
+.menu .btn::before,.actions .btn::before{content:"";grid-row:1/span 2;width:8px;height:14px;background:var(--cur) center/contain no-repeat;visibility:hidden}
+.menu .btn small,.actions .btn small{grid-column:2/-1;margin:2px 0 0;font-size:8px}
+.menu .btn:first-child::before,.actions .btn:not(:disabled):first-of-type::before{visibility:visible}
+.menu:hover .btn::before,.actions:hover .btn::before,.menu:focus-within .btn::before,.actions:focus-within .btn::before{visibility:hidden}
+.menu .btn:hover:not(:disabled)::before,.actions .btn:hover:not(:disabled)::before,.menu .btn:focus-visible::before,.actions .btn:focus-visible::before{visibility:visible}
+.menu .btn:focus-visible,.actions .btn:focus-visible{outline:0;background:var(--blue);color:var(--y)}
+@media (hover:hover){.menu .btn:hover:not(:disabled),.actions .btn:hover:not(:disabled){color:var(--y);background:transparent}}
+.menu .btn:active:not(:disabled),.actions .btn:active:not(:disabled){transform:none;background:var(--blue)}
+.actions .btn.primary{color:var(--y);background:transparent;border:0;box-shadow:none}
+.actions .btn.primary::before{background-image:var(--cury)}
+.actions .btn.primary small{color:var(--g1)}
+.actions .btn.magic{color:#a8e4fc}
+.actions .btn:disabled{color:var(--g2)}
+.actions .btn:disabled small{color:var(--g3)}
+
+/* party slots */
+.partybox{display:grid;gap:10px;padding:12px}
+.pb-head{display:flex;justify-content:space-between;gap:10px}
+.ptabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ptab{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--k);border:3px solid var(--g2);border-radius:6px;padding:8px 4px 6px;color:var(--w);min-width:0;min-height:96px;justify-content:flex-end}
+.ptab.on{border-color:var(--y)}
+.ptab.on b{color:var(--y)}
+.ptab .pt-txt{display:grid;justify-items:center;gap:2px;min-width:0;max-width:100%;text-align:center}
+.ptab b{font-size:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.ptab small{font-size:7px;color:var(--g1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.pt-ico,.pm-ico,.pk-ico{image-rendering:pixelated;image-rendering:crisp-edges;flex:0 0 auto}
+.pt-ico{width:42px;height:48px}
+.ptab.add{border-style:dashed;border-color:var(--g2);background:transparent}
+.ptab .plus{width:42px;height:48px;display:grid;place-items:center;font-size:20px;color:var(--y)}
+@media (hover:hover){.ptab:hover{border-color:var(--w)}.ptab.on:hover{border-color:var(--y)}}
+
+/* generator */
+.gen{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+.gen-main{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
 .gen-side,.scene,.status,.block{grid-template-columns:minmax(0,1fr)}
-.namebar{display:grid;gap:8px}
-.namebar .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.namebar input{flex:1;width:100%;min-width:0;background:var(--raised);border:1px solid var(--line);border-radius:var(--r-sm);font-family:var(--f-display);font-weight:800;letter-spacing:-.02em;font-size:clamp(26px,4vw,36px);line-height:1.15;padding:8px 14px}
-.namebar input:focus{border-color:var(--ember);outline:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--ember) 18%,transparent)}
-.subline{font-size:16px;color:var(--muted);font-weight:500}
-.choose{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.choose label{display:grid;gap:6px;font-family:var(--f-mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.choose select{background:var(--raised);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;font-family:var(--f-body);font-size:16px;font-weight:600;text-transform:none;letter-spacing:0;color:var(--ink);min-height:46px}
-.abil{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
-.ab{border:1px solid var(--line);border-radius:14px;background:var(--raised);padding:10px 4px 8px;text-align:center;display:grid;gap:2px;position:relative}
-.ab.key{border-color:color-mix(in srgb,var(--gold) 55%,transparent);background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 12%,var(--raised)),var(--raised))}
-.ab .lbl{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--muted)}
-.ab .val{font-family:var(--f-display);font-size:30px;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums}
-.ab .mod{font-family:var(--f-mono);font-size:12.5px;font-weight:600;color:var(--gold)}
-.ab .dice{display:flex;gap:2px;justify-content:center;margin-top:5px}
-.ab .dice span{font-family:var(--f-mono);font-size:10px;width:15px;height:15px;background:var(--track);border-radius:4px;display:grid;place-items:center}
-.ab .dice span.drop{opacity:.35;text-decoration:line-through}
-.ab .race{font-family:var(--f-mono);font-size:10px;font-weight:600;color:var(--good);position:absolute;top:5px;right:7px}
-.vitals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.vitals div{background:var(--raised);border:1px solid var(--line);border-radius:14px;padding:10px 6px;text-align:center;display:grid}
-.vitals b{font-family:var(--f-display);font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
-.vitals span{font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.gen-side{display:grid;gap:18px}
-.block{display:grid;gap:6px}
-.block h3{font-size:20px}
-.line{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding:7px 0;font-size:15px}
+.namebar{display:grid;gap:10px}
+.namebar .row{display:flex;gap:8px;align-items:center}
+.namebar input{flex:1;width:100%;min-width:0;background:var(--blue);color:var(--w);border:3px solid var(--w);border-radius:4px;padding:10px 8px;font-size:10px;min-height:44px}
+.namebar input:focus{outline:0;border-color:var(--y)}
+.namebar input:disabled{background:var(--k);border-color:var(--g3);color:var(--g1)}
+#newName{font-size:8px;padding:0 10px}
+.hero-id{display:flex;gap:12px;align-items:center}
+.hero-prev{flex:0 0 66px;width:66px;height:72px;image-rendering:pixelated;image-rendering:crisp-edges;background:var(--k);border:3px solid var(--g3);border-radius:4px}
+.subline{font-size:8px;color:var(--g1);line-height:1.8}
+.choose{display:grid;gap:4px}
+.pick-row{display:grid;grid-template-columns:64px 44px minmax(0,1fr) 44px;align-items:center;gap:4px;min-height:44px}
+.pick-row .pl{color:var(--g1)}
+.arr{width:44px;height:40px;background:transparent;border:0;display:grid;place-items:center;padding:0}
+.arr svg{width:8px;height:14px}
+.arr:disabled{opacity:.3;cursor:not-allowed}
+.pick-sel{appearance:none;-webkit-appearance:none;background:transparent;border:0;border-radius:4px;text-align:center;text-align-last:center;font-size:10px;min-height:40px;padding:0 4px;color:var(--w);width:100%;cursor:pointer}
+.pick-sel:focus-visible{outline:0;background:var(--blue);color:var(--y)}
+.pick-sel option{background:var(--k);color:var(--w)}
+.pick-sel:disabled{color:var(--g1);cursor:default}
+.abil{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ab{border:3px solid var(--g2);border-radius:4px;padding:8px 4px;text-align:center;display:grid;justify-items:center;gap:4px;position:relative}
+.ab.key{border-color:var(--y)}
+.ab .lbl{font-size:8px;color:var(--g1)}
+.ab .val{font-size:18px;line-height:1.2}
+.ab .mod{font-size:8px;color:var(--y)}
+.ab .dice{display:flex;gap:4px;justify-content:center}
+.ab .dice span{font-size:7px;color:var(--g2)}
+.ab .dice span.drop{text-decoration:line-through;color:var(--g3)}
+.ab .race{font-size:7px;color:var(--green);position:absolute;top:4px;right:5px}
+.vitals{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center}
+.vitals div{background:var(--blue);border-radius:4px;padding:8px 2px;display:grid;gap:2px}
+.vitals b{font-size:14px;order:2}
+.vitals span{font-size:7px;color:var(--g1);order:1}
+.gen-side{display:grid;gap:16px}
+.block{display:grid;gap:4px}
+.block h3{font-size:10px;color:var(--y);margin-bottom:2px}
+.line{display:flex;justify-content:space-between;gap:10px;padding:5px 0;font-size:8px;line-height:1.8;border-bottom:2px solid var(--g3)}
 .line:last-child{border-bottom:0}
-.line code{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:right}
-.line .sv{display:block;font-size:12.5px;color:var(--muted)}
-.gen-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.line code{font-family:var(--f);font-size:8px;color:var(--g1);text-align:right;flex:0 0 auto}
+.line .sv{display:block;font-size:7px;color:var(--g2)}
+.gen-actions{display:grid;gap:14px}
+.gen-actions .menu{padding:8px 12px}
+.press{text-align:center;font-size:8px;color:var(--y);animation:blink 1.2s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.gen-note{font-size:8px;color:var(--g1)}
 
-/* Adventure */
-.adv{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;align-items:start}
-.status{display:grid;gap:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px)}
-.status .who h2{font-size:28px;overflow-wrap:anywhere}
-.meter{display:grid;gap:6px}
-.meter .top{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
-.meter .top strong{color:var(--ink)}
-.bar{height:10px;background:var(--track);border-radius:999px;overflow:hidden;position:relative}
-.bar i{position:absolute;inset:0 auto 0 0;border-radius:999px;background:linear-gradient(90deg,var(--good),color-mix(in srgb,var(--good) 60%,var(--gold)));box-shadow:0 0 12px color-mix(in srgb,var(--good) 45%,transparent);transition:width .45s cubic-bezier(.3,.7,.3,1)}
-.bar i.low{background:linear-gradient(90deg,var(--bad),var(--ember2));box-shadow:0 0 12px color-mix(in srgb,var(--bad) 50%,transparent)}
-.bar.xp i{background:linear-gradient(90deg,var(--gold),var(--ember2));box-shadow:none}
-.minis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
-.minis div{border:1px solid var(--line);border-radius:12px;padding:6px;text-align:center;background:var(--raised)}
-.minis b{display:block;font-family:var(--f-display);font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;line-height:1.1}
-.minis span{font-family:var(--f-mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.pips{display:flex;gap:5px;flex-wrap:wrap}
-.pips i{width:14px;height:14px;border-radius:5px;border:1.5px solid var(--magic)}
-.pips i.on{background:var(--magic);box-shadow:0 0 10px color-mix(in srgb,var(--magic) 55%,transparent)}
-.bag{display:grid;gap:2px;font-size:14px}
-
-.scene{display:grid;gap:16px}
-.depth{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.depth .step{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);border:1px solid var(--line)}
-.depth .step.done{background:color-mix(in srgb,var(--gold) 18%,var(--surface));color:var(--ink);border-color:transparent}
-.depth .step.here{background:var(--ink);color:var(--bg);border-color:transparent;box-shadow:0 0 0 4px color-mix(in srgb,var(--ink) 14%,transparent)}
-.depth .step.boss{width:auto;padding:0 10px;font-family:var(--f-display);font-weight:800;font-size:14px;color:var(--bad);border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:color-mix(in srgb,var(--bad) 10%,var(--surface))}
-.depth .step.boss.here{background:var(--bad);color:#fff}
-.depth .rule{flex:0 0 10px;height:2px;border-radius:2px;background:var(--line2)}
-.stage h2{font-size:clamp(28px,3.8vw,40px);margin-bottom:8px}
-.stage p{margin:0 0 12px;max-width:62ch;color:color-mix(in srgb,var(--ink) 88%,var(--muted))}
-.doors{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:6px}
-.door{border:1px solid var(--line);background:var(--raised);border-radius:16px;padding:18px;text-align:left;cursor:pointer;display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:14px;row-gap:2px;align-items:center;transition:border-color .2s,transform .2s,box-shadow .2s}
-@media (hover:hover){.door:hover{border-color:color-mix(in srgb,var(--ember) 55%,transparent);transform:translateY(-2px);box-shadow:0 14px 28px -18px color-mix(in srgb,var(--ember) 70%,transparent)}}
-.door .knob{grid-row:1/span 3;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;color:var(--gold);background:color-mix(in srgb,var(--gold) 12%,var(--surface));line-height:1}
-.door .hint{font-size:16px;font-weight:600}
-.door .known{font-size:13.5px;font-weight:700;color:var(--gold)}
-.door .lbl{font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.foe{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;border:1px solid color-mix(in srgb,var(--bad) 35%,transparent);border-radius:16px;padding:14px 16px;background:linear-gradient(135deg,color-mix(in srgb,var(--bad) 14%,var(--raised)),var(--raised) 70%);margin-bottom:14px}
-.foe .rune{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:28px;color:#fff;background:linear-gradient(135deg,var(--bad),var(--ember));box-shadow:0 8px 20px -10px var(--bad)}
-.foe h3{font-size:26px;overflow-wrap:anywhere}
-.foe .meta{font-size:13.5px;color:var(--muted)}
-.foe .nums{font-family:var(--f-mono);font-size:12px;text-align:right;color:var(--muted);white-space:nowrap}
-.foe .nums b{color:var(--ink);font-size:16px}
-.foe .bar{grid-column:1/-1}
-@keyframes hit{0%,100%{transform:translateX(0)}30%{transform:translateX(-5px)}65%{transform:translateX(4px)}}
-.shake{animation:hit .35s ease}
-.actions{display:flex;flex-wrap:wrap;gap:8px}
-.loot{display:grid;gap:8px;border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);background:color-mix(in srgb,var(--gold) 8%,var(--raised));border-radius:14px;padding:14px 16px;margin:6px 0 14px}
-.loot div{display:flex;justify-content:space-between;gap:10px}
-.loot b{color:var(--gold)}
-.banner{border:1px solid color-mix(in srgb,var(--gold) 45%,transparent);border-radius:16px;padding:20px;text-align:center;background:radial-gradient(80% 120% at 50% 0%,color-mix(in srgb,var(--gold) 18%,var(--raised)),var(--raised));margin-bottom:14px}
-.banner .big{font-family:var(--f-display);font-weight:800;letter-spacing:-.02em;font-size:34px;line-height:1.05;display:block;margin-bottom:4px}
-.banner.dead{border-color:color-mix(in srgb,var(--bad) 45%,transparent);background:radial-gradient(80% 120% at 50% 0%,color-mix(in srgb,var(--bad) 16%,var(--raised)),var(--raised))}
-.levelup{color:var(--gold);font-weight:800}
-
-.log{list-style:none;margin:0;padding:8px 16px 14px;max-height:340px;overflow-y:auto;display:grid;gap:0;align-content:start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
-.log li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
-.log li:last-child{border-bottom:0}
-.log li.sep{grid-template-columns:1fr;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding-top:14px;border:0}
-.chip{font-family:var(--f-mono);font-size:12px;font-weight:600;text-align:center;background:var(--track);border-radius:999px;padding:2px 0;color:var(--muted);font-variant-numeric:tabular-nums}
-.chip.hit{color:var(--ink);background:color-mix(in srgb,var(--ink) 12%,transparent)}
-.chip.crit{color:#1a1204;background:var(--gold)}
-.chip.fail{color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,transparent)}
-.chip.heal{color:var(--good);background:color-mix(in srgb,var(--good) 15%,transparent)}
-.chip.magic{color:var(--magic);background:color-mix(in srgb,var(--magic) 15%,transparent)}
-.dmg{color:var(--bad);font-weight:800}
-.heal{color:var(--good);font-weight:800}
-.you{color:var(--gold)}
-.them{color:var(--ink);text-decoration:underline;text-decoration-color:var(--bad);text-decoration-thickness:2px;text-underline-offset:3px}
-.log-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.log-head h3{font-size:20px}
-
-footer{text-align:center;font-size:13px;color:var(--muted)}
-footer a{color:inherit}
-.scene-cv{display:block;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/1;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;border-radius:14px;background:#000;border:1px solid var(--line);box-shadow:var(--shadow)}
-.hero-id{display:flex;gap:14px;align-items:center}
-.hero-prev{flex:0 0 66px;width:66px;height:72px;image-rendering:pixelated;image-rendering:crisp-edges;border-radius:12px;background:#000;border:1px solid var(--line)}
-/* Party */
-.ptabs{display:flex;gap:8px;flex-wrap:wrap}
-.ptab{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 14px 8px 8px;cursor:pointer;min-height:56px;color:var(--ink);text-align:left;box-shadow:var(--shadow);flex:1 1 150px;max-width:260px;min-width:0}
-.ptab.on{border-color:var(--ember);box-shadow:0 0 0 3px color-mix(in srgb,var(--ember) 20%,transparent)}
-.ptab .pt-txt{display:grid;line-height:1.2;min-width:0}.ptab b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ptab small{font-size:12px;color:var(--muted)}
-.pt-ico,.pm-ico,.pk-ico{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;border-radius:8px;flex:0 0 auto}
-.pt-ico{width:28px;height:32px}
-.ptab.add{border-style:dashed;box-shadow:none;background:transparent}
-.ptab .plus{width:28px;height:32px;display:grid;place-items:center;font-size:24px;font-weight:800;color:var(--ember)}
-.party{display:grid;gap:6px}
-.pm{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:center;padding:6px 8px;border-radius:12px;border:1px solid transparent}
-.pm.act{border-color:var(--ember);background:color-mix(in srgb,var(--ember) 8%,transparent)}
-.pm.down{opacity:.5}
+/* adventure */
+.adv{display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;align-items:start}
+.status{display:grid;gap:10px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);padding:10px 12px}
+.meter{display:grid;gap:4px}
+.meter .top{display:flex;justify-content:space-between;font-size:7px;color:var(--g1);gap:8px}
+.meter .top strong{color:var(--w)}
+.bar{height:10px;position:relative;background:var(--g3);
+  -webkit-mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 2px),transparent calc(10% - 2px) 10%);mask:repeating-linear-gradient(90deg,#000 0 calc(10% - 2px),transparent calc(10% - 2px) 10%)}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--green)}
+.bar i.low{background:var(--red)}
+.bar.xp i{background:var(--y)}
+.pips{display:flex;gap:3px;flex-wrap:wrap}
+.pips i{width:8px;height:8px;border:2px solid var(--sky)}
+.pips i.on{background:var(--sky)}
+.bag{display:grid;gap:0}
+.party{display:grid;gap:8px}
+.pm{display:grid;grid-template-columns:8px 28px minmax(0,1fr);gap:6px;align-items:center;padding:2px 0}
+.pm::before{content:"";width:6px;height:10px;background:var(--cury) center/contain no-repeat;visibility:hidden}
+.pm.act::before{visibility:visible}
+.pm.act .pm-top b{color:var(--y)}
+.pm.down{opacity:.45}
 .pm-ico{width:28px;height:32px}
-.pm-main{min-width:0}
+.pm-main{min-width:0;display:grid;gap:3px}
 .pm-top{display:flex;gap:8px;align-items:baseline}
-.pm-top b{font-size:16px}.pm-cls{font-size:12px;color:var(--muted);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pm-ac{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
-.pm .bar{height:8px;margin:4px 0 3px}
-.pm-sub{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
-.pm-sub .pips{gap:3px}.pm-sub .pips i{width:9px;height:9px;border-radius:3px}
-.who-pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 0 12px}
-.who-pick .eyebrow{width:100%}
-.pk{display:flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--raised);border-radius:999px;padding:4px 14px 4px 4px;min-height:40px;font-weight:700;cursor:pointer;color:var(--ink)}
-.pk.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.pk:disabled{opacity:.4;cursor:not-allowed}
-.pk-ico{width:24px;height:28px;border-radius:999px}
-.turn{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
-.turn b{font-family:var(--f-display);font-size:22px;letter-spacing:-.02em}
-.foes{display:grid;gap:8px;margin-bottom:12px}
-.foes .foe{margin-bottom:0}
-button.foe{width:100%;text-align:left;color:var(--ink);font:inherit;cursor:pointer}
+.pm-top b{font-size:10px;white-space:nowrap}
+.pm-cls{font-size:7px;color:var(--g1);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-ac{font-size:7px;color:var(--g1);white-space:nowrap}
+.pm .bar{height:8px}
+.pm-sub{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:7px;color:var(--g1)}
+.pm-sub .pips i{width:7px;height:7px}
+.more summary{font-size:8px;color:var(--w);cursor:pointer;list-style:none;padding:8px 0 2px;border-top:2px solid var(--g3);min-height:32px;display:none}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:"";display:inline-block;width:6px;height:10px;margin-right:8px;background:var(--cur) center/contain no-repeat;transition:transform .1s}
+.more[open] summary::before{transform:rotate(90deg)}
+
+.scene{display:grid;gap:14px}
+.scene-cv{display:block;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/1;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;background:#000;border:4px solid var(--w);border-radius:8px;box-sizing:content-box;max-width:calc(100% - 8px)}
+.depth{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:8px}
+.depth::before{content:"DEPTH";color:var(--g1);margin-right:2px}
+.depth .step{width:20px;height:20px;display:grid;place-items:center;border:2px solid var(--g2);color:var(--g2);font-size:8px}
+.depth .step.done{border-color:var(--y);color:var(--y)}
+.depth .step.here{background:var(--y);border-color:var(--y);color:var(--k)}
+.depth .step.boss{width:auto;padding:0 5px;border-color:var(--red);color:var(--red)}
+.depth .step.boss.here{background:var(--red);color:var(--w)}
+.depth .rule{display:none}
+.stage{background:var(--blue);box-shadow:0 0 0 3px var(--k);display:grid;gap:12px}
+.stage h2{font-size:12px;color:var(--y);line-height:1.6}
+.stage p{margin:0;max-width:62ch;line-height:1.9}
+.stage p b{color:var(--y)}
+.stage .actions,.stage .doors,.stage .foes,.stage .loot{background:var(--k);border:4px solid var(--w);border-radius:8px;box-shadow:0 0 0 3px var(--k)}
+.actions{display:flex;flex-direction:column;padding:8px 10px}
+.doors{display:grid;grid-template-columns:minmax(0,1fr)!important;gap:2px;padding:8px 10px}
+.doors::before{content:"WHERE TO?";font-size:8px;color:var(--g1);padding:2px 4px 4px}
+.door{border:0;background:transparent;border-radius:4px;padding:8px 4px;text-align:left;display:grid;grid-template-columns:14px minmax(0,1fr);column-gap:8px;row-gap:4px;align-items:start;color:var(--w);min-height:56px}
+.door::before{content:"";grid-row:1/span 3;width:8px;height:14px;margin-top:1px;background:var(--cur) center/contain no-repeat;visibility:hidden}
+.doors .door:first-of-type::before{visibility:visible}
+.doors:hover .door::before,.doors:focus-within .door::before{visibility:hidden}
+.doors .door:hover::before,.doors .door:focus-visible::before{visibility:visible}
+.door:focus-visible{outline:0;background:var(--blue)}
+.door .knob{display:none}
+.door .lbl{font-size:10px;color:var(--y)}
+.door .hint{font-size:8px;color:var(--g1);line-height:1.8}
+.door .known{font-size:8px;color:var(--green)}
+@media (hover:hover){.door:hover .hint{color:var(--w)}}
+
+/* enemies */
+.foes{display:grid;gap:2px;padding:8px 10px}
+.foes::before{content:"ENEMIES";font-size:8px;color:var(--g1);padding:2px 4px 2px}
+.foes.many::before{content:"ENEMIES · TAP TO TARGET"}
+.foe{display:grid;grid-template-columns:14px minmax(0,1fr) auto;grid-template-areas:"c n h" "c b b";column-gap:8px;row-gap:4px;align-items:center;border:0;background:transparent;border-radius:4px;padding:6px 4px;color:var(--w);min-height:44px;margin:0}
+.foe::before{content:"";grid-area:c;width:8px;height:14px;background:var(--cury) center/contain no-repeat;visibility:hidden}
+.foe .rune{display:none}
+.foe>div:nth-of-type(2){grid-area:n;min-width:0}
+.foe h3{font-size:10px;overflow-wrap:anywhere;line-height:1.6}
+.foe .meta{font-size:7px;color:var(--g1);line-height:1.8;margin-top:2px}
+.foe .nums{grid-area:h;font-size:7px;text-align:right;color:var(--g1);white-space:nowrap;line-height:1.9}
+.foe .nums b{color:var(--w);font-size:8px}
+.foe .bar{grid-area:b;height:8px}
+.foe .bar i{background:var(--salmon)}
+.foe .bar i.low{background:var(--red)}
+button.foe{width:100%;text-align:left;font:inherit;cursor:pointer}
 button.foe:disabled{cursor:default}
-.foes.many button.foe.on{border-color:var(--ember);box-shadow:0 0 0 3px color-mix(in srgb,var(--ember) 22%,transparent)}
-.foe.dead{opacity:.45;padding:8px 14px;grid-template-columns:minmax(0,1fr)}
-.foe.dead h3{font-size:17px;text-decoration:line-through}
-.tgt-tag{display:inline-block;margin-left:6px;font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--ember);color:var(--ember-ink);vertical-align:middle}
-.zz{font-family:var(--f-mono);font-size:11px;color:var(--magic);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.foes.many .foe{grid-template-columns:40px minmax(0,1fr) auto;padding:10px 12px;gap:12px}
-.foes.many .foe .rune{width:40px;height:40px;font-size:20px;border-radius:12px}
-.foes.many .foe h3{font-size:19px}
-.foes.many .foe.dead{grid-template-columns:minmax(0,1fr);padding:6px 12px}
-.foes.many .foe.dead h3{font-size:16px}
-/* Dice tray */
-.tray{position:fixed;inset:0;z-index:50;display:grid;align-items:end;justify-items:center}
-.tray-back{position:absolute;inset:0;background:rgba(5,6,10,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-.tray-card{position:relative;width:min(540px,100%);background:var(--surface);border:1px solid var(--line2);border-bottom:0;border-radius:24px 24px 0 0;padding:20px max(18px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));box-shadow:0 -24px 60px -24px rgba(0,0,0,.65);display:grid;gap:14px;animation:trayup .22s ease-out;max-height:92vh;overflow-y:auto}
-@media (min-width:700px){.tray{align-items:center}.tray-card{border-radius:24px;border-bottom:1px solid var(--line2);padding-bottom:18px}}
-@keyframes trayup{from{transform:translateY(24px);opacity:.4}to{transform:none;opacity:1}}
-.tray h3{font-size:26px}
-.tray-sub{color:var(--muted);font-size:14.5px;margin-top:4px}
-.tray-sub b{color:var(--ink)}
-.tray-dice{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-content:center;align-items:center;min-height:156px;padding:14px;border-radius:18px;background:var(--raised);border:1px dashed var(--line2)}
-.tray-dice:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
-.tray-dice.done{cursor:default;border-style:solid}
-.tray,.dice-opt{--die-a:#ffa04a;--die-b:#ff6b3d;--die-in:#ffb066;--die-ink:#1a0a04;--die-line:#1a0a04;--die-glow:#ff6b3d}
-[data-dice="obsidian"]{--die-a:#454a58;--die-b:#101116;--die-in:#2b2e38;--die-ink:#f3c45a;--die-line:#f3c45a;--die-glow:#000000}
-[data-dice="frost"]{--die-a:#f4fcff;--die-b:#8ccbf2;--die-in:#dcf2ff;--die-ink:#0f3554;--die-line:#2a6d9c;--die-glow:#7fc4f0}
-[data-dice="bone"]{--die-a:#fdf6e4;--die-b:#cdb98e;--die-in:#f1e4c3;--die-ink:#3b2a17;--die-line:#6b5434;--die-glow:#a88f5c}
-[data-dice="venom"]{--die-a:#c6f77a;--die-b:#36a224;--die-in:#a6e861;--die-ink:#0d2205;--die-line:#0d2a05;--die-glow:#4fc23a}
-[data-dice="blood"]{--die-a:#e2484c;--die-b:#6e0b13;--die-in:#ad1f29;--die-ink:#fff2ef;--die-line:#1e0204;--die-glow:#c0262e}
-.tray[data-dice="ember"][data-tone="heal"]{--die-a:#a6f0bf;--die-b:#2fb365;--die-in:#8fe3ac;--die-glow:#2fb365}
-.tray[data-dice="ember"][data-tone="magic"]{--die-a:#bcd3ff;--die-b:#4f84f0;--die-in:#a5c2ff;--die-glow:#4f84f0}
-.tray[data-dice="ember"][data-tone="save"],.tray[data-dice="ember"][data-tone="check"],.tray[data-dice="ember"][data-tone="crit"]{--die-a:#ffe08a;--die-b:#e6a92c;--die-in:#ffe9a8;--die-glow:#e6a92c}
-.die{position:relative;width:58px;height:58px;border-radius:15px;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:27px;color:var(--die-ink);background:linear-gradient(135deg,var(--die-a),var(--die-b));box-shadow:0 10px 22px -12px var(--die-glow),inset 0 1px 0 rgba(255,255,255,.35);font-variant-numeric:tabular-nums;transition:opacity .2s}
-.die i{position:absolute;right:6px;bottom:3px;font-style:normal;font-family:var(--f-mono);font-size:9.5px;font-weight:600;opacity:.75}
+.foes:not(.many) .foe::before{display:none}
+.foes:not(.many) .foe{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n h" "b b"}
+.foes.many button.foe.on{background:var(--blue)}
+.foes.many button.foe.on h3{color:var(--y)}
+.foes.many button.foe.on::before{visibility:visible}
+@media (hover:hover){.foes.many button.foe:not(.on):not(:disabled):hover h3{color:var(--y)}}
+.foe.dead{display:block;opacity:.5;padding:4px 4px 4px 26px;min-height:0}
+.foe.dead h3{font-size:8px;text-decoration:line-through}
+.foe.dead .meta{display:none}
+.foes:not(.many) .foe.dead{padding-left:4px}
+.tgt-tag{display:none}
+.zz{font-size:7px;color:var(--sky)}
+@keyframes hit{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}50%{transform:translateX(4px)}75%{transform:translateX(-2px)}}
+.shake{animation:hit .3s steps(4)}
+
+.turn{display:grid;gap:4px}
+.turn b{font-size:12px;color:var(--y)}
+.turn .muted{font-size:8px}
+.who-pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:var(--k);border:4px solid var(--w);border-radius:8px;padding:10px 12px;box-shadow:0 0 0 3px var(--k)}
+.who-pick .eyebrow{width:100%}
+.pk{flex:1 1 0;min-width:0;display:flex;gap:6px;align-items:center;justify-content:center;background:var(--k);border:3px solid var(--g2);border-radius:4px;padding:4px 6px;min-height:44px;font-size:8px;color:var(--w);white-space:nowrap;overflow:hidden}
+.pk.on{background:var(--blue);border-color:var(--y);color:var(--y)}
+.pk:disabled{opacity:.4;cursor:not-allowed}
+.pk-ico{width:21px;height:24px}
+.loot{display:grid;gap:8px;padding:12px 14px;font-size:8px}
+.loot div{display:flex;justify-content:space-between;gap:10px}
+.loot b{color:var(--y)}
+.banner{border:4px solid var(--y);border-radius:8px;padding:16px;text-align:center;background:var(--k);line-height:1.9}
+.banner .big{font-size:14px;line-height:1.5;color:var(--y);text-shadow:3px 3px 0 var(--dred);display:block;margin-bottom:10px}
+.banner.dead{border-color:var(--red)}
+.banner.dead .big{color:var(--salmon)}
+.levelup{color:var(--y)}
+
+/* chronicle */
+.log{list-style:none;margin:0;padding:6px 14px 10px;max-height:320px;overflow-y:auto;display:grid;align-content:start;background:var(--k);border:4px solid var(--g2);border-radius:8px}
+.log li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:baseline;padding:6px 0;font-size:8px;line-height:1.9}
+.log li.sep{grid-template-columns:1fr;color:var(--y);padding-top:12px}
+.chip{font-size:7px;text-align:center;color:var(--g1);border:2px solid var(--g3);padding:1px 0}
+.chip.hit{color:var(--w);border-color:var(--g2)}
+.chip.crit{color:var(--k);background:var(--y);border-color:var(--y)}
+.chip.fail{color:var(--salmon);border-color:var(--dred)}
+.chip.heal{color:var(--green);border-color:#00a800}
+.chip.magic{color:var(--sky);border-color:#0058f8}
+.dmg{color:var(--salmon)}
+.heal{color:var(--green)}
+.you{color:var(--y)}
+.them{color:var(--salmon)}
+.log-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.log-head h3{font-size:10px;color:var(--y)}
+.lh-btns{display:flex;gap:6px;align-items:center}
+.lh-btns .btn{font-size:7px;padding:4px 8px;min-height:36px}
+.dicetog[aria-pressed="true"]{border-color:var(--y);color:var(--y)}
+footer{text-align:center;font-size:7px;color:var(--g2);line-height:2;text-transform:none}
+footer a{color:var(--g1)}
+
+/* dice tray */
+.tray{position:fixed;inset:0;z-index:50;display:grid;align-items:end;justify-items:center;padding:0 12px calc(12px + env(safe-area-inset-bottom,0px))}
+.tray-back{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(10,10,20,.92) 0 2px,rgba(0,0,0,.86) 2px 4px)}
+.tray-card{position:relative;width:min(520px,100%);background:var(--k);border:4px solid var(--w);border-radius:8px;box-shadow:0 0 0 4px var(--k);padding:16px;display:grid;gap:14px;animation:trayup .18s steps(3);max-height:calc(100vh - 24px);overflow-y:auto}
+@media (min-width:700px){.tray{align-items:center}}
+@keyframes trayup{from{transform:translateY(24px)}to{transform:none}}
+.tray h3{font-size:12px;line-height:1.6;color:var(--y);margin-top:6px}
+.tray-sub{color:var(--g1);font-size:8px;margin-top:6px;line-height:1.9}
+.tray-sub b{color:var(--w)}
+.tray-dice{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-content:center;align-items:center;min-height:170px;padding:14px;border-radius:6px;background:var(--blue);border:4px solid var(--w)}
+.tray-dice:focus-visible{outline:3px solid var(--y);outline-offset:3px}
+.tray-dice.done{cursor:default}
+.tray,.dice-opt{--die-a:#ffa04a;--die-m:#ff6b3d;--die-in:#ffb066;--die-ink:#1a0a04}
+[data-dice="obsidian"]{--die-a:#454a58;--die-m:#101116;--die-in:#2b2e38;--die-ink:#f8b800}
+[data-dice="frost"]{--die-a:#f4fcff;--die-m:#8ccbf2;--die-in:#dcf2ff;--die-ink:#0f3554}
+[data-dice="bone"]{--die-a:#fdf6e4;--die-m:#cdb98e;--die-in:#f1e4c3;--die-ink:#3b2a17}
+[data-dice="venom"]{--die-a:#c6f77a;--die-m:#36a224;--die-in:#a6e861;--die-ink:#0d2205}
+[data-dice="blood"]{--die-a:#e2484c;--die-m:#6e0b13;--die-in:#ad1f29;--die-ink:#fff2ef}
+.tray[data-dice="ember"][data-tone="heal"]{--die-a:#b8f8b8;--die-m:#00a800;--die-in:#58d854;--die-ink:#002800}
+.tray[data-dice="ember"][data-tone="magic"]{--die-a:#a4e4fc;--die-m:#0058f8;--die-in:#3cbcfc;--die-ink:#001840}
+.tray[data-dice="ember"][data-tone="save"],.tray[data-dice="ember"][data-tone="check"],.tray[data-dice="ember"][data-tone="crit"]{--die-a:#fce0a8;--die-m:#e45c10;--die-in:#f8b800;--die-ink:#3c1800}
+.die{position:relative;width:52px;height:52px;border:4px solid var(--k);background:var(--die-in);box-shadow:inset -4px -4px 0 var(--die-m),inset 4px 4px 0 var(--die-a);display:grid;place-items:center;font-size:16px;color:var(--die-ink);transition:opacity .2s}
+.die i{position:absolute;right:4px;bottom:2px;font-style:normal;font-size:6px;opacity:.75}
 .die.drop{opacity:.3}
-.die.d20{width:132px;height:132px;background:none;box-shadow:none}
-.die.d20 svg{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(0 12px 18px color-mix(in srgb,var(--die-glow) 50%,transparent))}
-.die.d20 .o{fill:var(--die-b)}.die.d20 .f1{fill:#fff;opacity:.22}.die.d20 .f2{fill:#000;opacity:.2}
-.die.d20 .in{fill:var(--die-in)}.die.d20 .ln{fill:none;stroke:var(--die-line);stroke-opacity:.5;stroke-width:1.6;stroke-linejoin:round}
-.die.d20 b{position:relative;font-size:38px;margin-top:10px}
-.tray-dice.ready .die{animation:bob 1.6s ease-in-out infinite}
-.tray-dice.rolling .die{animation:tumble .3s linear infinite}
-.tray-dice.done .die{animation:land .32s cubic-bezier(.2,1.6,.4,1)}
-.tray-dice.nat20 .die.d20 svg{filter:drop-shadow(0 0 16px var(--gold)) drop-shadow(0 0 30px var(--gold))}
-.tray-dice.nat20 .die.d20 .in{fill:var(--gold)}
-.tray-dice.nat1 .die.d20 .in{fill:var(--bad)}
-.tray-dice.nat1 .die.d20 svg{filter:drop-shadow(0 0 18px color-mix(in srgb,var(--bad) 70%,transparent))}
+.die.d20{width:136px;height:136px;border:0;background:none;box-shadow:none}
+.die.d20 svg{position:absolute;inset:0;width:100%;height:100%;shape-rendering:crispEdges}
+.px .o{fill:#000}.px .a{fill:var(--die-a)}.px .m{fill:var(--die-m)}.px .s{fill:var(--die-m)}.px .s2{fill:#000;opacity:.28}.px .in{fill:var(--die-in)}.px .nm{fill:var(--die-ink)}
+.tray-dice.ready .die{animation:bob 1.2s steps(2) infinite}
+.tray-dice.rolling .die{animation:tumble .32s steps(4) infinite}
+.tray-dice.done .die{animation:land .24s steps(3)}
+.tray-dice.nat20 .die.d20 .in{fill:var(--y)}.tray-dice.nat20 .die.d20 .nm{fill:var(--k)}
+.tray-dice.nat20{animation:flash .5s steps(2) 3}
+.tray-dice.nat1 .die.d20 .in{fill:var(--red)}.tray-dice.nat1 .die.d20 .nm{fill:var(--w)}
+@keyframes flash{50%{background:#0058f8}}
 .tray-dice.abil{flex-direction:column;gap:6px;flex-wrap:nowrap}
 .drow{display:flex;gap:6px;align-items:center;justify-content:center}
-.drow .die{width:38px;height:38px;border-radius:10px;font-size:18px}.drow .die i{display:none}
-.drow .rt{font-family:var(--f-display);font-weight:800;font-size:18px;min-width:48px;text-align:left}
-@keyframes bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-6px) rotate(-6deg)}}
-@keyframes tumble{0%{transform:rotate(0) scale(.94)}50%{transform:rotate(180deg) scale(1.04)}100%{transform:rotate(360deg) scale(.94)}}
-@keyframes land{0%{transform:scale(1.25)}100%{transform:scale(1)}}
-.tray-result{min-height:58px;text-align:center;display:grid;align-content:center;gap:2px}
-.tray-result .sum{font-family:var(--f-mono);font-size:15px;color:var(--muted)}
-.tray-result .sum b{color:var(--ink);font-size:17px}
-.tray-result .hint{color:var(--muted);font-weight:600}
-.verdict{font-family:var(--f-display);font-weight:800;font-size:28px;letter-spacing:-.02em;line-height:1.1}
-.verdict.good{color:var(--good)}.verdict.bad{color:var(--bad)}.verdict.crit{color:var(--gold)}
-.tray-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.tray-foot .btn{min-width:160px;flex:0 0 auto}
-.auto{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--muted);cursor:pointer;min-height:44px}
-.auto input{width:20px;height:20px;accent-color:var(--ember);margin:0}
+.drow .die{width:34px;height:34px;font-size:12px;border-width:3px;box-shadow:inset -3px -3px 0 var(--die-m),inset 3px 3px 0 var(--die-a)}.drow .die i{display:none}
+.drow .rt{font-size:10px;min-width:48px;text-align:left;color:var(--w)}
+@keyframes bob{50%{transform:translateY(-6px)}}
+@keyframes tumble{0%{transform:rotate(0)}25%{transform:rotate(90deg)}50%{transform:rotate(180deg)}75%{transform:rotate(270deg)}}
+@keyframes land{0%{transform:scale(1.2)}100%{transform:scale(1)}}
+.tray-result{min-height:56px;text-align:center;display:grid;align-content:center;gap:10px}
+.tray-result .sum{font-size:10px;color:var(--g1)}
+.tray-result .sum b{color:var(--w)}
+.tray-result .hint{color:var(--g1);font-size:8px;animation:blink 1.2s steps(1) infinite}
+.verdict{font-size:14px;line-height:1.5}
+.verdict.good{color:var(--green)}.verdict.bad{color:var(--salmon)}.verdict.crit{color:var(--y);text-shadow:3px 3px 0 var(--dred)}
+.tray-foot{display:flex;flex-direction:column-reverse;gap:8px}
+.tray-foot .btn{width:100%;margin-bottom:6px}
+.auto{display:flex;gap:12px;align-items:center;font-size:8px;color:var(--g1);cursor:pointer;min-height:44px}
+.auto input{appearance:none;-webkit-appearance:none;width:20px;height:20px;margin:0;border:3px solid var(--w);background:var(--k);display:grid;place-items:center;flex:0 0 20px;cursor:pointer}
+.auto input:checked{background:var(--y);box-shadow:inset 0 0 0 3px var(--k)}
 body.tray-open{overflow:hidden}
-.hdr-r{display:flex;gap:8px;align-items:center}
-.gear{width:52px;height:52px;flex:0 0 52px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .3s}
-@media (hover:hover){.gear:hover{transform:rotate(45deg)}}
-.settings .tray-card{gap:18px}
+
+/* options */
+.settings .tray-card{gap:14px}
 .set-head{display:flex;justify-content:space-between;align-items:center}
-.set-head h3{font-size:28px}
-.set-x{width:44px;padding:0;font-size:18px}
-.set-sec{display:grid;gap:10px}
+.set-head h3{font-size:18px;color:var(--y);text-shadow:3px 3px 0 var(--dred);margin:0}
+.set-x{width:44px;height:44px;padding:0;font-size:10px;border:4px solid var(--w);border-radius:6px}
+.set-sec{display:grid;gap:10px;border:4px solid var(--w);border-radius:8px;padding:12px 14px}
+.set-sec.blue{background:var(--blue);box-shadow:0 0 0 3px var(--k)}
 .dice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.dice-opt{border:1px solid var(--line);background:var(--raised);border-radius:14px;padding:10px 6px 10px;cursor:pointer;display:grid;justify-items:center;gap:2px;text-align:center;color:var(--ink)}
-.dice-opt[aria-checked="true"]{border-color:var(--ember);box-shadow:0 0 0 3px color-mix(in srgb,var(--ember) 22%,transparent)}
-.dice-opt .die.mini{width:62px;height:62px;color:var(--die-ink)}
-.dice-opt .die.mini b{font-size:17px;margin-top:5px}
-.dice-opt .nm{font-weight:800;font-size:14.5px}
-.dice-opt .ds{font-size:11.5px;color:var(--muted);line-height:1.25}
-.set-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid var(--line)}
+.dice-opt{border:3px solid var(--g2);background:var(--k);border-radius:6px;padding:8px 2px;display:grid;justify-items:center;gap:6px;text-align:center;color:var(--w);font-size:8px}
+.dice-opt[aria-checked="true"]{background:var(--blue);border-color:var(--y);color:var(--y)}
+.dice-opt .die.mini{width:56px;height:56px}
+.dice-opt .ds{display:none}
+.set-try{display:flex;gap:10px;align-items:center;background:transparent;border:0;padding:0;min-height:44px;font-size:10px;color:var(--w);text-align:left}
+.set-try::before{content:"";width:8px;height:14px;background:var(--cur) center/contain no-repeat}
+@media (hover:hover){.set-try:hover{color:var(--y)}}
+.diff-row{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center}
+.diff-row .nm{text-align:center;font-size:14px}
+.diff-desc{font-size:8px;line-height:1.9;text-align:center}
+.set-row{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:52px;border-bottom:2px solid var(--g3)}
 .set-row:last-child{border-bottom:0}
-.set-row b{display:block;font-size:15px}
-.set-row span{display:block;font-size:12.5px;color:var(--muted)}
-.seg{display:flex;gap:3px;padding:3px;background:var(--raised);border:1px solid var(--line);border-radius:999px;flex:0 0 auto}
-.seg button{border:0;background:transparent;border-radius:999px;padding:7px 12px;min-height:36px;font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer}
-.seg button[aria-checked="true"]{background:var(--ink);color:var(--bg)}
-.tabs button{white-space:nowrap}
-@media (max-width:350px){.tabs button .n{display:none}.gear{width:46px;height:46px;flex-basis:46px}}
-@media (max-width:420px){.tabs button{padding:9px 6px;font-size:14.5px;gap:6px}.tabs button .n{width:20px;height:20px;font-size:10.5px}.set-row{flex-direction:column;align-items:stretch}.seg{justify-content:stretch}.seg button{flex:1}}
-.lh-btns{display:flex;gap:6px;align-items:center}
-.dicetog{font-size:13px;padding:5px 10px}
-.dicetog[aria-pressed="true"]{border-color:color-mix(in srgb,var(--ember) 55%,transparent);color:var(--ember)}
-@media (max-width:560px){.tray-foot .btn{flex:1 1 100%}.auto{order:2}.die.d20{width:120px;height:120px}}
+.set-row b{display:block;font-size:10px}
+.set-row span{display:block;font-size:7px;color:var(--g1);margin-top:4px}
+.seg{display:flex;gap:4px;flex:0 0 auto}
+.seg button{min-height:36px;padding:0 10px;background:transparent;color:var(--g1);border:2px solid var(--g2);border-radius:4px;font-size:8px}
+.seg button[aria-checked="true"]{background:var(--w);color:var(--k);border-color:var(--w)}
+
 @media (max-width:860px){
   .gen,.adv{grid-template-columns:minmax(0,1fr)}
-  .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;padding:12px 14px;gap:8px;grid-template-columns:minmax(0,1fr) auto;align-items:center;border-radius:0 0 var(--r) var(--r);background:color-mix(in srgb,var(--surface) 88%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-  .status .who{min-width:0}
-  .status .who .eyebrow{display:none}
-  .status .who h2{font-size:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .status .minis{grid-template-columns:repeat(3,auto);gap:4px}
-  .status .minis div{padding:3px 8px;border-radius:10px}
-  .status .minis b{font-size:16px}
-  .status .minis span{font-size:9px}
-  .status .hpm,.status .more{grid-column:1/-1}
-  .more summary{display:list-item;cursor:pointer;font-size:14px;font-weight:700;padding:4px 0;min-height:32px}
-  .more[open] .more-in{padding-top:10px}
-  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+  .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;border-radius:0 0 8px 8px;border-top-width:0}
+  .more summary{display:block}
+  .more[open] .more-in{padding-top:8px}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#000}
   .recent{display:grid}
-  .log{max-height:300px}
+  .log{max-height:280px}
   .stage{scroll-margin-top:140px}
-  .status{grid-template-columns:minmax(0,1fr);gap:6px}
-  .party{gap:2px}.pm{padding:3px 6px;grid-template-columns:22px minmax(0,1fr);gap:8px}.pm-ico{width:22px;height:26px}.pm-top b{font-size:15px}.pm .bar{height:6px;margin:2px 0}.pm-sub{font-size:10.5px}
+  .party{gap:4px}
 }
 @media (max-width:560px){
-  body{font-size:16px;padding-block:16px 40px}
-  header{align-items:stretch}
-  header h1{font-size:38px}
+  body{padding-block:16px 36px}
+  header{align-items:stretch;gap:12px}
+  header h1{font-size:30px}
   .hdr-r{width:100%}.tabs{flex:1;min-width:0}
-  .gear{width:50px;height:50px;flex-basis:50px}
-  .tabs button{flex:1;justify-content:center;padding:9px 8px}
-  .sheet{padding:16px;border-radius:16px}
-  .stage h2{font-size:28px}
-  .namebar input{font-size:26px}
-  .gen-actions .btn{flex:1 1 auto}
-  .gen-actions .btn.primary{flex-basis:100%}
-  .gen-actions>span{display:none}
-  .depth{gap:4px;flex-wrap:nowrap}
-  .depth .step{width:28px;height:28px;flex:0 0 28px;font-size:11px;border-radius:9px}
-  .depth .step.boss{flex:0 0 auto;padding:0 8px;font-size:13px}
-  .depth .rule{flex:1 1 2px;min-width:2px}
-  .actions{display:grid;grid-template-columns:minmax(0,1fr)}
-  .actions .btn{text-align:left;width:100%}
-  .actions.fightacts{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .actions.fightacts .btn{text-align:center;padding:8px 6px}
-  .log li{grid-template-columns:38px minmax(0,1fr);gap:10px;font-size:14.5px}
-  .log{padding:4px 12px 10px}
-  .ab .val{font-size:26px}
+  .tabs button{flex:1;padding:0 6px}
+  .sheet,.win{padding:12px}
+  .gen-actions .btn.primary{width:100%}
   body.in-adv header .eyebrow,body.in-adv header h1{display:none}
-  body.in-adv .wrap{gap:14px}
-  .status{padding:10px 12px;gap:6px 10px}
+  body.in-adv .wrap{gap:12px}
+  .status{padding:8px 10px}
   .status .full{display:none}.status .first{display:inline}
-  .status .meter .top{font-size:12px}
-  .door{padding:12px 14px;border-radius:14px}
-  .door .knob{width:38px;height:38px;font-size:19px;border-radius:10px}
-  .foe{grid-template-columns:46px minmax(0,1fr);padding:12px;gap:10px}
-  .foe .rune{width:46px;height:46px;font-size:22px;border-radius:13px}
-  .foe h3{font-size:22px}
-  .foe .meta{font-size:13px}
-  .foe .nums{grid-column:1/-1;display:flex;gap:16px;text-align:left}
-  .foe .nums br{display:none}
-  .foe{grid-template-columns:minmax(0,1fr)}.foe .rune,.foe .bar{display:none}
-  .stage{scroll-margin-top:120px}
-  .doors{grid-template-columns:minmax(0,1fr)!important}
-  .foes.many .foe{grid-template-columns:minmax(0,1fr);padding:8px 12px;gap:4px}.foes.many .foe .rune{display:none}.foes.many .foe .meta{font-size:12px}.foes.many .foe h3{font-size:18px}
-  .abil{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .choose{grid-template-columns:minmax(0,1fr)}
   .vitals{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stage{padding:12px}
+  .stage .actions,.stage .doors,.stage .foes{padding:6px 8px}
+  .foe{column-gap:6px}
+  .foe .meta{display:none}
+  .foes:not(.many) .foe .meta{display:block}
+  .set-row{flex-wrap:wrap;padding:6px 0}
+  .tray{padding:0}
+  .tray-card{border-radius:8px 8px 0 0;border-bottom:0;padding:14px 14px calc(14px + env(safe-area-inset-bottom,0px));max-height:94vh}
+  .die.d20{width:128px;height:128px}
+}
+@media (max-width:350px){
+  header h1{font-size:26px}
+  .tabs button{font-size:8px}
+  .pick-row{grid-template-columns:52px 36px minmax(0,1fr) 36px}
+  .ptab small{display:none}
+}
+@media (min-width:861px){
+  body{font-size:11px}
+  .ab .val{font-size:20px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -373,13 +417,13 @@ body.tray-open{overflow:hidden}
 <div class="wrap">
   <header>
     <div>
-      <div class="eyebrow">D&amp;D 5e · SRD rules · level 1 and up</div>
+      <div class="eyebrow">D&amp;D 5e · SRD rules</div>
       <h1>Nat<span class="acc">20</span></h1>
     </div>
     <div class="hdr-r"><nav class="tabs" role="tablist" aria-label="Steps">
-      <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Create hero</button>
-      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span>The Cave</button>
-    </nav><button class="gear" id="gear" type="button" aria-label="Settings" title="Settings"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M19.4 13a7.6 7.6 0 0 0 0-2l2-1.6a.5.5 0 0 0 .1-.6l-1.9-3.3a.5.5 0 0 0-.6-.2l-2.4 1a7.3 7.3 0 0 0-1.7-1l-.4-2.6a.5.5 0 0 0-.5-.4h-3.8a.5.5 0 0 0-.5.4l-.4 2.6a7.3 7.3 0 0 0-1.7 1l-2.4-1a.5.5 0 0 0-.6.2L2.5 8.8a.5.5 0 0 0 .1.6l2 1.6a7.6 7.6 0 0 0 0 2l-2 1.6a.5.5 0 0 0-.1.6l1.9 3.3c.1.2.4.3.6.2l2.4-1c.5.4 1.1.7 1.7 1l.4 2.6c0 .2.3.4.5.4h3.8c.2 0 .5-.2.5-.4l.4-2.6c.6-.3 1.2-.6 1.7-1l2.4 1c.2.1.5 0 .6-.2l1.9-3.3a.5.5 0 0 0-.1-.6l-2-1.6ZM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Z"/></svg></button></div>
+      <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Party</button>
+      <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span>Cave</button>
+    </nav><button class="gear" id="gear" type="button" aria-label="Options" title="Options">OPT</button></div>
   </header>
 
   <main id="view"></main>
@@ -511,52 +555,54 @@ function renderGen(){
     <span class="dice">${b.r.map((x,i)=>`<span class="${i===b.lo?'drop':''}">${x}</span>`).join('')}</span></div>`}).join('');
   const weapons=h.weapons.map(wi=>{const s=wStats(h,wi);return `<div class="line"><span>${esc(s.name)}<span class="sv">${s.ranged?'Ranged':'Melee'}${h.wb?` · magic +${h.wb}`:''}</span></span><code>${sgn(s.hit)} to hit<br>${s.dice}${s.dm?sgn(s.dm):''} ${DMG[s.type]}</code></div>`}).join('');
   const armor=`<div class="line"><span>${h.armor?A_SV[h.armor]:(h.cls==='wizard'||h.cls==='sorcerer')?'Mage Armor':'No armor'}${h.shield?' + shield':''}</span><code>Armor class ${ac(h)}</code></div>`;
-  const spells=h.spells.length?`<div class="block"><h3>Spells</h3>${h.spells.map(i=>{const s=SP[i];return `<div class="line"><span>${esc(sName(i))}<span class="sv">${s.l?'Level 1':'Cantrip, unlimited'}${AREA.has(i)?' · hits every enemy':''}</span></span><code>${s.h?`heals ${s.h.replace('MOD',sgn(spellMod(h)))}`:`${spellDice(h,s)} ${DMG[s.t]}`}<br>${s.at?'spell attack':s.dc?`${AB_K[s.dc]} save`:'always hits'}</code></div>`}).join('')}<div class="muted" style="font-size:14px">${h.slots} level 1 spell slots. Spellcasting ${AB_K[c.sa]} ${sgn(spellMod(h))}.</div></div>`:'';
+  const spells=h.spells.length?`<div class="block"><h3>Spells</h3>${h.spells.map(i=>{const s=SP[i];return `<div class="line"><span>${esc(sName(i))}<span class="sv">${s.l?'Level 1':'Cantrip, unlimited'}${AREA.has(i)?' · hits every enemy':''}</span></span><code>${s.h?`heals ${s.h.replace('MOD',sgn(spellMod(h)))}`:`${spellDice(h,s)} ${DMG[s.t]}`}<br>${s.at?'spell attack':s.dc?`${AB_K[s.dc]} save`:'always hits'}</code></div>`}).join('')}<div class="gen-note">${h.slots} level 1 spell slots. Spellcasting ${AB_K[c.sa]} ${sgn(spellMod(h))}.</div></div>`:'';
   const feats=[FEAT_SV[h.cls],RACE_FT[h.race]+(h.dragon?` Element: ${DMG[h.dragon]}.`:'')].filter(Boolean).map(t=>`<div class="line"><span>${t}</span></div>`).join('');
   const dd=D();
-  const tabs=`<div class="ptabs" role="tablist" aria-label="Your party">${party.map((p,i)=>`<button type="button" role="tab" class="ptab ${i===edit?'on':''}" aria-selected="${i===edit}" data-pi="${i}"><canvas class="pt-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas><span class="pt-txt"><b>${first(p)}</b><small>${CLS_SV[p.cls]} · level ${p.lvl}</small></span></button>`).join('')}${party.length<MAXP&&!inAdv?`<button type="button" class="ptab add" id="addHero"><span class="plus" aria-hidden="true">+</span><span class="pt-txt"><b>Add hero</b><small>${party.length} of ${MAXP} in party</small></span></button>`:''}</div>`;
+  const tabs=`<section class="win blue partybox" aria-label="Your party"><div class="pb-head"><span>Your party</span><span class="y">${party.length}/${MAXP}</span></div><div class="ptabs" role="tablist" aria-label="Your party">${party.map((p,i)=>`<button type="button" role="tab" class="ptab ${i===edit?'on':''}" aria-selected="${i===edit}" data-pi="${i}"><canvas class="pt-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas><span class="pt-txt"><b>${first(p)}</b><small>${CLS_SV[p.cls]} ${p.lvl}</small></span></button>`).join('')}${party.length<MAXP&&!inAdv?`<button type="button" class="ptab add" id="addHero"><span class="plus" aria-hidden="true">+</span><span class="pt-txt"><b>Add hero</b><small>Slot ${party.length+1}</small></span></button>`:''}</div></section>`;
   $view.innerHTML=`
   ${tabs}
   <div class="gen">
-    <section class="sheet gen-main" aria-label="Character sheet">
+    <div class="gen-main"><section class="sheet gen-main" aria-label="Character sheet">
       <div class="namebar">
         <span class="eyebrow">${party.length>1?`Hero ${edit+1} name`:'Hero name'}</span>
         <div class="row"><input id="hname" value="${esc(h.name)}" maxlength="40" aria-label="Hero name" ${inAdv?'disabled':''}><button class="btn" id="newName" type="button" ${inAdv?'disabled':''}>New name</button></div>
         <div class="hero-id"><canvas id="heroPrev" class="hero-prev" width="24" height="26" role="img" aria-label="Your hero"></canvas><div class="subline">Level ${h.lvl} ${RACE_SV[h.race].toLowerCase()} ${CLS_SV[h.cls].toLowerCase()}</div></div>
       </div>
       <div class="choose">
-        <label for="selRace">Race<select id="selRace" ${inAdv?'disabled':''}>${Object.keys(RACE_SV).map(k=>`<option value="${k}" ${k===h.race?'selected':''}>${RACE_SV[k]}</option>`).join('')}</select></label>
-        <label for="selCls">Class<select id="selCls" ${inAdv?'disabled':''}>${Object.keys(CLS_SV).map(k=>`<option value="${k}" ${k===h.cls?'selected':''}>${CLS_SV[k]}</option>`).join('')}</select></label>
+        <div class="pick-row"><label class="pl" for="selRace">Race</label><button class="arr" type="button" data-cyc="selRace" data-d="-1" aria-label="Previous race" ${inAdv?'disabled':''}><svg viewBox="0 0 4 7" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h-1v1h-1v1h-1v1h-1v1h1v1h1v1h1v1h1z" fill="#f8b800"/></svg></button><select id="selRace" class="pick-sel" ${inAdv?'disabled':''}>${Object.keys(RACE_SV).map(k=>`<option value="${k}" ${k===h.race?'selected':''}>${RACE_SV[k]}</option>`).join('')}</select><button class="arr" type="button" data-cyc="selRace" data-d="1" aria-label="Next race" ${inAdv?'disabled':''}><svg viewBox="0 0 4 7" aria-hidden="true" shape-rendering="crispEdges"><path d="M0 0h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1z" fill="#f8b800"/></svg></button></div>
+        <div class="pick-row"><label class="pl" for="selCls">Class</label><button class="arr" type="button" data-cyc="selCls" data-d="-1" aria-label="Previous class" ${inAdv?'disabled':''}><svg viewBox="0 0 4 7" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h-1v1h-1v1h-1v1h-1v1h1v1h1v1h1v1h1z" fill="#f8b800"/></svg></button><select id="selCls" class="pick-sel" ${inAdv?'disabled':''}>${Object.keys(CLS_SV).map(k=>`<option value="${k}" ${k===h.cls?'selected':''}>${CLS_SV[k]}</option>`).join('')}</select><button class="arr" type="button" data-cyc="selCls" data-d="1" aria-label="Next class" ${inAdv?'disabled':''}><svg viewBox="0 0 4 7" aria-hidden="true" shape-rendering="crispEdges"><path d="M0 0h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1z" fill="#f8b800"/></svg></button></div>
       </div>
       <div class="block">
         <div class="log-head"><span class="eyebrow">Abilities · 4d6, drop the lowest</span></div>
         <div class="abil">${abil}</div>
-        <div class="muted" style="font-size:14px">The rolls are placed where a ${CLS_SV[h.cls].toLowerCase()} needs them most (gold border). The green number is the racial bonus.</div>
+        <div class="gen-note">The best rolls go where a ${CLS_SV[h.cls].toLowerCase()} needs them (gold border). Green is the racial bonus.</div>
       </div>
       <div class="vitals">
-        <div><b>${h.hpMax}</b><span>Hit points</span></div>
-        <div><b>${ac(h)}</b><span>Armor class</span></div>
+        <div><b>${h.hpMax}</b><span>HP</span></div>
+        <div><b>${ac(h)}</b><span>Armor</span></div>
         <div><b>d${c.hd}</b><span>Hit die</span></div>
-        <div><b>${r.sp}</b><span>Speed (ft)</span></div>
+        <div><b>${r.sp}</b><span>Speed</span></div>
       </div>
-      <div class="gen-actions">
+      ${inAdv?`<div class="gen-note">Your ${party.length>1?'party is':'hero is'} on an adventure. End the adventure in the cave to make changes.</div>`:''}
+    </section>
+    <div class="gen-actions">
+      <div class="win menu" aria-label="Commands">
         <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Roll abilities</button>
         <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Randomize hero</button>
         ${party.length>1&&!inAdv?`<button class="btn" id="removeHero" type="button">Remove from party</button>`:''}
-        <span style="flex:1"></span>
-        <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':party.length>1?`Enter the cave with ${party.length} heroes`:'Enter the cave'}</button>
       </div>
-      ${inAdv?`<div class="muted" style="font-size:14px">Your ${party.length>1?'party is':'hero is'} on an adventure. End the adventure in the cave to make changes.</div>`:''}
-    </section>
+      <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':party.length>1?`Enter the cave · ${party.length} heroes`:'Enter the cave'}</button>
+      <div class="press" aria-hidden="true">- Press to start -</div>
+    </div></div>
     <aside class="sheet gen-side" aria-label="Gear and features">
-      <div class="block"><h3>Weapons</h3>${weapons}${armor}</div>
+      <div class="block"><h3>Gear</h3>${weapons}${armor}</div>
       ${spells}
       <div class="block"><h3>Features</h3>${feats}</div>
       <div class="block"><h3>Party</h3>
         <div class="line"><span>Heroes</span><code>${party.length} of ${MAXP}</code></div>
         <div class="line"><span>Shared potions at the start</span><code>${dd.pot*party.length} × 2d4+2</code></div>
         <div class="line"><span>Difficulty</span><code>${dd.name}</code></div>
-        <div class="muted" style="font-size:13.5px">${party.length<MAXP?'Up to three heroes can explore together. Tap <b>Add hero</b> above.':'Your party is full.'} More heroes means more monsters in every fight. Change the difficulty under Settings (the gear).</div>
+        <div class="gen-note" style="margin-top:4px">${party.length<MAXP?'Up to three heroes can explore together. Tap <b>Add hero</b> above.':'Your party is full.'} More heroes means more monsters in every fight. Change the difficulty under OPT.</div>
       </div>
     </aside>
   </div>`;
@@ -568,6 +614,7 @@ function renderGen(){
   const rem=document.getElementById('removeHero');if(rem)rem.onclick=()=>{if(rem.dataset.confirm){party.splice(edit,1);edit=Math.max(0,edit-1);save();render()}else{rem.dataset.confirm='1';rem.textContent='Sure? Tap again'}};
   document.getElementById('newName').onclick=()=>{hero.name=`${pick(NAMES)} ${pick(EPI)}`;save();render()};
   document.getElementById('selRace').onchange=e=>{party[edit]=newHero({name:hero.name,cls:hero.cls,race:e.target.value,rolls:hero.rolls});save();render()};
+  document.querySelectorAll('.arr[data-cyc]').forEach(b=>b.onclick=()=>{const sel=document.getElementById(b.dataset.cyc);if(!sel||sel.disabled)return;const n=sel.options.length;sel.selectedIndex=(sel.selectedIndex+ +b.dataset.d+n)%n;sel.onchange({target:sel});const nb=document.querySelector(`.arr[data-cyc="${b.dataset.cyc}"][data-d="${b.dataset.d}"]`);try{nb&&nb.focus({preventScroll:true})}catch(e){}});
   document.getElementById('selCls').onchange=e=>{party[edit]=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
   document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();party[edit]=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
   document.getElementById('randAll').onclick=()=>{party[edit]=newHero();save();render()};
@@ -816,14 +863,22 @@ function trayInit(){
       <div><div class="eyebrow" id="trayKind">Your roll</div><h3 id="trayTitle"></h3><div class="tray-sub" id="traySub"></div></div>
       <button class="tray-dice" id="trayDice" type="button" aria-label="Roll the dice"></button>
       <div class="tray-result" id="trayRes" aria-live="polite"></div>
-      <div class="tray-foot"><label class="auto" for="trayAuto"><input type="checkbox" id="trayAuto"> Roll for me from now on</label><button class="btn primary" id="trayBtn" type="button">Roll</button></div>
+      <div class="tray-foot"><label class="auto" for="trayAuto"><input type="checkbox" id="trayAuto">Roll for me from now on</label><button class="btn primary" id="trayBtn" type="button">Roll</button></div>
     </div></div>`;
   trayEl=w.firstElementChild;if(!trayEl||!document.body||!document.body.appendChild)return;
   document.body.appendChild(trayEl);
   const cb=document.getElementById('trayAuto');if(cb){cb.checked=AUTO;cb.onchange=()=>{setAuto(cb.checked);render()}}
 }
-const D20SVG=`<svg viewBox="0 0 100 100" aria-hidden="true"><polygon class="o" points="50,3 91,26.5 91,73.5 50,97 9,73.5 9,26.5"/><polygon class="f1" points="50,3 91,26.5 50,24"/><polygon class="f2" points="91,73.5 50,97 75,70"/><polygon class="in" points="50,24 75,70 25,70"/><path class="ln" d="M50 3 50 24 M91 26.5 50 24 M9 26.5 50 24 M91 26.5 75 70 M9 26.5 25 70 M91 73.5 75 70 M9 73.5 25 70 M50 97 75 70 M50 97 25 70 M50 3 91 26.5 91 73.5 50 97 9 73.5 9 26.5Z"/></svg>`;
-function dieHtml(s,v,drop){return s===20?`<span class="die d20">${D20SVG}<b>${v}</b></span>`:`<span class="die ${drop?'drop':''}"><b>${v}</b><i>d${s}</i></span>`}
+/* pixel d20: a 34x34 grid split into the hex outline, the lit top, the sides, the shade and the center face; colors come from the dice design */
+const D20PX=(()=>{const N=34,hex=[[17,1],[32,9.5],[32,25.5],[17,33],[2,25.5],[2,9.5]],tri=[[17,8],[27,24],[7,24]],top=[[17,1],[32,9.5],[17,8],[2,9.5]],br=[[32,25.5],[17,33],[27,24]];
+  const ins=(x,y,p)=>{let c=false;for(let i=0,j=p.length-1;i<p.length;j=i++){const [xi,yi]=p[i],[xj,yj]=p[j];if(((yi>y)!==(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi))c=!c}return c};
+  const g=[];for(let y=0;y<N;y++){g.push([]);for(let x=0;x<N;x++){const px=x+.5,py=y+.5;g[y].push(!ins(px,py,hex)?'':ins(px,py,tri)?'in':ins(px,py,top)?'a':ins(px,py,br)?'s':'m')}}
+  const P={o:'',a:'',m:'',s:'',in:''};const f=(x,y)=>x>=0&&y>=0&&x<N&&y<N&&g[y][x];
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const c=g[y][x];if(!c)continue;const edge=!f(x-1,y)||!f(x+1,y)||!f(x,y-1)||!f(x,y+1);P[edge?'o':c]+=`M${x} ${y}h1v1h-1z`}
+  return `<path class="m" d="${P.m}"/><path class="a" d="${P.a}"/><path class="s" d="${P.s}"/><path class="s2" d="${P.s}"/><path class="in" d="${P.in}"/><path class="o" d="${P.o}"/>`})();
+function d20Svg(v){const t=String(v);let p='',x=t.length>1?11:14;for(const ch of t){const gl=NF[ch];if(gl)for(let j=0;j<7;j++)for(let i=0;i<5;i++)if(gl[j][i]==='#')p+=`M${x+i} ${14+j}h1v1h-1z`;x+=6}
+  return `<svg class="px" viewBox="0 0 34 34" aria-hidden="true" shape-rendering="crispEdges">${D20PX}<path class="nm" d="${p}"/></svg>`}
+function dieHtml(s,v,drop){return s===20?`<span class="die d20">${d20Svg(v)}</span>`:`<span class="die ${drop?'drop':''}"><b>${v}</b><i>d${s}</i></span>`}
 /* o: {title, sub, kind, tone, groups:[{n,s}], flat, d20, lucky, onLucky, judge(r)->{txt,cls}, layout:'abil'} */
 function rollDice(o){
   const sides=[];o.groups.forEach(g=>{for(let i=0;i<g.n;i++)sides.push(g.s)});
@@ -901,7 +956,7 @@ function saveSettings(){try{localStorage.setItem('nat20-settings',JSON.stringify
 function applySettings(){
   if(trayEl&&trayEl.dataset)trayEl.dataset.dice=SET.dice;
   const root=document.documentElement;
-  if(root&&root.dataset){if(SET.theme==='system')delete root.dataset.theme;else root.dataset.theme=SET.theme}
+  if(root&&root.dataset)delete root.dataset.theme;
 }
 const rollMs=()=>SET.speed==='quick'?320:700;
 const holdMs=abil=>SET.speed==='quick'?(abil?1600:900):(abil?2600:1700);
@@ -933,22 +988,21 @@ function settingsInit(){
 function seg(name,opts,cur){return `<div class="seg" role="radiogroup" aria-label="${name}">${opts.map(([v,l])=>`<button type="button" role="radio" aria-checked="${v===cur}" data-set="${name}" data-v="${v}">${l}</button>`).join('')}</div>`}
 function renderSettings(){
   const card=document.getElementById('setCard');if(!card)return;
+  const DK=['easy','normal','hard'],di=Math.max(0,DK.indexOf(SET.diff));
   card.innerHTML=`
-    <div class="set-head"><h3 id="setTitle">Settings</h3><button class="btn set-x" type="button" data-set="close" aria-label="Close settings">✕</button></div>
+    <div class="set-head"><h3 id="setTitle">Options</h3><button class="btn set-x" type="button" data-set="close" aria-label="Close options">X</button></div>
     <section class="set-sec"><div class="eyebrow">Dice design</div>
-      <div class="dice-grid" role="radiogroup" aria-label="Dice design">${DICE_SETS.map(x=>`<button type="button" class="dice-opt" role="radio" aria-checked="${x.id===SET.dice}" data-set="dice" data-v="${x.id}" data-dice="${x.id}"><span class="die d20 mini">${D20SVG}<b>20</b></span><span class="nm">${x.name}</span><span class="ds">${x.desc}</span></button>`).join('')}</div>
-      <button class="btn" type="button" data-set="try">Try a roll</button>
+      <div class="dice-grid" role="radiogroup" aria-label="Dice design">${DICE_SETS.map(x=>`<button type="button" class="dice-opt" role="radio" aria-checked="${x.id===SET.dice}" data-set="dice" data-v="${x.id}" data-dice="${x.id}" title="${x.desc}"><span class="die d20 mini">${d20Svg(20)}</span><span class="nm">${x.name}</span><span class="ds">${x.desc}</span></button>`).join('')}</div>
+      <button class="set-try" type="button" data-set="try">Try a roll</button>
     </section>
-    <section class="set-sec"><div class="eyebrow">Difficulty</div>
-      <div class="set-row"><div><b>${D().name}</b><span>${D().desc}</span></div>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard']],SET.diff)}</div>
+    <section class="set-sec blue"><div class="eyebrow">Difficulty</div>
+      <div class="diff-row"><button class="arr" type="button" data-set="diff" data-v="${DK[di-1]||''}" aria-label="Easier" ${di>0?'':'disabled'}><svg viewBox="0 0 4 7" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h-1v1h-1v1h-1v1h-1v1h1v1h1v1h1v1h1z" fill="#f8b800"/></svg></button><span class="nm" aria-live="polite">${D().name}</span><button class="arr" type="button" data-set="diff" data-v="${DK[di+1]||''}" aria-label="Harder" ${di<2?'':'disabled'}><svg viewBox="0 0 4 7" aria-hidden="true" shape-rendering="crispEdges"><path d="M0 0h1v1h1v1h1v1h1v1h-1v1h-1v1h-1v1h-1z" fill="#f8b800"/></svg></button></div>
+      <div class="diff-desc">${D().desc}<br>${D().pot} potion${D().pot===1?'':'s'} per hero.</div>
     </section>
     <section class="set-sec"><div class="eyebrow">Rolling</div>
-      <div class="set-row"><div><b>Who rolls the dice</b><span>Let the game roll for you to play faster</span></div>${seg('auto',[['0','You'],['1','Auto']],AUTO?'1':'0')}</div>
-      <div class="set-row"><div><b>Roll speed</b><span>How long the dice spin</span></div>${seg('speed',[['normal','Normal'],['quick','Quick']],SET.speed)}</div>
-      <div class="set-row"><div><b>Dice sound</b><span>A rattle and a clack when you roll</span></div>${seg('sound',[['1','On'],['0','Off']],SET.sound?'1':'0')}</div>
-    </section>
-    <section class="set-sec"><div class="eyebrow">Appearance</div>
-      <div class="set-row"><div><b>Theme</b><span>System follows your phone or computer</span></div>${seg('theme',[['system','System'],['dark','Dark'],['light','Light']],SET.theme)}</div>
+      <div class="set-row"><div><b>Who rolls</b><span>Auto plays faster</span></div>${seg('auto',[['0','You'],['1','Auto']],AUTO?'1':'0')}</div>
+      <div class="set-row"><div><b>Speed</b><span>How long dice spin</span></div>${seg('speed',[['normal','Normal'],['quick','Quick']],SET.speed)}</div>
+      <div class="set-row"><div><b>Sound</b><span>Rattle and clack</span></div>${seg('sound',[['1','On'],['0','Off']],SET.sound?'1':'0')}</div>
     </section>
     <button class="btn primary" type="button" data-set="close">Done</button>`;
 }
@@ -966,9 +1020,9 @@ async function onSettingsClick(e){
   else if(k==='speed')SET.speed=v;
   else if(k==='sound'){SET.sound=v==='1';if(SET.sound)soundLand(false)}
   else if(k==='theme')SET.theme=v;
-  else if(k==='diff')SET.diff=v;
+  else if(k==='diff'){if(!DIFF[v])return;SET.diff=v}
   saveSettings();applySettings();renderSettings();
-  const again=setEl.querySelector(`[data-set="${k}"][data-v="${v}"]`);try{again&&again.focus({preventScroll:true})}catch(e){}
+  const again=k==='diff'?(setEl.querySelector(`.arr[data-set="diff"][aria-label="${b.getAttribute('aria-label')}"]:not(:disabled)`)||setEl.querySelector('.arr[data-set="diff"]:not(:disabled)')):setEl.querySelector(`[data-set="${k}"][data-v="${v}"]`);try{again&&again.focus({preventScroll:true})}catch(e){}
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&setEl&&!setEl.hidden)closeSettings()});
 
@@ -2028,19 +2082,20 @@ function retry(){party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0
 function newOne(){adv=null;party=[newHero()];edit=0;hero=party[0];setView('gen')}
 
 /* ---------- View: adventure ---------- */
-function meter(label,v,max,cls){const p=Math.max(0,Math.min(100,v/max*100));return `<div class="meter"><div class="top"><span>${label}</span><span><strong>${v}</strong> / ${max}</span></div><div class="bar ${cls||''}"><i class="${cls?'':p<30?'low':''}" style="width:${p}%"></i></div></div>`}
+const snap=p=>p<=0?0:Math.min(100,Math.max(10,Math.round(p/10)*10));
+function meter(label,v,max,cls){const p=snap(Math.max(0,Math.min(100,v/max*100)));return `<div class="meter"><div class="top"><span>${label}</span><span><strong>${v}</strong> / ${max}</span></div><div class="bar ${cls||''}"><i class="${cls?'':p<30?'low':''}" style="width:${p}%"></i></div></div>`}
 function chkSub(kind,dc){const [ab,profFor,extra]=CHK[kind];const h=picked();const b=bonusFor(h,ab,profFor,extra);let s=`${party.length>1?first(h)+' ':''}${AB_K[ab]} ${sgn(b)} vs ${dc}`;if(party.length>1){const bst=bestFor(ab,profFor,extra);if(bst.h&&bst.h!==h&&bst.b>b)s+=` · best: ${first(bst.h)} ${sgn(bst.b)}`}return s}
 function whoHtml(label){if(party.length<2)return '';return `<div class="who-pick" role="radiogroup" aria-label="${label||'Who does it?'}"><span class="eyebrow">${label||'Who does it?'}</span>${party.map((h,i)=>`<button type="button" role="radio" class="pk ${i===adv.pick?'on':''}" aria-checked="${i===adv.pick}" data-act="who" data-i="${i}" ${h.hp<=0?'disabled':''}><canvas class="pk-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas>${first(h)}</button>`).join('')}</div>`}
 function renderAdv(){
   const wide=matchMedia('(min-width: 861px)').matches;const P=adv.phase;
   if(P==='fight'&&adv.turn>=0)hero=party[adv.turn];else if(P!=='fight')hero=picked();
   const act=P==='fight'&&!adv.busy?adv.turn:-1;
-  const rows=party.map((h,i)=>{const p=Math.max(0,h.hp/h.hpMax*100);return `<div class="pm ${i===act?'act':''} ${h.hp<=0?'down':''}"><canvas class="pm-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas><div class="pm-main"><div class="pm-top"><b>${first(h)}</b><span class="pm-cls">${CLS_SV[h.cls]} ${h.lvl}</span><span class="pm-ac">AC ${ac(h)}</span></div><div class="bar"><i class="${p<30?'low':''}" style="width:${p}%"></i></div><div class="pm-sub"><span>${h.hp<=0?'Unconscious':`${h.hp} / ${h.hpMax} HP`}</span>${CL[h.cls].sa?`<span class="pips">${Array.from({length:slotsFor(h)},(_,k)=>`<i class="${k<h.slots?'on':''}"></i>`).join('')}</span>`:''}</div></div></div>`}).join('');
+  const rows=party.map((h,i)=>{const p=Math.max(0,h.hp/h.hpMax*100);return `<div class="pm ${i===act?'act':''} ${h.hp<=0?'down':''}"><canvas class="pm-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas><div class="pm-main"><div class="pm-top"><b>${first(h)}</b><span class="pm-cls">${CLS_SV[h.cls]} ${h.lvl}</span><span class="pm-ac">AC ${ac(h)}</span></div><div class="bar"><i class="${p<30?'low':''}" style="width:${snap(p)}%"></i></div><div class="pm-sub"><span>${h.hp<=0?'Unconscious':`${h.hp} / ${h.hpMax} HP`}</span>${CL[h.cls].sa?`<span class="pips">${Array.from({length:slotsFor(h)},(_,k)=>`<i class="${k<h.slots?'on':''}"></i>`).join('')}</span>`:''}</div></div></div>`}).join('');
   const items=party.flatMap(h=>h.items.map(i=>`<div class="line"><span>${esc(i)}</span><code>${first(h)}</code></div>`)).join('');
   const status=`<aside class="sheet status ${adv.shake==='hero'?'shake':''}" aria-label="${party.length>1?'Your party':'Your hero'}">
     <div class="party">${rows}</div>
     <details class="more" id="more" ${wide||adv.moreOpen?'open':''}>
-      <summary>Pack &amp; XP <span class="muted">· ${bag.potions} potion${bag.potions===1?'':'s'} · ${bag.gold} gold</span></summary>
+      <summary>Pack &amp; XP <span class="muted">· potions ${bag.potions} · gold ${bag.gold}</span></summary>
       <div class="more-in">
       ${party.map(h=>{const nx=h.lvl<10?XPT[h.lvl]:h.xp,pv=XPT[h.lvl-1];return meter(`${first(h)} · level ${h.lvl} XP`,h.xp-pv,nx-pv||1,'xp')}).join('')}
       <div class="bag"><span class="eyebrow">${party.length>1?'Party pack':'Pack'}</span>
@@ -2052,7 +2107,7 @@ function renderAdv(){
         ${party.some(h=>h.bless)?`<div class="line"><span>Blessed</span><code>+1 to hit</code></div>`:''}
         ${party.filter(h=>h.curse).map(h=>`<div class="line"><span>Cursed</span><code>${first(h)} · -1 AC</code></div>`).join('')}
       </div>
-      <div class="muted" style="font-size:13px">Defeated: ${adv.kills} · Chapter ${adv.chapter} · ${D().name}</div>
+      <div class="gen-note">Defeated: ${adv.kills} · Chapter ${adv.chapter} · ${D().name}</div>
       </div>
     </details>
   </aside>`;
@@ -2072,7 +2127,7 @@ function renderAdv(){
   }else if(P==='fight'){
     const busy=adv.busy;const tf=tgtFoe();
     const foes=adv.foes.map((f,i)=>{const m=f.m,p=f.hp/f.max*100;if(f.hp<=0)return `<div class="foe dead"><div style="min-width:0"><h3>${esc(m.n)}</h3><div class="meta">Defeated</div></div></div>`;
-      return `<button type="button" class="foe ${i===adv.tgt?'on':''} ${adv.shake==='foe'&&f===F?'shake':''}" data-act="tgt" data-i="${i}" aria-pressed="${i===adv.tgt}" ${busy?'disabled':''}><div class="rune" aria-hidden="true">${SIGIL[m.t]||'ᛦ'}</div><div style="min-width:0"><h3>${esc(m.n)}${f.asleep?' <span class="zz">asleep</span>':''}${adv.foes.length>1&&i===adv.tgt?' <span class="tgt-tag">Target</span>':''}</h3><div class="meta">${SIZE[m.s]} ${TYPE[m.t]||m.t} · challenge ${crTxt(m.cr)}${m.im?` · immune: ${m.im.map(t=>DMG[t]).join(', ')}`:''}${m.rs?` · resists: ${m.rs.map(t=>DMG[t]).join(', ')}`:''}${m.vu?` · vulnerable: ${m.vu.map(t=>DMG[t]).join(', ')}`:''}</div></div><div class="nums">Armor <b>${m.ac}</b><br>HP <b>${f.hp}</b> / ${f.max}</div><div class="bar"><i class="${p<30?'low':''}" style="width:${p}%"></i></div></button>`}).join('');
+      return `<button type="button" class="foe ${i===adv.tgt?'on':''} ${adv.shake==='foe'&&f===F?'shake':''}" data-act="tgt" data-i="${i}" aria-pressed="${i===adv.tgt}" ${busy?'disabled':''}><div class="rune" aria-hidden="true">${SIGIL[m.t]||'ᛦ'}</div><div style="min-width:0"><h3>${esc(m.n)}${f.asleep?' <span class="zz">asleep</span>':''}${adv.foes.length>1&&i===adv.tgt?' <span class="tgt-tag">Target</span>':''}</h3><div class="meta">${SIZE[m.s]} ${TYPE[m.t]||m.t} · challenge ${crTxt(m.cr)}${m.im?` · immune: ${m.im.map(t=>DMG[t]).join(', ')}`:''}${m.rs?` · resists: ${m.rs.map(t=>DMG[t]).join(', ')}`:''}${m.vu?` · vulnerable: ${m.vu.map(t=>DMG[t]).join(', ')}`:''}</div></div><div class="nums">Armor <b>${m.ac}</b><br>HP <b>${f.hp}</b> / ${f.max}</div><div class="bar"><i class="${p<30?'low':''}" style="width:${snap(p)}%"></i></div></button>`}).join('');
     const acts=[];
     h.weapons.forEach(wi=>{const s=wStats(h,wi);acts.push(`<button class="btn" data-act="atk" data-w="${wi}">${s.ranged?'Shoot':'Attack'}: ${esc(s.name)}<small>${sgn(s.hit)} · ${s.dice}${s.dm?sgn(s.dm):''}</small></button>`)});
     h.spells.forEach(id=>{const s=SP[id];const dis=s.l===1&&h.slots<=0;acts.push(`<button class="btn magic" data-act="spell" data-s="${id}" ${dis?'disabled':''}>${esc(sName(id))}<small>${s.h?'heals '+first(healTarget()):spellDice(h,s)+' '+DMG[s.t]}${AREA.has(id)?' · all enemies':''}${s.l?' · slot':''}</small></button>`)});
@@ -2108,8 +2163,8 @@ function renderAdv(){
   $view.innerHTML=`<div class="adv">${status}<section class="scene">
     <canvas id="scene" class="scene-cv" width="192" height="96" role="img" aria-label="${esc(sceneText().filter(Boolean).join(' '))}"></canvas>
     <div class="depth" aria-label="Depth in the cave">${steps}</div>
-    <div class="sheet stage">${stage}</div>
-    <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn dicetog" data-act="dice" type="button" aria-pressed="${!AUTO}">${AUTO?'Dice: auto':'Dice: you roll'}</button><button class="btn" data-act="abandon" type="button" style="font-size:13px;padding:5px 10px">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
+    <div class="win stage">${stage}</div>
+    <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn dicetog" data-act="dice" type="button" aria-pressed="${!AUTO}">${AUTO?'Dice: auto':'Dice: you roll'}</button><button class="btn" data-act="abandon" type="button">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
   const lg=document.getElementById('log');lg.scrollTop=lg.scrollHeight;adv.shake=null;
   drawHeroIcons();
