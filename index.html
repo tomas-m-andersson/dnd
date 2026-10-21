@@ -51,7 +51,8 @@ header h1 .acc{color:var(--y)}
 .tabs button .n{display:none}
 .tabs button[aria-selected="true"]{background:var(--blue);color:var(--y)}
 .tabs button[aria-selected="true"]::before{visibility:visible}
-.gear{width:60px;flex:0 0 60px;border:4px solid var(--w);border-radius:8px;background:var(--k);color:var(--w);font-size:9px;display:grid;place-items:center;min-height:56px}
+.gear svg{display:block;width:32px;height:32px}
+.gear{width:60px;flex:0 0 60px;padding:0;border:4px solid var(--w);border-radius:8px;background:var(--k);color:var(--w);font-size:9px;display:grid;place-items:center;min-height:56px}
 @media (hover:hover){.gear:hover,.tabs button:hover{color:var(--y)}}
 
 /* buttons */
@@ -423,7 +424,7 @@ body.tray-open{overflow:hidden}
     <div class="hdr-r"><nav class="tabs" role="tablist" aria-label="Steps">
       <button role="tab" id="tabGen" aria-selected="true" type="button"><span class="n">1</span>Party</button>
       <button role="tab" id="tabAdv" aria-selected="false" type="button"><span class="n">2</span>Cave</button>
-    </nav><button class="gear" id="gear" type="button" aria-label="Options" title="Options">OPT</button></div>
+    </nav><button class="gear" id="gear" type="button" aria-label="Options" title="Options"><svg viewBox="0 0 16 16" width="32" height="32" aria-hidden="true" shape-rendering="crispEdges"><path fill="currentColor" d="M6 0h1v1h-1zM7 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM1 1h1v1h-1zM2 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM9 1h1v1h-1zM13 1h1v1h-1zM14 1h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM6 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM12 2h1v1h-1zM13 2h1v1h-1zM14 2h1v1h-1zM2 3h1v1h-1zM3 3h1v1h-1zM4 3h1v1h-1zM5 3h1v1h-1zM6 3h1v1h-1zM7 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM11 3h1v1h-1zM12 3h1v1h-1zM13 3h1v1h-1zM3 4h1v1h-1zM4 4h1v1h-1zM5 4h1v1h-1zM6 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM10 4h1v1h-1zM11 4h1v1h-1zM12 4h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM5 5h1v1h-1zM6 5h1v1h-1zM9 5h1v1h-1zM10 5h1v1h-1zM11 5h1v1h-1zM12 5h1v1h-1zM0 6h1v1h-1zM1 6h1v1h-1zM2 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM5 6h1v1h-1zM10 6h1v1h-1zM11 6h1v1h-1zM12 6h1v1h-1zM13 6h1v1h-1zM14 6h1v1h-1zM15 6h1v1h-1zM0 7h1v1h-1zM1 7h1v1h-1zM2 7h1v1h-1zM3 7h1v1h-1zM4 7h1v1h-1zM11 7h1v1h-1zM12 7h1v1h-1zM13 7h1v1h-1zM14 7h1v1h-1zM15 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM4 8h1v1h-1zM11 8h1v1h-1zM12 8h1v1h-1zM13 8h1v1h-1zM14 8h1v1h-1zM15 8h1v1h-1zM0 9h1v1h-1zM1 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM10 9h1v1h-1zM11 9h1v1h-1zM12 9h1v1h-1zM13 9h1v1h-1zM14 9h1v1h-1zM15 9h1v1h-1zM3 10h1v1h-1zM4 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1zM9 10h1v1h-1zM10 10h1v1h-1zM11 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM4 11h1v1h-1zM5 11h1v1h-1zM6 11h1v1h-1zM7 11h1v1h-1zM8 11h1v1h-1zM9 11h1v1h-1zM10 11h1v1h-1zM11 11h1v1h-1zM12 11h1v1h-1zM2 12h1v1h-1zM3 12h1v1h-1zM4 12h1v1h-1zM5 12h1v1h-1zM6 12h1v1h-1zM7 12h1v1h-1zM8 12h1v1h-1zM9 12h1v1h-1zM10 12h1v1h-1zM11 12h1v1h-1zM12 12h1v1h-1zM13 12h1v1h-1zM1 13h1v1h-1zM2 13h1v1h-1zM3 13h1v1h-1zM6 13h1v1h-1zM7 13h1v1h-1zM8 13h1v1h-1zM9 13h1v1h-1zM12 13h1v1h-1zM13 13h1v1h-1zM14 13h1v1h-1zM1 14h1v1h-1zM2 14h1v1h-1zM6 14h1v1h-1zM7 14h1v1h-1zM8 14h1v1h-1zM9 14h1v1h-1zM13 14h1v1h-1zM14 14h1v1h-1zM6 15h1v1h-1zM7 15h1v1h-1zM8 15h1v1h-1zM9 15h1v1h-1z"/></svg></button></div>
   </header>
 
   <main id="view"></main>
@@ -620,7 +621,7 @@ function renderGen(){
         <div class="line"><span>Heroes</span><code>${party.length} of ${MAXP}</code></div>
         <div class="line"><span>Shared potions at the start</span><code>${dd.pot*party.length} × 2d4+2</code></div>
         <div class="line"><span>Difficulty</span><code>${dd.name}</code></div>
-        <div class="gen-note" style="margin-top:4px">${party.length<MAXP?'Up to three heroes can explore together. Tap <b>Add hero</b> above.':'Your party is full.'} More heroes means more monsters in every fight. Change the difficulty under OPT.</div>
+        <div class="gen-note" style="margin-top:4px">${party.length<MAXP?'Up to three heroes can explore together. Tap <b>Add hero</b> above.':'Your party is full.'} More heroes means more monsters in every fight. Change the difficulty under Options (the gear).</div>
       </div>
     </aside>
   </div>`;
