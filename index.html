@@ -158,7 +158,7 @@ body.at-home header{justify-content:center;text-align:center}body.at-home header
 
 /* adventure */
 .adv{display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;align-items:start}
-.status{display:grid;gap:10px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);padding:10px 12px}
+.status{display:grid;gap:10px;padding:10px 12px}
 .meter{display:grid;gap:4px}
 .meter .top{display:flex;justify-content:space-between;font-size:7px;color:var(--g1);gap:8px}
 .meter .top strong{color:var(--w)}
@@ -457,7 +457,7 @@ body.at-home header{align-items:center}
 .bag .line code{display:flex;align-items:center;justify-content:flex-end}
 @media (max-width:860px){
   .gen,.adv{grid-template-columns:minmax(0,1fr)}
-  .status{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;border-radius:8px}
+  .status{border-radius:8px}
   .more summary{display:block}
   .more[open] .more-in{padding-top:8px}
   body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:#000}
@@ -3412,7 +3412,7 @@ function renderAdv(){
   sceneSync();{const cv=document.getElementById('scene');if(cv)drawScene(cv)}sceneStart();
   const more=document.getElementById('more');if(more&&!wide)more.addEventListener('toggle',()=>{adv.moreOpen=more.open});
   const key=adv.phase+'|'+adv.depth+'|'+adv.chapter+'|'+(adv.room&&adv.room.t);
-  if(!wide&&key!==lastKey&&lastKey!==null){const stg=document.getElementById('scene')||document.querySelector('.stage'),bar=document.querySelector('.status');const top=stg.getBoundingClientRect().top,off=(bar?bar.offsetHeight:0)+10;if(Math.abs(top-off)>4)window.scrollTo({top:scrollY+top-off,behavior:reduced?'auto':'smooth'})}
+  if(!wide&&key!==lastKey&&lastKey!==null){const stg=document.querySelector('.status')||document.getElementById('scene');const top=stg.getBoundingClientRect().top,off=10;if(Math.abs(top-off)>4)window.scrollTo({top:scrollY+top-off,behavior:reduced?'auto':'smooth'})}
   lastKey=key;
 }
 
