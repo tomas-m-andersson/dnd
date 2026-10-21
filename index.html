@@ -902,7 +902,21 @@ function picked(){let h=party[adv.pick];if(!h||h.hp<=0){h=alive()[0]||party[0];a
 function bonusFor(h,ab,profFor,extra){let b=mod(scores(h)[ab])+(extra?extra(h):0);if(profFor&&profFor.includes(h.cls))b+=prof(h.lvl);return b}
 function bestFor(ab,profFor,extra){let best=null,bv=-99;alive().forEach(h=>{const b=bonusFor(h,ab,profFor,extra);if(b>bv){bv=b;best=h}});return{h:best,b:bv}}
 const elfEars=h=>h.race==='elf'?2:0;
-const CHK={listen:['wis',['ranger','rogue','druid','monk'],elfEars],sneak:['dex',['rogue','monk','ranger']],force:['str',['barbarian','fighter','paladin']],picklock:['dex',['rogue']],pray:['wis',['cleric','paladin','druid']],talk:['cha',['bard','warlock','sorcerer','paladin']],trap:['dex',['rogue','monk']]};
+/* Traps: each place has its own, each with a check, a damage type and a picture in the TV */
+const TRAPS={
+  spears:{n:'Spear Wall',chk:'trap',warn:'Tiles click underfoot! Dodge!',ok:'Tiles click under WHO\'s feet. A dive to the side',hit:'Spears shoot out of the wall!',dt:'piercing',where:['castle','caves']},
+  beartrap:{n:'Bear Trap',chk:'trap',warn:'Iron jaws hidden in the leaves! Jump!',ok:'WHO spots the iron jaws at the last second and jumps over them',hit:'SNAP! A bear trap bites into WHO\'s leg!',dt:'piercing',where:['woods','caves']},
+  fire:{n:'Fire Jet',chk:'trap',warn:'A hiss, then a roar! Duck!',ok:'A jet of fire roars past as WHO throws themselves flat',hit:'A jet of fire bursts from the wall and engulfs WHO!',dt:'fire',where:['hell','castle','caves']},
+  darts:{n:'Poison Darts',chk:'trap',warn:'Tiny holes in the wall! Duck!',ok:'Darts whistle over WHO\'s head',hit:'Poisoned darts hit WHO in the neck!',dt:'poison',where:['castle','caves','woods']},
+  pit:{n:'Hidden Pit',chk:'trap',warn:'The floor gives way! Grab the edge!',ok:'The floor drops away, but WHO grabs the edge and climbs up',hit:'WHO falls into a pit full of sharp stakes!',dt:'piercing',where:['castle','caves','woods','hell']},
+  rocks:{n:'Falling Rocks',chk:'trap',warn:'A rumble overhead! Run!',ok:'Rocks crash down where WHO stood a moment ago',hit:'Rocks rain down on WHO!',dt:'bludgeoning',where:['caves','castle','hell']},
+  blade:{n:'Swinging Blade',chk:'trap',warn:'A blade swings from the ceiling! Duck!',ok:'The great blade swishes just above WHO',hit:'A swinging blade slices WHO!',dt:'slashing',where:['castle','hell']},
+  snare:{n:'Snare',chk:'trapstr',warn:'A rope tightens around an ankle! Hold on!',ok:'WHO grabs a root and tears the rope loose',hit:'WHO is yanked into the air and slammed into a tree!',dt:'bludgeoning',where:['woods']},
+  gas:{n:'Poison Gas',chk:'trapcon',all:true,warn:'Green gas hisses out! Hold your breath!',ok:'WHO holds their breath until the gas clears',hit:'The gas burns WHO\'s lungs!',dt:'poison',where:['caves','castle','woods','hell']},
+  rune:{n:'Lightning Rune',chk:'trapwis',warn:'A rune on the floor starts to glow! Step back!',ok:'WHO senses the magic and steps away from the rune',hit:'Lightning leaps from the rune into WHO!',dt:'lightning',where:['hell','castle']}
+};
+function pickTrap(){const l=locKey();const ks=Object.keys(TRAPS).filter(k=>TRAPS[k].where.includes(l));return pick(ks.length?ks:['spears'])}
+const CHK={trapcon:['con',['barbarian','fighter','paladin']],trapstr:['str',['barbarian','fighter','ranger']],trapwis:['wis',['cleric','druid','monk','wizard']],listen:['wis',['ranger','rogue','druid','monk'],elfEars],sneak:['dex',['rogue','monk','ranger']],force:['str',['barbarian','fighter','paladin']],picklock:['dex',['rogue']],pray:['wis',['cleric','paladin','druid']],talk:['cha',['bard','warlock','sorcerer','paladin']],trap:['dex',['rogue','monk']]};
 async function check(kind,dc,title){
   const [ab,profFor,extra]=CHK[kind];const trained=!!(profFor&&profFor.includes(hero.cls));const b=bonusFor(hero,ab,profFor,extra);
   const r=await heroD20({kind:`${AB_SV[ab]} check`,title:party.length>1?`${hero.name.split(' ')[0]}: ${title}`:title,sub:`d20 ${sgn(b)}${trained?' (trained in this)':''}${extra&&extra(hero)?' (+2 elven ears)':''} · you need <b>${dc}</b> or more`,flat:b,tone:'check',judge:judgeDc(dc)});
@@ -948,10 +962,16 @@ async function enterRoom(idx){
   if(t==='guarded'){adv.room.afterLoot=true;log('note',`Behind a pile of bones stands a chest. Something is guarding it.`,'¤');await startFight(encounter(false,{bump:Math.random()<.4?1:0}),{intro:'The guardians turn toward you'});return}
   if(t==='treasure'){adv.room.loot=rollLoot();adv.phase='room';log('note',`${party.length>1?'The party finds':you()+' finds'} a treasure chest.`,'¤','heal')}
   else if(t==='trap'){
-    adv.phase='room';adv.room.done=true;hero=pick(alive());save();render();
-    const c=await check('trap',cdc(12),'Tiles click underfoot! Dodge!');
-    if(c.ok)log('',`Tiles click under ${you()}'s feet! A dive to the side ${c.txt}. Made it!`,c.r,'hit');
-    else{const dm=Math.max(1,Math.round(roll(`${Math.max(1,hero.lvl)+adv.chapter}d6`)*D().trap));hurtHero(dm);adv.shake='hero';log('',`Spears shoot out of the wall! ${you()} is too slow ${c.txt}. <span class="dmg">${dm} damage</span>.`,c.r,'fail')}
+    adv.phase='room';adv.room.done=true;const tk=adv.room.trap=pickTrap(),T0=TRAPS[tk];save();render();
+    const who=T0.all?alive():[pick(alive())];
+    if(T0.all)log('',`${T0.warn.split('!')[0]}! It fills the whole room.`,'!','fail');
+    for(const h of who){if(h.hp<=0)continue;hero=h;save();render();
+      const c=await check(T0.chk,cdc(12),T0.warn);const W=you();
+      if(c.ok){log('',`${T0.ok.replace('WHO',W)} ${c.txt}. Made it!`,c.r,'hit');fx(hk(),'dodge',NP.L,`${T0.ok.replace('WHO',nmH()).toLowerCase()}!`)}
+      else{let dm=Math.max(1,Math.round(roll(`${Math.max(1,Math.ceil((hero.lvl+adv.chapter)/(T0.all?2:1)))}d6`)*D().trap));const rs=resist(T0.dt);if(rs)dm=Math.max(1,Math.floor(dm/2));
+        hurtHero(dm);adv.shake='hero';log('',`${T0.hit.replace('WHO',W)} ${c.txt}. <span class="dmg">${dm} damage</span> <span class="muted">(${DMG[T0.dt]}${rs?', resisted, half damage':''})</span>.`,c.r,'fail');
+        fx(hk(),`hit! ${dm}`,T0.dt==='fire'?'#fca044':T0.dt==='poison'?NP.L:T0.dt==='lightning'?NP.U:'#f87858',`${T0.hit.replace('WHO',nmH()).toLowerCase()} ${dm} damage.`)}
+      render();if(T0.all)await wait(reduced?60:400)}
     if(!alive().length)die();
   }
   else if(t==='sleeper'){adv.room.ms=encounter(false,{bump:1});adv.room.m=adv.room.ms[0];adv.phase='room';log('note',`Something big is sleeping in the passage: ${foeListTxt(adv.room.ms)}.`,'z')}
@@ -2337,6 +2357,23 @@ tree:[
 ".KnK..KnnK..KnK.",
 ".KKK.KnnnnK.KKK.",
 "....KKKKKKKK...."],
+beartrap:[
+".K.K.K......K.K.K.",
+"KWKWKWK....KWKWKWK",
+"KGGGGGK....KGGGGGK",
+".KGGGGGKKKKGGGGGK.",
+"..KKGGGgggggGGKK..",
+"....KKKKKKKKKK....",
+"KKKKKKKgggKKKKKKKK"],
+rocks:[
+"......KKKK........",
+"....KKGGGGKK......",
+"...KGGWGGgggK.KKK.",
+"..KGGGGGggggKKGGGK",
+".KKKGGGgggKKGGWGgK",
+"KGGGKKKKKKKGGGGggK",
+"KGWGGgKKGGGKKKKKKK",
+"KKKKKKKKKKKKKKKKKK"],
 harpy:[
 "K.......................K",
 "KaK...................KaK",
@@ -3139,11 +3176,27 @@ function sceneText(){
   if(t==='traveler'&&!d)return['a wounded stranger.','she asks for a potion.'];
   if(t==='merchant')return['a gnome merchant!',`you have ${bag.gold} gold.`];
   if(t==='sleeper'&&!d){const ms=R.ms||[R.m];return[`${groupTxt(ms)} ${ms.length>1?'are':'is'} asleep.`,'sneak past or attack?']}
-  if(t==='trap')return["it's a trap!",alive().length?'the path goes on.':''];
+  if(t==='trap')return[`${R.trap&&TRAPS[R.trap]?TRAPS[R.trap].n:"it's a trap"}!`,alive().length?'the path goes on.':''];
   if(adv.fled)return['you got away!','the path goes on.'];
   if(t==='fight'&&adv.lastFoe)return['the enemy is defeated!','the path goes on.'];
   return['the path goes on.',''];
 }
+function drawTrap(x,k){const f=SCN.f,F0=FEET;
+  if(k==='spears'){obj(x,'spikes',130);return}
+  if(k==='beartrap'){obj(x,'beartrap',140);return}
+  if(k==='rocks'){obj(x,'rocks',142);x.fillStyle=NP.G;if(!reduced)for(let i=0;i<4;i++){const ry=(f*3+i*9)%40;x.fillRect(128+i*8,12+ry,2,2)}return}
+  if(k==='pit'){x.fillStyle=NP.K;x.fillRect(118,F0-4,44,8);x.fillRect(122,F0-6,36,2);x.fillStyle='#3c3c3c';for(let i=0;i<5;i++){x.fillRect(124+i*8,F0-3,2,4);x.fillStyle=NP.G;x.fillRect(124+i*8,F0-5,2,2);x.fillStyle='#3c3c3c'}return}
+  if(k==='fire'){x.fillStyle=NP.K;x.fillRect(168,30,14,14);x.fillStyle='#7c7c7c';x.fillRect(169,31,12,12);x.fillStyle=NP.K;x.fillRect(166,35,4,4);
+    if(!reduced&&f%6<4)for(let i=0;i<26;i++){const fx0=166-i*2,w=1+Math.floor(i/5);x.fillStyle=i<4?NP.W:i<10?NP.Y:i<18?'#fca044':NP.R;x.fillRect(fx0,37-w+((f+i)%2),2,w*2)}return}
+  if(k==='darts'){x.fillStyle=NP.K;x.fillRect(170,26,12,20);x.fillStyle='#7c7c7c';x.fillRect(171,27,10,18);x.fillStyle=NP.K;for(let j=0;j<3;j++)x.fillRect(173+(j%2)*4,30+j*5,2,2);
+    if(!reduced)for(let j=0;j<3;j++){const dx=168-((f*6+j*20)%70);x.fillStyle=NP.W;x.fillRect(dx,31+j*5,5,1);x.fillStyle=NP.L;x.fillRect(dx-1,31+j*5,1,1)}return}
+  if(k==='blade'){const sw=reduced?0:Math.round(Math.sin(f/3)*16),bx=140+sw;x.fillStyle='#7c7c7c';for(let y=11;y<40;y++)x.fillRect(Math.round(140+sw*(y-11)/29),y,1,1);
+    for(let i=-12;i<=12;i++){const d=Math.round(i*i/24),h=8-Math.floor(Math.abs(i)/3);x.fillStyle=NP.K;x.fillRect(bx+i,37+d,1,h+2);x.fillStyle=NP.G;x.fillRect(bx+i,38+d,1,h);x.fillStyle=NP.W;x.fillRect(bx+i,37+d+h,1,1)}x.fillStyle=NP.K;x.fillRect(bx-2,35,5,4);return}
+  if(k==='snare'){x.fillStyle='#ac7c00';for(let y=11;y<F0-2;y++)x.fillRect(148+((y>>3)%2),y,1,1);x.fillStyle=NP.K;x.fillRect(141,F0-4,16,4);x.fillStyle='#ac7c00';x.fillRect(142,F0-3,14,1);x.fillRect(142,F0-2,1,1);x.fillRect(155,F0-2,1,1);return}
+  if(k==='gas'){for(let i=0;i<14;i++){const gx=100+Math.floor(hr(i,71)*90)+(reduced?0:((f+i)%6)-3),gy=26+Math.floor(hr(71,i)*34)+(reduced?0:((f>>1)+i)%3);x.fillStyle=i%3?'#58d854':'#00a800';x.globalAlpha=.55;x.fillRect(gx,gy,8,6);x.fillRect(gx+2,gy-2,4,10);x.globalAlpha=1}return}
+  if(k==='rune'){const on=reduced||f%4<3;const cx=144,cy=F0-1;x.fillStyle=on?'#3cbcfc':'#0058f8';for(let a=0;a<24;a++){const ang=a/24*Math.PI*2;x.fillRect(Math.round(cx+Math.cos(ang)*14),Math.round(cy+Math.sin(ang)*3),2,1)}
+    x.fillStyle=on?NP.W:'#3cbcfc';x.fillRect(cx-5,cy-1,10,1);x.fillRect(cx-1,cy-2,2,3);if(on&&!reduced&&f%8<2){x.fillStyle=NP.W;for(let y=12;y<cy;y+=3)x.fillRect(cx+((y>>2)%2?1:-1),y,1,2)}return}
+  obj(x,'spikes',130)}
 function drawScene(cv){
   if(!cv.getContext)return;const x=cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;const now=performance.now();
   const wall=WALLS[(adv.chapter-1)%WALLS.length];const P=adv.phase,R=adv.room||{};
@@ -3179,7 +3232,7 @@ function drawScene(cv){
     else if(t==='traveler'&&!R.done){obj(x,'hood',152,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fca044',s:'#e45c10'})});if(SCN.f%8<6)ntext(x,'?',150,FEET-42,NP.W)}
     else if(t==='merchant'){obj(x,'cart',162);obj(x,'robe',130,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fcbcb0',s:'#fca044',H:'#fcfcfc',c:'#f8b800'})})}
     else if(t==='sleeper'&&!R.done){const ms=(R.ms||[R.m]).map(m=>({m,hp:1,max:1}));drawFoes(x,ms,{asleep:true});if(!reduced){const z=SCN.f%12;ntext(x,'Z',176+(z>5?2:0),Math.max(12,24-Math.floor(z/2)),NP.U)}}
-    else if(t==='trap')obj(x,'spikes',130);
+    else if(t==='trap')drawTrap(x,R.trap||'spears');
   }
   SCN.dis=SCN.dis.filter(dd=>{const k=(now-dd.t)/700;if(k>=1)return false;drawMonAt(x,dd.m,dd.x,{dissolve:Math.min(.98,k),many:true});return true});
   nhud(x);
@@ -3466,7 +3519,7 @@ function renderAdv(){
     else if(t==='shrine'&&!dn){const cost=offerCost();stage=`<h2>The Forgotten Altar</h2><p>Candles that never burn down. A silver offering bowl. Gods of forgotten places can be kind, or moody. A blessing touches the whole party.</p>${whoHtml('Who prays?')}<div class="actions"><button class="btn primary" data-act="pray">Pray to the god<small>${chkSub('pray',cdc(12))} · blessing or curse</small></button><button class="btn" data-act="offer" ${bag.gold<cost?'disabled':''}>Offer ${cost} gold<small>sure blessing · you have ${bag.gold}</small></button>${go}</div>`}
     else if(t==='traveler'&&!dn)stage=`<h2>The Wounded Adventurer</h2><p>She clutches her side and begs for a potion. She says she knows what lies further down. Can you trust strangers down here?</p>${whoHtml('Who talks to her?')}<div class="actions"><button class="btn primary" data-act="give" ${bag.potions?'':'disabled'}>Give her a potion<small>you have ${bag.potions} · she rewards you, or not</small></button><button class="btn" data-act="talk">Talk to her<small>${chkSub('talk',cdc(12))} · costs nothing</small></button>${go}</div>`;
     else if(t==='merchant'){stage=`<h2>The Gnome Merchant</h2><p>“Potions, whetstones, rings of protection! All at honest prices, almost.” The party has <b>${bag.gold} gold</b>.</p>${whoHtml('Upgrades for')}<div class="actions">${shopList().map(it=>`<button class="btn" data-act="buy" data-k="${it.k}" ${bag.gold<it.p?'disabled':''}>${esc(it.n)}<small>${it.p} gold</small></button>`).join('')}<button class="btn primary" data-act="next">Move on</button></div>`}
-    else{const title=adv.fled?'Escaped!':t==='fight'?'Victory Is Yours':t==='trap'?'The Trap':t==='treasure'?'Pockets Full':t==='camp'?'Rested':t==='sleeper'?'Past Them':t==='shrine'?'The Altar Falls Silent':t==='traveler'?'She Vanishes into the Dark':'Onward';adv.fled=false;
+    else{const title=adv.fled?'Escaped!':t==='fight'?'Victory Is Yours':t==='trap'?(adv.room.trap&&TRAPS[adv.room.trap]?`The ${TRAPS[adv.room.trap].n}`:'The Trap'):t==='treasure'?'Pockets Full':t==='camp'?'Rested':t==='sleeper'?'Past Them':t==='shrine'?'The Altar Falls Silent':t==='traveler'?'She Vanishes into the Dark':'Onward';adv.fled=false;
       stage=`<h2>${title}</h2><p>${t==='fight'&&adv.lastFoe?`The ${esc(adv.lastFoe)} ${adv.lastFoe.includes(' and ')?'lie':'lies'} defeated on the stone floor.`:'The passage continues down into the dark.'}</p><div class="actions"><button class="btn primary" data-act="next">Go deeper</button>${potBtns()}</div>`}
   }else if(P==='won'){
     stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${partyNames()} defeated the ${esc(adv.lastFoe)} and became the ${party.length>1?'heroes':'hero'} of ${LOC().the}. ${adv.kills} enemies defeated in total.</div><p>${adv.grand?`Next stop: <b>${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}</b>. You rest fully before the journey.`:'Further in there are more passages, and more dangerous monsters. You rest fully before going on.'}</p><div class="actions"><button class="btn primary" data-act="next">${adv.grand?`Travel to ${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}`:`Descend to chapter ${adv.chapter+1}`}</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="abandon">End the adventure here</button></div>`;
