@@ -538,8 +538,8 @@ body.at-home header{align-items:center}
 (function(){
 "use strict";
 const H=JSON.parse(document.getElementById('hdata').textContent);
-/* Monsters left out of the game: sea creatures that make no sense on land */
-const SKIP_MON=/\bshark\b/i;
+/* Monsters left out of the game: sea creatures and fish-like beasts that make no sense on land */
+const SKIP_MON=/\bshark\b|bulette|quipper|killer whale|aboleth/i;
 const M=JSON.parse(document.getElementById('mdata').textContent).filter(m=>!SKIP_MON.test(m.n));
 const CL=Object.fromEntries(H.classes.map(c=>[c.i,c])), RC=Object.fromEntries(H.races.map(r=>[r.i,r]));
 const W=H.weapons, AR=H.armor, SP=Object.fromEntries(H.spells.map(s=>[s.i,s]));
