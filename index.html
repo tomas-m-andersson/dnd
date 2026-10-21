@@ -1017,7 +1017,7 @@ function trayInit(){
       <div><div class="eyebrow" id="trayKind">Your roll</div><h3 id="trayTitle"></h3><div class="tray-sub" id="traySub"></div></div>
       <button class="tray-dice" id="trayDice" type="button" aria-label="Roll the dice"></button>
       <div class="tray-result" id="trayRes" aria-live="polite"></div>
-      <div class="tray-foot"><label class="auto" for="trayAuto"><input type="checkbox" id="trayAuto">Roll for me from now on</label><button class="btn primary" id="trayBtn" type="button">Roll</button></div>
+      <div class="tray-foot"><button class="btn primary" id="trayBtn" type="button">Roll</button></div>
     </div></div>`;
   trayEl=w.firstElementChild;if(!trayEl||!document.body||!document.body.appendChild)return;
   document.body.appendChild(trayEl);
@@ -3405,7 +3405,7 @@ function renderAdv(){
     <canvas id="scene" class="scene-cv" width="192" height="96" role="img" aria-label="${esc(sceneText().filter(Boolean).join(' '))}"></canvas>
     <div class="depth" aria-label="How deep you are">${steps}</div>
     <div class="win stage">${stage}</div>
-    <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn dicetog" data-act="dice" type="button" aria-pressed="${!AUTO}">${AUTO?'Dice: auto':'Dice: you roll'}</button><button class="btn" data-act="abandon" type="button">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
+    <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn" data-act="abandon" type="button">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
   const lg=document.getElementById('log');lg.scrollTop=lg.scrollHeight;adv.shake=null;
   drawHeroIcons();
