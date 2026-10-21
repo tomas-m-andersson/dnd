@@ -174,6 +174,9 @@ header h1 .acc{background:linear-gradient(100deg,var(--ember),var(--gold));-webk
 
 footer{text-align:center;font-size:13px;color:var(--muted)}
 footer a{color:inherit}
+.scene-cv{display:block;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/1;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;border-radius:14px;background:#000;border:1px solid var(--line);box-shadow:var(--shadow)}
+.hero-id{display:flex;gap:14px;align-items:center}
+.hero-prev{flex:0 0 66px;width:66px;height:72px;image-rendering:pixelated;image-rendering:crisp-edges;border-radius:12px;background:#000;border:1px solid var(--line)}
 /* Dice tray */
 .tray{position:fixed;inset:0;z-index:50;display:grid;align-items:end;justify-items:center}
 .tray-back{position:absolute;inset:0;background:rgba(5,6,10,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
@@ -312,6 +315,7 @@ body.tray-open{overflow:hidden}
   .foe .meta{font-size:13px}
   .foe .nums{grid-column:1/-1;display:flex;gap:16px;text-align:left}
   .foe .nums br{display:none}
+  .foe{grid-template-columns:minmax(0,1fr)}.foe .rune,.foe .bar{display:none}
   .stage{scroll-margin-top:120px}
   .doors{grid-template-columns:minmax(0,1fr)!important}
   .abil{grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -452,7 +456,7 @@ function renderGen(){
       <div class="namebar">
         <span class="eyebrow">Hero name</span>
         <div class="row"><input id="hname" value="${esc(h.name)}" maxlength="40" aria-label="Hero name" ${inAdv?'disabled':''}><button class="btn" id="newName" type="button" ${inAdv?'disabled':''}>New name</button></div>
-        <div class="subline">Level ${h.lvl} ${RACE_SV[h.race].toLowerCase()} ${CLS_SV[h.cls].toLowerCase()}</div>
+        <div class="hero-id"><canvas id="heroPrev" class="hero-prev" width="24" height="26" role="img" aria-label="Your hero"></canvas><div class="subline">Level ${h.lvl} ${RACE_SV[h.race].toLowerCase()} ${CLS_SV[h.cls].toLowerCase()}</div></div>
       </div>
       <div class="choose">
         <label for="selRace">Race<select id="selRace" ${inAdv?'disabled':''}>${Object.keys(RACE_SV).map(k=>`<option value="${k}" ${k===h.race?'selected':''}>${RACE_SV[k]}</option>`).join('')}</select></label>
@@ -484,6 +488,7 @@ function renderGen(){
       <div class="block"><h3>Pack</h3><div class="line"><span>Potion of Healing</span><code>${h.potions} × 2d4+2</code></div><div class="line"><span>Gold</span><code>${h.gold} gp</code></div></div>
     </aside>
   </div>`;
+  drawHeroPreview();
   const nm=document.getElementById('hname');
   nm.oninput=()=>{hero.name=nm.value.trim()||'Nameless';save()};
   document.getElementById('newName').onclick=()=>{hero.name=`${pick(NAMES)} ${pick(EPI)}`;save();render()};
@@ -854,6 +859,862 @@ async function onSettingsClick(e){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&setEl&&!setEl.hidden)closeSettings()});
 
+/* ---------- NES sprites ---------- */
+/* Fixed NES colors. Sprites also use a/m/z (main color light/mid/dark), S/s (skin), H (hair), c (accent), e (eyes). */
+const NP={K:'#000000',W:'#fcfcfc',G:'#bcbcbc',g:'#7c7c7c',d:'#3c3c3c',Y:'#f8b800',y:'#ac7c00',O:'#e45c10',R:'#d82800',r:'#881400',N:'#ac7c00',n:'#503000',B:'#0058f8',b:'#0000bc',U:'#3cbcfc',L:'#58d854',V:'#00a800',D:'#005800',P:'#6844fc',p:'#d8b8f8'};
+const TRI={
+  red:['#f87858','#d82800','#881400'],blue:['#3cbcfc','#0058f8','#0000bc'],green:['#58d854','#00a800','#005800'],
+  black:['#7c7c7c','#3c3c3c','#1c1c1c'],white:['#fcfcfc','#bcbcbc','#7c7c7c'],gold:['#fce0a8','#f8b800','#ac7c00'],
+  silver:['#e4fcfc','#a4e4fc','#3cbcfc'],brass:['#fce0a8','#e45c10','#ac7c00'],bronze:['#f8b800','#ac7c00','#503000'],
+  copper:['#fca044','#e45c10','#a81000'],purple:['#d8b8f8','#6844fc','#4428bc'],brown:['#fca044','#ac7c00','#503000'],
+  gray:['#bcbcbc','#7c7c7c','#3c3c3c'],bone:['#fcfcfc','#f0d0b0','#ac7c00'],teal:['#b8f8d8','#00b8a8','#005858'],
+  orange:['#fca044','#e45c10','#a81000'],ice:['#e4fcfc','#3cbcfc','#0058f8'],toxic:['#d8f878','#58d854','#00a800'],
+  rot:['#b8f8b8','#58a858','#305830'],pale:['#fcfcfc','#a4e4fc','#6888fc'],night:['#6844fc','#4428bc','#200868'],
+  sand:['#f8d878','#e4a000','#ac7c00'],pink:['#f8b8f8','#f878f8','#a800a8'],tan:['#f0d0b0','#fca044','#ac7c00']
+};
+const SPR={
+/* ---- heroes (face right) ---- */
+knight:[
+"..........W.",
+"..........G.",
+"...KKKK...G.",
+"..KGGGGK..G.",
+"..KGWGGGK.G.",
+"..KGGGGGK.G.",
+"..KGSKSSK.G.",
+"...KSSSK.YYY",
+".KK.KmmK..N.",
+"KccKKmmmKSN.",
+"KcYcKmammK..",
+"KcYcKzYzzK..",
+"KccKKzzzzK..",
+".KK.KzK.zK..",
+"....KnK.KnK.",
+"....KKK.KKK."],
+barbarian:[
+".........GG.",
+"........GWGG",
+"...KKKK.GGGN",
+"..KHHHHK..N.",
+"..KHSSSHK.N.",
+"..KSKSSSK.N.",
+"..KSSSSSK.N.",
+"...KSSSKSSN.",
+".KKSSSSSSKN.",
+"KSSKSSSSK.N.",
+"KSSKSSSSK.N.",
+".KKKcNcNK...",
+"....KNNNK...",
+"....KSKSK...",
+"....KnKnK...",
+"....KKKKK..."],
+hood:[
+"............",
+"....KKKK....",
+"...KmmmmK...",
+"..KmaaammK..",
+"..KmSSSSK...",
+"..KmSKSKK...",
+"..KmSSSSK...",
+"...KmSSK....",
+"..KKmmmmKK..",
+".KmmKmmKmmK.",
+".KSKmmmmKSKW",
+"..KKzYzzKKG.",
+"...KzzzzKG..",
+"...KzK.zK...",
+"...KnK.KnK..",
+"...KKK.KKK.."],
+robe:[
+"..........c.",
+".....K...KcK",
+"....KmK...N.",
+"...KmamK..N.",
+"..KmaammK.N.",
+".KKKKKKKKKN.",
+"...KSSSSK.N.",
+"...KSKSSK.N.",
+"...KSSSSKSN.",
+"...KHHHHKKN.",
+"..KmmHHmmK.N",
+"..KmammmmK.N",
+"..KmmammmK.N",
+"..KzmmmmzK.N",
+"..KzzzzzzK..",
+"..KKKKKKKK.."],
+cleric:[
+"............",
+"....KKKK....",
+"...KHHHHK...",
+"..KHSSSSK...",
+"..KSSKSKK...",
+"..KSSSSSK.KK",
+"...KSSSK.KGK",
+"..KKaaaaKKGK",
+".KgKaYYaKSNK",
+".KgKaaYaK.N.",
+".KgKaYYaK.N.",
+"..KKaaaaK...",
+"...KzzzzK...",
+"...KzK.zK...",
+"...KnK.KnK..",
+"...KKK.KKK.."],
+monk:[
+"............",
+"....KKKK....",
+"...KSSSSK...",
+"..KSSSSSSK..",
+"..KSKSSKSK..",
+"..KSSSSSSK..",
+"...KSSSSK...",
+"..KKmmmmKK..",
+".KSKmaamKSK.",
+".KSKmammKSK.",
+"..KKKzzKKK..",
+"...KmmmmK...",
+"...KmmmmK...",
+"...KmK.mK...",
+"...KSK.KSK..",
+"...KKK.KKK.."],
+/* ---- monsters (face left) ---- */
+wolf:[
+"..K.K...............",
+".KmKmK..............",
+".KmmmmK.............",
+"KmmemmmK............",
+"KWmmmmmmKKKKKKKKK...",
+".KKmmmmmmmmmmmmmmK..",
+"..KzKmmmmmmmmmmmmmKK",
+"....KmmmmmmmmmmmmK.K",
+"....KmmzzzzzzzmmmK..",
+"....KmK.KmK..KmKmK..",
+"...KmmK.KmK..KmKmK..",
+"...KKKK.KKK..KKKKK.."],
+rat:[
+"..KK........",
+".KmmKKKKK...",
+"KemmmmmmmK..",
+"KmmmmmmmmmK.",
+".KKmmmmmmmKK",
+"..KmK.KmK..K",
+"..KK..KK...."],
+bat:[
+"K...........K",
+"KK...K.K...KK",
+"KmK..KKK..KmK",
+"KmmKKeKeKKmmK",
+"KmmmmmmmmmmmK",
+".KmmKmmmKmmK.",
+"..KK.KmK.KK..",
+"......K......"],
+spider:[
+"....K......K....",
+"...K.K.KK.K.K...",
+"..K..KKmmKK..K..",
+".K..KmmmmmmK..K.",
+"K..KmemmmmemK..K",
+"..KmmmmmmmmmmK..",
+".K.KmmzzzzmmK.K.",
+"K..K.KmmmmK.K..K",
+"..K...KKKK...K..",
+".K............K."],
+snake:[
+"......KKK.........",
+".....KmmmK........",
+"....KemmmmK.......",
+"....KmmmmK........",
+"..RRKKmmK....KKKK.",
+"......KmmK..KmmmmK",
+".......KmmKKmmKKmK",
+"........KmmmmK..K."],
+bear:[
+"..KK....KK............",
+".KmmKKKKmmK...........",
+".KmmmmmmmmK...........",
+"KmmemmmmemmK..........",
+"KmmmmmmmmmmmKKKKKKK...",
+"KmmKKKmmmmmmmmmmmmmKK.",
+".KKWWKmmmmmmmmmmmmmmmK",
+"..KKKmmmmmmmmmmmmmmmmK",
+"....KmmmmmmmmmmmmmmmmK",
+"....KmmmzzzzzzzzzmmmmK",
+"....KmmmK.KmmK.KmmmK..",
+"....KmmK..KmmK..KmmK..",
+"...KWKWK..KWKWK.KWKWK.",
+"...KKKKK..KKKKK.KKKKK."],
+owlbear:[
+"..K.....K.............",
+".KaK...KaK............",
+".KaaKKKaaK............",
+"KaKKaaaKKaK...........",
+"KaKeKaKeKaKKKKKKKK....",
+"KaaKKYKKaamamamammKK..",
+".KaaYYYaammmmmmmmmmmK.",
+"..KaaYaaammmmmmmmmmmK.",
+"....KmmmmmmmmmmmmmmmmK",
+"....KmmmzzzzzzzzzmmmmK",
+"....KmmmK.KmmK.KmmmK..",
+"....KmmK..KmmK..KmmK..",
+"...KWKWK..KWKWK.KWKWK.",
+"...KKKKK..KKKKK.KKKKK."],
+bird:[
+"...KK...........",
+"..KmmK..........",
+".KYKmmK.........",
+"KYYKemK.........",
+".KKmmmmK....KK..",
+"...KmmmmKKKKmmK.",
+"...KmmmmmmmmmmmK",
+"....KmmmmmmmmmK.",
+".....KzzzzzzzK..",
+"......KmK.KmK...",
+".....KYK..KYK...",
+".....KK...KK...."],
+lizard:[
+"..KKKKK...............",
+".KmmmmmKK.............",
+"KWKWKmemmKKKKKKKKK....",
+"KmmmmmmmmmmmmmmmmmKKK.",
+".KKKKmmmmmmmmmmmmmmmmK",
+"....KmmzzzzzzzzmmKKKK.",
+"...KmK.KmK...KmK......",
+"...KKK.KKK...KKK......"],
+bug:[
+"..K..........K..",
+"...K.KKKKKK.K...",
+"....KmmmmmmK....",
+"..KKmamaammmK...",
+"KeKmmmmmmmmmmK..",
+"KKmmmmmmmmmmmmK.",
+".K.KzzzzzzzzzK..",
+"..K.K.K.K.K.K...",
+".K.K.K.K.K.K...."],
+fish:[
+"..........K.........",
+".........KmK........",
+"..KKKKKKKmmmKKKK..KK",
+".KmmmmmmmmmmmmmmKKmK",
+"KemmmmmmmmmmmmmmmmmK",
+"KWWmmaaaaaaaammmKKmK",
+".KKKKmmmmmmmmmKK..KK",
+"......KKKKKKKK......"],
+beast:[
+"...KK...............",
+"..KmmK..............",
+".KmmmmK.............",
+"KmemmmmK............",
+"KmmmmmmmKKKKKKKKKK..",
+".KKKmmmmmmmmmmmmmmKK",
+"....KmmmmmmmmmmmmmmK",
+"....KmmmmmmmmmmmmmmK",
+"....KmmzzzzzzzzmmmmK",
+"....KmK.KmK..KmK.KmK",
+"....KmK.KmK..KmK.KmK",
+"....KzK.KzK..KzK.KzK",
+"....KKK.KKK..KKK.KKK"],
+goblin:[
+"K.........K",
+"KmK.KKK.KmK",
+".KmKmmmKmK.",
+"..KmememK..",
+"..KmmmmmK..",
+"...KmWmK...",
+"..KNNNNNK.G",
+".KmKNNNKmKG",
+"..KKNNNKK.N",
+"...KnKnK...",
+"...KmKmK...",
+"...KKKKK..."],
+orc:[
+"....KKKKK.....",
+"...KmmmmmK....",
+"..KmemmemmK...",
+"..KmmmmmmmK...",
+"..KWmKKmWmK...",
+"...KmmmmmK....",
+".KKKNNNNNKKK..",
+"KmmKNNNNNKmmK.",
+"KmKKNNNNNKKmKG",
+"KmK.KnnnK.KmGG",
+".K..KNNNK..KNG",
+"....KzKzK...N.",
+"....KmKmK...N.",
+"....KmKmK.....",
+"...KKKKKKK...."],
+troll:[
+"..nn..............",
+".nNNn.............",
+".nNNn....KKKKK....",
+".nNNn..KKaaaaaKK..",
+".nNnn.KaaaaaaaaaK.",
+".nNNn.KaWKaaaWKaK.",
+".nNNn.KaaaaaaaaaK.",
+"..nNn.KaKWKWKWKaK.",
+"..nNn..KaKKKKKaK..",
+"..nn.KKKKaaaaaKKK.",
+".KaaKKmmmmmmmmmmmK",
+".KaaaKmmmmammmmmmK",
+"..KaaKmmmaaammmmmK",
+"...KKKmmmaaammKaK.",
+".....KnNnNnNnNKaK.",
+".....KmNnNnNnmKaK.",
+".....KmmmmmmmmK.K.",
+".....KmmmK.KmmmK..",
+".....KmmK...KmmK..",
+"....KzzzK...KzzzK.",
+"....KKKKK...KKKKK."],
+skeleton:[
+"...KKKKK....",
+"..KaaaaaK...",
+"..KaKaKaK...",
+"..KaaaaaK...",
+"...KaKaK....",
+"....KaK.....",
+"..KKaaaKK...",
+".Ka.KaK.aK..",
+".Ka.aKa.aK..",
+".K..KaK..K..",
+"....aKa..G..",
+"...KaKaK.G..",
+"...Ka.aK.G..",
+"...Ka.aK.N..",
+"..KaK.KaK...",
+"..KKK.KKK..."],
+zombie:[
+"...KKKK.....",
+"..KaaaaK....",
+"..KeaeaK....",
+"..KaaaaK....",
+"..KaKKaK....",
+"KKKKaaKK....",
+"aaaaKmmmK...",
+"KKKKmmmmmK..",
+"...KmmmmmK..",
+"...KmmzmmK..",
+"...KzzKzzK..",
+"...KnK.KnK..",
+"...KaK.KaK..",
+"...KaK.KaK..",
+"..KKK..KKK.."],
+ghost:[
+"...KKKKK....",
+"..KaaaaaK...",
+".KaaaaaaaK..",
+".KaKKaKKaK..",
+".KaKeaKeaK..",
+".KaaaaaaaK..",
+".KaaKKKaaK..",
+"KaaaaaaaaaK.",
+"KaaaaaaaaaK.",
+"KmaaaaaaamK.",
+"KmmaaamaaK..",
+".KmmmmmmmK..",
+"..KmK.KmK...",
+"...K...K...."],
+dragon:[
+"..............K.......K.....",
+".............KmK.....KmK....",
+"............KmmmK...KmmmK...",
+"..KK.KK....KmzzmmKKKmmzzmK..",
+".KmmKmmK...KmzzzmmmmmzzzmK..",
+"KmmmmmmmK..KmzzzmmmmmzzzmK..",
+"KmemmmmmmK.KmmzzmmmmmzzmmK..",
+"KmmmmmmmmmKKmmmmmmmmmmmmK...",
+".KWKWKmmmmmmKmmmmmmmmmmK....",
+"..KKKKKmmmmmmKKKKKKKKKK.....",
+"......KmmmmmmmmmmmmmmK......",
+".......KmmaaaaaammmmmmK.....",
+".......KmaaaaaaaammmmmmK....",
+".......KmaaaaaaaammmmmmmK...",
+".......KmmaaaaaammmmmmmmmK..",
+"........KmmmmmmmmmmmmmKmmmK.",
+"........KmmK.KmmK.KmmK.KmmK.",
+".......KmmK..KmmK..KmmmmmK..",
+".......KWKWK.KWKWK..KKKKK...",
+".......KKKKK.KKKKK.........."],
+fiend:[
+"..K.......K...",
+"..KK.....KK...",
+"...KmKKKmK....",
+"...KmmmmmK....",
+"...KYmmYmK....",
+"...KmmmmmK....",
+"...KmKKKmK....",
+"KK..KmmmK..KK.",
+"KmKKmmmmmKKmK.",
+"KmmKmammmKmmK.",
+".KKKmmmmmKKK..",
+"....KzzzK.....",
+"....KmKmK.KK..",
+"....KmKmK..KmK",
+"...KmK.KmK..K.",
+"...KKK.KKK...."],
+flame:[
+"......K.......",
+".....KaK......",
+"....KaaK..K...",
+"...KamaK.KaK..",
+"..KamYmaKaaK..",
+".KamYYYmaamK..",
+".KmYYWYYmmaK..",
+"KamYWWWYmmaK..",
+"KamYYWYYYmK...",
+"KmmYYYYYmmaK..",
+".KmmYYYmmmmK..",
+".KzmmmmmmmzK..",
+"..KzmmmmmzK...",
+"...KzzmzzK....",
+"....KKzKK.....",
+".....KzK......",
+"......K......."],
+golem:[
+"....KKKKKKK.....",
+"....KaammmK.....",
+"....KmememK.....",
+"....KmmmmmK.....",
+"..KKKKKKKKKKK...",
+".KaaKmmmmmmKaaK.",
+".KmmKmammmmKmmK.",
+".KmmKmmmmmmKmmK.",
+".KmmKmmmmmmKmmK.",
+".KzzKzzzzzzKzzK.",
+".KaaKKKKKKKKaaK.",
+"..KK.KmmKmmK.KK.",
+".....KmmKmmK....",
+".....KmmKmmK....",
+"....KzzzKzzzK...",
+"....KKKKKKKKK..."],
+ooze:[
+"......KKKK......",
+"....KKaaaaKK....",
+"...KaaWaaaaaK...",
+"..KaaaaaaKaaaK..",
+".KamaKKmaaaaamK.",
+".KmmmKKmmmmaamK.",
+"KmmmmmmmmmmmmmmK",
+"KzmmmzmmmmzmmmzK",
+".KKzzKKzzzKKzzK.",
+"...KK..KKK..KK.."],
+cube:[
+"KKKKKKKKKKKKKKKK",
+"KaaaaaaaaaaaaaaK",
+"KaWmmmmmmmmmmmaK",
+"KammmmmmmmmmmmaK",
+"KammmmWWWmmmmmaK",
+"KammmWKWKWmmmmaK",
+"KammmmWWWmmmmmaK",
+"KammmmmWmmmmmmaK",
+"KammmWWWWWmmmmaK",
+"KammmmmWmmmGmmaK",
+"KammmmWmWmmmmmaK",
+"KammmmmmmmmmmmaK",
+"KammmmmmmmmmmmaK",
+"KazzzzzzzzzzzzaK",
+"KKKKKKKKKKKKKKKK"],
+mimic:[
+"..KKKKKKKKKKKK..",
+".KmmmmmmmmmmmmK.",
+"KmmYmmmmmmmmYmmK",
+"KKKKKKKKKKKKKKKK",
+"KWKWKWKWKWKWKWKK",
+"KRRRRRRReRRRRRRK",
+"KRRRRReRRRRRRRRK",
+"KWKWKWKWKWKWKWKK",
+"KKKKKKKKKKKKKKKK",
+"KmmYmmmmmmmmYmmK",
+"KmmmmmmmmmmmmmmK",
+"KzzzzzzzzzzzzzzK",
+"KKKKKKKKKKKKKKKK"],
+plant:[
+".....KKKK.....",
+"....KYcYcK....",
+"...KcYYYYcK...",
+"...KYYRRYYK...",
+"...KcYRRYcK...",
+"....KcYYcK....",
+".KK..KmmK..KK.",
+"KaaK.KmmK.KaaK",
+"KaamKKmmKKmaaK",
+".KKmmmmmmmmKK.",
+"....KmmmmK....",
+"..KKKmmmmKKK..",
+".KaaKmmmmKaaK.",
+"..KK.KmmK.KK..",
+".....KmmK.....",
+"...KKzzzzKK...",
+"..KzzzzzzzzK..",
+"..KKKKKKKKKK.."],
+angel:[
+"....KYYYYK......",
+".....KKKK.......",
+"KK..KSSSSK...KK.",
+"KWK.KSKSSK..KWK.",
+"KWWKKSSSSK.KWWK.",
+"KWWWKKSSKKKWWWK.",
+"KWWWKaaaaaKWWWK.",
+".KWWKaYaaaKWWK..",
+".KWWKaaaaaKWWK..",
+"..KKKaaaaaKKK...",
+"....KaaaaaK.....",
+"...KaaaaaaaK....",
+"...KammaammK....",
+"...KmmmmmmmK....",
+"...KKKKKKKKK...."],
+tentacle:[
+".....KKKKKK.......",
+"...KKmmmmmmKK.....",
+"..KmmKKmmKKmmK....",
+".KmmKWeKKWeKmmK...",
+".KmmmKKmmKKmmmK...",
+"KmmmmmKWWKmmmmmK..",
+"KmmmmKWeeWKmmmmK..",
+"KmmmmmKWWKmmmmmK..",
+".KmmmmmmmmmmmmK...",
+"..KzKmKzmKmKzK....",
+"..KzK.KzK.KzK.K...",
+".KzK..KzK..KzKzK..",
+".KK..KzK....KK.K..",
+".....KK..........."],
+fairy:[
+"KK.......KK",
+"KpK.KKK.KpK",
+"KppKSSSKppK",
+".KpKSKSKpK.",
+"..KKSSSKK..",
+"...KaaaK...",
+"..KaaaaaK..",
+"...KaaaK...",
+"...KK.KK..."],
+/* ---- room objects ---- */
+chest:[
+"..KKKKKKKKKKKK..",
+".KNNNNNNNNNNNNK.",
+"KNNYNNNNNNNNYNNK",
+"KNNYNNNNNNNNYNNK",
+"KKKKKKKKKKKKKKKK",
+"KNNYNNNKKNNNYNNK",
+"KNNYNNKYYKNNYNNK",
+"KnnYnnKYYKnnYnnK",
+"KnnYnnnKKnnnYnnK",
+"KKKKKKKKKKKKKKKK"],
+chestOpen:[
+"..KKKKKKKKKKKK..",
+".KnnnnnnnnnnnnK.",
+"KnYnnnnnnnnnnYnK",
+"KKKKKKKKKKKKKKKK",
+"KYWYYYWYYYYWYYYK",
+"KYYYWYYYWYYYYWYK",
+"KKKKKKKKKKKKKKKK",
+"KNNYNNNNNNNNYNNK",
+"KnnYnnnnnnnnYnnK",
+"KKKKKKKKKKKKKKKK"],
+lockchest:[
+"..KKKKKKKKKKKK..",
+".KggggggggggggK.",
+"KggNNNNNNNNNNggK",
+"KgNNNNNNNNNNNNgK",
+"KKKKKKKKKKKKKKKK",
+"KggNNNKKKKNNNggK",
+"KgNNNKYKKYKNNNgK",
+"KgnnnKYYYYKnnngK",
+"KgnnnKYKKYKnnngK",
+"KggnnKYYYYKnnggK",
+"KKKKKKKKKKKKKKKK"],
+fire:[
+"....K.....",
+"...KYK..K.",
+"..KYOYKKYK",
+".KYOROYYOK",
+".KOR.ROYOK",
+"KNKKOOKKNK",
+"KnNNKKNNnK",
+".KKnNNnKK.",
+"...KKKK..."],
+bedroll:[
+"..KKKKKKKKKKKK",
+".KRRRRRRRRRWWK",
+"KRRrRRrRRRWWWK",
+"KrrrrrrrrrrrrK",
+".KKKKKKKKKKKK."],
+well:[
+"...KKKKKKKKKKKK...",
+"..KN..........NK..",
+"..KN..........NK..",
+"..KN....KK....NK..",
+".KKKKKKKggKKKKKKK.",
+"KgGgGgGgGgGgGgGgGK",
+"KUUUUUUUUUUUUUUUUK",
+"KGgGgGgGgGgGgGgGgK",
+"KgGgGgGgGgGgGgGgGK",
+"KGgGgGgGgGgGgGgGgK",
+"KKKKKKKKKKKKKKKKKK"],
+altar:[
+"..K..........K..",
+".KYK........KYK.",
+".KWK...KK...KWK.",
+".KWK..KYYK..KWK.",
+".KWK..KYYK..KWK.",
+"KKKKKKKKKKKKKKKK",
+"KGGGGGGGGGGGGGGK",
+"KgggKgggggggKggK",
+".KggKgggggggKgK.",
+".KggKgggggggKgK.",
+"KKKKKKKKKKKKKKKK"],
+spikes:[
+"..K.....K.....K.....K...",
+".KGK...KGK...KGK...KGK..",
+".KGK...KGK...KGK...KGK..",
+"KGWGK.KGWGK.KGWGK.KGWGK.",
+"KGgGK.KGgGK.KGgGK.KGgGK.",
+"KKKKKKKKKKKKKKKKKKKKKKKK"],
+cart:[
+"KKKKKKKKKKKKKKKK..",
+"KNNNNNNNNNNNNNNK..",
+"KNYNNRNNUNNNYNNK..",
+"KnnnnnnnnnnnnnnKKK",
+"KKKKKKKKKKKKKKKKNK",
+"..KKK......KKK..NK",
+".KgGgK....KgGgK...",
+".KGKGK....KGKGK...",
+"..KKK......KKK...."],
+tomb:[
+"...KKKKKKK...",
+"..KgGGGGGgK..",
+".KgGGGKGGGgK.",
+".KgGGGKGGGgK.",
+".KgGKKKKKGgK.",
+".KgGGGKGGGgK.",
+".KgGGGKGGGgK.",
+".KgGGGGGGGgK.",
+".KgggggggggK.",
+"KKKKKKKKKKKKK"],
+heart:[".KK.KK.","KRWKRRK","KRRRRRK",".KRRRK.","..KRK..","...K..."],
+heartHalf:[".KK.KK.","KRWKddK","KRRKddK",".KRKdK.","..KKK..","...K..."],
+heartEmpty:[".KK.KK.","KddKddK","KdddddK",".KdddK.","..KdK..","...K..."],
+torch:[".Y.","YOY","ORO","KnK","KnK","KnK","KnK"],
+torch2:["Y..","OYY","ROO","KnK","KnK","KnK","KnK"]
+};
+
+/* ---------- NES scene ---------- */
+const NFONT={A:".###.|#...#|#...#|#####|#...#|#...#|#...#",B:"####.|#...#|#...#|####.|#...#|#...#|####.",C:".###.|#...#|#....|#....|#....|#...#|.###.",D:"####.|#...#|#...#|#...#|#...#|#...#|####.",E:"#####|#....|#....|####.|#....|#....|#####",F:"#####|#....|#....|####.|#....|#....|#....",G:".###.|#...#|#....|#.###|#...#|#...#|.####",H:"#...#|#...#|#...#|#####|#...#|#...#|#...#",I:".###.|..#..|..#..|..#..|..#..|..#..|.###.",J:"..###|...#.|...#.|...#.|...#.|#..#.|.##..",K:"#...#|#..#.|#.#..|##...|#.#..|#..#.|#...#",L:"#....|#....|#....|#....|#....|#....|#####",M:"#...#|##.##|#.#.#|#.#.#|#...#|#...#|#...#",N:"#...#|##..#|#.#.#|#..##|#...#|#...#|#...#",O:".###.|#...#|#...#|#...#|#...#|#...#|.###.",P:"####.|#...#|#...#|####.|#....|#....|#....",Q:".###.|#...#|#...#|#...#|#.#.#|#..#.|.##.#",R:"####.|#...#|#...#|####.|#.#..|#..#.|#...#",S:".####|#....|#....|.###.|....#|....#|####.",T:"#####|..#..|..#..|..#..|..#..|..#..|..#..",U:"#...#|#...#|#...#|#...#|#...#|#...#|.###.",V:"#...#|#...#|#...#|#...#|#...#|.#.#.|..#..",W:"#...#|#...#|#...#|#.#.#|#.#.#|##.##|#...#",X:"#...#|#...#|.#.#.|..#..|.#.#.|#...#|#...#",Y:"#...#|#...#|.#.#.|..#..|..#..|..#..|..#..",Z:"#####|....#|...#.|..#..|.#...|#....|#####",
+"0":".###.|#...#|#..##|#.#.#|##..#|#...#|.###.","1":"..#..|.##..|..#..|..#..|..#..|..#..|.###.","2":".###.|#...#|....#|...#.|..#..|.#...|#####","3":"####.|....#|....#|.###.|....#|....#|####.","4":"...#.|..##.|.#.#.|#..#.|#####|...#.|...#.","5":"#####|#....|####.|....#|....#|#...#|.###.","6":".###.|#....|#....|####.|#...#|#...#|.###.","7":"#####|....#|...#.|..#..|.#...|.#...|.#...","8":".###.|#...#|#...#|.###.|#...#|#...#|.###.","9":".###.|#...#|#...#|.####|....#|....#|.###.",
+".":".....|.....|.....|.....|.....|.....|..#..",",":".....|.....|.....|.....|.....|..#..|.#...","!":"..#..|..#..|..#..|..#..|..#..|.....|..#..","?":".###.|#...#|....#|...#.|..#..|.....|..#..","'":"..#..|..#..|.#...|.....|.....|.....|.....","-":".....|.....|.....|#####|.....|.....|.....",":":".....|..#..|.....|.....|.....|..#..|.....","/":"....#|...#.|...#.|..#..|.#...|.#...|#....","+":".....|..#..|..#..|#####|..#..|..#..|.....",">":"#....|.#...|..#..|...#.|..#..|.#...|#....","(":"...#.|..#..|.#...|.#...|.#...|..#..|...#.",")":".#...|..#..|...#.|...#.|...#.|..#..|.#...","$":"..#..|.####|#.#..|.###.|..#.#|####.|..#..","^":"..#..|.#.#.|#...#|.....|.....|.....|.....","&":".##..|#..#.|#.#..|.#...|#.#.#|#..#.|.##.#"};
+const NF={};for(const k in NFONT)NF[k]=NFONT[k].split('|');
+function ntext(x,str,ox,oy,col){x.fillStyle=col||NP.W;let cx=ox;for(const ch of String(str).toUpperCase()){const g=NF[ch];if(g)for(let j=0;j<7;j++)for(let i=0;i<5;i++)if(g[j][i]==='#')x.fillRect(cx+i,oy+j,1,1);cx+=6}}
+function nwrap(str,max){const words=String(str).toUpperCase().split(/\s+/).filter(Boolean);const lines=[];let cur='';for(const w of words){const t=cur?cur+' '+w:w;if(t.length<=max)cur=t;else{if(cur)lines.push(cur);cur=w.length>max?w.slice(0,max):w}}if(cur)lines.push(cur);return lines}
+
+/* sprite cache: map + palette (+flip, +white flash) -> canvas */
+const SC=new Map();
+function sprCanvas(key,pal,flip,white){
+  const id=key+'|'+JSON.stringify(pal||{})+(flip?'|f':'')+(white?'|w':'');
+  if(SC.has(id))return SC.get(id);
+  const map=SPR[key];if(!map)return null;const w=map[0].length,h=map.length;
+  const c=document.createElement('canvas');if(!c.getContext){SC.set(id,null);return null}
+  c.width=w;c.height=h;const x=c.getContext('2d');const p=Object.assign({},NP,pal||{});
+  for(let j=0;j<h;j++)for(let i=0;i<w;i++){const ch=map[j][i];if(ch==='.')continue;x.fillStyle=white?(ch==='K'?NP.K:NP.W):(p[ch]||NP.g);x.fillRect(flip?w-1-i:i,j,1,1)}
+  SC.set(id,c);return c;
+}
+function drawSpr(x,key,pal,px,py,o){o=o||{};const c=sprCanvas(key,pal,o.flip,o.white);if(!c)return;const sc=o.scale||1;
+  if(o.alpha!=null)x.globalAlpha=o.alpha;x.drawImage(c,Math.round(px),Math.round(py),c.width*sc,c.height*sc);x.globalAlpha=1}
+function sprSize(key){const m=SPR[key];return m?{w:m[0].length,h:m.length}:{w:0,h:0}}
+const tri3=t=>({a:t[0],m:t[1],z:t[2]});
+
+/* hero look by class and race */
+const SKIN={human:['#fca044','#e45c10'],elf:['#f0d0b0','#fca044'],'half-elf':['#f0d0b0','#fca044'],halfling:['#fca044','#e45c10'],gnome:['#fcbcb0','#fca044'],dwarf:['#fca044','#e45c10'],'half-orc':['#b8f818','#58d854'],tiefling:['#f87858','#d82800'],dragonborn:['#fca044','#e45c10']};
+const DRAGON_SKIN={fire:'#f87858',cold:'#a4e4fc',lightning:'#3cbcfc',acid:'#58d854',poison:'#b8f818'};
+function heroLook(h){
+  const C={fighter:['knight',TRI.blue,{c:'#d82800'}],paladin:['knight',TRI.white,{c:'#f8b800'}],barbarian:['barbarian',TRI.brown,{c:'#ac7c00'}],rogue:['hood',TRI.black,{}],ranger:['hood',TRI.green,{}],bard:['hood',TRI.red,{}],
+    wizard:['robe',TRI.blue,{c:'#3cbcfc'}],sorcerer:['robe',TRI.red,{c:'#f8b800'}],warlock:['robe',TRI.purple,{c:'#58d854'}],druid:['robe',TRI.green,{c:'#58d854'}],cleric:['cleric',TRI.white,{}],monk:['monk',TRI.orange,{}]}[h.cls]||['knight',TRI.blue,{}];
+  const sk=SKIN[h.race]||SKIN.human;let S=sk[0];if(h.race==='dragonborn'&&h.dragon)S=DRAGON_SKIN[h.dragon]||S;
+  const hair={dwarf:'#e45c10',elf:'#f8b800','half-elf':'#ac7c00',gnome:'#fcfcfc',tiefling:'#3c3c3c','half-orc':'#3c3c3c',dragonborn:S}[h.race]||'#ac7c00';
+  const pal=Object.assign(tri3(C[1]),C[2],{S,s:sk[1],H:(C[0]==='robe'&&h.race!=='dragonborn')?'#fcfcfc':hair});
+  return{key:C[0],pal};
+}
+/* monster look by name, type and size */
+function colorWord(n){
+  const W=[['red','red'],['blue','blue'],['green','green'],['black','black'],['white','white'],['gold','gold'],['silver','silver'],['brass','brass'],['bronze','bronze'],['copper','copper'],['fire','orange'],['flame','orange'],['magma','orange'],['frost','ice'],['ice','ice'],['winter','ice'],['polar','white'],['stone','gray'],['earth','brown'],['rock','gray'],['iron','gray'],['clay','brown'],['flesh','rot'],['cloud','white'],['storm','blue'],['hill','brown'],['shadow','night'],['poison','toxic'],['dust','sand'],['mud','brown'],['smoke','gray'],['steam','white'],['water','blue'],['air','white'],['night','night'],['sea','teal'],['swamp','rot'],['cave','brown'],['brown','brown'],['giant','brown']];
+  for(const [w,c] of W)if(new RegExp('\\b'+w+'\\b').test(n))return c;return null}
+function monLook(m){
+  const n=m.n.toLowerCase(),t=m.t,sz=m.s;const big=sz==='Huge'||sz==='Gargantuan';
+  let key='beast',col='tan',flip=false,scale=0,extra={},swarm=null;
+  const has=r=>r.test(n);
+  if(t==='swarm'){swarm=has(/rat/)?'rat':has(/bat/)?'bat':has(/snake/)?'snake':has(/spider/)?'spider':'bug';key=swarm;col={rat:'brown',bat:'purple',snake:'green',spider:'black',bug:'red'}[swarm];scale=2}
+  else if(has(/dragon|wyrmling/)){key='dragon';col=colorWord(n)||'red';if(has(/turtle/))col='green'}
+  else if(has(/mimic/)){key='mimic';col='brown'}
+  else if(has(/gelatinous cube/)){key='cube';col='teal'}
+  else if(t==='ooze'||has(/ooze|pudding|jelly/)){key='ooze';col=has(/black/)?'black':has(/gray/)?'gray':has(/ochre/)?'sand':'toxic'}
+  else if(has(/lich/)){key='robe';flip=true;col='night';extra={S:'#fcfcfc',s:'#bcbcbc',H:'#bcbcbc',c:'#58d854'}}
+  else if(has(/skeleton|wight/)){key='skeleton';col=has(/wight/)?'gray':'bone';if(has(/minotaur|warhorse/))key='beast'}
+  else if(has(/zombie|ghoul|ghast|mummy/)){key='zombie';col=has(/mummy/)?'bone':has(/ghoul|ghast/)?'purple':'rot'}
+  else if(has(/ghost|specter|wraith|banshee|poltergeist|shadow|will-o/)){key='ghost';col=has(/shadow|wraith/)?'night':'pale'}
+  else if(has(/vampire/)){key='hood';flip=true;col='black';extra={S:'#fcfcfc',s:'#bcbcbc',e:'#d82800'}}
+  else if(has(/hobgoblin|bugbear|gnoll|orc\b|orc /)||n==='orc'){key='orc';col=has(/hobgoblin/)?'orange':has(/bugbear/)?'brown':has(/gnoll/)?'sand':'rot'}
+  else if(has(/goblin|kobold/)){key='goblin';col=has(/kobold/)?'copper':'green'}
+  else if(has(/troll|ogre/)){key='troll';col=has(/ogre/)?'tan':'green'}
+  else if(t==='giant'){key='troll';col=colorWord(n.replace('giant',''))||'brown'}
+  else if(has(/\brats?\b/)){key='rat';col='brown'}
+  else if(has(/\bbats?\b/)){key='bat';col='purple'}
+  else if(has(/spider/)){key='spider';col=has(/phase/)?'purple':'black'}
+  else if(has(/snake|constrictor|python|cobra|naga/)){key='snake';col='green'}
+  else if(has(/owlbear/)){key='owlbear';col='brown';extra={a:'#fce0a8'}}
+  else if(has(/wolf|jackal|hyena|mastiff|\bdog\b|worg|hound/)){key='wolf';col=has(/winter/)?'white':has(/hell/)?'red':'gray'}
+  else if(has(/bear/)){key='bear';col=has(/polar/)?'white':has(/black/)?'black':'brown'}
+  else if(has(/eagle|hawk|owl\b|raven|vulture|\bbird|roc\b|griffon|hippogriff|harpy|cockatrice|pteranodon/)){key='bird';col=has(/griffon|hippogriff/)?'gold':has(/raven|vulture/)?'black':'brown'}
+  else if(has(/crocodile|lizard|basilisk|salamander|behir/)){key='lizard';col=has(/salamander/)?'orange':'green'}
+  else if(has(/scorpion|beetle|centipede|wasp|ankheg|bulette|insect|crab/)){key='bug';col=has(/beetle/)?'red':has(/crab/)?'orange':'sand'}
+  else if(has(/shark|quipper|fish|eel|whale/)){key='fish';col='blue'}
+  else if(has(/octopus|squid|kraken/)){key='tentacle';col='red'}
+  else if(t==='construct'||has(/golem|animated armor/)){key=has(/armor/)?'knight':'golem';col=colorWord(n)||'gray';if(key==='knight'){flip=true;extra={S:'#3c3c3c',c:'#7c7c7c'}}}
+  else if(t==='elemental'){if(has(/earth|galeb|xorn/)){key='golem';col='brown'}else{key='flame';col=colorWord(n)||'orange';if(col==='blue'||col==='teal')col='ice'}}
+  else if(t==='fiend'){key='fiend';col=colorWord(n)||(has(/imp|quasit/)?'red':'red');if(has(/gargoyle/))col='gray';if(has(/bone|ice/))col='white'}
+  else if(t==='celestial'){if(has(/unicorn|pegasus/)){key='beast';col='white'}else{key='angel';col=has(/solar/)?'gold':'white'}}
+  else if(t==='fey'){if(has(/hag/)){key='robe';flip=true;col='green';extra={S:'#58d854',s:'#00a800',H:'#3c3c3c',c:'#d82800'}}else{key='fairy';col='pink'}}
+  else if(t==='plant'){key='plant';col='green';if(has(/treant|shambling/)){col='brown'}}
+  else if(t==='aberration'){key='tentacle';col='purple'}
+  else if(t==='humanoid'){
+    if(has(/mage|priest|acolyte|cultist|druid|shaman|warlock/)){key='robe';col=has(/cult/)?'red':has(/priest|acolyte/)?'white':has(/druid/)?'green':'purple'}
+    else if(has(/knight|guard|veteran|gladiator|soldier|captain/)){key='knight';col='gray'}
+    else if(has(/berserker|tribal|thug|warrior/)){key='barbarian';col='brown'}
+    else if(has(/lizardfolk|sahuagin|merfolk/)){key='lizard';col='green'}
+    else{key='hood';col=has(/bandit/)?'red':has(/assassin|spy/)?'black':'brown'}
+    if(key!=='lizard'){flip=true;extra=Object.assign({S:'#fca044',s:'#e45c10',H:'#ac7c00',c:'#d82800'},extra)}
+  }
+  else if(t==='monstrosity'){key=has(/minotaur|centaur|chimera|manticore|hydra|worm|remorhaz|yeti|ettercap|medusa|lamia|sphinx|wyvern/)?(has(/wyvern|hydra/)?'dragon':has(/minotaur|yeti|ettercap|medusa|lamia/)?'orc':'beast'):'owlbear';col=has(/yeti/)?'white':has(/medusa|lamia/)?'green':has(/wyvern/)?'brown':has(/hydra/)?'green':'brown'}
+  else if(t==='beast'){key='beast';col=has(/boar|elk|horse|pony|mule|camel|ox|goat|deer|mammoth|elephant|rhino/)?(has(/mammoth|elephant|rhino/)?'gray':'tan'):'brown';if(sz==='Tiny'){key='rat'}}
+  const pal=Object.assign(tri3(TRI[col]||TRI.tan),{e:'#d82800'},extra);
+  if(key==='dragon'&&(col==='red'||col==='orange'))pal.e='#f8b800';
+  if(!scale){const want={Tiny:14,Small:24,Medium:32,Large:42,Huge:52,Gargantuan:56}[sz]||32;const s0=sprSize(key);scale=Math.max(1,Math.round(want/s0.h));while(scale>1&&(s0.h*scale>56||s0.w*scale>96))scale--}
+  return{key,pal,flip,scale,swarm};
+}
+
+/* scene state & animation */
+const SCN={f:0,last:0,flashFoe:0,flashHero:0,pops:[],dissolve:null,prev:null,started:false};
+function sceneSync(){
+  if(!adv){SCN.prev=null;return}
+  const now=performance.now();const cur={foeKey:adv.foe?adv.foe.m.i:null,foeHp:adv.foe?adv.foe.hp:null,heroHp:hero.hp,kills:adv.kills,foe:adv.foe?adv.foe.m:null};
+  const p=SCN.prev;
+  if(p){
+    if(cur.foeKey&&p.foeKey===cur.foeKey&&cur.foeHp<p.foeHp){SCN.flashFoe=now+520;SCN.pops.push({who:'foe',txt:'-'+(p.foeHp-cur.foeHp),col:NP.W,t:now})}
+    if(cur.heroHp<p.heroHp){SCN.flashHero=now+520;SCN.pops.push({who:'hero',txt:'-'+(p.heroHp-cur.heroHp),col:'#f87858',t:now})}
+    else if(cur.heroHp>p.heroHp&&p.heroHp>0){SCN.pops.push({who:'hero',txt:'+'+(cur.heroHp-p.heroHp),col:'#58d854',t:now})}
+    if(p.foeKey&&!cur.foeKey&&cur.kills>p.kills&&p.foe){SCN.dissolve={m:p.foe,t:now};SCN.pops.push({who:'foe',txt:'-'+p.foeHp,col:NP.W,t:now,hidden:p.foeHp<=0})}
+  }
+  SCN.prev=cur;
+}
+const WALLS=[{b:'#3c3c3c',h:'#7c7c7c',f:'#503000',F:'#ac7c00'},{b:'#0000a8',h:'#0058f8',f:'#3c3c3c',F:'#7c7c7c'},{b:'#881400',h:'#a81000',f:'#503000',F:'#ac7c00'},{b:'#005800',h:'#00a800',f:'#3c3c3c',F:'#7c7c7c'}];
+const SW=192,SH=96,FEET=66,BOXY=70;
+function sceneBg(x,wall,arches){
+  x.fillStyle=NP.K;x.fillRect(0,0,SW,SH);
+  for(let y=10;y<56;y+=6){for(let i=((y-10)/6%2)*6-6;i<SW;i+=12){x.fillStyle=wall.b;x.fillRect(i,y,11,5);x.fillStyle=wall.h;x.fillRect(i,y,11,1);x.fillStyle=NP.K;x.fillRect(i+10,y+1,1,4)}}
+  x.fillStyle=wall.f;x.fillRect(0,56,SW,14);for(let y=56;y<70;y+=4)for(let i=((y-56)/4%2)*4;i<SW;i+=8){x.fillStyle=wall.F;x.fillRect(i,y,7,3)}x.fillStyle=NP.K;x.fillRect(0,56,SW,1);
+  (arches||[]).forEach(a=>narch(x,a.x,a.top||20,a.w||20,a.col));
+}
+function narch(x,cx,top,w,col){const bot=56;x.fillStyle=NP.K;x.fillRect(cx-w/2,top+4,w,bot-top-4);x.fillRect(cx-w/2+2,top+2,w-4,2);x.fillRect(cx-w/2+4,top,w-8,2);
+  x.fillStyle=col||NP.G;x.fillRect(cx-w/2-2,top+4,2,bot-top-4);x.fillRect(cx+w/2,top+4,2,bot-top-4);x.fillRect(cx-w/2,top+2,2,2);x.fillRect(cx+w/2-2,top+2,2,2);x.fillRect(cx-w/2+2,top,2,2);x.fillRect(cx+w/2-4,top,2,2);x.fillRect(cx-w/2+4,top-2,w-8,2)}
+function ntorch(x,px,py){drawSpr(x,SCN.f%2?'torch2':'torch',null,px-1,py-4,{scale:2})}
+function nbox(x,lines){x.fillStyle=NP.K;x.fillRect(0,BOXY,SW,SH-BOXY);x.fillStyle=NP.W;x.fillRect(2,BOXY+2,SW-4,SH-BOXY-4);x.fillStyle=NP.b;x.fillRect(3,BOXY+3,SW-6,SH-BOXY-6);
+  lines.slice(0,2).forEach((l,i)=>ntext(x,l,8,BOXY+6+i*9))}
+function nhud(x){
+  x.fillStyle=NP.K;x.fillRect(0,0,SW,10);
+  const per=hero.hpMax/6;for(let i=0;i<6;i++){const v=hero.hp-i*per;drawSpr(x,v>=per*.75?'heart':v>per*.25?'heartHalf':'heartEmpty',null,3+i*8,2)}
+  if(adv.foe){let nm=adv.foe.m.n.toUpperCase();if(nm.length>14)nm=nm.replace(/^(ADULT|YOUNG|ANCIENT|GIANT) /,'');nm=nm.slice(0,14);const bx=SW-42;ntext(x,nm,bx-4-nm.length*6,2);x.fillStyle=NP.W;x.fillRect(bx,3,39,5);x.fillStyle=NP.K;x.fillRect(bx+1,4,37,3);x.fillStyle=adv.foe.hp/adv.foe.m.hp<.3?NP.R:'#f87858';x.fillRect(bx+1,4,Math.ceil(37*Math.max(0,adv.foe.hp)/adv.foe.m.hp),3)}
+  else{const t=`DEPTH ${adv.depth}/${DEPTH}`;ntext(x,t,SW-3-t.length*6,2,NP.G)}
+}
+function bob(off){return reduced?0:((SCN.f+off)%8<4?0:1)}
+function drawHeroAt(x,cx,o){o=o||{};const L=heroLook(hero),sz=sprSize(L.key);const now=performance.now();
+  const flash=now<SCN.flashHero&&SCN.f%2===0;const shake=now<SCN.flashHero?(SCN.f%2?1:-1):0;
+  drawSpr(x,L.key,L.pal,cx-sz.w+shake,FEET-sz.h*2+bob(0)*(o.still?0:1),{white:flash,scale:2});return{x:cx,top:FEET-sz.h*2}}
+function obj(x,key,cx,o){o=o||{};const s=sprSize(key),sc=o.scale||2;drawSpr(x,key,o.pal||null,cx-s.w*sc/2,FEET-s.h*sc+(o.dy||0),{scale:sc,flip:o.flip})}
+function drawMonAt(x,m,cx,o){o=o||{};const L=monLook(m);const now=performance.now();
+  if(L.swarm){const s=sprSize(L.key);const pos=[[-20,0],[12,-14],[-6,10],[18,8]];pos.forEach(([dx,dy],i)=>drawSpr(x,L.key,L.pal,cx+dx-s.w+((SCN.f+i)%4<2?1:0),FEET-s.h*2-6+dy,{scale:2,white:now<SCN.flashFoe&&SCN.f%2===0}));return{x:cx,top:FEET-44}}
+  const s=sprSize(L.key),sc=L.scale,w=s.w*sc,h=s.h*sc;
+  const floatUp=(L.key==='bat'||L.key==='fairy'||L.key==='ghost'||L.key==='angel'||L.key==='bird'&&!o.asleep)?10:0;
+  let px=cx-w/2,py=FEET-h-floatUp;if(py<11)py=11;
+  if(o.dissolve!=null){drawDissolve(x,L,px,py,o.dissolve);return{x:cx,top:py}}
+  const flash=now<SCN.flashFoe&&SCN.f%2===0;const shake=now<SCN.flashFoe?(SCN.f%2?1:-1):0;
+  const alpha=L.key==='ghost'?(SCN.f%2?.75:.9):null;
+  drawSpr(x,L.key,o.asleep?Object.assign({},L.pal,{e:L.pal.z}):L.pal,px+shake,py+(o.asleep?0:bob(4)),{scale:sc,flip:L.flip,white:flash,alpha});
+  return{x:cx,top:py};
+}
+function drawDissolve(x,L,px,py,k){const map=SPR[L.key];const p=Object.assign({},NP,L.pal),sc=L.scale,w=map[0].length;
+  let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  for(let j=0;j<map.length;j++)for(let i=0;i<w;i++){const ch=map[j][i];if(ch==='.')continue;if(rnd()<k)continue;x.fillStyle=k>.15&&rnd()<.4?NP.W:p[ch];x.fillRect(px+(L.flip?w-1-i:i)*sc,py+j*sc-Math.round(k*6)*(i%2),sc,sc)}}
+const an=w=>(/^[aeiou]/i.test(w)?'an ':'a ')+w;
+function sceneText(){
+  const name=hero.name.split(' ')[0];const P=adv.phase,R=adv.room||{};const fn=adv.foe?adv.foe.m.n:'';
+  if(P==='dead')return[`${name} has fallen...`,'try again?'];
+  if(P==='won')return['victory!',`chapter ${adv.chapter} clear!`];
+  if(P==='doors'){if(adv.depth===DEPTH)return['the last gate.','the master waits beyond.'];const n=adv.doors.length;return[n===1?'one path leads on.':n===2?'two paths. choose one.':'three paths. choose one.',adv.doors.some(d=>d.known)?'you know what lies ahead.':'listen... or just go.']}
+  if(P==='fight'){if(adv.busy)return[`the ${fn} strikes!`];if(R.t==='boss')return[`the ${fn} rules this cave!`];if(adv.foe&&adv.foe.asleep)return[`the ${fn} is asleep...`,'strike first!'];return[`${an(fn)} attacks!`,`armor ${adv.foe.m.ac}  hp ${adv.foe.hp}/${adv.foe.m.hp}`]}
+  const t=R.t,d=R.done;
+  if(t==='treasure'&&!d)return['a chest full of loot!','take it all?'];
+  if(t==='chest')return['a locked chest.','force it or pick the lock?'];
+  if(t==='camp'&&!d)return['a quiet campsite.','rest here?'];
+  if(t==='well'&&!d)return['a glowing blue well.','drink if you dare.'];
+  if(t==='shrine'&&!d)return['a forgotten altar.','pray or make an offering?'];
+  if(t==='traveler'&&!d)return['a wounded stranger.','she asks for a potion.'];
+  if(t==='merchant')return['a gnome merchant!',`you have ${hero.gold} gold.`];
+  if(t==='sleeper'&&!d)return[`${an(R.m.n)} is asleep.`,'sneak past or attack?'];
+  if(t==='trap')return["it's a trap!",hero.hp>0?'the path goes on.':''];
+  if(adv.fled)return['you got away!','the path goes on.'];
+  if(t==='fight'&&adv.lastFoe)return[`the ${adv.lastFoe} is defeated!`,'the path goes on.'];
+  return['the path goes on.',''];
+}
+function drawScene(cv){
+  if(!cv.getContext)return;const x=cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;const now=performance.now();
+  const wall=WALLS[(adv.chapter-1)%WALLS.length];const P=adv.phase,R=adv.room||{};
+  let heroPos=null,foePos=null;
+  if(P==='doors'){
+    if(adv.depth===DEPTH){sceneBg(x,wall,[]);x.fillStyle=NP.K;x.fillRect(66,14,60,42);x.fillStyle=NP.g;for(let i=70;i<126;i+=8)x.fillRect(i,16,3,40);x.fillStyle=NP.G;x.fillRect(64,12,64,3);x.fillRect(64,12,3,44);x.fillRect(125,12,3,44);
+      if(SCN.f%6<5){x.fillStyle=NP.R;x.fillRect(88,30,3,2);x.fillRect(101,30,3,2)}ntorch(x,52,26);ntorch(x,137,26);heroPos=drawHeroAt(x,96)}
+    else{const n=adv.doors.length;const xs=n===1?[96]:n===2?[62,130]:[40,96,152];sceneBg(x,wall,xs.map(cx=>({x:cx,top:20,w:20})));
+      const ic={fight:['!',NP.R],guarded:['!',NP.Y],sleeper:['Z',NP.U],treasure:['$',NP.Y],chest:['$',NP.G],trap:['^',NP.R],camp:['+',NP.L],well:['+',NP.U],shrine:['+',NP.Y],traveler:['?',NP.W],merchant:['$',NP.L]};
+      adv.doors.forEach((d,i)=>{if(d.known&&ic[d.t])ntext(x,ic[d.t][0],xs[i]-2,30,ic[d.t][1]);else{x.fillStyle=NP.Y;x.fillRect(xs[i]-1,13,3,3)}});
+      if(n>1)for(let i=0;i<n-1;i++)ntorch(x,(xs[i]+xs[i+1])/2-1,26);else{ntorch(x,70,26);ntorch(x,120,26)}
+      heroPos=drawHeroAt(x,96)}
+  }else if(P==='fight'){
+    sceneBg(x,wall,[{x:96,top:18,w:22}]);ntorch(x,64,26);ntorch(x,126,26);
+    heroPos=drawHeroAt(x,40);foePos=drawMonAt(x,adv.foe.m,142,{asleep:adv.foe.asleep});
+    if(adv.foe.asleep&&!reduced){const z=SCN.f%12;ntext(x,'Z',156+(z>5?2:0),Math.max(12,foePos.top-2-Math.floor(z/2)),NP.U)}
+  }else if(P==='won'){
+    sceneBg(x,wall,[{x:96,top:18,w:22}]);obj(x,'chestOpen',140);if(!reduced&&SCN.f%4<2){x.fillStyle=NP.W;x.fillRect(128+(SCN.f%8)*3,42,2,2);x.fillRect(146,38-(SCN.f%3),2,2)}
+    heroPos=drawHeroAt(x,60);
+  }else if(P==='dead'){
+    sceneBg(x,wall,[{x:96,top:18,w:22}]);obj(x,'tomb',96);
+  }else{
+    const t=R.t;sceneBg(x,wall,[{x:96,top:18,w:22}]);ntorch(x,64,26);ntorch(x,126,26);
+    heroPos=drawHeroAt(x,48);
+    if(t==='treasure')obj(x,R.done?'chestOpen':'chest',140);
+    else if(t==='chest')obj(x,'lockchest',140);
+    else if(t==='camp'){obj(x,'bedroll',158);obj(x,'fire',122,{flip:SCN.f%2===1});}
+    else if(t==='well'){obj(x,'well',140);if(!reduced&&SCN.f%4<2){x.fillStyle=NP.W;x.fillRect(128+(SCN.f%10)*2,FEET-24,2,2)}}
+    else if(t==='shrine'){obj(x,'altar',140);if(!reduced){x.fillStyle=SCN.f%2?NP.W:NP.Y;x.fillRect(126,FEET-21,2,2);x.fillRect(152,FEET-21,2,2)}}
+    else if(t==='traveler'&&!R.done){obj(x,'hood',142,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fca044',s:'#e45c10'})});if(SCN.f%8<6)ntext(x,'?',140,FEET-42,NP.W)}
+    else if(t==='merchant'){obj(x,'cart',154);obj(x,'robe',120,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fcbcb0',s:'#fca044',H:'#fcfcfc',c:'#f8b800'})})}
+    else if(t==='sleeper'&&!R.done&&R.m){const fp=drawMonAt(x,R.m,140,{asleep:true});if(!reduced){const z=SCN.f%12;ntext(x,'Z',156+(z>5?2:0),Math.max(12,fp.top-2-Math.floor(z/2)),NP.U)}}
+    else if(t==='trap')obj(x,'spikes',120);
+    foePos={x:142,top:30};if(SCN.dissolve){const k=(now-SCN.dissolve.t)/700;if(k<1)foePos=drawMonAt(x,SCN.dissolve.m,142,{dissolve:Math.min(.98,k)});else SCN.dissolve=null}
+  }
+  nhud(x);
+  SCN.pops=SCN.pops.filter(p=>now-p.t<900);
+  SCN.pops.forEach(p=>{if(p.hidden)return;const k=(now-p.t)/900;const base=p.who==='hero'?heroPos:foePos;if(!base)return;const tx=base.x-p.txt.length*3,ty=Math.max(11,base.top-8-Math.round(k*10));
+    ntext(x,p.txt,tx+1,ty+1,NP.K);ntext(x,p.txt,tx,ty,p.col)});
+  nbox(x,(function(){const L=sceneText().filter(Boolean);const out=[];L.forEach(l=>nwrap(l,29).forEach(w=>out.push(w)));return out})());
+}
+function sceneLoop(ts){
+  requestAnimationFrame(sceneLoop);
+  if(ts-SCN.last<110)return;SCN.last=ts;if(!reduced)SCN.f++;
+  const cv=document.getElementById('scene');if(cv&&adv&&view==='adv')drawScene(cv);
+}
+function sceneStart(){if(SCN.started||typeof requestAnimationFrame!=='function')return;SCN.started=true;requestAnimationFrame(sceneLoop)}
+function drawHeroPreview(){
+  const cv=document.getElementById('heroPrev');if(!cv||!cv.getContext)return;const x=cv.getContext('2d');x.imageSmoothingEnabled=false;
+  x.fillStyle=NP.K;x.fillRect(0,0,cv.width,cv.height);
+  for(let y=0;y<cv.height-5;y+=6)for(let i=((y/6)%2)*6-6;i<cv.width;i+=12){x.fillStyle='#3c3c3c';x.fillRect(i,y,11,5);x.fillStyle='#7c7c7c';x.fillRect(i,y,11,1)}
+  x.fillStyle='#503000';x.fillRect(0,cv.height-5,cv.width,5);x.fillStyle='#ac7c00';for(let i=0;i<cv.width;i+=8)x.fillRect(i,cv.height-4,7,3);
+  const L=heroLook(hero),s=sprSize(L.key);drawSpr(x,L.key,L.pal,Math.round(cv.width/2-s.w/2),cv.height-3-s.h);
+}
+
 /* ---------- Combat ---------- */
 function resist(type){const r=RC[hero.race];if(hero.race==='dwarf'&&type==='poison')return true;if(hero.race==='tiefling'&&type==='fire')return true;if(hero.dragon&&type===hero.dragon)return true;if(adv.rage&&['bludgeoning','piercing','slashing'].includes(type))return true;return false}
 function hurtHero(n){hero.hp=Math.max(0,hero.hp-n);if(hero.hp===0&&hero.race==='half-orc'&&hero.relent){hero.relent=0;hero.hp=1;log('note',`${you()} refuses to fall! Half-orc toughness keeps them standing with 1 HP.`,'!','heal')}}
@@ -1058,14 +1919,16 @@ function renderAdv(){
   }
   const logHtml=adv.log.map(e=>e.c==='sep'?`<li class="sep">${e.h}</li>`:`<li class="${e.c}"><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('');
   $view.innerHTML=`<div class="adv">${status}<section class="scene">
+    <canvas id="scene" class="scene-cv" width="192" height="96" role="img" aria-label="${esc(sceneText().filter(Boolean).join(' '))}"></canvas>
     <div class="depth" aria-label="Depth in the cave">${steps}</div>
     <div class="sheet stage">${stage}</div>
     <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn dicetog" data-act="dice" type="button" aria-pressed="${!AUTO}">${AUTO?'Dice: auto':'Dice: you roll'}</button><button class="btn" data-act="abandon" type="button" style="font-size:13px;padding:5px 10px">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
   const lg=document.getElementById('log');lg.scrollTop=lg.scrollHeight;adv.shake=null;
+  sceneSync();{const cv=document.getElementById('scene');if(cv)drawScene(cv)}sceneStart();
   const more=document.getElementById('more');if(more&&!wide)more.addEventListener('toggle',()=>{adv.moreOpen=more.open});
   const key=adv.phase+'|'+adv.depth+'|'+adv.chapter+'|'+(adv.room&&adv.room.t);
-  if(!wide&&key!==lastKey&&lastKey!==null){const stg=document.querySelector('.stage'),bar=document.querySelector('.status');const top=stg.getBoundingClientRect().top,off=(bar?bar.offsetHeight:0)+12;if(top<off||top>innerHeight*.55)window.scrollTo({top:scrollY+top-off,behavior:reduced?'auto':'smooth'})}
+  if(!wide&&key!==lastKey&&lastKey!==null){const stg=document.getElementById('scene')||document.querySelector('.stage'),bar=document.querySelector('.status');const top=stg.getBoundingClientRect().top,off=(bar?bar.offsetHeight:0)+10;if(Math.abs(top-off)>4)window.scrollTo({top:scrollY+top-off,behavior:reduced?'auto':'smooth'})}
   lastKey=key;
 }
 $view.addEventListener('click',e=>{
@@ -1087,6 +1950,6 @@ function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);i
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
 trayInit();settingsInit();
-window.__t={setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monsterTurn};
+window.__M=M;window.__t={drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monsterTurn};
 })();
 </script><script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}))}</script></body></html>
