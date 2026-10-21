@@ -434,9 +434,18 @@ body.at-home header{align-items:center}
 .pan-scroll h4{margin:8px 0 0;font-size:10px;font-weight:400;color:var(--y)}
 .pan-scroll>.btn{justify-self:start;font-size:8px}
 .fame-stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;text-align:center}
-.fame-stats div{background:var(--blue);border-radius:4px;padding:8px 2px;display:grid;gap:4px}
-.fame-stats b{font-size:14px}
-.fame-stats span{font-size:7px;color:var(--g1)}
+/* Hall of Fame stat plaques: black and gold, with twinkling corner gems */
+.fame-stats div{position:relative;background:linear-gradient(#1c1c1c,#000 70%);border:3px solid #f8b800;border-radius:2px;box-shadow:inset 0 0 0 2px #000,inset 0 0 0 4px #ac7c00,0 3px 0 #503000;padding:12px 4px 10px;display:grid;gap:6px}
+.fame-stats div::before,.fame-stats div::after{content:"";position:absolute;top:3px;width:4px;height:4px;background:#fcfcfc;box-shadow:0 0 0 2px #f8b800;animation:fameGem 2.4s steps(1) infinite}
+.fame-stats div::before{left:3px}.fame-stats div::after{right:3px;animation-delay:1.2s}
+.fame-stats div:nth-child(2n)::before{animation-delay:.6s}.fame-stats div:nth-child(2n)::after{animation-delay:1.8s}
+@keyframes fameGem{0%{opacity:1}50%{opacity:.15}}
+.fame-stats b{font-size:16px;color:#f8b800;text-shadow:2px 2px 0 #881400}
+.fame-stats span{font-size:7px;color:#fcfcfc;letter-spacing:.02em}
+.fame-stats .ico{justify-self:center;width:24px;height:24px}
+.fame-stats div.top{border-color:#fcfcfc;box-shadow:inset 0 0 0 2px #000,inset 0 0 0 4px #f8b800,0 3px 0 #503000}
+.fame-stats div.top b{color:#fcfcfc;text-shadow:2px 2px 0 #e45c10}
+@media (prefers-reduced-motion:reduce){.fame-stats div::before,.fame-stats div::after{animation:none}}
 .fame-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 .fame-run{font-size:7px;line-height:1.9;display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;border:3px solid var(--g2);border-radius:6px;padding:8px}
 .fame-run:first-child{border-color:var(--y)}
@@ -649,6 +658,18 @@ const planName=()=>plan.mode==='grand'?'Epic adventure':LOCS[plan.loc].name;
 const REC0=()=>({v:1,runs:[],stats:{started:0,grandWins:0,bosses:0,kills:0,fallen:0,nat20:0,nat1:0,rolls:0},slain:{}});
 let REC=REC0();
 try{const r=JSON.parse(localStorage.getItem('nat20-records')||'null');if(r&&r.v===1){REC=Object.assign(REC0(),r);REC.stats=Object.assign(REC0().stats,r.stats||{});REC.slain=r.slain||{};REC.runs=Array.isArray(r.runs)?r.runs:[]}}catch(e){}
+/* Tiny pixel icons for the Hall of Fame plaques (8x8, drawn as SVG squares) */
+const FAME_ICO={
+ 'Adventures':[".Y......",".GRRRR..",".GRRRRR.",".GRRRR..",".GR.....",".G......",".G......","YYY....."],
+ 'Epic wins':["K..KK..K","YK.YY.KY","YYKYYKYY","YYYYYYYY","YRYYYYRY","YYYYYYYY","KKKKKKKK","........"],
+ 'Bosses slain':["R......R","RK.KK.KR",".KWWWWK.","KWKWWKWK","KWWWWWWK",".KWKKWK.","..KWWK..","...KK..."],
+ 'Monsters slain':[".......W","......WG",".....WG.","....WG..","Y..WG...",".YWG....","..YY....",".Y..Y..."],
+ 'Heroes fallen':["..KKKK..",".KGGGGK.","KGGKGGGK","KGKKKGGK","KGGKGGGK","KGGGGGGK","KGGGGGGK","LLLLLLLL"],
+ 'Natural 20s':["...YY...","...YY...","YYYWWYYY",".YYWWYY.","..YYYY..",".YY..YY.","YY....YY","........"],
+ 'Natural 1s':["RR....RR",".RR..RR.","..RRRR..","...RR...","..RRRR..",".RR..RR.","RR....RR","........"],
+ 'd20 rolls':["...KK...","..KWWK..",".KWWWWK.","KWWKKWWK","KWKWWKWK",".KWKKWK.","..KWWK..","...KK..."]};
+const ICO_C={K:'#000000',Y:'#f8b800',W:'#fcfcfc',G:'#7c7c7c',R:'#d82800',L:'#00a800'};
+function fameIco(l){const m=FAME_ICO[l];if(!m)return'';let r='';m.forEach((row,y)=>[...row].forEach((c,x)=>{if(c!=='.')r+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${ICO_C[c]}"/>`}));return `<svg class="ico" viewBox="0 0 8 8" width="24" height="24" shape-rendering="crispEdges" aria-hidden="true">${r}</svg>`}
 function saveRec(){try{localStorage.setItem('nat20-records',JSON.stringify(REC))}catch(e){}}
 function recStat(k,n){REC.stats[k]=(REC.stats[k]||0)+(n==null?1:n);saveRec()}
 function recordRun(outcome){if(!adv)return;
@@ -3697,7 +3718,7 @@ function renderPanel(){
         <div class="lib-im">${(r.tr||[]).slice(0,5).map(esc).join(' · ')}</div></article>`}).join('');
     body.innerHTML=tabs+`<div class="lib-grid pan-grid">${cards}</div>`;
   }else{title.textContent='Hall of Fame';const st=REC.stats;
-    const statRow=[['Adventures',st.started],['Epic wins',st.grandWins],['Bosses slain',st.bosses],['Monsters slain',st.kills],['Heroes fallen',st.fallen],['Natural 20s',st.nat20],['Natural 1s',st.nat1],['d20 rolls',st.rolls]].map(([l,v])=>`<div><b>${v||0}</b><span>${l}</span></div>`).join('');
+    const statRow=[['Adventures',st.started],['Epic wins',st.grandWins],['Bosses slain',st.bosses],['Monsters slain',st.kills],['Heroes fallen',st.fallen],['Natural 20s',st.nat20],['Natural 1s',st.nat1],['d20 rolls',st.rolls]].map(([l,v])=>`<div${l==='Epic wins'?' class="top"':''}>${fameIco(l)}<b>${v||0}</b><span>${l}</span></div>`).join('');
     const badge={victory:['Victory','v'],fallen:['Fallen','f'],retired:['Retired','r'],alive:['On the way','a']};
     const runs=REC.runs.slice(0,10).map((r,i)=>{const bd=badge[r.outcome]||badge.alive;return `<li class="fame-run"><span class="rank">${i+1}</span><div class="fr-main"><div class="fr-party">${r.party.map(p=>sprCv(heroLook({cls:p.c,race:p.r}),32)).join('')}<b>${r.party.map(p=>esc(p.n.split(' ')[0])).join(', ')}</b></div>
       <div class="lib-meta">${r.mode==='grand'?'Epic adventure · ':''}${LOCS[r.loc]?LOCS[r.loc].name:''} · chapter ${r.chapter}, depth ${r.depth} · ${r.kills} slain · ${(DIFF[r.diff]||DIFF.normal).name} · ${new Date(r.date).toLocaleDateString()}</div></div><div class="fr-side"><b class="y">${r.glory}</b><span>glory</span><em class="bd ${bd[1]}">${bd[0]}</em></div></li>`}).join('');
