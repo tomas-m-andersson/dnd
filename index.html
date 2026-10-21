@@ -2965,7 +2965,16 @@ function bgWoods(x,ch){
   if(!reduced)for(let k=0;k<5;k++){if((SCN.f+k*3)%8<5){x.fillStyle='#d8f878';x.fillRect(Math.floor(hr(k,41)*SW)+((SCN.f>>2)+k)%3,30+Math.floor(hr(41,k)*20)+((SCN.f>>3)+k)%2,1,1)}}
   x.fillStyle=NP.K;x.fillRect(0,56,SW,1);
 }
-function treeGap(x,cx,top,w){x.fillStyle=NP.K;x.fillRect(cx-w/2,top+4,w,56-top-4);x.fillRect(cx-w/2+2,top,w-4,4);x.fillStyle=NP.V;for(let i=0;i<w+4;i+=2)x.fillRect(cx-w/2-2+i,top-1+Math.floor(hr(cx,i)*3),2,2);x.fillStyle='#503000';x.fillRect(cx-w/2-2,top+4,2,56-top-4);x.fillRect(cx+w/2,top+4,2,56-top-4)}
+function treeGap(x,cx,top,w){
+  /* a dark opening in the thicket, with leafy edges */
+  for(let y=top+4;y<57;y++){const t=(y-top-4)/(53-top);const hw=Math.round(2+t*(w/2));x.fillStyle=t<.25?'#001800':'#000800';x.fillRect(cx-hw,y,hw*2,1);
+    if(y%2===0){x.fillStyle=NP.V;x.fillRect(cx-hw-1,y,2,1);x.fillRect(cx+hw-1,y,2,1)}}
+  x.fillStyle=NP.D;for(let i=-w/2-4;i<w/2+4;i+=2)x.fillRect(cx+i,top+2+Math.floor(hr(cx,i)*4),2,3);
+  /* the dirt path, wider as it comes closer */
+  for(let y=55;y<70;y++){const t=(y-55)/15;const hw=Math.round(3+t*(w/2+4));x.fillStyle='#503000';x.fillRect(cx-hw,y,hw*2,1);x.fillStyle='#2c1800';x.fillRect(cx-hw,y,1,1);x.fillRect(cx+hw-1,y,1,1);
+    if(y%2===0){x.fillStyle='#ac7c00';x.fillRect(cx-hw+1+Math.floor(hr(cx,y)*(hw*2-3)),y,2,1)}}
+  /* a little wooden sign by the path */
+  const sx=cx+Math.round(w/2)+3;x.fillStyle=NP.K;x.fillRect(sx-1,40,3,17);x.fillRect(sx-5,38,11,6);x.fillStyle='#ac7c00';x.fillRect(sx,41,1,15);x.fillStyle='#fca044';x.fillRect(sx-4,39,9,4);x.fillStyle='#503000';x.fillRect(sx-3,40,6,1);x.fillRect(sx-2,42,4,1)}
 function bgHell(x,ch){
   for(let row=0;row<8;row++){const y=10+row*6;for(let i=-1;i<20;i++){const w=8+Math.floor(hr(i+50,row)*5),xx=i*11+Math.floor(hr(row,i+50)*4)-(row%2)*5,c=hr(i*5+3,row*3+1);
     x.fillStyle=c<.6?'#881400':c<.9?'#3c0000':'#a81000';x.fillRect(xx,y,w,5);x.fillStyle=NP.K;x.fillRect(xx+w,y,1,5);x.fillRect(xx,y+5,w,1)}}topFill(x);
