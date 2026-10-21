@@ -75,7 +75,7 @@ body.at-home header{justify-content:center;text-align:center}body.at-home header
 /* menus: a column of text rows, the pixel arrow marks the row under the finger or focus (the first row by default) */
 .menu{display:flex;flex-direction:column;gap:0}
 .menu .btn,.actions .btn{display:grid;grid-template-columns:14px minmax(0,1fr) auto;column-gap:8px;align-items:center;text-align:left;border:0;background:transparent;border-radius:4px;padding:6px 4px;min-height:44px;margin:0;box-shadow:none;font-size:10px;letter-spacing:0}
-.menu .btn::before,.actions .btn::before{content:"";grid-row:1/span 2;width:8px;height:14px;background:var(--cur) center/contain no-repeat;visibility:hidden}
+.menu .btn::before,.actions .btn::before{content:"";grid-row:1;align-self:center;margin-top:-.125em;width:.5em;height:.875em;background:var(--cur) center/contain no-repeat;visibility:hidden}
 .menu .btn small,.actions .btn small{grid-column:2/-1;margin:2px 0 0;font-size:8px}
 .menu .btn:first-child::before,.actions .btn:not(:disabled):first-of-type::before{visibility:visible}
 .menu:hover .btn::before,.actions:hover .btn::before,.menu:focus-within .btn::before,.actions:focus-within .btn::before{visibility:hidden}
@@ -407,7 +407,7 @@ body.at-home header{align-items:center}
 .home{display:grid;gap:14px;max-width:640px;width:100%;margin:0 auto}
 .home-cv{aspect-ratio:192/70}
 .home-menu{padding:8px 12px}
-.home-menu .btn{font-size:14px;min-height:46px}.home-menu .btn small{display:none}
+.home-menu .btn{font-size:14px;min-height:46px}.home-menu .btn::before{margin-top:-.3em}.home-menu .btn small{display:none}
 .home .press{margin-top:2px}
 .pick{display:grid;gap:14px}
 .pick-head{display:flex;gap:12px;align-items:center}
