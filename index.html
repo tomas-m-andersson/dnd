@@ -407,7 +407,7 @@ body.at-home header{align-items:center}
 .home{display:grid;gap:14px;max-width:640px;width:100%;margin:0 auto}
 .home-cv{aspect-ratio:192/70}
 .home-menu{padding:8px 12px}
-.home-menu .btn{font-size:11px}
+.home-menu .btn{font-size:14px;min-height:46px}.home-menu .btn small{display:none}
 .home .press{margin-top:2px}
 .pick{display:grid;gap:14px}
 .pick-head{display:flex;gap:12px;align-items:center}
@@ -451,7 +451,7 @@ body.at-home header{align-items:center}
 .fame-slain{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .fame-slain li{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:center;font-size:8px;border-bottom:2px solid var(--g3);padding:4px 0}
 .fame-slain li canvas{justify-self:center}
-@media (max-width:560px){.pick-grid{grid-template-columns:minmax(0,1fr)}.fame-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pan-grid{grid-template-columns:minmax(0,1fr)}.home-menu .btn{font-size:10px}}
+@media (max-width:560px){.pick-grid{grid-template-columns:minmax(0,1fr)}.fame-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pan-grid{grid-template-columns:minmax(0,1fr)}.home-menu .btn{font-size:13px}}
 .ico{display:inline-block;vertical-align:-3px;margin-right:6px;image-rendering:pixelated}.more summary .ico{margin-right:6px}.muted .ico{margin:0 3px 0 4px}
 .pack-use{font-size:7px;min-height:30px;padding:2px 8px;margin-left:8px;border-color:var(--green);color:var(--green)}
 .bag .line code{display:flex;align-items:center;justify-content:flex-end}
@@ -3456,7 +3456,7 @@ function renderHome(){
   clearInterval(homeT);if(cv&&cv.getContext&&typeof setInterval==='function')homeT=setInterval(()=>{const c=document.getElementById('homeCv');if(!c||view!=='home'){clearInterval(homeT);return}SCN.f++;if(SCN.f%40===0)k=(k+1)%keys.length;drawHomeScene(c,keys[k])},220);
   document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>homeAct(b));
 }
-function confirmNew(b,go){if(adv&&adv.phase!=='dead'&&adv.phase!=='victory'&&!b.dataset.confirm){b.dataset.confirm='1';b.innerHTML=`Sure?<small>Your current adventure ends. Tap again.</small>`;return}if(adv)endRun();go()}
+function confirmNew(b,go){if(adv&&adv.phase!=='dead'&&adv.phase!=='victory'&&!b.dataset.confirm){b.dataset.confirm='1';b.textContent='Sure? Tap again';return}if(adv)endRun();go()}
 function homeAct(b){const a=b.dataset.home;
   if(a==='continue'){setView(adv?'adv':'gen');return}
   if(a==='adventure'){confirmNew(b,()=>setView('pick'));return}
