@@ -532,7 +532,9 @@ body.at-home header{align-items:center}
 (function(){
 "use strict";
 const H=JSON.parse(document.getElementById('hdata').textContent);
-const M=JSON.parse(document.getElementById('mdata').textContent);
+/* Monsters left out of the game: sea creatures that make no sense on land */
+const SKIP_MON=/\bshark\b/i;
+const M=JSON.parse(document.getElementById('mdata').textContent).filter(m=>!SKIP_MON.test(m.n));
 const CL=Object.fromEntries(H.classes.map(c=>[c.i,c])), RC=Object.fromEntries(H.races.map(r=>[r.i,r]));
 const W=H.weapons, AR=H.armor, SP=Object.fromEntries(H.spells.map(s=>[s.i,s]));
 
@@ -2391,6 +2393,19 @@ lion:[
 "........KmmK..KmmK.KmmKmK.",
 ".......KmmK..KmmK.KmmK.KmK",
 ".......KKKK..KKKK.KKKK.KKK"],
+tiger:[
+".KK..KK...............",
+".KmKKmK...............",
+"KmmWnmmK..............",
+"KmemmmmKKKKKKKKKKK....",
+"KWmmmmnmanaanaanamK...",
+".KKmmnmmmnmmnmmnmmnK..",
+"...KmmmmmnmmnmmnmmnmKK",
+"...KmmmzzznzznzznmmKmK",
+"...KmmK.KmK..KmmK.KKmK",
+"...KmK..KmK..KmK.....K",
+"..KmmK.KmmK.KmmK......",
+"..KKKK.KKKK.KKKK......"],
 harpy:[
 "K.......................K",
 "KaK...................KaK",
@@ -2978,6 +2993,8 @@ function monLook(m){
   else if(has(/\bgoat\b/)){key='goat';col='white'}
   else if(has(/\bboar\b/)&&!has(/human|hybrid/)){key='boar';col='brown';extra={q:'#f0d0b0'}}
   else if(has(/\blion\b/)&&!has(/human|hybrid|sea/)){key='lion';col='sand';extra={q:'#c84c0c',n:'#7c2800',e:'#000000'}}
+  else if(has(/tiger/)&&!has(/human|hybrid/)){key='tiger';col='orange';extra={n:'#000000',W:'#fcfcfc',e:'#f8b800'}}
+  else if(has(/panther/)&&!has(/human|hybrid/)){key='cat';col='black';extra={a:'#3c3c48',m:'#202028',z:'#101014',e:'#58d854'}}
   else if(has(/panther|leopard|\blion\b|tiger|\bcat\b/)&&!has(/human|hybrid/)){key='cat';col=has(/panther/)?'black':has(/lion/)?'sand':has(/tiger/)?'orange':'gray';extra={e:has(/panther/)?'#58d854':'#d82800'}}
   else if(has(/\bfrog\b|\btoad\b/)){key='frog';col=has(/toad/)?'brown':'green';extra={a:has(/toad/)?'#f0d0b0':'#d8f878'}}
   else if(has(/eagle|hawk|vulture/)){key='eagle';col=has(/vulture/)?'black':has(/blood/)?'red':'brown'}
