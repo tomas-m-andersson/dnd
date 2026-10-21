@@ -3014,9 +3014,19 @@ function nhud(x){
 function bob(off){return reduced?0:((SCN.f+off)%8<4?0:1)}
 function marker(x,cx,top,col){if(!reduced&&SCN.f%4===3)return;x.fillStyle=col;x.fillRect(cx-2,top-6,5,1);x.fillRect(cx-1,top-5,3,1);x.fillRect(cx,top-4,1,1)}
 function miniBar(x,cx,hp,max){const w=14;x.fillStyle=NP.K;x.fillRect(cx-w/2-1,FEET+1,w+2,3);x.fillStyle='#3c3c3c';x.fillRect(cx-w/2,FEET+2,w,1);x.fillStyle=hp/max<.3?NP.R:'#58d854';x.fillRect(cx-w/2,FEET+2,Math.ceil(w*Math.max(0,hp)/max),1)}
+/* heroes glance left and right (and blink now and then) while the party waits */
+const EYES={};
+function eyesOf(key){if(EYES[key])return EYES[key];const m=SPR[key]||[];const out=[];
+  for(let y=0;y<m.length;y++)for(let x=1;x<m[y].length-1;x++){if(m[y][x]!=='K')continue;const l=m[y][x-1],r=m[y][x+1];if(l==='S'&&(r==='S'||r==='K'))out.push([x,y])}
+  return EYES[key]=out}
+function lookAround(x,L,i,px,py){const eyes=eyesOf(L.key);if(!eyes.length)return;const m=SPR[L.key];const skin=L.pal.S||NP.S;
+  const ph=Math.floor((SCN.f+i*7)/12),d=[-1,0,1,1,0,-1][Math.floor(hr(ph,i+3)*6)],blink=(SCN.f+i*13)%46<1;
+  if(!d&&!blink)return;
+  eyes.forEach(([ex,ey])=>{const nx=ex+d;const can=blink||(m[ey][nx]==='S');if(!can)return;x.fillStyle=skin;x.fillRect(px+ex*2,py+ey*2,2,2);if(!blink){x.fillStyle=NP.K;x.fillRect(px+nx*2,py+ey*2,2,2)}})}
 function drawHeroAt(x,h,i,cx,o){o=o||{};const L=heroLook(h),sz=sprSize(L.key);const now=performance.now();
   const fl=SCN.flash['h'+i]||0;const flash=now<fl&&SCN.f%2===0;const shake=now<fl?(SCN.f%2?1:-1):0;const down=h.hp<=0;
-  const top=FEET-sz.h*2;drawSpr(x,L.key,L.pal,cx-sz.w+shake,top+(down?0:bob(i*3))*(o.still?0:1),{white:flash,scale:2,alpha:down?.3:null});
+  const top=FEET-sz.h*2,py=top+(down?0:bob(i*3))*(o.still?0:1);drawSpr(x,L.key,L.pal,cx-sz.w+shake,py,{white:flash,scale:2,alpha:down?.3:null});
+  if(!down&&!flash&&!reduced&&adv&&adv.phase!=='fight'&&adv.phase!=='dead')lookAround(x,L,i,cx-sz.w+shake,py);
   if(down)ntext(x,'Z',cx+6,top+2,NP.U);
   return{x:cx,top};}
 function heroXs(kind){const n=party.length;if(kind==='center')return n===1?[96]:n===2?[84,108]:[72,96,120];const base=kind==='room'?8:0;return(n===1?[40]:n===2?[30,54]:[20,42,64]).map(v=>v+base)}
