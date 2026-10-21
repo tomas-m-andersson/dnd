@@ -177,6 +177,48 @@ footer a{color:inherit}
 .scene-cv{display:block;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/1;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;border-radius:14px;background:#000;border:1px solid var(--line);box-shadow:var(--shadow)}
 .hero-id{display:flex;gap:14px;align-items:center}
 .hero-prev{flex:0 0 66px;width:66px;height:72px;image-rendering:pixelated;image-rendering:crisp-edges;border-radius:12px;background:#000;border:1px solid var(--line)}
+/* Party */
+.ptabs{display:flex;gap:8px;flex-wrap:wrap}
+.ptab{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:8px 14px 8px 8px;cursor:pointer;min-height:56px;color:var(--ink);text-align:left;box-shadow:var(--shadow);flex:1 1 150px;max-width:260px;min-width:0}
+.ptab.on{border-color:var(--ember);box-shadow:0 0 0 3px color-mix(in srgb,var(--ember) 20%,transparent)}
+.ptab .pt-txt{display:grid;line-height:1.2;min-width:0}.ptab b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ptab small{font-size:12px;color:var(--muted)}
+.pt-ico,.pm-ico,.pk-ico{image-rendering:pixelated;image-rendering:crisp-edges;background:#000;border-radius:8px;flex:0 0 auto}
+.pt-ico{width:28px;height:32px}
+.ptab.add{border-style:dashed;box-shadow:none;background:transparent}
+.ptab .plus{width:28px;height:32px;display:grid;place-items:center;font-size:24px;font-weight:800;color:var(--ember)}
+.party{display:grid;gap:6px}
+.pm{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:center;padding:6px 8px;border-radius:12px;border:1px solid transparent}
+.pm.act{border-color:var(--ember);background:color-mix(in srgb,var(--ember) 8%,transparent)}
+.pm.down{opacity:.5}
+.pm-ico{width:28px;height:32px}
+.pm-main{min-width:0}
+.pm-top{display:flex;gap:8px;align-items:baseline}
+.pm-top b{font-size:16px}.pm-cls{font-size:12px;color:var(--muted);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.pm-ac{font-family:var(--f-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.pm .bar{height:8px;margin:4px 0 3px}
+.pm-sub{display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
+.pm-sub .pips{gap:3px}.pm-sub .pips i{width:9px;height:9px;border-radius:3px}
+.who-pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:2px 0 12px}
+.who-pick .eyebrow{width:100%}
+.pk{display:flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--raised);border-radius:999px;padding:4px 14px 4px 4px;min-height:40px;font-weight:700;cursor:pointer;color:var(--ink)}
+.pk.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pk:disabled{opacity:.4;cursor:not-allowed}
+.pk-ico{width:24px;height:28px;border-radius:999px}
+.turn{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:10px}
+.turn b{font-family:var(--f-display);font-size:22px;letter-spacing:-.02em}
+.foes{display:grid;gap:8px;margin-bottom:12px}
+.foes .foe{margin-bottom:0}
+button.foe{width:100%;text-align:left;color:var(--ink);font:inherit;cursor:pointer}
+button.foe:disabled{cursor:default}
+.foes.many button.foe.on{border-color:var(--ember);box-shadow:0 0 0 3px color-mix(in srgb,var(--ember) 22%,transparent)}
+.foe.dead{opacity:.45;padding:8px 14px;grid-template-columns:minmax(0,1fr)}
+.foe.dead h3{font-size:17px;text-decoration:line-through}
+.tgt-tag{display:inline-block;margin-left:6px;font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:var(--ember);color:var(--ember-ink);vertical-align:middle}
+.zz{font-family:var(--f-mono);font-size:11px;color:var(--magic);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.foes.many .foe{grid-template-columns:40px minmax(0,1fr) auto;padding:10px 12px;gap:12px}
+.foes.many .foe .rune{width:40px;height:40px;font-size:20px;border-radius:12px}
+.foes.many .foe h3{font-size:19px}
+.foes.many .foe.dead{grid-template-columns:minmax(0,1fr);padding:6px 12px}
+.foes.many .foe.dead h3{font-size:16px}
 /* Dice tray */
 .tray{position:fixed;inset:0;z-index:50;display:grid;align-items:end;justify-items:center}
 .tray-back{position:absolute;inset:0;background:rgba(5,6,10,.55);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
@@ -277,6 +319,8 @@ body.tray-open{overflow:hidden}
   .recent{display:grid}
   .log{max-height:300px}
   .stage{scroll-margin-top:140px}
+  .status{grid-template-columns:minmax(0,1fr);gap:6px}
+  .party{gap:2px}.pm{padding:3px 6px;grid-template-columns:22px minmax(0,1fr);gap:8px}.pm-ico{width:22px;height:26px}.pm-top b{font-size:15px}.pm .bar{height:6px;margin:2px 0}.pm-sub{font-size:10.5px}
 }
 @media (max-width:560px){
   body{font-size:16px;padding-block:16px 40px}
@@ -318,6 +362,7 @@ body.tray-open{overflow:hidden}
   .foe{grid-template-columns:minmax(0,1fr)}.foe .rune,.foe .bar{display:none}
   .stage{scroll-margin-top:120px}
   .doors{grid-template-columns:minmax(0,1fr)!important}
+  .foes.many .foe{grid-template-columns:minmax(0,1fr);padding:8px 12px;gap:4px}.foes.many .foe .rune{display:none}.foes.many .foe .meta{font-size:12px}.foes.many .foe h3{font-size:18px}
   .abil{grid-template-columns:repeat(3,minmax(0,1fr))}
   .choose{grid-template-columns:minmax(0,1fr)}
   .vitals{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -428,19 +473,37 @@ function spellDice(h,s){if(typeof s.d==='string')return s.d;const keys=Object.ke
 function sName(i){return S_SV[i]||SP[i].n}
 
 /* ---------- State ---------- */
-let hero=null, adv=null, view='gen';
-function save(){try{localStorage.setItem('hg-hero',JSON.stringify(hero));localStorage.setItem('hg-adv',JSON.stringify(adv));localStorage.setItem('hg-view',view)}catch(e){}}
-try{const h=JSON.parse(localStorage.getItem('hg-hero')||'null');if(h&&h.v===1&&CL[h.cls]&&RC[h.race])hero=h;const a=JSON.parse(localStorage.getItem('hg-adv')||'null');if(a&&hero&&a.v===3)adv=a;const v=localStorage.getItem('hg-view');if(v==='adv'&&adv)view='adv'}catch(e){}
-if(!hero)hero=newHero();
+let party=[],hero=null,bag={gold:0,potions:0,greater:0},adv=null,view='gen',edit=0,F=null;
+const MAXP=3;
+function save(){try{localStorage.setItem('nat20-party',JSON.stringify({v:1,heroes:party,bag,edit}));localStorage.setItem('hg-adv',JSON.stringify(adv));localStorage.setItem('hg-view',view)}catch(e){}}
+try{
+  const p=JSON.parse(localStorage.getItem('nat20-party')||'null');
+  if(p&&p.v===1&&Array.isArray(p.heroes)){party=p.heroes.filter(h=>h&&CL[h.cls]&&RC[h.race]).slice(0,MAXP);if(p.bag)bag=Object.assign(bag,p.bag);edit=Math.max(0,Math.min(p.edit||0,party.length-1))}
+  else{const h=JSON.parse(localStorage.getItem('hg-hero')||'null');if(h&&h.v===1&&CL[h.cls]&&RC[h.race])party=[h]}
+  const a=JSON.parse(localStorage.getItem('hg-adv')||'null');if(a&&party.length&&a.v===4&&a.start)adv=a;
+  const v=localStorage.getItem('hg-view');if(v==='adv'&&adv)view='adv';
+}catch(e){}
+if(!party.length)party=[newHero()];
+party.forEach(h=>{h.items=h.items||[]});
+hero=party[edit]||party[0];
 if(adv)adv.busy=false;
+const first=h=>esc(String(h.name).split(' ')[0]);
+const alive=()=>party.filter(h=>h.hp>0);
 
 const $view=document.getElementById('view');
 function setView(v){view=v;document.getElementById('tabGen').setAttribute('aria-selected',String(v==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(v==='adv'));render();save();window.scrollTo({top:0,behavior:'smooth'})}
 document.getElementById('tabGen').onclick=()=>setView('gen');
 document.getElementById('tabAdv').onclick=()=>{if(!adv)startAdventure();setView('adv')};
 
+/* small hero icons in tabs and the party panel */
+function drawHeroIcons(){
+  document.querySelectorAll('canvas[data-hero]').forEach(cv=>{const h=party[+cv.dataset.hero];if(!h||!cv.getContext)return;const x=cv.getContext('2d');x.clearRect(0,0,cv.width,cv.height);x.imageSmoothingEnabled=false;
+    const L=heroLook(h),s=sprSize(L.key);drawSpr(x,L.key,L.pal,Math.round(cv.width/2-s.w/2),cv.height-s.h,{alpha:h.hp<=0&&adv?.35:null})});
+}
+
 /* ---------- View: generator ---------- */
 function renderGen(){
+  hero=party[edit]||party[0];
   const h=hero,st=scores(h),c=CL[h.cls],r=RC[h.race],pri=PRI[h.cls];
   const inAdv=adv&&adv.phase!=='dead';
   const abil=AB.map(a=>{const b=h.base[a];const rb=r.b[a]||0;return `<div class="ab ${pri.indexOf(a)<2?'key':''}" title="${AB_SV[a]}">
@@ -448,13 +511,16 @@ function renderGen(){
     <span class="dice">${b.r.map((x,i)=>`<span class="${i===b.lo?'drop':''}">${x}</span>`).join('')}</span></div>`}).join('');
   const weapons=h.weapons.map(wi=>{const s=wStats(h,wi);return `<div class="line"><span>${esc(s.name)}<span class="sv">${s.ranged?'Ranged':'Melee'}${h.wb?` · magic +${h.wb}`:''}</span></span><code>${sgn(s.hit)} to hit<br>${s.dice}${s.dm?sgn(s.dm):''} ${DMG[s.type]}</code></div>`}).join('');
   const armor=`<div class="line"><span>${h.armor?A_SV[h.armor]:(h.cls==='wizard'||h.cls==='sorcerer')?'Mage Armor':'No armor'}${h.shield?' + shield':''}</span><code>Armor class ${ac(h)}</code></div>`;
-  const spells=h.spells.length?`<div class="block"><h3>Spells</h3>${h.spells.map(i=>{const s=SP[i];return `<div class="line"><span>${esc(sName(i))}<span class="sv">${s.l?'Level 1':'Cantrip, unlimited'}</span></span><code>${s.h?`heals ${s.h.replace('MOD',sgn(spellMod(h)))}`:`${spellDice(h,s)} ${DMG[s.t]}`}<br>${s.at?'spell attack':s.dc?`${AB_K[s.dc]} save`:'always hits'}</code></div>`}).join('')}<div class="muted" style="font-size:14px">${h.slots} level 1 spell slots. Spellcasting ${AB_K[c.sa]} ${sgn(spellMod(h))}.</div></div>`:'';
+  const spells=h.spells.length?`<div class="block"><h3>Spells</h3>${h.spells.map(i=>{const s=SP[i];return `<div class="line"><span>${esc(sName(i))}<span class="sv">${s.l?'Level 1':'Cantrip, unlimited'}${AREA.has(i)?' · hits every enemy':''}</span></span><code>${s.h?`heals ${s.h.replace('MOD',sgn(spellMod(h)))}`:`${spellDice(h,s)} ${DMG[s.t]}`}<br>${s.at?'spell attack':s.dc?`${AB_K[s.dc]} save`:'always hits'}</code></div>`}).join('')}<div class="muted" style="font-size:14px">${h.slots} level 1 spell slots. Spellcasting ${AB_K[c.sa]} ${sgn(spellMod(h))}.</div></div>`:'';
   const feats=[FEAT_SV[h.cls],RACE_FT[h.race]+(h.dragon?` Element: ${DMG[h.dragon]}.`:'')].filter(Boolean).map(t=>`<div class="line"><span>${t}</span></div>`).join('');
+  const dd=D();
+  const tabs=`<div class="ptabs" role="tablist" aria-label="Your party">${party.map((p,i)=>`<button type="button" role="tab" class="ptab ${i===edit?'on':''}" aria-selected="${i===edit}" data-pi="${i}"><canvas class="pt-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas><span class="pt-txt"><b>${first(p)}</b><small>${CLS_SV[p.cls]} · level ${p.lvl}</small></span></button>`).join('')}${party.length<MAXP&&!inAdv?`<button type="button" class="ptab add" id="addHero"><span class="plus" aria-hidden="true">+</span><span class="pt-txt"><b>Add hero</b><small>${party.length} of ${MAXP} in party</small></span></button>`:''}</div>`;
   $view.innerHTML=`
+  ${tabs}
   <div class="gen">
     <section class="sheet gen-main" aria-label="Character sheet">
       <div class="namebar">
-        <span class="eyebrow">Hero name</span>
+        <span class="eyebrow">${party.length>1?`Hero ${edit+1} name`:'Hero name'}</span>
         <div class="row"><input id="hname" value="${esc(h.name)}" maxlength="40" aria-label="Hero name" ${inAdv?'disabled':''}><button class="btn" id="newName" type="button" ${inAdv?'disabled':''}>New name</button></div>
         <div class="hero-id"><canvas id="heroPrev" class="hero-prev" width="24" height="26" role="img" aria-label="Your hero"></canvas><div class="subline">Level ${h.lvl} ${RACE_SV[h.race].toLowerCase()} ${CLS_SV[h.cls].toLowerCase()}</div></div>
       </div>
@@ -475,27 +541,36 @@ function renderGen(){
       </div>
       <div class="gen-actions">
         <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Roll abilities</button>
-        <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Randomize all</button>
+        <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Randomize hero</button>
+        ${party.length>1&&!inAdv?`<button class="btn" id="removeHero" type="button">Remove from party</button>`:''}
         <span style="flex:1"></span>
-        <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':'Enter the cave'}</button>
+        <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':party.length>1?`Enter the cave with ${party.length} heroes`:'Enter the cave'}</button>
       </div>
-      ${inAdv?`<div class="muted" style="font-size:14px">Your hero is on an adventure. End the adventure in the cave to change the hero.</div>`:''}
+      ${inAdv?`<div class="muted" style="font-size:14px">Your ${party.length>1?'party is':'hero is'} on an adventure. End the adventure in the cave to make changes.</div>`:''}
     </section>
     <aside class="sheet gen-side" aria-label="Gear and features">
       <div class="block"><h3>Weapons</h3>${weapons}${armor}</div>
       ${spells}
       <div class="block"><h3>Features</h3>${feats}</div>
-      <div class="block"><h3>Pack</h3><div class="line"><span>Potion of Healing</span><code>${h.potions} × 2d4+2</code></div><div class="line"><span>Gold</span><code>${h.gold} gp</code></div></div>
+      <div class="block"><h3>Party</h3>
+        <div class="line"><span>Heroes</span><code>${party.length} of ${MAXP}</code></div>
+        <div class="line"><span>Shared potions at the start</span><code>${dd.pot*party.length} × 2d4+2</code></div>
+        <div class="line"><span>Difficulty</span><code>${dd.name}</code></div>
+        <div class="muted" style="font-size:13.5px">${party.length<MAXP?'Up to three heroes can explore together. Tap <b>Add hero</b> above.':'Your party is full.'} More heroes means more monsters in every fight. Change the difficulty under Settings (the gear).</div>
+      </div>
     </aside>
   </div>`;
-  drawHeroPreview();
+  drawHeroPreview();drawHeroIcons();
   const nm=document.getElementById('hname');
-  nm.oninput=()=>{hero.name=nm.value.trim()||'Nameless';save()};
+  nm.oninput=()=>{hero.name=nm.value.trim()||'Nameless';save();const t=document.querySelector(`.ptab[data-pi="${edit}"] b`);if(t)t.textContent=first(hero)};
+  document.querySelectorAll('.ptab[data-pi]').forEach(b=>b.onclick=()=>{edit=+b.dataset.pi;save();render()});
+  const add=document.getElementById('addHero');if(add)add.onclick=()=>{party.push(newHero());edit=party.length-1;save();render()};
+  const rem=document.getElementById('removeHero');if(rem)rem.onclick=()=>{if(rem.dataset.confirm){party.splice(edit,1);edit=Math.max(0,edit-1);save();render()}else{rem.dataset.confirm='1';rem.textContent='Sure? Tap again'}};
   document.getElementById('newName').onclick=()=>{hero.name=`${pick(NAMES)} ${pick(EPI)}`;save();render()};
-  document.getElementById('selRace').onchange=e=>{hero=newHero({name:hero.name,cls:hero.cls,race:e.target.value,rolls:hero.rolls});save();render()};
-  document.getElementById('selCls').onchange=e=>{hero=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
-  document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();hero=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
-  document.getElementById('randAll').onclick=()=>{hero=newHero();save();render()};
+  document.getElementById('selRace').onchange=e=>{party[edit]=newHero({name:hero.name,cls:hero.cls,race:e.target.value,rolls:hero.rolls});save();render()};
+  document.getElementById('selCls').onchange=e=>{party[edit]=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
+  document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();party[edit]=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
+  document.getElementById('randAll').onclick=()=>{party[edit]=newHero();save();render()};
   document.getElementById('goAdv').onclick=()=>{if(!inAdv)startAdventure();setView('adv')};
 }
 
@@ -515,7 +590,16 @@ const HINTS=[
   {h:'It smells of mold and old bones.',o:{fight:4,chest:2,trap:2,treasure:2}}
 ];
 const KNOWN={fight:'An enemy waits, awake and hungry.',guarded:'A monster guards something valuable.',treasure:'Nothing alive. Only things.',trap:'Something mechanical clicks. A trap.',camp:'An abandoned campsite.',merchant:'Someone is counting coins and humming.',traveler:'Someone is groaning in pain.',sleeper:'Something big is snoring.',shrine:'A holy, silent room.',chest:'A locked chest.',well:'A well.'};
+/* Difficulty: monster hit points and to-hit, check and save DCs, trap damage, starting potions per hero, healing after fights, monster level */
+const DIFF={
+  easy:{name:'Easy',hp:.7,atk:-2,dc:-2,trap:.5,pot:3,heal:1.5,lvl:-1,desc:'Weaker monsters, easier checks, more potions. Good for kids and new players.'},
+  normal:{name:'Normal',hp:1,atk:0,dc:0,trap:1,pot:2,heal:1,lvl:0,desc:'The standard adventure.'},
+  hard:{name:'Hard',hp:1.15,atk:1,dc:2,trap:1.25,pot:1,heal:.75,lvl:1,desc:'Tougher monsters that hit harder, harder checks, fewer potions.'}
+};
+const D=()=>DIFF[SET.diff]||DIFF.normal;
 function wpick(o){const t=Object.values(o).reduce((a,b)=>a+b,0);let r=Math.random()*t;for(const k in o){r-=o[k];if(r<=0)return k}return Object.keys(o)[0]}
+const partyLvl=()=>Math.max(1,Math.round(party.reduce((s,h)=>s+h.lvl,0)/party.length));
+function effLvl(){const l=partyLvl(),dl=D().lvl;if(dl<0)return Math.max(1,l-1);if(dl>0&&adv&&adv.depth>=6)return l+1;return l}
 function crRange(l,boss){if(boss)return l<=1?[0.5,1]:l===2?[1,1]:[l-2,l-1];return [[0.125,0.5],[0.25,1],[0.5,2],[1,3]][l-1]||[l-3,l-1]}
 function pickMonster(l,boss,opt){
   opt=opt||{};let [lo,hi]=crRange(l+(opt.bump||0),boss);
@@ -526,69 +610,89 @@ function pickMonster(l,boss,opt){
   if(!pool.length)pool=M.filter(m=>m.cr<=hi);
   return pick(pool);
 }
+/* one monster per hero: a group of the same kind, or a mix. A boss brings helpers. */
+function encounter(boss,opt){
+  opt=opt||{};const n=Math.max(1,party.length),l=effLvl();const main=pickMonster(l,boss,opt);const out=[main];
+  const same=Math.random()<.6;
+  for(let i=1;i<n;i++)out.push(boss?pickMonster(l,false):same?main:pickMonster(l,false,{type:opt.type,bump:opt.bump}));
+  return out;
+}
 function makeDoors(){
   if(adv.depth===DEPTH)return null;
   const r=Math.random(),n=r<.22?1:r<.75?2:3;
   return HINTS.slice().sort(()=>Math.random()-.5).slice(0,n).map(x=>({hint:x.h,t:wpick(x.o)}));
 }
 function startAdventure(){
-  hero.hp=hero.hpMax;resetRest(hero,true);hero.bless=0;hero.curse=0;
-  hero.start=JSON.parse(JSON.stringify({...hero,start:undefined}));
-  adv={v:3,chapter:1,depth:1,phase:'doors',doors:null,log:[],kills:0,xpGain:0,foe:null,room:null,listened:false};
+  party.forEach(h=>{h.hp=h.hpMax;resetRest(h,true);h.bless=0;h.curse=0;h.raging=false;h.items=h.items||[]});
+  bag={gold:party.reduce(s=>s+d(10)+5,0),potions:D().pot*party.length,greater:0};
+  adv={v:4,chapter:1,depth:1,phase:'doors',doors:null,log:[],kills:0,foes:[],room:null,listened:false,pick:0,turn:0,acted:[],tgt:0,round:1,start:JSON.parse(JSON.stringify(party))};
   adv.doors=makeDoors();
   log('sep',`Chapter 1 · The Cave under Crowpeak`);
-  log('note',`${you()} lights a torch and steps into the cave.`,'·');
+  log('note',`${partyNames()} ${party.length>1?'light their torches and step':'lights a torch and steps'} into the cave.`,'·');
   save();
 }
-function you(){return `<b class="you">${esc(hero.name.split(' ')[0])}</b>`}
-function them(){return `<b class="them">${esc(adv.foe.m.n)}</b>`}
-function log(cls,html,chip,chipCls){adv.log.push({c:cls,h:html,ch:chip,cc:chipCls});if(adv.log.length>160)adv.log.splice(0,adv.log.length-160)}
-async function check(ab,dc,profFor,title,extra){
-  const st=scores(hero);const trained=!!(profFor&&profFor.includes(hero.cls));let b=mod(st[ab])+(extra||0);if(trained)b+=prof(hero.lvl);
-  const r=await heroD20({kind:`${AB_SV[ab]} check`,title,sub:`d20 ${sgn(b)}${trained?' (your class is trained in this)':''} · you need <b>${dc}</b> or more`,flat:b,tone:'check',judge:judgeDc(dc)});
+function partyNames(){const n=party.map(h=>`<b class="you">${first(h)}</b>`);return n.length<2?n[0]:n.slice(0,-1).join(', ')+' and '+n[n.length-1]}
+function you(){return `<b class="you">${first(hero)}</b>`}
+function them(){return `<b class="them">${esc(F.m.n)}</b>`}
+function log(cls,html,chip,chipCls){adv.log.push({c:cls,h:html,ch:chip,cc:chipCls});if(adv.log.length>200)adv.log.splice(0,adv.log.length-200)}
+/* who does the check: the hero you picked (or the first one standing) */
+function picked(){let h=party[adv.pick];if(!h||h.hp<=0){h=alive()[0]||party[0];adv.pick=party.indexOf(h)}return h}
+function bonusFor(h,ab,profFor,extra){let b=mod(scores(h)[ab])+(extra?extra(h):0);if(profFor&&profFor.includes(h.cls))b+=prof(h.lvl);return b}
+function bestFor(ab,profFor,extra){let best=null,bv=-99;alive().forEach(h=>{const b=bonusFor(h,ab,profFor,extra);if(b>bv){bv=b;best=h}});return{h:best,b:bv}}
+const elfEars=h=>h.race==='elf'?2:0;
+const CHK={listen:['wis',['ranger','rogue','druid','monk'],elfEars],sneak:['dex',['rogue','monk','ranger']],force:['str',['barbarian','fighter','paladin']],picklock:['dex',['rogue']],pray:['wis',['cleric','paladin','druid']],talk:['cha',['bard','warlock','sorcerer','paladin']],trap:['dex',['rogue','monk']]};
+async function check(kind,dc,title){
+  const [ab,profFor,extra]=CHK[kind];const trained=!!(profFor&&profFor.includes(hero.cls));const b=bonusFor(hero,ab,profFor,extra);
+  const r=await heroD20({kind:`${AB_SV[ab]} check`,title:party.length>1?`${hero.name.split(' ')[0]}: ${title}`:title,sub:`d20 ${sgn(b)}${trained?' (trained in this)':''}${extra&&extra(hero)?' (+2 elven ears)':''} · you need <b>${dc}</b> or more`,flat:b,tone:'check',judge:judgeDc(dc)});
   return{r,b,tot:r+b,ok:r+b>=dc,dc,txt:`<span class="muted">${r}${sgn(b)} = ${r+b} vs ${dc}</span>`};
 }
-const cdc=base=>base+Math.floor(adv.depth/3)+adv.chapter-1;
+const cdc=base=>Math.max(5,base+Math.floor(adv.depth/3)+adv.chapter-1+D().dc);
 
 async function listen(){
-  if(adv.listened)return;adv.listened=true;render();
-  const bonus=hero.race==='elf'?2:0;const c=await check('wis',cdc(12),['ranger','rogue','druid','monk'],'Listen at the doors',bonus);
-  if(c.ok){adv.doors.forEach(x=>x.known=true);log('',`${you()} presses an ear to the stone and listens ${c.txt}${bonus?' <span class="muted">(+2 elven ears)</span>':''}. Now you know what awaits.`,c.r,'hit')}
-  else if(Math.random()<.4){log('',`${you()} listens ${c.txt}, but something hears you first!`,c.r,'fail');adv.room={t:'fight'};log('sep',`Depth ${adv.depth} of ${DEPTH} · Ambush`);await startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'Something rushes out of the shadows'});return}
+  if(adv.listened)return;adv.listened=true;hero=picked();render();
+  const c=await check('listen',cdc(12),'Listen at the doors');
+  if(c.ok){adv.doors.forEach(x=>x.known=true);log('',`${you()} presses an ear to the stone and listens ${c.txt}. Now you know what awaits.`,c.r,'hit')}
+  else if(Math.random()<.4){log('',`${you()} listens ${c.txt}, but something hears you first!`,c.r,'fail');adv.room={t:'fight'};log('sep',`Depth ${adv.depth} of ${DEPTH} · Ambush`);await startFight(encounter(false),{foeFirst:true,intro:'Something rushes out of the shadows'});return}
   else log('',`${you()} listens ${c.txt} but hears only their own heartbeat.`,c.r,'');
   save();render();
 }
-async function startFight(m,opt){
-  opt=opt||{};adv.foe={m,hp:m.hp,charged:!!m.sv,first:true,asleep:!!opt.asleep};adv.phase='fight';adv.rage=false;
-  log('note',`${opt.intro||'Something steps out of the darkness'}: ${them()}, ${SIZE[m.s]} ${TYPE[m.t]||m.t}.`,'!','fail');
+function foeListTxt(list){const c={};(list||adv.foes).forEach(f=>{const n=(f.m&&f.m.n)||f.n;c[n]=(c[n]||0)+1});return Object.entries(c).map(([n,k])=>`<b class="them">${k>1?k+' × ':''}${esc(n)}</b>`).join(', ')}
+function nextActor(from){for(let i=from+1;i<party.length;i++)if(party[i].hp>0&&!adv.acted[i])return i;return -1}
+async function startFight(list,opt){
+  opt=opt||{};const dd=D();
+  adv.foes=list.map(m=>{const hp=Math.max(1,Math.round(m.hp*dd.hp));return{m,hp,max:hp,charged:!!m.sv,first:true,asleep:!!opt.asleep}});
+  adv.phase='fight';adv.round=1;adv.tgt=0;party.forEach(h=>h.raging=false);adv.acted=party.map(h=>h.hp<=0);adv.turn=nextActor(-1);F=adv.foes[0];
+  log('note',`${opt.intro||'Something steps out of the darkness'}: ${foeListTxt()}.`,'!','fail');
   save();render();
-  if(opt.asleep){log('note',`${them()} is asleep. Your first attack is sure to hit.`,'z','heal')}
-  else if(opt.foeFirst){log('note',`${them()} goes first!`,'·');adv.busy=true;render();await monsterTurn();adv.busy=false}
+  const many=adv.foes.length>1;
+  if(opt.asleep){log('note',`${many?'They are':'It is'} asleep. The first attack is sure to hit.`,'z','heal')}
+  else if(opt.foeFirst){log('note',`${many?'They strike':'It strikes'} first!`,'·');await monstersTurn()}
   else{
-    const fi=d(20)+mod(m.st[1]),dm=mod(scores(hero).dex);
-    const r=await heroD20({kind:'Initiative',title:'Roll initiative!',sub:`Who acts first? d20 ${sgn(dm)} (Dexterity) · the ${esc(m.n)} rolled <b>${fi}</b>`,flat:dm,tone:'init',judge:x=>x.total>=fi?{txt:'You go first!',cls:'good'}:{txt:`The ${esc(m.n)} goes first`,cls:'bad'}});
-    const ini=r+dm;log('note',`Initiative: ${you()} ${ini}, ${them()} ${fi}.`,'INI');
-    if(fi>ini){log('note',`${them()} goes first!`,'·');adv.busy=true;render();await monsterTurn();adv.busy=false}
+    const lead=alive().slice().sort((a,b)=>mod(scores(b).dex)-mod(scores(a).dex))[0];hero=lead;
+    const fi=Math.max(...adv.foes.map(f=>d(20)+mod(f.m.st[1])));const dm=mod(scores(lead).dex);
+    const r=await heroD20({kind:'Initiative',title:party.length>1?`${lead.name.split(' ')[0]} rolls initiative for the party!`:'Roll initiative!',sub:`Who acts first? d20 ${sgn(dm)} (Dexterity) · the enemy rolled <b>${fi}</b>`,flat:dm,tone:'init',judge:x=>x.total>=fi?{txt:party.length>1?'Your party goes first!':'You go first!',cls:'good'}:{txt:'The enemy goes first',cls:'bad'}});
+    const ini=r+dm;log('note',`Initiative: ${party.length>1?'your party':you()} ${ini}, the enemy ${fi}.`,'INI');
+    if(fi>ini){log('note',`The enemy goes first!`,'·');await monstersTurn()}
   }
-  if(hero.hp<=0)die();
+  if(adv.phase==='fight'){adv.acted=party.map(h=>h.hp<=0);adv.turn=nextActor(-1);if(adv.turn<0)die()}
   save();render();
 }
 async function enterRoom(idx){
   const door=idx==='boss'?{t:'boss'}:adv.doors[+idx];const t=adv.depth===DEPTH?'boss':door.t;
   adv.room={t};
   log('sep',`Depth ${adv.depth} of ${DEPTH}${t==='boss'?' · The Boss':''}`);
-  if(t==='boss'){await startFight(pickMonster(hero.lvl,true),{intro:'The master of the cave rises'});return}
-  if(t==='fight'){await startFight(pickMonster(hero.lvl,false));return}
-  if(t==='guarded'){adv.room.afterLoot=true;log('note',`Behind a pile of bones stands a chest. Something is guarding it.`,'¤');await startFight(pickMonster(hero.lvl,false,{bump:Math.random()<.4?1:0}),{intro:'The guardian turns toward you'});return}
-  if(t==='treasure'){adv.room.loot=rollLoot();adv.phase='room';log('note',`${you()} finds a treasure chest.`,'¤','heal')}
+  if(t==='boss'){await startFight(encounter(true),{intro:'The master of the cave rises'});return}
+  if(t==='fight'){await startFight(encounter(false));return}
+  if(t==='guarded'){adv.room.afterLoot=true;log('note',`Behind a pile of bones stands a chest. Something is guarding it.`,'¤');await startFight(encounter(false,{bump:Math.random()<.4?1:0}),{intro:'The guardians turn toward you'});return}
+  if(t==='treasure'){adv.room.loot=rollLoot();adv.phase='room';log('note',`${party.length>1?'The party finds':you()+' finds'} a treasure chest.`,'¤','heal')}
   else if(t==='trap'){
-    adv.phase='room';adv.room.done=true;save();render();
-    const c=await check('dex',cdc(12),['rogue','monk'],'Tiles click underfoot! Dodge!');
-    if(c.ok)log('',`Tiles click underfoot! ${you()} dives aside ${c.txt}. Made it!`,c.r,'hit');
-    else{const dm=roll(`${Math.max(1,hero.lvl)+adv.chapter}d6`);hurtHero(dm);adv.shake='hero';log('',`Spears shoot out of the wall! ${you()} is too slow ${c.txt}. <span class="dmg">${dm} damage</span>.`,c.r,'fail')}
-    if(hero.hp<=0)die();
+    adv.phase='room';adv.room.done=true;hero=pick(alive());save();render();
+    const c=await check('trap',cdc(12),'Tiles click underfoot! Dodge!');
+    if(c.ok)log('',`Tiles click under ${you()}'s feet! A dive to the side ${c.txt}. Made it!`,c.r,'hit');
+    else{const dm=Math.max(1,Math.round(roll(`${Math.max(1,hero.lvl)+adv.chapter}d6`)*D().trap));hurtHero(dm);adv.shake='hero';log('',`Spears shoot out of the wall! ${you()} is too slow ${c.txt}. <span class="dmg">${dm} damage</span>.`,c.r,'fail')}
+    if(!alive().length)die();
   }
-  else if(t==='sleeper'){adv.room.m=pickMonster(hero.lvl,false,{bump:1});adv.phase='room';log('note',`A big animal... no, a ${esc(adv.room.m.n)} is sleeping in the middle of the passage.`,'z')}
+  else if(t==='sleeper'){adv.room.ms=encounter(false,{bump:1});adv.room.m=adv.room.ms[0];adv.phase='room';log('note',`Something big is sleeping in the passage: ${foeListTxt(adv.room.ms)}.`,'z')}
   else if(t==='chest'){adv.phase='room';adv.room.tries=0;log('note',`An iron-bound chest with a heavy lock.`,'¤')}
   else if(t==='shrine'){adv.phase='room';log('note',`An old altar to a forgotten god.`,'†','magic')}
   else if(t==='traveler'){adv.phase='room';log('note',`A wounded adventurer sits slumped against the wall.`,'?')}
@@ -596,101 +700,106 @@ async function enterRoom(idx){
   else adv.phase='room';
   save();render();
 }
+const lowest=k=>party.slice().sort((a,b)=>(a[k]||0)-(b[k]||0))[0];
 function rollLoot(rich){
-  const out=[];const g=roll('2d10')*hero.lvl+adv.chapter*5+(rich?10*hero.lvl:0);out.push({k:'gold',n:`${g} gold pieces`,v:g});
+  const l=partyLvl(),n=party.length;
+  const out=[];const g=(roll('2d10')*l+adv.chapter*5+(rich?10*l:0))*n;out.push({k:'gold',n:`${g} gold pieces`,v:g});
   const items=rich?2:1;
   for(let i=0;i<items;i++){
     const r=Math.random();
     if(r<.42)out.push({k:'pot',n:'Potion of Healing',sv:''});
     else if(r<.57)out.push({k:'gpot',n:'Potion of Greater Healing',sv:''});
-    else if(r<.72&&hero.wb<3)out.push({k:'wb',n:`Weapon +${hero.wb+1}`,sv:'magic weapon'});
-    else if(r<.84&&hero.acb<2)out.push({k:'acb',n:hero.acb?'Cloak of Protection':'Ring of Protection',sv:'+1 armor class'});
-    else out.push({k:'xp',n:'An old map full of clues',v:30*hero.lvl});
+    else if(r<.72&&lowest('wb').wb<3)out.push({k:'wb',n:`Magic weapon`,sv:'+1 to hit and damage'});
+    else if(r<.84&&lowest('acb').acb<2)out.push({k:'acb',n:'Ring of Protection',sv:'+1 armor class'});
+    else out.push({k:'xp',n:'An old map full of clues',v:30*l});
   }
   return out;
 }
-function applyLoot(list){for(const it of list){if(it.k==='gold')hero.gold+=it.v;else if(it.k==='pot')hero.potions++;else if(it.k==='gpot')hero.greater++;else if(it.k==='wb'){if(hero.wb<3){hero.wb++;hero.items=hero.items.filter(x=>!/^Weapon \+/.test(x));hero.items.push(`Weapon +${hero.wb}`)}}else if(it.k==='acb'){if(hero.acb<2){hero.acb++;hero.items.push(it.n)}}else if(it.k==='xp')gainXp(it.v)}}
-function takeLoot(){applyLoot(adv.room.loot);log('',`${you()} packs up: ${adv.room.loot.map(i=>i.n).join(', ')}.`,'¤','heal');adv.room.done=true;save();render()}
+/* weapons and rings go to the hero who needs them most (or the one you picked at the merchant) */
+function giveWeapon(h){h=h||lowest('wb');if(h.wb>=3)return'';h.wb++;h.items=h.items.filter(x=>!/^Weapon \+/.test(x));h.items.push(`Weapon +${h.wb}`);return ` (${first(h)})`}
+function giveRing(h){h=h||lowest('acb');if(h.acb>=2)return'';h.acb++;h.items.push(h.acb>1?'Cloak of Protection':'Ring of Protection');return ` (${first(h)})`}
+function applyLoot(list,to){return list.map(it=>{let who='';if(it.k==='gold')bag.gold+=it.v;else if(it.k==='pot')bag.potions++;else if(it.k==='gpot')bag.greater++;else if(it.k==='wb')who=giveWeapon(to);else if(it.k==='acb')who=giveRing(to);else if(it.k==='xp')gainXpAll(it.v);return it.n+who})}
+function takeLoot(){const names=applyLoot(adv.room.loot);log('',`${party.length>1?'The party packs':you()+' packs'} up: ${names.join(', ')}.`,'¤','heal');adv.room.done=true;save();render()}
 
 /* Campsite: sleep deeply (more healing, ambush risk) or lightly (less healing, no risk) */
 async function restFull(){
-  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,Math.ceil(hero.hpMax/2)));resetRest(hero,false);
-  let extra='';if(CL[hero.cls].sa&&hero.cls!=='warlock'&&hero.slots<slotsFor(hero)){hero.slots++;extra=', one spell slot back'}
-  log('',`${you()} falls asleep by the fire. <span class="heal">+${hero.hp-b} HP</span>${extra}. Features recharged.`,'z','heal');
+  party.forEach(h=>{const b=h.hp;h.hp=Math.min(h.hpMax,Math.max(0,h.hp)+Math.max(1,Math.ceil(h.hpMax/2)));resetRest(h,false);if(CL[h.cls].sa&&h.cls!=='warlock'&&h.slots<slotsFor(h))h.slots++;
+    log('',`<b class="you">${first(h)}</b> sleeps by the fire. <span class="heal">+${h.hp-Math.max(0,b)} HP</span>.`,'z','heal')});
+  log('note','Features recharged. Spellcasters get one slot back.','z','heal');
   adv.room.done=true;
-  if(Math.random()<.35){log('',`But the smoke drew something in! ${you()} wakes with a start.`,'!','fail');await startFight(pickMonster(hero.lvl,false),{foeFirst:true,intro:'A night ambush'});return}
+  if(Math.random()<.35){log('',`But the smoke drew something in! The party wakes with a start.`,'!','fail');await startFight(encounter(false),{foeFirst:true,intro:'A night ambush'});return}
   save();render();
 }
 function restLight(){
-  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,Math.ceil(hero.hpMax/4)));hero.curse=0;
-  log('',`${you()} rests with one eye open. <span class="heal">+${hero.hp-b} HP</span>. No features recharge.`,'z','heal');
+  party.forEach(h=>{const b=Math.max(0,h.hp);h.hp=Math.min(h.hpMax,b+Math.max(1,Math.ceil(h.hpMax/4)));h.curse=0;log('',`<b class="you">${first(h)}</b> rests with one eye open. <span class="heal">+${h.hp-b} HP</span>.`,'z','heal')});
   adv.room.done=true;save();render();
 }
 async function drinkWell(){
-  const r=Math.random();
-  if(r<.45){const h=roll('2d8')+hero.lvl;const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`The water is clear and fresh. <span class="heal">+${hero.hp-b} HP</span>.`,'~','heal')}
-  else if(r<.7){log('',`A spring of wisdom! Visions of old battles flicker past.`,'~','magic');gainXp(40*hero.lvl)}
-  else if(r<.85){const dm=roll(`${hero.lvl}d4`);hurtHero(dm);log('',`Bitter! The water was poisoned. <span class="dmg">${dm} damage</span>.`,'~','fail');if(hero.hp<=0)die()}
-  else{adv.room.done=true;log('',`The water starts to bubble. A creature rises out of the well!`,'~','fail');await startFight(pickMonster(hero.lvl,false,{type:Math.random()<.5?'elemental':'ooze'}),{foeFirst:true,intro:'Out of the well'});return}
+  hero=picked();const r=Math.random();
+  if(r<.45){const h=roll('2d8')+hero.lvl;const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+h);log('',`${you()} drinks. The water is clear and fresh. <span class="heal">+${hero.hp-b} HP</span>.`,'~','heal')}
+  else if(r<.7){log('',`${you()} drinks from a spring of wisdom! Visions of old battles flicker past.`,'~','magic');gainXp(hero,40*hero.lvl)}
+  else if(r<.85){const dm=roll(`${hero.lvl}d4`);hurtHero(dm);log('',`Bitter! The water was poisoned. ${you()} takes <span class="dmg">${dm} damage</span>.`,'~','fail');if(!alive().length)die()}
+  else{adv.room.done=true;log('',`The water starts to bubble. Something rises out of the well!`,'~','fail');await startFight(encounter(false,{type:Math.random()<.5?'elemental':'ooze'}),{foeFirst:true,intro:'Out of the well'});return}
   adv.room.done=true;save();render();
 }
-/* Sleeping monster */
+/* Sleeping monsters */
 async function sneakPast(){
-  const m=adv.room.m;const c=await check('dex',cdc(11),['rogue','monk','ranger'],`Sneak past the ${m.n}`);
-  if(c.ok){log('',`${you()} sneaks past ${c.txt}. The ${esc(m.n)} keeps snoring.`,c.r,'hit');gainXp(15*hero.lvl);adv.room.done=true;save();render()}
-  else{log('',`A pebble rattles ${c.txt}. The ${esc(m.n)} wakes up!`,c.r,'fail');await startFight(m,{foeFirst:true,intro:'It wakes'})}
+  hero=picked();const ms=adv.room.ms||[adv.room.m];const c=await check('sneak',cdc(11),`Lead the way past the ${ms[0].n}`);
+  if(c.ok){log('',`${you()} leads the way past ${c.txt}. Not a single snore is broken.`,c.r,'hit');gainXpAll(15*partyLvl());adv.room.done=true;save();render()}
+  else{log('',`A pebble rattles ${c.txt}. ${ms.length>1?'They wake':'It wakes'} up!`,c.r,'fail');await startFight(ms,{foeFirst:true,intro:'Awake and angry'})}
 }
-function ambushSleeper(){return startFight(adv.room.m,{asleep:true,intro:'You creep up on'})}
+function ambushSleeper(){return startFight(adv.room.ms||[adv.room.m],{asleep:true,intro:'You creep up on'})}
 /* Locked chest */
 async function forceChest(){
-  const c=await check('str',cdc(13),['barbarian','fighter','paladin'],'Force the chest open');adv.room.tries++;
+  hero=picked();const c=await check('force',cdc(13),'Force the chest open');adv.room.tries++;
   if(c.ok){adv.room.loot=rollLoot(true);log('',`${you()} pries the lid open ${c.txt}!`,c.r,'hit');adv.room.t='treasure';adv.phase='room'}
-  else{const dm=d(4);hurtHero(dm);log('',`The lock holds ${c.txt}. ${you()} scrapes their knuckles: <span class="dmg">${dm} damage</span>.`,c.r,'fail');if(hero.hp<=0){die()}}
+  else{const dm=d(4);hurtHero(dm);log('',`The lock holds ${c.txt}. ${you()} scrapes their knuckles: <span class="dmg">${dm} damage</span>.`,c.r,'fail');if(!alive().length)die()}
   save();render();
 }
 async function pickChest(){
-  const c=await check('dex',cdc(13),['rogue'],'Pick the lock');
+  hero=picked();const c=await check('picklock',cdc(13),'Pick the lock');
   if(c.ok)log('',`Click! ${you()} picks the lock ${c.txt}.`,c.r,'hit');
-  else{const dm=roll(`${hero.lvl}d6`);const v=resist('poison')?Math.floor(dm/2):dm;hurtHero(v);log('',`A poison needle jabs out of the lock ${c.txt}! <span class="dmg">${v} damage</span>. But the lid swings open.`,c.r,'fail')}
-  adv.room.loot=rollLoot(true);adv.room.t='treasure';if(hero.hp<=0)die();save();render();
+  else{const dm=Math.max(1,Math.round(roll(`${hero.lvl}d6`)*D().trap));const v=resist('poison')?Math.floor(dm/2):dm;hurtHero(v);log('',`A poison needle jabs ${you()} ${c.txt}! <span class="dmg">${v} damage</span>. But the lid swings open.`,c.r,'fail')}
+  adv.room.loot=rollLoot(true);adv.room.t='treasure';if(!alive().length)die();save();render();
 }
-/* Altar */
+/* Altar: a blessing touches the whole party */
 function bless(){const r=Math.random();
-  if(r<.5){hero.hp=hero.hpMax;hero.slots=slotsFor(hero);log('',`A warm light fills the room. ${you()} is fully healed.`,'†','heal')}
-  else{hero.bless=1;log('',`The god's blessing! <b>+1 to hit</b> for the rest of the chapter.`,'†','magic')}}
+  if(r<.5){party.forEach(h=>{h.hp=h.hpMax;h.slots=slotsFor(h)});log('',`A warm light fills the room. ${party.length>1?'The whole party is':you()+' is'} fully healed.`,'†','heal')}
+  else{party.forEach(h=>h.bless=1);log('',`The god's blessing! <b>+1 to hit</b> for ${party.length>1?'every hero':you()} for the rest of the chapter.`,'†','magic')}}
 async function pray(){
-  const c=await check('wis',cdc(12),['cleric','paladin','druid'],'Pray to the god');
+  hero=picked();const c=await check('pray',cdc(12),'Pray to the god');
   if(c.ok){log('',`${you()} kneels and prays ${c.txt}.`,c.r,'magic');bless()}
-  else{const dm=roll(`${hero.lvl}d4`);hero.hp=Math.max(1,hero.hp-dm);hero.curse=1;log('',`The god is angry ${c.txt}! <span class="dmg">${dm} damage</span> and <b>-1 armor class</b> until you rest.`,c.r,'fail')}
+  else{const dm=roll(`${hero.lvl}d4`);hero.hp=Math.max(1,hero.hp-dm);hero.curse=1;log('',`The god is angry ${c.txt}! ${you()} takes <span class="dmg">${dm} damage</span> and gets <b>-1 armor class</b> until the next rest.`,c.r,'fail')}
   adv.room.done=true;save();render();
 }
-function offer(){const cost=15*hero.lvl;if(hero.gold<cost)return;hero.gold-=cost;log('',`${you()} places ${cost} gold on the altar.`,'¤');bless();adv.room.done=true;save();render()}
+const offerCost=()=>15*partyLvl()*party.length;
+function offer(){const cost=offerCost();if(bag.gold<cost)return;bag.gold-=cost;log('',`The party places ${cost} gold on the altar.`,'¤');bless();adv.room.done=true;save();render()}
 /* Wounded adventurer */
 async function givePotion(){
-  if(!hero.potions)return;hero.potions--;
-  if(Math.random()<.22){log('',`She drinks, smiles and draws a knife. It was a trap!`,'!','fail');adv.room.done=true;await startFight(pickMonster(hero.lvl,false,{type:'humanoid'}),{foeFirst:true,intro:'The bandit'});return}
-  const reward=rollLoot(false).filter(x=>x.k!=='pot');applyLoot(reward);gainXp(30*hero.lvl);adv.nextKnown=true;
-  log('',`She thanks you and gives you ${reward.map(x=>x.n).join(' and ')}. She also tells you what waits at the next crossroads.`,'♥','heal');
+  if(!bag.potions)return;bag.potions--;
+  if(Math.random()<.22){log('',`She drinks, smiles and draws a knife. It was a trap!`,'!','fail');adv.room.done=true;await startFight(encounter(false,{type:'humanoid'}),{foeFirst:true,intro:'Bandits'});return}
+  const reward=applyLoot(rollLoot(false).filter(x=>x.k!=='pot'));gainXpAll(30*partyLvl());adv.nextKnown=true;
+  log('',`She thanks you and gives you ${reward.join(' and ')}. She also tells you what waits at the next crossroads.`,'♥','heal');
   adv.room.done=true;save();render();
 }
 async function talk(){
-  const c=await check('cha',cdc(12),['bard','warlock','sorcerer','paladin'],'Talk to the stranger');
+  hero=picked();const c=await check('talk',cdc(12),'Talk to the stranger');
   if(c.ok){adv.nextKnown=true;log('',`${you()} talks calmly with her ${c.txt}. She whispers what waits at the next crossroads.`,c.r,'hit')}
-  else log('',`She doesn't trust you ${c.txt} and turns her head away.`,c.r,'');
+  else log('',`She doesn't trust ${you()} ${c.txt} and turns her head away.`,c.r,'');
   adv.room.done=true;save();render();
 }
-/* Merchant */
-function shopList(){return [
-  {k:'pot',n:'Potion of Healing',sv:'',p:25},
-  {k:'gpot',n:'Potion of Greater Healing',sv:'',p:60},
-  hero.wb<3?{k:'wb',n:`Hone weapon to +${hero.wb+1}`,p:120*(hero.wb+1)}:null,
-  hero.acb<2?{k:'acb',n:hero.acb?'Cloak of Protection':'Ring of Protection',sv:'+1 armor class',p:150*(hero.acb+1)}:null
+/* Merchant: potions for the party, upgrades for the hero you picked */
+function shopList(){const h=picked();return [
+  {k:'pot',n:'Potion of Healing',p:25},
+  {k:'gpot',n:'Potion of Greater Healing',p:60},
+  h.wb<3?{k:'wb',n:`Hone ${first(h)}'s weapon to +${h.wb+1}`,p:120*(h.wb+1)}:null,
+  h.acb<2?{k:'acb',n:`${h.acb?'Cloak':'Ring'} of Protection for ${first(h)}`,p:150*(h.acb+1)}:null
 ].filter(Boolean)}
-function buy(k){const it=shopList().find(x=>x.k===k);if(!it||hero.gold<it.p)return;hero.gold-=it.p;applyLoot([it]);log('',`${you()} buys ${it.n} for ${it.p} gold.`,'¤','heal');save();render()}
+function buy(k){const it=shopList().find(x=>x.k===k);if(!it||bag.gold<it.p)return;bag.gold-=it.p;applyLoot([it],picked());log('',`The party buys ${it.n} for ${it.p} gold.`,'¤','heal');save();render()}
 function nextRoom(){
-  if(adv.phase==='won'){adv.chapter++;adv.depth=1;hero.hp=hero.hpMax;resetRest(hero,true);hero.bless=0;log('sep',`Chapter ${adv.chapter} · Deeper down`);log('note',`${you()} is fully rested and finds a stair leading deeper into the mountain.`,'·')}
+  if(adv.phase==='won'){adv.chapter++;adv.depth=1;party.forEach(h=>{h.hp=h.hpMax;resetRest(h,true);h.bless=0});log('sep',`Chapter ${adv.chapter} · Deeper down`);log('note',`${partyNames()} ${party.length>1?'are':'is'} fully rested and find${party.length>1?'':'s'} a stair leading deeper into the mountain.`,'·')}
   else adv.depth++;
-  adv.phase='doors';adv.room=null;adv.foe=null;adv.listened=false;adv.doors=makeDoors();
+  adv.phase='doors';adv.room=null;adv.foes=[];adv.listened=false;adv.doors=makeDoors();
   if(adv.nextKnown&&adv.doors){adv.doors.forEach(x=>x.known=true);adv.nextKnown=false;adv.listened=true}
   save();render();
 }
@@ -785,9 +894,9 @@ const DICE_SETS=[
   {id:'venom',name:'Venom',desc:'Toxic green'},
   {id:'blood',name:'Blood',desc:'Deep red, white numbers'}
 ];
-let SET={dice:'ember',speed:'normal',sound:true,theme:'system'};
+let SET={dice:'ember',speed:'normal',sound:true,theme:'system',diff:'normal'};
 try{const s=JSON.parse(localStorage.getItem('nat20-settings')||'null');if(s&&typeof s==='object')SET=Object.assign(SET,s)}catch(e){}
-if(!DICE_SETS.some(x=>x.id===SET.dice))SET.dice='ember';
+if(!DICE_SETS.some(x=>x.id===SET.dice))SET.dice='ember';if(!DIFF[SET.diff])SET.diff='normal';
 function saveSettings(){try{localStorage.setItem('nat20-settings',JSON.stringify(SET))}catch(e){}}
 function applySettings(){
   if(trayEl&&trayEl.dataset)trayEl.dataset.dice=SET.dice;
@@ -830,6 +939,9 @@ function renderSettings(){
       <div class="dice-grid" role="radiogroup" aria-label="Dice design">${DICE_SETS.map(x=>`<button type="button" class="dice-opt" role="radio" aria-checked="${x.id===SET.dice}" data-set="dice" data-v="${x.id}" data-dice="${x.id}"><span class="die d20 mini">${D20SVG}<b>20</b></span><span class="nm">${x.name}</span><span class="ds">${x.desc}</span></button>`).join('')}</div>
       <button class="btn" type="button" data-set="try">Try a roll</button>
     </section>
+    <section class="set-sec"><div class="eyebrow">Difficulty</div>
+      <div class="set-row"><div><b>${D().name}</b><span>${D().desc}</span></div>${seg('diff',[['easy','Easy'],['normal','Normal'],['hard','Hard']],SET.diff)}</div>
+    </section>
     <section class="set-sec"><div class="eyebrow">Rolling</div>
       <div class="set-row"><div><b>Who rolls the dice</b><span>Let the game roll for you to play faster</span></div>${seg('auto',[['0','You'],['1','Auto']],AUTO?'1':'0')}</div>
       <div class="set-row"><div><b>Roll speed</b><span>How long the dice spin</span></div>${seg('speed',[['normal','Normal'],['quick','Quick']],SET.speed)}</div>
@@ -854,6 +966,7 @@ async function onSettingsClick(e){
   else if(k==='speed')SET.speed=v;
   else if(k==='sound'){SET.sound=v==='1';if(SET.sound)soundLand(false)}
   else if(k==='theme')SET.theme=v;
+  else if(k==='diff')SET.diff=v;
   saveSettings();applySettings();renderSettings();
   const again=setEl.querySelector(`[data-set="${k}"][data-v="${v}"]`);try{again&&again.focus({preventScroll:true})}catch(e){}
 }
@@ -1588,16 +1701,17 @@ function monLook(m){
 }
 
 /* scene state & animation */
-const SCN={f:0,last:0,flashFoe:0,flashHero:0,pops:[],dissolve:null,prev:null,started:false};
+const SCN={f:0,last:0,flash:{},pops:[],dis:[],prev:null,started:false,heroPos:[],foePos:[]};
 function sceneSync(){
   if(!adv){SCN.prev=null;return}
-  const now=performance.now();const cur={foeKey:adv.foe?adv.foe.m.i:null,foeHp:adv.foe?adv.foe.hp:null,heroHp:hero.hp,kills:adv.kills,foe:adv.foe?adv.foe.m:null};
+  const now=performance.now();const foes=adv.foes||[];
+  const cur={h:party.map(h=>h.hp),f:foes.map(f=>f.hp),fm:foes.map(f=>f.m),kills:adv.kills,fight:adv.phase==='fight'};
   const p=SCN.prev;
   if(p){
-    if(cur.foeKey&&p.foeKey===cur.foeKey&&cur.foeHp<p.foeHp){SCN.flashFoe=now+520;SCN.pops.push({who:'foe',txt:'-'+(p.foeHp-cur.foeHp),col:NP.W,t:now})}
-    if(cur.heroHp<p.heroHp){SCN.flashHero=now+520;SCN.pops.push({who:'hero',txt:'-'+(p.heroHp-cur.heroHp),col:'#f87858',t:now})}
-    else if(cur.heroHp>p.heroHp&&p.heroHp>0){SCN.pops.push({who:'hero',txt:'+'+(cur.heroHp-p.heroHp),col:'#58d854',t:now})}
-    if(p.foeKey&&!cur.foeKey&&cur.kills>p.kills&&p.foe){SCN.dissolve={m:p.foe,t:now};SCN.pops.push({who:'foe',txt:'-'+p.foeHp,col:NP.W,t:now,hidden:p.foeHp<=0})}
+    cur.h.forEach((v,i)=>{const o=p.h[i];if(o==null)return;if(v<o){SCN.flash['h'+i]=now+520;SCN.pops.push({k:'h'+i,txt:'-'+(o-v),col:'#f87858',t:now})}else if(v>o){SCN.pops.push({k:'h'+i,txt:'+'+(v-o),col:'#58d854',t:now})}});
+    const same=p.fm.length===cur.fm.length&&p.fm.every((m,i)=>m===cur.fm[i]);
+    if(same)cur.f.forEach((v,i)=>{const o=p.f[i];if(v<o){SCN.flash['f'+i]=now+520;SCN.pops.push({k:'f'+i,txt:'-'+(o-v),col:NP.W,t:now});if(v<=0&&o>0)SCN.dis.push({m:cur.fm[i],x:SCN.foePos[i]?SCN.foePos[i].x:142,t:now})}});
+    if(p.fight&&!cur.fight&&cur.kills>p.kills)p.f.forEach((o,i)=>{if(o>0&&p.fm[i]){const x=SCN.foePos[i]?SCN.foePos[i].x:142;SCN.dis.push({m:p.fm[i],x,t:now});SCN.pops.push({x,top:30,txt:'-'+o,col:NP.W,t:now})}});
   }
   SCN.prev=cur;
 }
@@ -1614,38 +1728,58 @@ function narch(x,cx,top,w,col){const bot=56;x.fillStyle=NP.K;x.fillRect(cx-w/2,t
 function ntorch(x,px,py){drawSpr(x,SCN.f%2?'torch2':'torch',null,px-1,py-4,{scale:2})}
 function nbox(x,lines){x.fillStyle=NP.K;x.fillRect(0,BOXY,SW,SH-BOXY);x.fillStyle=NP.W;x.fillRect(2,BOXY+2,SW-4,SH-BOXY-4);x.fillStyle=NP.b;x.fillRect(3,BOXY+3,SW-6,SH-BOXY-6);
   lines.slice(0,2).forEach((l,i)=>ntext(x,l,8,BOXY+6+i*9))}
+function focusHero(){if(adv.phase==='fight'&&adv.turn>=0)return party[adv.turn];return picked()}
 function nhud(x){
   x.fillStyle=NP.K;x.fillRect(0,0,SW,10);
-  const per=hero.hpMax/6;for(let i=0;i<6;i++){const v=hero.hp-i*per;drawSpr(x,v>=per*.75?'heart':v>per*.25?'heartHalf':'heartEmpty',null,3+i*8,2)}
-  if(adv.foe){let nm=adv.foe.m.n.toUpperCase();if(nm.length>14)nm=nm.replace(/^(ADULT|YOUNG|ANCIENT|GIANT) /,'');nm=nm.slice(0,14);const bx=SW-42;ntext(x,nm,bx-4-nm.length*6,2);x.fillStyle=NP.W;x.fillRect(bx,3,39,5);x.fillStyle=NP.K;x.fillRect(bx+1,4,37,3);x.fillStyle=adv.foe.hp/adv.foe.m.hp<.3?NP.R:'#f87858';x.fillRect(bx+1,4,Math.ceil(37*Math.max(0,adv.foe.hp)/adv.foe.m.hp),3)}
+  const fh=focusHero();const per=fh.hpMax/6;for(let i=0;i<6;i++){const v=fh.hp-i*per;drawSpr(x,v>=per*.75?'heart':v>per*.25?'heartHalf':'heartEmpty',null,3+i*8,2)}
+  if(party.length>1)ntext(x,String(fh.name)[0],52,2,NP.Y);
+  const tf=adv.phase==='fight'?tgtFoe():null;
+  if(tf){let nm=tf.m.n.toUpperCase();if(nm.length>14)nm=nm.replace(/^(ADULT|YOUNG|ANCIENT|GIANT) /,'');nm=nm.slice(0,14);const bx=SW-42;ntext(x,nm,bx-4-nm.length*6,2);x.fillStyle=NP.W;x.fillRect(bx,3,39,5);x.fillStyle=NP.K;x.fillRect(bx+1,4,37,3);x.fillStyle=tf.hp/tf.max<.3?NP.R:'#f87858';x.fillRect(bx+1,4,Math.ceil(37*Math.max(0,tf.hp)/tf.max),3)}
   else{const t=`DEPTH ${adv.depth}/${DEPTH}`;ntext(x,t,SW-3-t.length*6,2,NP.G)}
 }
 function bob(off){return reduced?0:((SCN.f+off)%8<4?0:1)}
-function drawHeroAt(x,cx,o){o=o||{};const L=heroLook(hero),sz=sprSize(L.key);const now=performance.now();
-  const flash=now<SCN.flashHero&&SCN.f%2===0;const shake=now<SCN.flashHero?(SCN.f%2?1:-1):0;
-  drawSpr(x,L.key,L.pal,cx-sz.w+shake,FEET-sz.h*2+bob(0)*(o.still?0:1),{white:flash,scale:2});return{x:cx,top:FEET-sz.h*2}}
+function marker(x,cx,top,col){if(!reduced&&SCN.f%4===3)return;x.fillStyle=col;x.fillRect(cx-2,top-6,5,1);x.fillRect(cx-1,top-5,3,1);x.fillRect(cx,top-4,1,1)}
+function miniBar(x,cx,hp,max){const w=14;x.fillStyle=NP.K;x.fillRect(cx-w/2-1,FEET+1,w+2,3);x.fillStyle='#3c3c3c';x.fillRect(cx-w/2,FEET+2,w,1);x.fillStyle=hp/max<.3?NP.R:'#58d854';x.fillRect(cx-w/2,FEET+2,Math.ceil(w*Math.max(0,hp)/max),1)}
+function drawHeroAt(x,h,i,cx,o){o=o||{};const L=heroLook(h),sz=sprSize(L.key);const now=performance.now();
+  const fl=SCN.flash['h'+i]||0;const flash=now<fl&&SCN.f%2===0;const shake=now<fl?(SCN.f%2?1:-1):0;const down=h.hp<=0;
+  const top=FEET-sz.h*2;drawSpr(x,L.key,L.pal,cx-sz.w+shake,top+(down?0:bob(i*3))*(o.still?0:1),{white:flash,scale:2,alpha:down?.3:null});
+  if(down)ntext(x,'Z',cx+6,top+2,NP.U);
+  return{x:cx,top};}
+function heroXs(kind){const n=party.length;if(kind==='center')return n===1?[96]:n===2?[84,108]:[72,96,120];const base=kind==='room'?8:0;return(n===1?[40]:n===2?[30,54]:[20,42,64]).map(v=>v+base)}
+function drawParty(x,kind){const xs=heroXs(kind);SCN.heroPos=party.map((h,i)=>drawHeroAt(x,h,i,xs[i]));return SCN.heroPos}
 function obj(x,key,cx,o){o=o||{};const s=sprSize(key),sc=o.scale||2;drawSpr(x,key,o.pal||null,cx-s.w*sc/2,FEET-s.h*sc+(o.dy||0),{scale:sc,flip:o.flip})}
-function drawMonAt(x,m,cx,o){o=o||{};const L=monLook(m);const now=performance.now();
-  if(L.swarm){const s=sprSize(L.key);const pos=[[-20,0],[12,-14],[-6,10],[18,8]];pos.forEach(([dx,dy],i)=>drawSpr(x,L.key,L.pal,cx+dx-s.w+((SCN.f+i)%4<2?1:0),FEET-s.h*2-6+dy,{scale:2,white:now<SCN.flashFoe&&SCN.f%2===0}));return{x:cx,top:FEET-44}}
-  const s=sprSize(L.key),sc=L.scale,w=s.w*sc,h=s.h*sc;
-  const floatUp=(L.key==='bat'||L.key==='fairy'||L.key==='ghost'||L.key==='angel'||L.key==='bird'&&!o.asleep)?10:0;
-  let px=cx-w/2,py=FEET-h-floatUp;if(py<11)py=11;
-  if(o.dissolve!=null){drawDissolve(x,L,px,py,o.dissolve);return{x:cx,top:py}}
-  const flash=now<SCN.flashFoe&&SCN.f%2===0;const shake=now<SCN.flashFoe?(SCN.f%2?1:-1):0;
+function drawMonAt(x,m,cx,o){o=o||{};const L=monLook(m);const now=performance.now();const fk=o.i!=null?SCN.flash['f'+o.i]||0:0;
+  if(L.swarm){const s=sprSize(L.key);const pos=[[-20,0],[12,-14],[-6,10],[18,8]];pos.forEach(([dx,dy],i)=>drawSpr(x,L.key,L.pal,cx+dx*.7-s.w+((SCN.f+i)%4<2?1:0),FEET-s.h*2-6+dy,{scale:2,white:now<fk&&SCN.f%2===0}));return{x:cx,top:FEET-44}}
+  const s=sprSize(L.key);let sc=L.scale;if(o.many)while(sc>1&&s.w*sc>(o.cap||42))sc--;const w=s.w*sc,h=s.h*sc;
+  const floatUp=(L.key==='bat'||L.key==='fairy'||L.key==='ghost'||L.key==='angel'||(L.key==='bird'&&!o.asleep))?10:0;
+  let px=cx-w/2,py=FEET-h-floatUp+(o.dy||0);if(py<11)py=11;
+  if(o.dissolve!=null){drawDissolve(x,L,px,py,o.dissolve,sc);return{x:cx,top:py}}
+  const flash=now<fk&&SCN.f%2===0;const shake=now<fk?(SCN.f%2?1:-1):0;
   const alpha=L.key==='ghost'?(SCN.f%2?.75:.9):null;
-  drawSpr(x,L.key,o.asleep?Object.assign({},L.pal,{e:L.pal.z}):L.pal,px+shake,py+(o.asleep?0:bob(4)),{scale:sc,flip:L.flip,white:flash,alpha});
+  drawSpr(x,L.key,o.asleep?Object.assign({},L.pal,{e:L.pal.z}):L.pal,px+shake,py+(o.asleep?0:bob(4+(o.i||0)*2)),{scale:sc,flip:L.flip,white:flash,alpha});
   return{x:cx,top:py};
 }
-function drawDissolve(x,L,px,py,k){const map=SPR[L.key];const p=Object.assign({},NP,L.pal),sc=L.scale,w=map[0].length;
+function drawDissolve(x,L,px,py,k,sc){const map=SPR[L.key];const p=Object.assign({},NP,L.pal),w=map[0].length;sc=sc||L.scale;
   let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
   for(let j=0;j<map.length;j++)for(let i=0;i<w;i++){const ch=map[j][i];if(ch==='.')continue;if(rnd()<k)continue;x.fillStyle=k>.15&&rnd()<.4?NP.W:p[ch];x.fillRect(px+(L.flip?w-1-i:i)*sc,py+j*sc-Math.round(k*6)*(i%2),sc,sc)}}
+function foeXs(n,boss){if(boss)return n===1?[142]:n===2?[134,176]:[132,108,176];return n===1?[142]:n===2?[124,164]:[114,142,172]}
+function drawFoes(x,foes,o){o=o||{};const xs=foeXs(foes.length,o.boss);const many=foes.length>1;
+  const order=o.boss?foes.map((f,i)=>i).reverse():foes.length===3?[1,0,2]:foes.map((f,i)=>i);
+  SCN.foePos=[];order.forEach(i=>{const f=foes[i];if(f.hp<=0){SCN.foePos[i]={x:xs[i],top:30};return}SCN.foePos[i]=drawMonAt(x,f.m,xs[i],{asleep:o.asleep||f.asleep,i,many,dy:!o.boss&&foes.length===3&&i===1?-7:0,cap:o.boss&&i===0?76:foes.length===3?40:58})});
+  return SCN.foePos;
+}
 const an=w=>(/^[aeiou]/i.test(w)?'an ':'a ')+w;
+const plural=w=>/(s|x|ch|sh)$/i.test(w)?w+'es':/[^aeiou]y$/i.test(w)?w.slice(0,-1)+'ies':/f$/i.test(w)?w.slice(0,-1)+'ves':w+'s';
+function groupTxt(ms){const names=[...new Set(ms.map(m=>m.n))];if(names.length===1)return ms.length>1?`${ms.length} ${plural(names[0])}`:an(names[0]);return `${ms.length} foes`}
 function sceneText(){
-  const name=hero.name.split(' ')[0];const P=adv.phase,R=adv.room||{};const fn=adv.foe?adv.foe.m.n:'';
-  if(P==='dead')return[`${name} has fallen...`,'try again?'];
+  const fh=focusHero();const name=String(fh.name).split(' ')[0];const P=adv.phase,R=adv.room||{};
+  if(P==='dead')return[party.length>1?'the party has fallen...':`${name} has fallen...`,'try again?'];
   if(P==='won')return['victory!',`chapter ${adv.chapter} clear!`];
   if(P==='doors'){if(adv.depth===DEPTH)return['the last gate.','the master waits beyond.'];const n=adv.doors.length;return[n===1?'one path leads on.':n===2?'two paths. choose one.':'three paths. choose one.',adv.doors.some(d=>d.known)?'you know what lies ahead.':'listen... or just go.']}
-  if(P==='fight'){if(adv.busy)return[`the ${fn} strikes!`];if(R.t==='boss')return[`the ${fn} rules this cave!`];if(adv.foe&&adv.foe.asleep)return[`the ${fn} is asleep...`,'strike first!'];return[`${an(fn)} attacks!`,`armor ${adv.foe.m.ac}  hp ${adv.foe.hp}/${adv.foe.m.hp}`]}
+  if(P==='fight'){const live=foesLeft();const ms=live.map(f=>f.m);const tf=tgtFoe();
+    if(adv.busy)return[live.length>1?'the enemies strike!':`the ${ms[0]?ms[0].n:'enemy'} strikes!`];
+    const head=R.t==='boss'&&adv.round===1?`the ${adv.foes[0].m.n} rules this cave!`:adv.round===1?`${groupTxt(ms)} ${ms.length>1?'attack':'attacks'}!`:live.some(f=>f.asleep)?'they are asleep...':`round ${adv.round}.`;
+    return[head,party.length>1?`${name}'s turn.`:tf?`armor ${tf.m.ac}  hp ${tf.hp}/${tf.max}`:'']}
   const t=R.t,d=R.done;
   if(t==='treasure'&&!d)return['a chest full of loot!','take it all?'];
   if(t==='chest')return['a locked chest.','force it or pick the lock?'];
@@ -1653,52 +1787,55 @@ function sceneText(){
   if(t==='well'&&!d)return['a glowing blue well.','drink if you dare.'];
   if(t==='shrine'&&!d)return['a forgotten altar.','pray or make an offering?'];
   if(t==='traveler'&&!d)return['a wounded stranger.','she asks for a potion.'];
-  if(t==='merchant')return['a gnome merchant!',`you have ${hero.gold} gold.`];
-  if(t==='sleeper'&&!d)return[`${an(R.m.n)} is asleep.`,'sneak past or attack?'];
-  if(t==='trap')return["it's a trap!",hero.hp>0?'the path goes on.':''];
+  if(t==='merchant')return['a gnome merchant!',`you have ${bag.gold} gold.`];
+  if(t==='sleeper'&&!d){const ms=R.ms||[R.m];return[`${groupTxt(ms)} ${ms.length>1?'are':'is'} asleep.`,'sneak past or attack?']}
+  if(t==='trap')return["it's a trap!",alive().length?'the path goes on.':''];
   if(adv.fled)return['you got away!','the path goes on.'];
-  if(t==='fight'&&adv.lastFoe)return[`the ${adv.lastFoe} is defeated!`,'the path goes on.'];
+  if(t==='fight'&&adv.lastFoe)return['the enemy is defeated!','the path goes on.'];
   return['the path goes on.',''];
 }
 function drawScene(cv){
   if(!cv.getContext)return;const x=cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;const now=performance.now();
   const wall=WALLS[(adv.chapter-1)%WALLS.length];const P=adv.phase,R=adv.room||{};
-  let heroPos=null,foePos=null;
+  let heroPos=[];
   if(P==='doors'){
     if(adv.depth===DEPTH){sceneBg(x,wall,[]);x.fillStyle=NP.K;x.fillRect(66,14,60,42);x.fillStyle=NP.g;for(let i=70;i<126;i+=8)x.fillRect(i,16,3,40);x.fillStyle=NP.G;x.fillRect(64,12,64,3);x.fillRect(64,12,3,44);x.fillRect(125,12,3,44);
-      if(SCN.f%6<5){x.fillStyle=NP.R;x.fillRect(88,30,3,2);x.fillRect(101,30,3,2)}ntorch(x,52,26);ntorch(x,137,26);heroPos=drawHeroAt(x,96)}
+      if(SCN.f%6<5){x.fillStyle=NP.R;x.fillRect(88,30,3,2);x.fillRect(101,30,3,2)}ntorch(x,52,26);ntorch(x,137,26);heroPos=drawParty(x,'center')}
     else{const n=adv.doors.length;const xs=n===1?[96]:n===2?[62,130]:[40,96,152];sceneBg(x,wall,xs.map(cx=>({x:cx,top:20,w:20})));
       const ic={fight:['!',NP.R],guarded:['!',NP.Y],sleeper:['Z',NP.U],treasure:['$',NP.Y],chest:['$',NP.G],trap:['^',NP.R],camp:['+',NP.L],well:['+',NP.U],shrine:['+',NP.Y],traveler:['?',NP.W],merchant:['$',NP.L]};
-      adv.doors.forEach((d,i)=>{if(d.known&&ic[d.t])ntext(x,ic[d.t][0],xs[i]-2,30,ic[d.t][1]);else{x.fillStyle=NP.Y;x.fillRect(xs[i]-1,13,3,3)}});
+      adv.doors.forEach((dd,i)=>{if(dd.known&&ic[dd.t])ntext(x,ic[dd.t][0],xs[i]-2,30,ic[dd.t][1]);else{x.fillStyle=NP.Y;x.fillRect(xs[i]-1,13,3,3)}});
       if(n>1)for(let i=0;i<n-1;i++)ntorch(x,(xs[i]+xs[i+1])/2-1,26);else{ntorch(x,70,26);ntorch(x,120,26)}
-      heroPos=drawHeroAt(x,96)}
+      heroPos=drawParty(x,'center')}
   }else if(P==='fight'){
-    sceneBg(x,wall,[{x:96,top:18,w:22}]);ntorch(x,64,26);ntorch(x,126,26);
-    heroPos=drawHeroAt(x,40);foePos=drawMonAt(x,adv.foe.m,142,{asleep:adv.foe.asleep});
-    if(adv.foe.asleep&&!reduced){const z=SCN.f%12;ntext(x,'Z',156+(z>5?2:0),Math.max(12,foePos.top-2-Math.floor(z/2)),NP.U)}
+    sceneBg(x,wall,[{x:96,top:18,w:22}]);ntorch(x,80,26);ntorch(x,112,26);
+    heroPos=drawParty(x,'fight');const fp=drawFoes(x,adv.foes,{boss:R.t==='boss'});
+    if(!adv.busy){const hp=heroPos[adv.turn];if(hp&&party.length>1)marker(x,hp.x,hp.top,NP.Y);const ti=adv.tgt;if(adv.foes.length>1&&fp[ti]&&adv.foes[ti]&&adv.foes[ti].hp>0)marker(x,fp[ti].x,fp[ti].top,NP.W)}
+    if(adv.foes.length>1)adv.foes.forEach((f,i)=>{if(f.hp>0&&fp[i])miniBar(x,fp[i].x,f.hp,f.max)});
+    if(party.length>1)party.forEach((h,i)=>{if(heroPos[i])miniBar(x,heroPos[i].x,h.hp,h.hpMax)});
+    if(adv.foes.some(f=>f.asleep&&f.hp>0)&&!reduced){const z=SCN.f%12;ntext(x,'Z',176+(z>5?2:0),Math.max(12,24-Math.floor(z/2)),NP.U)}
   }else if(P==='won'){
-    sceneBg(x,wall,[{x:96,top:18,w:22}]);obj(x,'chestOpen',140);if(!reduced&&SCN.f%4<2){x.fillStyle=NP.W;x.fillRect(128+(SCN.f%8)*3,42,2,2);x.fillRect(146,38-(SCN.f%3),2,2)}
-    heroPos=drawHeroAt(x,60);
+    sceneBg(x,wall,[{x:96,top:18,w:22}]);obj(x,'chestOpen',150);if(!reduced&&SCN.f%4<2){x.fillStyle=NP.W;x.fillRect(138+(SCN.f%8)*3,42,2,2);x.fillRect(156,38-(SCN.f%3),2,2)}
+    heroPos=drawParty(x,'room');
   }else if(P==='dead'){
-    sceneBg(x,wall,[{x:96,top:18,w:22}]);obj(x,'tomb',96);
+    sceneBg(x,wall,[{x:96,top:18,w:22}]);const xs=heroXs('center');party.forEach((h,i)=>obj(x,'tomb',xs[i]));
   }else{
-    const t=R.t;sceneBg(x,wall,[{x:96,top:18,w:22}]);ntorch(x,64,26);ntorch(x,126,26);
-    heroPos=drawHeroAt(x,48);
-    if(t==='treasure')obj(x,R.done?'chestOpen':'chest',140);
-    else if(t==='chest')obj(x,'lockchest',140);
-    else if(t==='camp'){obj(x,'bedroll',158);obj(x,'fire',122,{flip:SCN.f%2===1});}
-    else if(t==='well'){obj(x,'well',140);if(!reduced&&SCN.f%4<2){x.fillStyle=NP.W;x.fillRect(128+(SCN.f%10)*2,FEET-24,2,2)}}
-    else if(t==='shrine'){obj(x,'altar',140);if(!reduced){x.fillStyle=SCN.f%2?NP.W:NP.Y;x.fillRect(126,FEET-21,2,2);x.fillRect(152,FEET-21,2,2)}}
-    else if(t==='traveler'&&!R.done){obj(x,'hood',142,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fca044',s:'#e45c10'})});if(SCN.f%8<6)ntext(x,'?',140,FEET-42,NP.W)}
-    else if(t==='merchant'){obj(x,'cart',154);obj(x,'robe',120,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fcbcb0',s:'#fca044',H:'#fcfcfc',c:'#f8b800'})})}
-    else if(t==='sleeper'&&!R.done&&R.m){const fp=drawMonAt(x,R.m,140,{asleep:true});if(!reduced){const z=SCN.f%12;ntext(x,'Z',156+(z>5?2:0),Math.max(12,fp.top-2-Math.floor(z/2)),NP.U)}}
-    else if(t==='trap')obj(x,'spikes',120);
-    foePos={x:142,top:30};if(SCN.dissolve){const k=(now-SCN.dissolve.t)/700;if(k<1)foePos=drawMonAt(x,SCN.dissolve.m,142,{dissolve:Math.min(.98,k)});else SCN.dissolve=null}
+    const t=R.t;sceneBg(x,wall,[{x:96,top:18,w:22}]);ntorch(x,80,26);ntorch(x,112,26);
+    heroPos=drawParty(x,'room');
+    if(t==='treasure')obj(x,R.done?'chestOpen':'chest',150);
+    else if(t==='chest')obj(x,'lockchest',150);
+    else if(t==='camp'){obj(x,'bedroll',166);obj(x,'fire',134,{flip:SCN.f%2===1});}
+    else if(t==='well'){obj(x,'well',150);if(!reduced&&SCN.f%4<2){x.fillStyle=NP.W;x.fillRect(138+(SCN.f%10)*2,FEET-24,2,2)}}
+    else if(t==='shrine'){obj(x,'altar',150);if(!reduced){x.fillStyle=SCN.f%2?NP.W:NP.Y;x.fillRect(136,FEET-21,2,2);x.fillRect(162,FEET-21,2,2)}}
+    else if(t==='traveler'&&!R.done){obj(x,'hood',152,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fca044',s:'#e45c10'})});if(SCN.f%8<6)ntext(x,'?',150,FEET-42,NP.W)}
+    else if(t==='merchant'){obj(x,'cart',162);obj(x,'robe',130,{flip:true,pal:Object.assign(tri3(TRI.brown),{S:'#fcbcb0',s:'#fca044',H:'#fcfcfc',c:'#f8b800'})})}
+    else if(t==='sleeper'&&!R.done){const ms=(R.ms||[R.m]).map(m=>({m,hp:1,max:1}));drawFoes(x,ms,{asleep:true});if(!reduced){const z=SCN.f%12;ntext(x,'Z',176+(z>5?2:0),Math.max(12,24-Math.floor(z/2)),NP.U)}}
+    else if(t==='trap')obj(x,'spikes',130);
   }
+  SCN.dis=SCN.dis.filter(dd=>{const k=(now-dd.t)/700;if(k>=1)return false;drawMonAt(x,dd.m,dd.x,{dissolve:Math.min(.98,k),many:true});return true});
   nhud(x);
   SCN.pops=SCN.pops.filter(p=>now-p.t<900);
-  SCN.pops.forEach(p=>{if(p.hidden)return;const k=(now-p.t)/900;const base=p.who==='hero'?heroPos:foePos;if(!base)return;const tx=base.x-p.txt.length*3,ty=Math.max(11,base.top-8-Math.round(k*10));
-    ntext(x,p.txt,tx+1,ty+1,NP.K);ntext(x,p.txt,tx,ty,p.col)});
+  SCN.pops.forEach(p=>{const k=(now-p.t)/900;let base=null;if(p.k&&p.k[0]==='h')base=SCN.heroPos[+p.k.slice(1)];else if(p.k&&p.k[0]==='f')base=SCN.foePos[+p.k.slice(1)];else base={x:p.x,top:p.top};if(!base)return;
+    const tx=base.x-p.txt.length*3,ty=Math.max(11,base.top-10-Math.round(k*10));ntext(x,p.txt,tx+1,ty+1,NP.K);ntext(x,p.txt,tx,ty,p.col)});
   nbox(x,(function(){const L=sceneText().filter(Boolean);const out=[];L.forEach(l=>nwrap(l,29).forEach(w=>out.push(w)));return out})());
 }
 function sceneLoop(ts){
@@ -1716,206 +1853,256 @@ function drawHeroPreview(){
 }
 
 /* ---------- Combat ---------- */
-function resist(type){const r=RC[hero.race];if(hero.race==='dwarf'&&type==='poison')return true;if(hero.race==='tiefling'&&type==='fire')return true;if(hero.dragon&&type===hero.dragon)return true;if(adv.rage&&['bludgeoning','piercing','slashing'].includes(type))return true;return false}
-function hurtHero(n){hero.hp=Math.max(0,hero.hp-n);if(hero.hp===0&&hero.race==='half-orc'&&hero.relent){hero.relent=0;hero.hp=1;log('note',`${you()} refuses to fall! Half-orc toughness keeps them standing with 1 HP.`,'!','heal')}}
-function foeTypeMod(n,type){const m=adv.foe.m;if(m.im&&m.im.includes(type))return{v:0,note:` <span class="muted">(immune to ${DMG[type]})</span>`};if(m.rs&&m.rs.includes(type))return{v:Math.floor(n/2),note:` <span class="muted">(resists ${DMG[type]}, half damage)</span>`};if(m.vu&&m.vu.includes(type))return{v:n*2,note:` <span class="muted">(vulnerable to ${DMG[type]}!)</span>`};return{v:n,note:''}}
-function hitFoe(n){adv.foe.hp=Math.max(0,adv.foe.hp-n);adv.shake='foe'}
+const AREA=new Set(['burning-hands','thunderwave']);
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function resist(type){if(hero.race==='dwarf'&&type==='poison')return true;if(hero.race==='tiefling'&&type==='fire')return true;if(hero.dragon&&type===hero.dragon)return true;if(hero.raging&&['bludgeoning','piercing','slashing'].includes(type))return true;return false}
+function hurtHero(n){const was=hero.hp;hero.hp=Math.max(0,hero.hp-n);
+  if(hero.hp===0&&hero.race==='half-orc'&&hero.relent){hero.relent=0;hero.hp=1;log('note',`${you()} refuses to fall! Half-orc toughness keeps them standing with 1 HP.`,'!','heal');return}
+  if(was>0&&hero.hp===0)log('note',party.length>1?`${you()} falls unconscious!`:`${you()} collapses!`,'✝','fail')}
+function foeTypeMod(n,type,f){const m=(f||F).m;if(m.im&&m.im.includes(type))return{v:0,note:` <span class="muted">(immune to ${DMG[type]})</span>`};if(m.rs&&m.rs.includes(type))return{v:Math.floor(n/2),note:` <span class="muted">(resists ${DMG[type]}, half damage)</span>`};if(m.vu&&m.vu.includes(type))return{v:n*2,note:` <span class="muted">(vulnerable to ${DMG[type]}!)</span>`};return{v:n,note:''}}
+function hitFoe(n,f){f=f||F;const was=f.hp;f.hp=Math.max(0,f.hp-n);adv.shake='foe';if(was>0&&f.hp===0){adv.kills++;log('',`<b class="them">${esc(f.m.n)}</b> falls!`,'✝','crit')}}
+function tgtFoe(){let f=adv.foes[adv.tgt];if(!f||f.hp<=0){const i=adv.foes.findIndex(x=>x.hp>0);adv.tgt=i;f=adv.foes[i]}return f||null}
+const foesLeft=()=>adv.foes.filter(f=>f.hp>0);
+/* healing goes to whoever needs it most */
+function healTarget(){return party.slice().sort((a,b)=>a.hp/a.hpMax-b.hp/b.hpMax)[0]}
+function healTxt(t){return t===hero?'you':first(t)}
+function healHero(t,amt){const b=Math.max(0,t.hp);t.hp=Math.min(t.hpMax,b+Math.max(1,amt));return t.hp-b}
 
 async function doAttack(wi){
-  const s=wStats(hero,wi),m=adv.foe.m;
+  const s=wStats(hero,wi);F=tgtFoe();if(!F)return;
   const swing=async(label,title,hitB,dice,dm,type,canSneak)=>{
-    if(!adv.foe||adv.foe.hp<=0)return;
-    const sl=adv.foe.asleep;adv.foe.asleep=false;let r=0;
+    F=tgtFoe();if(!F)return;const m=F.m;
+    const sl=F.asleep;F.asleep=false;let r=0;
     if(sl)log('note',`${them()} was asleep. The attack hits for sure!`,'z','heal');
-    else r=await heroD20({kind:'Attack roll',title,sub:`d20 ${sgn(hitB)} · you need <b>${m.ac}</b> to hit (its armor)`,flat:hitB,tone:'atk',judge:judgeAtk(m.ac)});
+    else r=await heroD20({kind:'Attack roll',title:`${party.length>1?first(hero)+': ':''}${title}`,sub:`Target: the ${esc(m.n)} · d20 ${sgn(hitB)} · you need <b>${m.ac}</b> to hit (its armor)`,flat:hitB,tone:'atk',judge:judgeAtk(m.ac)});
     const tot=r+hitB,crit=!sl&&r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
     const rTxt=sl?'<span class="muted">asleep</span>':`<span class="muted">${r}${sgn(hitB)} = ${tot} vs ${m.ac}</span>`;
-    if(!hit){log('',`${you()} ${label}: ${rTxt}. Miss.`,r,r===1?'fail':'');render();return false}
+    if(!hit){log('',`${you()} ${label} at ${them()}: ${rTxt}. Miss.`,r,r===1?'fail':'');render();return false}
     const parts=[dice];let sneak=false;if(canSneak&&hero.cls==='rogue'&&!adv.sneakUsed){parts.push(`${Math.ceil(hero.lvl/2)}d6`);sneak=true;adv.sneakUsed=true}
-    const rage=adv.rage&&!s.ranged?2:0;const flat=dm+rage;
+    const rage=hero.raging&&!s.ranged?2:0;const flat=dm+rage;
     const dr=await rollDmg({title:crit?'Critical hit! Roll damage':'Hit! Roll damage',sub:`${dice}${sgn(dm)} ${DMG[type]}${sneak?` + ${parts[1]} sneak attack`:''}${rage?' + 2 rage':''}${crit?' · <b>double dice</b> for a critical hit':''}`,parts,flat,crit,tone:crit?'crit':'dmg'});
     let extra='';if(rage)extra+=' +2 rage';if(sneak)extra+=` +${dr.sums[1]} sneak attack`;
-    const t=foeTypeMod(Math.max(1,dr.total),type);hitFoe(t.v);
-    log('',`${you()} ${label}: ${rTxt}. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[type]}${extra})</span>${t.note}.`,sl?'z':r,crit?'crit':'hit');
-    render();return true;
+    const t=foeTypeMod(Math.max(1,dr.total),type);
+    log('',`${you()} ${label} at ${them()}: ${rTxt}. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[type]}${extra})</span>${t.note}.`,sl?'z':r,crit?'crit':'hit');
+    hitFoe(t.v);render();return true;
   };
   adv.sneakUsed=false;
-  await swing(`${s.ranged?'shoots':'attacks'} with the ${esc(s.name.toLowerCase())}`,`${s.ranged?'Shoot':'Attack'} with the ${s.name.toLowerCase()}`,s.hit,s.dice,s.dm,s.type,true);
-  if(hero.cls==='monk'&&adv.foe.hp>0){const st=scores(hero),mm=Math.max(mod(st.str),mod(st.dex));await swing('strikes with a fist','Bonus strike with your fist',prof(hero.lvl)+mm,hero.lvl>=5?'1d6':'1d4',mm,'bludgeoning',false)}
-  if(hero.cls==='fighter'&&hero.lvl>=5&&adv.foe.hp>0)await swing(`attacks again`,'Extra attack',s.hit,s.dice,s.dm,s.type,false);
+  await swing(`${s.ranged?'shoots':'swings'} the ${esc(s.name.toLowerCase())}`,`${s.ranged?'Shoot':'Attack'} with the ${s.name.toLowerCase()}`,s.hit,s.dice,s.dm,s.type,true);
+  if(hero.cls==='monk'&&foesLeft().length){const st=scores(hero),mm=Math.max(mod(st.str),mod(st.dex));await swing('strikes with a fist','Bonus strike with your fist',prof(hero.lvl)+mm,hero.lvl>=5?'1d6':'1d4',mm,'bludgeoning',false)}
+  if(hero.cls==='fighter'&&hero.lvl>=5&&foesLeft().length)await swing(`attacks again`,'Extra attack',s.hit,s.dice,s.dm,s.type,false);
   return endHeroTurn();
 }
 async function doSpell(id){
-  const s=SP[id],m=adv.foe.m,sm=spellMod(hero),pb=prof(hero.lvl),nm=esc(sName(id)),name=sName(id);
+  const s=SP[id],sm=spellMod(hero),pb=prof(hero.lvl),nm=esc(sName(id)),name=sName(id),who=party.length>1?first(hero)+': ':'';
   if(s.l===1){if(hero.slots<=0)return;hero.slots--}
-  if(s.h){const q=parse(s.h.replace('MOD',sgn(sm)).replace('+-','-'));const hr=await rollDmg({kind:'Healing',title:`${name} heals you`,sub:`${q.n}d${q.s}${q.k?sgn(q.k):''} hit points`,parts:[`${q.n}d${q.s}`],flat:q.k,tone:'heal'});
-    const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,hr.total));log('',`${you()} casts ${nm}. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal');return endHeroTurn()}
+  if(s.h){const tg=healTarget();const q=parse(s.h.replace('MOD',sgn(sm)).replace('+-','-'));const hr=await rollDmg({kind:'Healing',title:`${who}${name} heals ${healTxt(tg)}`,sub:`${q.n}d${q.s}${q.k?sgn(q.k):''} hit points${tg.hp<=0?' · wakes them up':''}`,parts:[`${q.n}d${q.s}`],flat:q.k,tone:'heal'});
+    const got=healHero(tg,hr.total);log('',`${you()} casts ${nm} on <b class="you">${first(tg)}</b>. <span class="heal">+${got} HP</span>.`,'✚','heal');return endHeroTurn()}
   const dice=spellDice(hero,s);
-  const sl=adv.foe.asleep;adv.foe.asleep=false;
+  if(AREA.has(id)&&s.dc){
+    const dc=8+pb+sm;const targets=foesLeft();
+    const dr=await rollDmg({title:`${who}Cast ${name}: roll damage`,sub:`${dice} ${DMG[s.t]} · hits <b>every enemy</b> · each tries a ${AB_SV[s.dc]} save against <b>${dc}</b>${s.hf?' for half damage':''}`,parts:[dice],tone:'magic'});
+    log('',`${you()} casts ${nm}!`,'✦','magic');
+    for(const f of targets){F=f;f.asleep=false;const r=d(20),tot=r+mod(f.m.st[AB.indexOf(s.dc)]),ok=tot>=dc;let n=dr.total;if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);
+      log('',`${them()} ${ok?(s.hf?'partly dodges':'resists'):'is caught'} <span class="muted">(${tot} vs ${dc})</span>. ${t.v?`<span class="dmg">${t.v} damage</span>`:'No damage'}${t.note}.`,r,'magic');hitFoe(t.v)}
+    render();return endHeroTurn();
+  }
+  F=tgtFoe();if(!F)return;const m=F.m;const sl=F.asleep;F.asleep=false;
   if(s.at){const hb=pb+sm+(hero.bless||0);let r=20;
-    if(!sl)r=await heroD20({kind:'Spell attack',title:`Cast ${name}`,sub:`d20 ${sgn(hb)} · you need <b>${m.ac}</b> to hit`,flat:hb,tone:'magic',judge:judgeAtk(m.ac)});
+    if(!sl)r=await heroD20({kind:'Spell attack',title:`${who}Cast ${name}`,sub:`Target: the ${esc(m.n)} · d20 ${sgn(hb)} · you need <b>${m.ac}</b> to hit`,flat:hb,tone:'magic',judge:judgeAtk(m.ac)});
     const tot=r+hb,crit=!sl&&r===20,hit=sl||crit||(r!==1&&tot>=m.ac);
-    if(!hit)log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. Miss.`,r,'magic');
+    if(!hit)log('',`${you()} casts ${nm} at ${them()}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. Miss.`,r,'magic');
     else{const dr=await rollDmg({title:crit?`Critical! ${name} damage`:`${name} hits! Roll damage`,sub:`${dice} ${DMG[s.t]}${crit?' · <b>double dice</b>':''}`,parts:[dice],crit,tone:'magic'});
-      const t=foeTypeMod(dr.total,s.t);hitFoe(t.v);log('',`${you()} casts ${nm}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic')}}
-  else if(s.dc){const dc=8+pb+sm;const dr=await rollDmg({title:`Cast ${name}: roll damage`,sub:`${dice} ${DMG[s.t]} · then the ${esc(m.n)} tries a ${AB_SV[s.dc]} save against <b>${dc}</b>${s.hf?' (half damage if it succeeds)':' (no damage if it succeeds)'}`,parts:[dice],tone:'magic'});
-    const r=d(20),tot=r+mod(m.st[AB.indexOf(s.dc)]),ok=!sl&&tot>=dc;let n=dr.total;if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);hitFoe(t.v);
-    log('',`${you()} casts ${nm}. ${them()} tries to resist (${AB_K[s.dc]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(s.hf?'Partly!':'Resisted!'):'Fails!'} ${t.v?`<span class="dmg">${t.v} damage</span>`:''}${t.note}`,r,'magic')}
-  else{const dr=await rollDmg({title:`${name} always hits!`,sub:`${dice} ${DMG[s.t]}`,parts:[dice],tone:'magic'});const t=foeTypeMod(dr.total,s.t);hitFoe(t.v);log('',`${you()} casts ${nm}. It always hits! <span class="dmg">${t.v} damage</span>${t.note}.`,'✦','magic')}
-  return endHeroTurn();
+      const t=foeTypeMod(dr.total,s.t);log('',`${you()} casts ${nm} at ${them()}: <span class="muted">${r}${sgn(hb)} = ${tot} vs ${m.ac}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${t.v} damage</span> <span class="muted">(${DMG[s.t]})</span>${t.note}.`,r,crit?'crit':'magic');hitFoe(t.v)}}
+  else if(s.dc){const dc=8+pb+sm;const dr=await rollDmg({title:`${who}Cast ${name}: roll damage`,sub:`${dice} ${DMG[s.t]} · then the ${esc(m.n)} tries a ${AB_SV[s.dc]} save against <b>${dc}</b>${s.hf?' (half damage if it succeeds)':' (no damage if it succeeds)'}`,parts:[dice],tone:'magic'});
+    const r=d(20),tot=r+mod(m.st[AB.indexOf(s.dc)]),ok=!sl&&tot>=dc;let n=dr.total;if(ok)n=s.hf?Math.floor(n/2):0;const t=foeTypeMod(n,s.t);
+    log('',`${you()} casts ${nm}. ${them()} tries to resist (${AB_K[s.dc]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(s.hf?'Partly!':'Resisted!'):'Fails!'} ${t.v?`<span class="dmg">${t.v} damage</span>`:''}${t.note}`,r,'magic');hitFoe(t.v)}
+  else{const dr=await rollDmg({title:`${who}${name} always hits!`,sub:`Target: the ${esc(m.n)} · ${dice} ${DMG[s.t]}`,parts:[dice],tone:'magic'});const t=foeTypeMod(dr.total,s.t);log('',`${you()} casts ${nm} at ${them()}. It always hits! <span class="dmg">${t.v} damage</span>${t.note}.`,'✦','magic');hitFoe(t.v)}
+  render();return endHeroTurn();
 }
 async function doBreath(){
-  hero.breath=0;adv.foe.asleep=false;const st=scores(hero),dc=8+mod(st.con)+prof(hero.lvl),m=adv.foe.m;const ab=['cold','poison'].includes(hero.dragon)?'con':'dex';
-  const dice=`${hero.lvl>=6?3:2}d6`;
-  const dr=await rollDmg({title:`Breathe ${DMG[hero.dragon]}!`,sub:`${dice} ${DMG[hero.dragon]} · the ${esc(m.n)} tries a ${AB_SV[ab]} save against <b>${dc}</b> for half damage`,parts:[dice],tone:'magic'});
-  const r=d(20),tot=r+mod(m.st[AB.indexOf(ab)]),ok=tot>=dc;let n=dr.total;if(ok)n=Math.floor(n/2);const t=foeTypeMod(n,hero.dragon);hitFoe(t.v);
-  log('',`${you()} breathes ${DMG[hero.dragon]}! ${them()} rolls ${tot} vs ${dc}: ${ok?'half damage':'full hit'}. <span class="dmg">${t.v} damage</span>${t.note}.`,'≋','magic');return endHeroTurn();
+  hero.breath=0;const st=scores(hero),dc=8+mod(st.con)+prof(hero.lvl);const ab=['cold','poison'].includes(hero.dragon)?'con':'dex';
+  const dice=`${hero.lvl>=6?3:2}d6`;const targets=foesLeft();
+  const dr=await rollDmg({title:`${party.length>1?first(hero)+': ':''}Breathe ${DMG[hero.dragon]}!`,sub:`${dice} ${DMG[hero.dragon]} · hits <b>every enemy</b> · each tries a ${AB_SV[ab]} save against <b>${dc}</b> for half damage`,parts:[dice],tone:'magic'});
+  log('',`${you()} breathes ${DMG[hero.dragon]}!`,'≋','magic');
+  for(const f of targets){F=f;f.asleep=false;const r=d(20),tot=r+mod(f.m.st[AB.indexOf(ab)]),ok=tot>=dc;let n=dr.total;if(ok)n=Math.floor(n/2);const t=foeTypeMod(n,hero.dragon);
+    log('',`${them()} rolls ${tot} vs ${dc}: ${ok?'half damage':'full hit'}. <span class="dmg">${t.v} damage</span>${t.note}.`,r,'magic');hitFoe(t.v)}
+  render();return endHeroTurn();
 }
-async function doPotion(greater){if(greater){if(!hero.greater)return;hero.greater--}else{if(!hero.potions)return;hero.potions--}
-  const hr=await rollDmg({kind:'Healing',title:greater?'Drink a potion of greater healing':'Drink a potion of healing',sub:greater?'4d4+4 hit points':'2d4+2 hit points',parts:[greater?'4d4+4':'2d4+2'],tone:'heal'});
-  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+hr.total);
-  log('',`${you()} drinks a ${greater?'potion of greater healing':'potion of healing'}. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal');
+async function doPotion(greater){if(greater){if(!bag.greater)return;bag.greater--}else{if(!bag.potions)return;bag.potions--}
+  const tg=healTarget();const self=tg===hero||adv.phase!=='fight';
+  const hr=await rollDmg({kind:'Healing',title:greater?`Potion of greater healing for ${healTxt(tg)}`:`Potion of healing for ${healTxt(tg)}`,sub:`${greater?'4d4+4':'2d4+2'} hit points${tg.hp<=0?' · wakes them up':''}`,parts:[greater?'4d4+4':'2d4+2'],tone:'heal'});
+  const got=healHero(tg,hr.total);
+  log('',self?`<b class="you">${first(tg)}</b> drinks a ${greater?'potion of greater healing':'potion of healing'}. <span class="heal">+${got} HP</span>.`:`${you()} pours a potion into <b class="you">${first(tg)}</b>'s mouth. <span class="heal">+${got} HP</span>.`,'✚','heal');
   if(adv.phase==='fight')return endHeroTurn();save();render()}
 async function doSecondWind(){hero.sw=0;const hr=await rollDmg({kind:'Healing',title:'Second Wind',sub:`1d10 + ${hero.lvl} (your level) hit points · your turn continues`,parts:['1d10'],flat:hero.lvl,tone:'heal'});
-  const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+hr.total);log('',`${you()} takes a deep breath. Second Wind: <span class="heal">+${hero.hp-b} HP</span>. Your turn continues.`,'✚','heal');save();render()}
-function doRage(){hero.rage--;adv.rage=true;log('',`${you()} roars and flies into a rage!`,'!','crit');save();render()}
-function doLay(){const need=hero.hpMax-hero.hp,use=Math.min(need,hero.loh);hero.loh-=use;hero.hp+=use;log('',`${you()} lays hands on the wounds. <span class="heal">+${use} HP</span>.`,'✚','heal');endHeroTurn()}
+  const got=healHero(hero,hr.total);log('',`${you()} takes a deep breath. Second Wind: <span class="heal">+${got} HP</span>. The turn continues.`,'✚','heal');save();render()}
+function doRage(){hero.rage--;hero.raging=true;log('',`${you()} roars and flies into a rage!`,'!','crit');save();render()}
+function doLay(){const tg=healTarget();const use=Math.min(tg.hpMax-Math.max(0,tg.hp),hero.loh);hero.loh-=use;const got=healHero(tg,use);log('',`${you()} lays hands on <b class="you">${first(tg)}</b>. <span class="heal">+${got} HP</span>.`,'✚','heal');return endHeroTurn()}
 async function doFlee(){
   if(adv.room&&adv.room.t==='boss')return;
-  const dm=mod(scores(hero).dex),dc=10+mod(adv.foe.m.st[1]);
-  const r=await heroD20({kind:'Dexterity check',title:'Run for it!',sub:`d20 ${sgn(dm)} · you need <b>${dc}</b> to get away`,flat:dm,tone:'check',judge:judgeDc(dc,'You get away!','Blocked!')});
+  const dm=mod(scores(hero).dex),dc=10+Math.max(...foesLeft().map(f=>mod(f.m.st[1])));
+  const r=await heroD20({kind:'Dexterity check',title:party.length>1?`${first(hero)} leads the escape!`:'Run for it!',sub:`d20 ${sgn(dm)} · you need <b>${dc}</b> to get away`,flat:dm,tone:'check',judge:judgeDc(dc,'You get away!','Blocked!')});
   const tot=r+dm;
-  if(tot>=dc){log('',`${you()} runs for their life <span class="muted">(${tot} vs ${dc})</span> and gets away!`,r,'hit');adv.foe=null;adv.phase='room';adv.room.done=true;adv.rage=false;adv.fled=true;save();render()}
-  else{log('',`${you()} tries to flee but ${them()} blocks the way <span class="muted">(${tot} vs ${dc})</span>.`,r,'fail');return endHeroTurn()}
+  if(tot>=dc){log('',`${party.length>1?'The party runs':you()+' runs'} for their lives <span class="muted">(${tot} vs ${dc})</span> and gets away!`,r,'hit');adv.foes=[];F=null;adv.phase='room';adv.room.done=true;adv.fled=true;party.forEach(h=>{h.raging=false;if(h.hp<=0)h.hp=1});save();render()}
+  else{log('',`${you()} tries to flee but the way is blocked <span class="muted">(${tot} vs ${dc})</span>.`,r,'fail');return endHeroTurn()}
 }
 function endHeroTurn(){
-  if(adv.foe)adv.foe.asleep=false;
-  if(adv.foe&&adv.foe.hp<=0){winFight();return Promise.resolve()}
-  adv.busy=true;save();render();
-  return new Promise(res=>setTimeout(async()=>{try{await monsterTurn()}finally{adv.busy=false;save();render();res()}},reduced?120:650));
+  adv.foes.forEach(f=>f.asleep=false);
+  if(!foesLeft().length){winFight();return Promise.resolve()}
+  adv.acted[adv.turn]=true;
+  const nx=nextActor(adv.turn);
+  if(nx>=0){adv.turn=nx;hero=party[nx];save();render();return Promise.resolve()}
+  return monstersTurn().then(()=>{if(adv.phase!=='fight')return;adv.round++;adv.acted=party.map(h=>h.hp<=0);adv.turn=nextActor(-1);if(adv.turn<0)die();else hero=party[adv.turn];save();render()});
 }
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+async function monstersTurn(){
+  adv.busy=true;save();render();
+  await wait(reduced?120:550);
+  for(const f of adv.foes){
+    if(f.hp<=0)continue;if(!alive().length)break;F=f;
+    await monsterTurn();render();
+    await wait(reduced?60:380);
+  }
+  adv.busy=false;F=tgtFoe();
+  if(!alive().length)die();
+  save();render();
+}
 async function monsterTurn(){
-  const f=adv.foe;if(!f||f.hp<=0||hero.hp<=0)return;const m=f.m;const myAc=ac(hero);
+  const f=F;if(!f||f.hp<=0||!alive().length)return;const m=f.m;const dd=D();
   const sv=m.sv;
   if(sv&&!f.charged&&sv.r){const r=d(6);if(r>=sv.r){f.charged=true;log('note',`${them()} recharges ${esc(sv.n)}.`,'d6')}}
   if(sv&&f.charged&&!f.first){
-    f.charged=false;const st=scores(hero),abi=sv.ab;let saveB=mod(st[abi]||10);if(CL[hero.cls].sv.includes(abi))saveB+=prof(hero.lvl);
-    save();render();
-    const r=await heroD20({kind:`${AB_SV[abi]} saving throw`,title:`${m.n} uses ${sv.n}! Dodge!`,sub:`d20 ${sgn(saveB)} · you need <b>${sv.dc}</b>${sv.h?' to take only half damage':' to avoid it'}`,flat:saveB,tone:'save',judge:judgeDc(sv.dc,sv.h?'Half damage!':'Dodged it!','Full hit!')});
-    const tot=r+saveB,ok=tot>=sv.dc;let n=0,parts=[];for(const [dc,t] of sv.d){let v=roll(dc);if(resist(t))v=Math.floor(v/2);n+=v;parts.push(DMG[t]||t)}
-    if(ok)n=sv.h?Math.floor(n/2):0;hurtHero(n);adv.shake='hero';
-    log('',`${them()} uses <b>${esc(sv.n)}</b>! ${you()} tries to dodge (${AB_K[abi]}): <span class="muted">${tot} vs ${sv.dc}</span>. ${ok?(sv.h?'Half damage.':'Dodged it!'):'Full hit!'} ${n?`<span class="dmg">${n} damage</span> <span class="muted">(${parts.join(', ')})</span>`:''}`,r,ok?'':'fail');
+    f.charged=false;const dc=sv.dc+dd.dc;
+    log('',`${them()} uses <b>${esc(sv.n)}</b>!`,'!','fail');
+    let base=0;const parts=[];for(const [dz,t] of sv.d){base+=0;parts.push([roll(dz),t])}
+    for(const h of alive()){hero=h;const abi=sv.ab;let saveB=mod(scores(h)[abi]||10);if(CL[h.cls].sv.includes(abi))saveB+=prof(h.lvl);
+      save();render();
+      const r=await heroD20({kind:`${AB_SV[abi]} saving throw`,title:`${party.length>1?first(h)+': ':''}${m.n} uses ${sv.n}! Dodge!`,sub:`d20 ${sgn(saveB)} · you need <b>${dc}</b>${sv.h?' to take only half damage':' to avoid it'}`,flat:saveB,tone:'save',judge:judgeDc(dc,sv.h?'Half damage!':'Dodged it!','Full hit!')});
+      const tot=r+saveB,ok=tot>=dc;let n=0;for(const [v0,t] of parts){let v=v0;if(resist(t))v=Math.floor(v/2);n+=v}
+      if(ok)n=sv.h?Math.floor(n/2):0;
+      log('',`${you()} tries to dodge (${AB_K[abi]}): <span class="muted">${tot} vs ${dc}</span>. ${ok?(sv.h?'Half damage.':'Dodged it!'):'Full hit!'} ${n?`<span class="dmg">${n} damage</span> <span class="muted">(${parts.map(p=>DMG[p[1]]||p[1]).join(', ')})</span>`:''}`,r,ok?'':'fail');
+      if(n){hurtHero(n);adv.shake='hero'}
+    }
   }else{
     let plan=[];if(m.m){for(const [nm,c] of m.m){const a=m.a.find(x=>x.n===nm);if(!a)continue;const cnt=typeof c==='number'?c:roll(c);for(let k=0;k<cnt;k++)plan.push(a)}}
     if(!plan.length)plan=[m.a.slice().sort((x,y)=>y.d.reduce((s,z)=>s+avg(z[0]),0)-x.d.reduce((s,z)=>s+avg(z[0]),0))[0]];
-    for(const a of plan){if(hero.hp<=0)break;
-      const r=d(20),tot=r+a.b,crit=r===20,hit=crit||(r!==1&&tot>=myAc);
-      if(!hit){log('',`${them()} attacks with ${esc(a.n)}: <span class="muted">${r}${sgn(a.b)} = ${tot} vs ${myAc}</span>. Miss.`,r,'');continue}
-      let n=0;const parts=[];let res=false;for(const [dc,t] of a.d){let v=roll(dc,crit);if(resist(t)){v=Math.floor(v/2);res=true}n+=v;parts.push(DMG[t]||t)}
+    hero=pick(alive());
+    for(const a of plan){if(!alive().length)break;if(hero.hp<=0)hero=pick(alive());
+      const myAc=ac(hero),bonus=a.b+dd.atk;
+      const r=d(20),tot=r+bonus,crit=r===20,hit=crit||(r!==1&&tot>=myAc);
+      if(!hit){log('',`${them()} attacks ${you()} with ${esc(a.n)}: <span class="muted">${r}${sgn(bonus)} = ${tot} vs ${myAc}</span>. Miss.`,r,'');continue}
+      let n=0;const ps=[];let res=false;for(const [dz,t] of a.d){let v=roll(dz,crit);if(resist(t)){v=Math.floor(v/2);res=true}n+=v;ps.push(DMG[t]||t)}
+      log('',`${them()} attacks ${you()} with ${esc(a.n)}: <span class="muted">${r}${sgn(bonus)} = ${tot} vs ${myAc}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${n} damage</span> <span class="muted">(${ps.join(', ')}${res?', resisted, half damage':''})</span>.`,r,'fail');
       hurtHero(n);adv.shake='hero';
-      log('',`${them()} attacks with ${esc(a.n)}: <span class="muted">${r}${sgn(a.b)} = ${tot} vs ${myAc}</span>. ${crit?'<b>Critical hit!</b>':'Hit!'} <span class="dmg">${n} damage</span> <span class="muted">(${parts.join(', ')}${res?', you resist it, half damage':''})</span>.`,r,crit?'fail':'fail');
     }
   }
   f.first=false;
-  if(hero.hp<=0)die();
 }
 function winFight(){
-  const m=adv.foe.m;adv.kills++;adv.rage=false;
-  log('',`${them()} falls! ${you()} gains <b>${Math.max(10,m.xp)} XP</b>.`,'✝','crit');
-  gainXp(Math.max(10,m.xp));
-  if(hero.hp<hero.hpMax){const b=hero.hp;hero.hp=Math.min(hero.hpMax,hero.hp+Math.max(1,d(CL[hero.cls].hd)+mod(scores(hero).con)));log('',`${you()} catches their breath and binds their wounds. <span class="heal">+${hero.hp-b} HP</span>.`,'✚','heal')}
-  const boss=adv.room.t==='boss';
+  const dead=adv.foes;const xp=dead.reduce((s,f)=>s+Math.max(10,f.m.xp),0);const share=Math.ceil(xp/party.length);
+  const top=dead.slice().sort((a,b)=>b.m.cr-a.m.cr)[0].m.n;adv.lastFoe=dead.length>1?`${top} and its allies`:top;
+  log('',`Victory! ${party.length>1?`Each hero gains <b>${share} XP</b>.`:`${you()} gains <b>${share} XP</b>.`}`,'★','crit');
+  party.forEach(h=>{h.raging=false;
+    if(h.hp<=0){h.hp=1;log('',`<b class="you">${first(h)}</b> wakes up with 1 HP.`,'✚','heal')}
+    else if(h.hp<h.hpMax){const got=healHero(h,Math.round((d(CL[h.cls].hd)+mod(scores(h).con))*D().heal));log('',`<b class="you">${first(h)}</b> catches their breath and binds their wounds. <span class="heal">+${got} HP</span>.`,'✚','heal')}});
+  party.forEach(h=>gainXp(h,share));
+  const boss=adv.room.t==='boss';adv.foes=[];F=null;
   if(boss){adv.phase='won';adv.room.loot=rollLoot();adv.room.loot.push({k:'gpot',n:'Potion of Greater Healing',sv:''});takeLootSilent();}
-  else if(adv.room.afterLoot){adv.phase='room';adv.room.done=false;adv.room.t='treasure';adv.room.loot=rollLoot(true);log('note',`The chest the monster was guarding stands open.`,'¤','heal')}
+  else if(adv.room.afterLoot){adv.phase='room';adv.room.done=false;adv.room.t='treasure';adv.room.loot=rollLoot(true);log('note',`The chest they were guarding stands open.`,'¤','heal')}
   else{adv.phase='room';adv.room.done=true;adv.room.t='fight';if(Math.random()<.3){adv.room.loot=rollLoot().slice(0,1);takeLootSilent()}}
-  adv.lastFoe=m.n;adv.foe=null;save();render();
+  save();render();
 }
-function takeLootSilent(){applyLoot(adv.room.loot);log('',`Loot: ${adv.room.loot.map(x=>x.n).join(', ')}.`,'¤','heal')}
-function gainXp(n){
-  hero.xp+=n;adv.xpGain+=n;
-  while(hero.lvl<10&&hero.xp>=XPT[hero.lvl]){
-    hero.lvl++;const st=scores(hero);const inc=Math.max(1,Math.floor(CL[hero.cls].hd/2)+1+mod(st.con));hero.hpMax+=inc;hero.hp+=inc;
-    hero.loh=5*hero.lvl;const ns=slotsFor(hero);hero.slots=ns;
-    let more=[`+${inc} HP`];if(ns)more.push(`${ns} spell slots`);if(hero.lvl===5)more.push('better accuracy');if(hero.cls==='fighter'&&hero.lvl===5)more.push('two attacks per turn');if(hero.cls==='rogue'&&hero.lvl%2===1)more.push('stronger sneak attack');
-    log('',`<span class="levelup">Level up! ${esc(hero.name.split(' ')[0])} is now level ${hero.lvl}</span>: ${more.join(', ')}.`,'★','crit');
+function takeLootSilent(){const names=applyLoot(adv.room.loot);log('',`Loot: ${names.join(', ')}.`,'¤','heal')}
+function gainXpAll(n){party.forEach(h=>gainXp(h,n))}
+function gainXp(h,n){
+  h.xp+=n;
+  while(h.lvl<10&&h.xp>=XPT[h.lvl]){
+    h.lvl++;const st=scores(h);const inc=Math.max(1,Math.floor(CL[h.cls].hd/2)+1+mod(st.con));h.hpMax+=inc;if(h.hp>0)h.hp+=inc;
+    h.loh=5*h.lvl;const ns=slotsFor(h);h.slots=ns;
+    let more=[`+${inc} HP`];if(ns)more.push(`${ns} spell slots`);if(h.lvl===5)more.push('better accuracy');if(h.cls==='fighter'&&h.lvl===5)more.push('two attacks per turn');if(h.cls==='rogue'&&h.lvl%2===1)more.push('stronger sneak attack');
+    log('',`<span class="levelup">Level up! ${first(h)} is now level ${h.lvl}</span>: ${more.join(', ')}.`,'★','crit');
   }
 }
-function die(){adv.phase='dead';log('sep','The hero has fallen')}
-function retry(){hero=JSON.parse(JSON.stringify(hero.start));startAdventure();save();render()}
-function newOne(){adv=null;hero=newHero();setView('gen')}
+function die(){adv.phase='dead';adv.busy=false;log('sep',party.length>1?'The party has fallen':'The hero has fallen')}
+function retry(){party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure();save();render()}
+function newOne(){adv=null;party=[newHero()];edit=0;hero=party[0];setView('gen')}
 
 /* ---------- View: adventure ---------- */
 function meter(label,v,max,cls){const p=Math.max(0,Math.min(100,v/max*100));return `<div class="meter"><div class="top"><span>${label}</span><span><strong>${v}</strong> / ${max}</span></div><div class="bar ${cls||''}"><i class="${cls?'':p<30?'low':''}" style="width:${p}%"></i></div></div>`}
+function chkSub(kind,dc){const [ab,profFor,extra]=CHK[kind];const h=picked();const b=bonusFor(h,ab,profFor,extra);let s=`${party.length>1?first(h)+' ':''}${AB_K[ab]} ${sgn(b)} vs ${dc}`;if(party.length>1){const bst=bestFor(ab,profFor,extra);if(bst.h&&bst.h!==h&&bst.b>b)s+=` · best: ${first(bst.h)} ${sgn(bst.b)}`}return s}
+function whoHtml(label){if(party.length<2)return '';return `<div class="who-pick" role="radiogroup" aria-label="${label||'Who does it?'}"><span class="eyebrow">${label||'Who does it?'}</span>${party.map((h,i)=>`<button type="button" role="radio" class="pk ${i===adv.pick?'on':''}" aria-checked="${i===adv.pick}" data-act="who" data-i="${i}" ${h.hp<=0?'disabled':''}><canvas class="pk-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas>${first(h)}</button>`).join('')}</div>`}
 function renderAdv(){
-  const h=hero;const st=scores(h);
-  const nextXp=h.lvl<10?XPT[h.lvl]:h.xp,prevXp=XPT[h.lvl-1];
-  const wide=matchMedia('(min-width: 861px)').matches;
-  const status=`<aside class="sheet status ${adv.shake==='hero'?'shake':''}" aria-label="The hero">
-    <div class="who"><span class="eyebrow">${RACE_SV[h.race]} ${CLS_SV[h.cls].toLowerCase()}</span><h2><span class="full">${esc(h.name)}</span><span class="first">${esc(h.name.split(' ')[0])}</span></h2></div>
-    <div class="minis"><div><b>${ac(h)}</b><span>Armor</span></div><div><b>${h.lvl}</b><span>Level</span></div><div><b>${h.gold}</b><span>Gold</span></div></div>
-    <div class="hpm">${meter('Hit points',h.hp,h.hpMax)}</div>
+  const wide=matchMedia('(min-width: 861px)').matches;const P=adv.phase;
+  if(P==='fight'&&adv.turn>=0)hero=party[adv.turn];else if(P!=='fight')hero=picked();
+  const act=P==='fight'&&!adv.busy?adv.turn:-1;
+  const rows=party.map((h,i)=>{const p=Math.max(0,h.hp/h.hpMax*100);return `<div class="pm ${i===act?'act':''} ${h.hp<=0?'down':''}"><canvas class="pm-ico" data-hero="${i}" width="14" height="16" aria-hidden="true"></canvas><div class="pm-main"><div class="pm-top"><b>${first(h)}</b><span class="pm-cls">${CLS_SV[h.cls]} ${h.lvl}</span><span class="pm-ac">AC ${ac(h)}</span></div><div class="bar"><i class="${p<30?'low':''}" style="width:${p}%"></i></div><div class="pm-sub"><span>${h.hp<=0?'Unconscious':`${h.hp} / ${h.hpMax} HP`}</span>${CL[h.cls].sa?`<span class="pips">${Array.from({length:slotsFor(h)},(_,k)=>`<i class="${k<h.slots?'on':''}"></i>`).join('')}</span>`:''}</div></div></div>`}).join('');
+  const items=party.flatMap(h=>h.items.map(i=>`<div class="line"><span>${esc(i)}</span><code>${first(h)}</code></div>`)).join('');
+  const status=`<aside class="sheet status ${adv.shake==='hero'?'shake':''}" aria-label="${party.length>1?'Your party':'Your hero'}">
+    <div class="party">${rows}</div>
     <details class="more" id="more" ${wide||adv.moreOpen?'open':''}>
-      <summary>Pack &amp; XP <span class="muted">· ${h.potions} potion${h.potions===1?'':'s'}${CL[h.cls].sa?` · ${h.slots} slot${h.slots===1?'':'s'}`:''}</span></summary>
+      <summary>Pack &amp; XP <span class="muted">· ${bag.potions} potion${bag.potions===1?'':'s'} · ${bag.gold} gold</span></summary>
       <div class="more-in">
-      ${meter(`Level ${h.lvl} · XP`,h.xp-prevXp,nextXp-prevXp||1,'xp')}
-      ${CL[h.cls].sa?`<div class="block"><span class="eyebrow">Spell slots</span><div class="pips">${Array.from({length:slotsFor(h)},(_,i)=>`<i class="${i<h.slots?'on':''}"></i>`).join('')}</div></div>`:''}
-      <div class="bag"><span class="eyebrow">Pack</span>
-        <div class="line"><span>Potion of Healing</span><code>× ${h.potions}</code></div>
-        ${h.greater?`<div class="line"><span>Potion of Greater Healing</span><code>× ${h.greater}</code></div>`:''}
-        ${h.items.map(i=>`<div class="line"><span>${esc(i)}</span></div>`).join('')}
-        ${h.cls==='paladin'?`<div class="line"><span>Lay on Hands</span><code>${h.loh} HP left</code></div>`:''}
-        ${h.bless?`<div class="line"><span>Blessed</span><code>+1 to hit</code></div>`:''}
-        ${h.curse?`<div class="line"><span>Cursed</span><code>-1 armor class</code></div>`:''}
+      ${party.map(h=>{const nx=h.lvl<10?XPT[h.lvl]:h.xp,pv=XPT[h.lvl-1];return meter(`${first(h)} · level ${h.lvl} XP`,h.xp-pv,nx-pv||1,'xp')}).join('')}
+      <div class="bag"><span class="eyebrow">${party.length>1?'Party pack':'Pack'}</span>
+        <div class="line"><span>Potion of Healing</span><code>× ${bag.potions}</code></div>
+        ${bag.greater?`<div class="line"><span>Potion of Greater Healing</span><code>× ${bag.greater}</code></div>`:''}
+        <div class="line"><span>Gold</span><code>${bag.gold}</code></div>
+        ${items}
+        ${party.filter(h=>h.cls==='paladin').map(h=>`<div class="line"><span>Lay on Hands</span><code>${first(h)} · ${h.loh} HP</code></div>`).join('')}
+        ${party.some(h=>h.bless)?`<div class="line"><span>Blessed</span><code>+1 to hit</code></div>`:''}
+        ${party.filter(h=>h.curse).map(h=>`<div class="line"><span>Cursed</span><code>${first(h)} · -1 AC</code></div>`).join('')}
       </div>
-      <div class="muted" style="font-size:13px">Defeated: ${adv.kills} · Chapter ${adv.chapter}</div>
+      <div class="muted" style="font-size:13px">Defeated: ${adv.kills} · Chapter ${adv.chapter} · ${D().name}</div>
       </div>
     </details>
   </aside>`;
   let steps='';for(let i=1;i<=DEPTH;i++){steps+=(i>1?'<span class="rule"></span>':'')+(i===DEPTH?`<span class="step boss ${adv.depth===i?'here':''}" title="The boss">Boss</span>`:`<span class="step ${i<adv.depth?'done':''} ${i===adv.depth?'here':''}">${i}</span>`)}
-  let stage='';
-  const P=adv.phase;
+  let stage='';const h=hero;
+  const potBtn=(cls,label)=>bag.potions&&party.some(x=>x.hp<x.hpMax)?`<button class="btn ${cls||''}" data-act="pot">${label||'Use a potion'}<small>for ${first(healTarget())} · ${bag.potions} left</small></button>`:'';
   if(P==='doors'){
-    if(adv.depth===DEPTH){stage=`<h2>The Last Gate</h2><p>A massive door of black iron. Behind it waits the master of the cave. There is no way around.</p><div class="actions"><button class="btn primary" data-act="enter" data-t="boss">Open the gate</button>${h.potions&&h.hp<h.hpMax?`<button class="btn" data-act="pot">Drink a potion first</button>`:''}${h.greater&&h.hp<h.hpMax?`<button class="btn" data-act="gpot">Drink a greater potion first</button>`:''}</div>`}
+    if(adv.depth===DEPTH){stage=`<h2>The Last Gate</h2><p>A massive door of black iron. Behind it waits the master of the cave${party.length>1?' and its servants':''}. There is no way around.</p><div class="actions"><button class="btn primary" data-act="enter" data-t="boss">Open the gate</button>${potBtn('','Use a potion first')}${bag.greater&&party.some(x=>x.hp<x.hpMax)?`<button class="btn" data-act="gpot">Greater potion first<small>for ${first(healTarget())}</small></button>`:''}</div>`}
     else{
       const n=adv.doors.length;const names=n===1?['Only way']:n===2?['Left path','Right path']:['Left path','Middle path','Right path'];const runes=['ᚲ','ᛟ','ᚱ'];
       const title=adv.depth===1&&adv.chapter===1?'The Cave Mouth':n===1?'A Narrow Passage':n===2?'Two Paths':'Three Paths';
       const intro=n===1?'The passage only goes one way. There is nothing to choose, but you can listen first.':'The passage splits. The clues can mean different things. Listen if you want to know more, but something might hear you.';
       stage=`<h2>${title}</h2><p>${intro}</p><div class="doors" style="grid-template-columns:repeat(${n===3?3:n},minmax(0,1fr))">${adv.doors.map((x,i)=>`<button class="door" type="button" data-act="enter" data-t="${i}"><span class="knob">${runes[n===1?1:n===2?i*2:i]}</span><span class="lbl">${names[i]}</span><span class="hint">${x.hint}</span>${x.known?`<span class="known">${KNOWN[x.t]}</span>`:''}</button>`).join('')}</div>
-      <div class="actions" style="margin-top:14px"><button class="btn" data-act="listen" ${adv.listened?'disabled':''}>${adv.listened?'You have already listened':'Listen at the doors'}<small>WIS vs ${cdc(12)} · may wake something</small></button>${h.potions&&h.hp<h.hpMax/2?`<button class="btn" data-act="pot">Drink a potion</button>`:''}</div>`;
+      ${adv.listened?'':whoHtml('Who listens?')}
+      <div class="actions" style="margin-top:14px"><button class="btn" data-act="listen" ${adv.listened?'disabled':''}>${adv.listened?'You have already listened':'Listen at the doors'}<small>${adv.listened?'':chkSub('listen',cdc(12))+' · may wake something'}</small></button>${party.some(x=>x.hp<x.hpMax/2)?potBtn():''}</div>`;
     }
   }else if(P==='fight'){
-    const f=adv.foe,m=f.m,p=f.hp/m.hp*100;
+    const busy=adv.busy;const tf=tgtFoe();
+    const foes=adv.foes.map((f,i)=>{const m=f.m,p=f.hp/f.max*100;if(f.hp<=0)return `<div class="foe dead"><div style="min-width:0"><h3>${esc(m.n)}</h3><div class="meta">Defeated</div></div></div>`;
+      return `<button type="button" class="foe ${i===adv.tgt?'on':''} ${adv.shake==='foe'&&f===F?'shake':''}" data-act="tgt" data-i="${i}" aria-pressed="${i===adv.tgt}" ${busy?'disabled':''}><div class="rune" aria-hidden="true">${SIGIL[m.t]||'ᛦ'}</div><div style="min-width:0"><h3>${esc(m.n)}${f.asleep?' <span class="zz">asleep</span>':''}${adv.foes.length>1&&i===adv.tgt?' <span class="tgt-tag">Target</span>':''}</h3><div class="meta">${SIZE[m.s]} ${TYPE[m.t]||m.t} · challenge ${crTxt(m.cr)}${m.im?` · immune: ${m.im.map(t=>DMG[t]).join(', ')}`:''}${m.rs?` · resists: ${m.rs.map(t=>DMG[t]).join(', ')}`:''}${m.vu?` · vulnerable: ${m.vu.map(t=>DMG[t]).join(', ')}`:''}</div></div><div class="nums">Armor <b>${m.ac}</b><br>HP <b>${f.hp}</b> / ${f.max}</div><div class="bar"><i class="${p<30?'low':''}" style="width:${p}%"></i></div></button>`}).join('');
     const acts=[];
     h.weapons.forEach(wi=>{const s=wStats(h,wi);acts.push(`<button class="btn" data-act="atk" data-w="${wi}">${s.ranged?'Shoot':'Attack'}: ${esc(s.name)}<small>${sgn(s.hit)} · ${s.dice}${s.dm?sgn(s.dm):''}</small></button>`)});
-    h.spells.forEach(id=>{const s=SP[id];const dis=s.l===1&&h.slots<=0;acts.push(`<button class="btn magic" data-act="spell" data-s="${id}" ${dis?'disabled':''}>${esc(sName(id))}<small>${s.h?'heals':spellDice(h,s)+' '+DMG[s.t]}${s.l?' · slot':''}</small></button>`)});
-    if(h.cls==='fighter')acts.push(`<button class="btn" data-act="sw" ${h.sw?'':'disabled'}>Second Wind<small>free · ${h.sw?'ready':'used'}</small></button>`);
-    if(h.cls==='barbarian')acts.push(`<button class="btn" data-act="rage" ${h.rage&&!adv.rage?'':'disabled'}>${adv.rage?'Raging!':'Rage'}<small>free · ${h.rage} left</small></button>`);
-    if(h.cls==='paladin')acts.push(`<button class="btn" data-act="lay" ${h.loh&&h.hp<h.hpMax?'':'disabled'}>Lay on Hands<small>${h.loh} left</small></button>`);
-    if(h.dragon)acts.push(`<button class="btn magic" data-act="breath" ${h.breath?'':'disabled'}>Breath Weapon<small>${h.lvl>=6?3:2}d6 ${DMG[h.dragon]}</small></button>`);
-    acts.push(`<button class="btn" data-act="pot" ${h.potions&&h.hp<h.hpMax?'':'disabled'}>Potion<small>${h.potions} left · 2d4+2</small></button>`);
-    if(h.greater)acts.push(`<button class="btn" data-act="gpot" ${h.hp<h.hpMax?'':'disabled'}>Greater potion<small>${h.greater} left · 4d4+4</small></button>`);
-    acts.push(adv.room.t==='boss'?`<button class="btn" disabled>Flee<small>no way out</small></button>`:`<button class="btn" data-act="flee">Flee<small>DEX vs ${10+mod(m.st[1])}</small></button>`);
-    stage=`<div class="foe ${adv.shake==='foe'?'shake':''}"><div class="rune" aria-hidden="true">${SIGIL[m.t]||'ᛦ'}</div><div style="min-width:0"><h3>${esc(m.n)}</h3><div class="meta">${SIZE[m.s]} ${TYPE[m.t]||m.t} · challenge ${crTxt(m.cr)}${m.im?` · immune: ${m.im.map(t=>DMG[t]).join(', ')}`:''}${m.rs?` · resists: ${m.rs.map(t=>DMG[t]).join(', ')}`:''}${m.vu?` · vulnerable: ${m.vu.map(t=>DMG[t]).join(', ')}`:''}</div></div><div class="nums">Armor <b>${m.ac}</b><br>HP <b>${f.hp}</b> / ${m.hp}</div><div class="bar"><i class="${p<30?'low':''}" style="width:${p}%"></i></div></div>
-      <div class="actions fightacts" aria-busy="${!!adv.busy}">${acts.join('').replace(/<button /g,adv.busy?'<button disabled ':'<button ')}</div>
+    h.spells.forEach(id=>{const s=SP[id];const dis=s.l===1&&h.slots<=0;acts.push(`<button class="btn magic" data-act="spell" data-s="${id}" ${dis?'disabled':''}>${esc(sName(id))}<small>${s.h?'heals '+first(healTarget()):spellDice(h,s)+' '+DMG[s.t]}${AREA.has(id)?' · all enemies':''}${s.l?' · slot':''}</small></button>`)});
+    if(h.cls==='fighter')acts.push(`<button class="btn" data-act="sw" ${h.sw&&h.hp<h.hpMax?'':'disabled'}>Second Wind<small>free · ${h.sw?'ready':'used'}</small></button>`);
+    if(h.cls==='barbarian')acts.push(`<button class="btn" data-act="rage" ${h.rage&&!h.raging?'':'disabled'}>${h.raging?'Raging!':'Rage'}<small>free · ${h.rage} left</small></button>`);
+    if(h.cls==='paladin'){const tg=healTarget();acts.push(`<button class="btn" data-act="lay" ${h.loh&&tg.hp<tg.hpMax?'':'disabled'}>Lay on Hands<small>for ${first(tg)} · ${h.loh} left</small></button>`)}
+    if(h.dragon)acts.push(`<button class="btn magic" data-act="breath" ${h.breath?'':'disabled'}>Breath Weapon<small>${h.lvl>=6?3:2}d6 ${DMG[h.dragon]} · all enemies</small></button>`);
+    {const tg=healTarget();acts.push(`<button class="btn" data-act="pot" ${bag.potions&&tg.hp<tg.hpMax?'':'disabled'}>Potion<small>for ${first(tg)} · ${bag.potions} left</small></button>`);if(bag.greater)acts.push(`<button class="btn" data-act="gpot" ${tg.hp<tg.hpMax?'':'disabled'}>Greater potion<small>for ${first(tg)} · ${bag.greater} left</small></button>`)}
+    acts.push(adv.room.t==='boss'?`<button class="btn" disabled>Flee<small>no way out</small></button>`:`<button class="btn" data-act="flee">Flee<small>DEX vs ${10+Math.max(...foesLeft().map(f=>mod(f.m.st[1])))}</small></button>`);
+    stage=`<div class="turn"><span class="eyebrow">Round ${adv.round}</span><b>${busy?'The enemy acts…':party.length>1?`${first(h)}'s turn`:'Your turn'}</b>${!busy&&party.length>1?`<span class="muted">${CLS_SV[h.cls]} · ${h.hp}/${h.hpMax} HP</span>`:''}</div>
+      <div class="foes ${adv.foes.length>1?'many':''}">${foes}</div>
+      <div class="actions fightacts" aria-busy="${!!busy}">${acts.join('').replace(/<button /g,busy?'<button disabled ':'<button ')}</div>
       <ol class="recent" aria-label="Latest events">${adv.log.filter(e=>e.c!=='sep').slice(-3).map(e=>`<li><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('')}</ol>`;
   }else if(P==='room'){
     const t=adv.room.t,R=adv.room,dn=R.done;
     const go=`<button class="btn" data-act="next">Move on</button>`;
     if(t==='treasure'&&!dn)stage=`<h2>A Chest Full of Loot</h2><p>The lid creaks as you lift it.</p><div class="loot">${R.loot.map(i=>`<div><b>${esc(i.n)}</b><span class="muted">${i.sv||''}</span></div>`).join('')}</div><div class="actions"><button class="btn primary" data-act="take">Take everything</button></div>`;
     else if(t==='camp'&&!dn)stage=`<h2>The Campsite</h2><p>A dry alcove, an old bedroll and embers still glowing. A deep sleep heals more, but the fire can be seen from far away.</p><div class="actions"><button class="btn primary" data-act="restFull">Sleep deeply<small>half your HP · recharges features · risk of ambush</small></button><button class="btn" data-act="restLight">Rest with one eye open<small>a quarter of your HP · no risk</small></button>${go}</div>`;
-    else if(t==='well'&&!dn)stage=`<h2>The Blue Well</h2><p>The water glows faintly. It might heal you, grant wisdom, be poisoned, or wake something that lives down there.</p><div class="actions"><button class="btn primary" data-act="well">Drink</button>${go}</div>`;
-    else if(t==='sleeper'&&!dn){const m=R.m;stage=`<h2>The Sleeper</h2><p>A ${esc(m.n)} (${SIZE[m.s]} ${TYPE[m.t]||m.t}, challenge ${crTxt(m.cr)}) lies curled up in the middle of the passage, snoring. It looks stronger than most things you have faced.</p><div class="actions"><button class="btn primary" data-act="sneak">Sneak past<small>DEX vs ${cdc(11)} · a little XP · if you fail it wakes and goes first</small></button><button class="btn" data-act="ambush">Attack while it sleeps<small>first attack is sure to hit · full XP</small></button></div>`}
-    else if(t==='chest'){stage=`<h2>The Locked Chest</h2><p>Iron bands, a heavy padlock and tiny holes around the keyhole. Chests locked this well usually hold something good.</p><div class="actions"><button class="btn primary" data-act="force">Force it open<small>STR vs ${cdc(13)} · scraped knuckles if you fail</small></button><button class="btn" data-act="pick">Pick the lock<small>DEX vs ${cdc(13)} · always opens, but a trap may strike</small></button>${go}</div>`}
-    else if(t==='shrine'&&!dn){const cost=15*h.lvl;stage=`<h2>The Forgotten Altar</h2><p>Candles that never burn down. A silver offering bowl. Gods who live in caves can be kind, or moody.</p><div class="actions"><button class="btn primary" data-act="pray">Pray to the god<small>WIS vs ${cdc(12)} · blessing or curse</small></button><button class="btn" data-act="offer" ${h.gold<cost?'disabled':''}>Offer ${cost} gold<small>sure blessing · you have ${h.gold}</small></button>${go}</div>`}
-    else if(t==='traveler'&&!dn)stage=`<h2>The Wounded Adventurer</h2><p>She clutches her side and begs for a potion. She says she knows what lies further down. Can you trust strangers in a cave?</p><div class="actions"><button class="btn primary" data-act="give" ${h.potions?'':'disabled'}>Give her a potion<small>you have ${h.potions} · she rewards you, or not</small></button><button class="btn" data-act="talk">Talk to her<small>CHA vs ${cdc(12)} · costs nothing</small></button>${go}</div>`;
-    else if(t==='merchant'){stage=`<h2>The Gnome Merchant</h2><p>“Potions, whetstones, rings of protection! All at honest prices, almost.” You have <b>${h.gold} gold</b>.</p><div class="actions">${shopList().map(it=>`<button class="btn" data-act="buy" data-k="${it.k}" ${h.gold<it.p?'disabled':''}>${esc(it.n)}<small>${it.p} gold</small></button>`).join('')}<button class="btn primary" data-act="next">Move on</button></div>`}
-    else{const title=adv.fled?'Escaped!':t==='fight'?'Victory Is Yours':t==='trap'?'The Trap':t==='treasure'?'Pockets Full':t==='camp'?'Rested':t==='sleeper'?'Past It':t==='shrine'?'The Altar Falls Silent':t==='traveler'?'She Vanishes into the Dark':'Onward';adv.fled=false;
-      stage=`<h2>${title}</h2><p>${t==='fight'&&adv.lastFoe?`The ${esc(adv.lastFoe)} lies defeated on the stone floor.`:'The passage continues down into the dark.'}</p><div class="actions"><button class="btn primary" data-act="next">Go deeper</button>${h.potions&&h.hp<h.hpMax/2?`<button class="btn" data-act="pot">Drink a potion</button>`:''}</div>`}
+    else if(t==='well'&&!dn)stage=`<h2>The Blue Well</h2><p>The water glows faintly. It might heal you, grant wisdom, be poisoned, or wake something that lives down there.</p>${whoHtml('Who drinks?')}<div class="actions"><button class="btn primary" data-act="well">${party.length>1?`${first(h)} drinks`:'Drink'}</button>${go}</div>`;
+    else if(t==='sleeper'&&!dn){const ms=R.ms||[R.m];stage=`<h2>The Sleepers</h2><p>${foeListTxt(ms)} ${ms.length>1?'lie':'lies'} curled up in the middle of the passage, snoring. ${ms.length>1?'They look':'It looks'} stronger than most things you have faced.</p>${whoHtml('Who leads the way?')}<div class="actions"><button class="btn primary" data-act="sneak">Sneak past<small>${chkSub('sneak',cdc(11))} · if you fail they wake and go first</small></button><button class="btn" data-act="ambush">Attack while they sleep<small>first attacks are sure to hit · full XP</small></button></div>`}
+    else if(t==='chest'){stage=`<h2>The Locked Chest</h2><p>Iron bands, a heavy padlock and tiny holes around the keyhole. Chests locked this well usually hold something good.</p>${whoHtml()}<div class="actions"><button class="btn primary" data-act="force">Force it open<small>${chkSub('force',cdc(13))} · scraped knuckles if you fail</small></button><button class="btn" data-act="picklock">Pick the lock<small>${chkSub('picklock',cdc(13))} · always opens, but a trap may strike</small></button>${go}</div>`}
+    else if(t==='shrine'&&!dn){const cost=offerCost();stage=`<h2>The Forgotten Altar</h2><p>Candles that never burn down. A silver offering bowl. Gods who live in caves can be kind, or moody. A blessing touches the whole party.</p>${whoHtml('Who prays?')}<div class="actions"><button class="btn primary" data-act="pray">Pray to the god<small>${chkSub('pray',cdc(12))} · blessing or curse</small></button><button class="btn" data-act="offer" ${bag.gold<cost?'disabled':''}>Offer ${cost} gold<small>sure blessing · you have ${bag.gold}</small></button>${go}</div>`}
+    else if(t==='traveler'&&!dn)stage=`<h2>The Wounded Adventurer</h2><p>She clutches her side and begs for a potion. She says she knows what lies further down. Can you trust strangers in a cave?</p>${whoHtml('Who talks to her?')}<div class="actions"><button class="btn primary" data-act="give" ${bag.potions?'':'disabled'}>Give her a potion<small>you have ${bag.potions} · she rewards you, or not</small></button><button class="btn" data-act="talk">Talk to her<small>${chkSub('talk',cdc(12))} · costs nothing</small></button>${go}</div>`;
+    else if(t==='merchant'){stage=`<h2>The Gnome Merchant</h2><p>“Potions, whetstones, rings of protection! All at honest prices, almost.” The party has <b>${bag.gold} gold</b>.</p>${whoHtml('Upgrades for')}<div class="actions">${shopList().map(it=>`<button class="btn" data-act="buy" data-k="${it.k}" ${bag.gold<it.p?'disabled':''}>${esc(it.n)}<small>${it.p} gold</small></button>`).join('')}<button class="btn primary" data-act="next">Move on</button></div>`}
+    else{const title=adv.fled?'Escaped!':t==='fight'?'Victory Is Yours':t==='trap'?'The Trap':t==='treasure'?'Pockets Full':t==='camp'?'Rested':t==='sleeper'?'Past Them':t==='shrine'?'The Altar Falls Silent':t==='traveler'?'She Vanishes into the Dark':'Onward';adv.fled=false;
+      stage=`<h2>${title}</h2><p>${t==='fight'&&adv.lastFoe?`The ${esc(adv.lastFoe)} ${adv.lastFoe.includes(' and ')?'lie':'lies'} defeated on the stone floor.`:'The passage continues down into the dark.'}</p><div class="actions"><button class="btn primary" data-act="next">Go deeper</button>${party.some(x=>x.hp<x.hpMax/2)?potBtn():''}</div>`}
   }else if(P==='won'){
-    stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${esc(h.name)} defeated the ${esc(adv.lastFoe)} and became the hero of the cave. ${adv.kills} enemies defeated in total.</div><p>Deeper in the mountain there are more passages, and more dangerous monsters. You rest fully before going on.</p><div class="actions"><button class="btn primary" data-act="next">Descend to chapter ${adv.chapter+1}</button><button class="btn" data-act="newone">Create a new hero</button></div>`;
+    stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${partyNames()} defeated the ${esc(adv.lastFoe)} and became the ${party.length>1?'heroes':'hero'} of the cave. ${adv.kills} enemies defeated in total.</div><p>Deeper in the mountain there are more passages, and more dangerous monsters. You rest fully before going on.</p><div class="actions"><button class="btn primary" data-act="next">Descend to chapter ${adv.chapter+1}</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
   }else if(P==='dead'){
-    stage=`<div class="banner dead"><span class="big">${esc(h.name)} has fallen</span>at depth ${adv.depth} in chapter ${adv.chapter}, level ${h.lvl}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">Same hero, try again</button><button class="btn" data-act="newone">Create a new hero</button></div>`;
+    stage=`<div class="banner dead"><span class="big">${party.length>1?'The party has fallen':esc(h.name)+' has fallen'}</span>at depth ${adv.depth} in chapter ${adv.chapter}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">${party.length>1?'Same party':'Same hero'}, try again</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
   }
   const logHtml=adv.log.map(e=>e.c==='sep'?`<li class="sep">${e.h}</li>`:`<li class="${e.c}"><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('');
   $view.innerHTML=`<div class="adv">${status}<section class="scene">
@@ -1925,23 +2112,28 @@ function renderAdv(){
     <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn dicetog" data-act="dice" type="button" aria-pressed="${!AUTO}">${AUTO?'Dice: auto':'Dice: you roll'}</button><button class="btn" data-act="abandon" type="button" style="font-size:13px;padding:5px 10px">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
   const lg=document.getElementById('log');lg.scrollTop=lg.scrollHeight;adv.shake=null;
+  drawHeroIcons();
   sceneSync();{const cv=document.getElementById('scene');if(cv)drawScene(cv)}sceneStart();
   const more=document.getElementById('more');if(more&&!wide)more.addEventListener('toggle',()=>{adv.moreOpen=more.open});
   const key=adv.phase+'|'+adv.depth+'|'+adv.chapter+'|'+(adv.room&&adv.room.t);
   if(!wide&&key!==lastKey&&lastKey!==null){const stg=document.getElementById('scene')||document.querySelector('.stage'),bar=document.querySelector('.status');const top=stg.getBoundingClientRect().top,off=(bar?bar.offsetHeight:0)+10;if(Math.abs(top-off)>4)window.scrollTo({top:scrollY+top-off,behavior:reduced?'auto':'smooth'})}
   lastKey=key;
 }
+const FIGHT_ACTS=new Set(['atk','spell','sw','rage','lay','breath','flee']);
 $view.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]');if(!b||!adv||b.disabled)return;
   const a=b.dataset.act;
   if(adv.busy&&adv.phase==='fight'&&a!=='abandon'&&a!=='dice')return;
+  if(a==='who'){adv.pick=+b.dataset.i;save();render();return}
+  if(a==='tgt'){adv.tgt=+b.dataset.i;save();render();return}
   const fn=({dice:()=>{setAuto(!AUTO);render()},enter:()=>enterRoom(b.dataset.t),atk:()=>doAttack(b.dataset.w),spell:()=>doSpell(b.dataset.s),sw:doSecondWind,rage:doRage,lay:doLay,breath:doBreath,
-    pot:()=>doPotion(false),gpot:()=>doPotion(true),flee:doFlee,take:takeLoot,restFull,restLight,well:drinkWell,listen,sneak:sneakPast,ambush:ambushSleeper,force:forceChest,pick:pickChest,pray,offer,give:givePotion,talk,buy:()=>buy(b.dataset.k),next:nextRoom,retry,newone:newOne,
-    abandon:()=>{if(b.dataset.confirm){adv=null;hero=hero.start?JSON.parse(JSON.stringify(hero.start)):hero;setView('gen')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}}
+    pot:()=>doPotion(false),gpot:()=>doPotion(true),flee:doFlee,take:takeLoot,restFull,restLight,well:drinkWell,listen,sneak:sneakPast,ambush:ambushSleeper,force:forceChest,picklock:pickChest,pray,offer,give:givePotion,talk,buy:()=>buy(b.dataset.k),next:nextRoom,retry,newone:newOne,
+    abandon:()=>{if(b.dataset.confirm){party=adv.start?JSON.parse(JSON.stringify(adv.start)):party;adv=null;edit=0;hero=party[0];setView('gen')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}}
   })[a];
   if(!fn)return;
   if(a==='abandon'||a==='dice'){fn();return}
   if(LOCK)return;LOCK=true;
+  if(adv.phase==='fight'&&(FIGHT_ACTS.has(a)||a==='pot'||a==='gpot')&&adv.turn>=0)hero=party[adv.turn];
   Promise.resolve().then(fn).catch(err=>console.error(err)).finally(()=>{LOCK=false;render()});
 });
 
@@ -1950,6 +2142,9 @@ function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);i
 document.getElementById('tabGen').setAttribute('aria-selected',String(view==='gen'));document.getElementById('tabAdv').setAttribute('aria-selected',String(view==='adv'));
 render();
 trayInit();settingsInit();
-window.__M=M;window.__t={drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,startAdventure:()=>{startAdventure()},get hero(){return hero},get adv(){return adv},enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monsterTurn};
+/* test hooks */
+window.__M=M;window.__t={drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,doRage,doLay,
+  startAdventure:()=>{startAdventure()},get hero(){return hero},set hero(v){hero=v},get party(){return party},set party(v){party=v},get adv(){return adv},get bag(){return bag},SET,
+  enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monstersTurn,actor:()=>{if(adv.turn>=0)hero=party[adv.turn];return hero}};
 })();
 </script><script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).catch(()=>{}))}</script></body></html>
