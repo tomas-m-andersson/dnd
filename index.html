@@ -1243,6 +1243,29 @@ owlbear:[
 "....KmmK..KmmK..KmmK..",
 "...KWKWK..KWKWK.KWKWK.",
 "...KKKKK..KKKKK.KKKKK."],
+harpy:[
+"K.......................K",
+"KaK...................KaK",
+"KaaK.................KaaK",
+"KamaK....KKKKKKK....KamaK",
+".KamaK..KHHHHHHHK..KamaK.",
+".KzmaK.KHHSSSSSHHK.KamzK.",
+"..KzmaKKHSeSSSeSHKKamzK..",
+"..KzmmaKHSSSSSSSHKammzK..",
+"..KzKmmaKHSSsSSHKammKzK..",
+"...KzKmmaKHKSKHKammKzK...",
+"...KzKmmmaKSSSKammmKzK...",
+"....KzKmmmmKaKmmmmKzK....",
+"....KzzKmmmmammmmKzzK....",
+".....KzKKmmmmmmmKKzK.....",
+"......K.KKmmmmmKK.K......",
+"........KmmzKzmmK........",
+"........KzmzKzmzK........",
+".........KzK.KzK.........",
+".........KYK.KYK.........",
+"........KYYK.KYYK........",
+"........KYKYKYKYK........",
+"........KKKKKKKKK........"],
 bird:[
 "...KK...........",
 "..KmmK..........",
@@ -1745,7 +1768,8 @@ function monLook(m){
   else if(has(/owlbear/)){key='owlbear';col='brown';extra={a:'#fce0a8'}}
   else if(has(/wolf|jackal|hyena|mastiff|\bdog\b|worg|hound/)){key='wolf';col=has(/winter/)?'white':has(/hell/)?'red':'gray'}
   else if(has(/bear/)){key='bear';col=has(/polar/)?'white':has(/black/)?'black':'brown'}
-  else if(has(/eagle|hawk|owl\b|raven|vulture|\bbird|roc\b|griffon|hippogriff|harpy|cockatrice|pteranodon/)){key='bird';col=has(/griffon|hippogriff/)?'gold':has(/raven|vulture/)?'black':'brown'}
+  else if(has(/harpy/)){key='harpy';col='brown';scale=2;extra={S:'#fcbcb0',s:'#e45c10',H:'#881400',e:'#d82800'}}
+  else if(has(/eagle|hawk|owl\b|raven|vulture|\bbird|roc\b|griffon|hippogriff|cockatrice|pteranodon/)){key='bird';col=has(/griffon|hippogriff/)?'gold':has(/raven|vulture/)?'black':'brown'}
   else if(has(/crocodile|lizard|basilisk|salamander|behir/)){key='lizard';col=has(/salamander/)?'orange':'green'}
   else if(has(/scorpion|beetle|centipede|wasp|ankheg|bulette|insect|crab/)){key='bug';col=has(/beetle/)?'red':has(/crab/)?'orange':'sand'}
   else if(has(/shark|quipper|fish|eel|whale/)){key='fish';col='blue'}
