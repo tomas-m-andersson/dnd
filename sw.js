@@ -3,7 +3,7 @@
 // so a new name, icon or version shows up right away. The saved copy is only
 // used when there is no internet. Icons and fonts use the saved copy first.
 const CACHE = 'nat20-v8';
-const CORE = ['./', './index.html', './manifest.webmanifest?v=4', './icons/icon-192.png', './icons/icon-512.png', './icons/favicon.svg'];
+const CORE = ['./', './index.html', './manifest.webmanifest?v=5', './icons/icon-192.png', './icons/icon-512.png', './icons/favicon.svg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE.map(u => new Request(u, {cache: 'reload'})))).then(() => self.skipWaiting()));
