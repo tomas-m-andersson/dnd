@@ -637,7 +637,7 @@ let plan={mode:'adventure',loc:'castle'};try{const p=JSON.parse(localStorage.get
 function savePlan(){try{localStorage.setItem('nat20-plan',JSON.stringify(plan))}catch(e){}}
 const locKey=()=>adv&&LOCS[adv.loc]?adv.loc:plan.mode==='grand'?'castle':LOCS[plan.loc]?plan.loc:'castle';
 const LOC=()=>LOCS[locKey()];
-const planName=()=>plan.mode==='grand'?'Grand adventure':LOCS[plan.loc].name;
+const planName=()=>plan.mode==='grand'?'Epic adventure':LOCS[plan.loc].name;
 
 /* ---------- Records: every adventure is written into the Hall of Fame ---------- */
 const REC0=()=>({v:1,runs:[],stats:{started:0,grandWins:0,bosses:0,kills:0,fallen:0,nat20:0,nat1:0,rolls:0},slain:{}});
@@ -726,8 +726,8 @@ function renderGen(){
         ${party.length>1&&!inAdv?`<button class="btn" id="removeHero" type="button">Remove from party</button>`:''}
         <button class="btn" id="openLib" type="button">Monster library<small>Every monster, its strengths and weaknesses</small></button>
       </div>
-      <div class="win plan-bar"><div><span class="eyebrow">${inAdv?'On the way':'Next adventure'}</span><b>${inAdv?(adv.grand?'Grand adventure · '+LOC().name:LOC().name):planName()}</b></div>${inAdv?'':`<button class="btn" id="changePlan" type="button">Change</button>`}</div>
-      <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':plan.mode==='grand'?'Begin the grand adventure':LOCS[plan.loc].enter}</button>
+      <div class="win plan-bar"><div><span class="eyebrow">${inAdv?'On the way':'Next adventure'}</span><b>${inAdv?(adv.grand?'Epic adventure · '+LOC().name:LOC().name):planName()}</b></div>${inAdv?'':`<button class="btn" id="changePlan" type="button">Change</button>`}</div>
+      <button class="btn primary" id="goAdv" type="button">${inAdv?'Continue the adventure':plan.mode==='grand'?'Begin the epic adventure':LOCS[plan.loc].enter}</button>
       <div class="press" aria-hidden="true">- Press to start -</div>
     </div></div>
     <aside class="sheet gen-side" aria-label="Gear and features">
@@ -823,7 +823,7 @@ function startAdventure(o){o=o||plan;const grand=o.mode==='grand',loc=grand?'cas
   bag={gold:party.reduce(s=>s+d(10)+5,0),potions:D().pot*party.length,greater:0};
   adv={v:4,loc,grand,glory:0,id:Date.now(),chapter:1,depth:1,phase:'doors',doors:null,log:[],kills:0,foes:[],room:null,listened:false,pick:0,turn:0,acted:[],tgt:0,round:1,start:JSON.parse(JSON.stringify(party))};
   adv.doors=makeDoors();
-  log('sep',`${grand?'Grand adventure · ':''}Chapter 1 · ${P0.intro}`);
+  log('sep',`${grand?'Epic adventure · ':''}Chapter 1 · ${P0.intro}`);
   log('note',`${partyNames()} ${party.length>1?P0.step[0]:P0.step[1]} ${P0.into}.`,'·');
   recStat('started');
   save();
@@ -3406,7 +3406,7 @@ function renderAdv(){
   }else if(P==='won'){
     stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${partyNames()} defeated the ${esc(adv.lastFoe)} and became the ${party.length>1?'heroes':'hero'} of ${LOC().the}. ${adv.kills} enemies defeated in total.</div><p>${adv.grand?`Next stop: <b>${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}</b>. You rest fully before the journey.`:'Further in there are more passages, and more dangerous monsters. You rest fully before going on.'}</p><div class="actions"><button class="btn primary" data-act="next">${adv.grand?`Travel to ${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}`:`Descend to chapter ${adv.chapter+1}`}</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="abandon">End the adventure here</button></div>`;
   }else if(P==='victory'){
-    stage=`<div class="banner"><span class="big">Grand adventure complete!</span>${partyNames()} fought through the castle, the caves, the woods and Hell itself, and defeated the ${esc(adv.lastFoe)}. ${adv.kills} enemies defeated. <b class="you">${adv.glory} glory</b>.</div><p>Your names are written in the Hall of Fame.</p><div class="actions"><button class="btn primary" data-act="fame">See the Hall of Fame</button><button class="btn" data-act="abandon">Back to the start screen</button></div>`;
+    stage=`<div class="banner"><span class="big">Epic adventure complete!</span>${partyNames()} fought through the castle, the caves, the woods and Hell itself, and defeated the ${esc(adv.lastFoe)}. ${adv.kills} enemies defeated. <b class="you">${adv.glory} glory</b>.</div><p>Your names are written in the Hall of Fame.</p><div class="actions"><button class="btn primary" data-act="fame">See the Hall of Fame</button><button class="btn" data-act="abandon">Back to the start screen</button></div>`;
   }else if(P==='dead'){
     stage=`<div class="banner dead"><span class="big">${party.length>1?'The party has fallen':esc(h.name)+' has fallen'}</span>at depth ${adv.depth} in chapter ${adv.chapter}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">${party.length>1?'Same party':'Same hero'}, try again</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
   }
@@ -3439,9 +3439,9 @@ function renderHome(){
   $view.innerHTML=`<section class="home">
     <canvas id="homeCv" class="scene-cv home-cv" width="192" height="70" role="img" aria-label="Your party at the ${esc(LOC().name)}"></canvas>
     <nav class="win menu home-menu" aria-label="Play">
-      ${live?`<button class="btn" data-home="continue">Continue<small>${adv.grand?'Grand adventure · ':''}${esc(LOC().name)} · chapter ${adv.chapter} · depth ${adv.depth}</small></button>`:''}
-      <button class="btn" data-home="adventure">Adventure<small>Pick a place and see how far you get</small></button>
-      <button class="btn" data-home="grand">Grand adventure<small>Embark on an epic quest</small></button>
+      ${live?`<button class="btn" data-home="continue">Continue<small>${adv.grand?'Epic adventure · ':''}${esc(LOC().name)} · chapter ${adv.chapter} · depth ${adv.depth}</small></button>`:''}
+      <button class="btn" data-home="adventure">Short adventure<small>Pick a place and see how far you get</small></button>
+      <button class="btn" data-home="grand">Epic adventure<small>Embark on an epic quest</small></button>
       <button class="btn" data-home="party">Party<small>${party.map(h=>first(h)).join(', ')} · build up to three heroes</small></button>
     </nav>
     <nav class="win menu home-menu" aria-label="More">
@@ -3511,12 +3511,12 @@ function renderPanel(){
         <div class="lib-im">${(r.tr||[]).slice(0,5).map(esc).join(' · ')}</div></article>`}).join('');
     body.innerHTML=tabs+`<div class="lib-grid pan-grid">${cards}</div>`;
   }else{title.textContent='Hall of Fame';const st=REC.stats;
-    const statRow=[['Adventures',st.started],['Grand wins',st.grandWins],['Bosses slain',st.bosses],['Monsters slain',st.kills],['Heroes fallen',st.fallen],['Natural 20s',st.nat20],['Natural 1s',st.nat1],['d20 rolls',st.rolls]].map(([l,v])=>`<div><b>${v||0}</b><span>${l}</span></div>`).join('');
+    const statRow=[['Adventures',st.started],['Epic wins',st.grandWins],['Bosses slain',st.bosses],['Monsters slain',st.kills],['Heroes fallen',st.fallen],['Natural 20s',st.nat20],['Natural 1s',st.nat1],['d20 rolls',st.rolls]].map(([l,v])=>`<div><b>${v||0}</b><span>${l}</span></div>`).join('');
     const badge={victory:['Victory','v'],fallen:['Fallen','f'],retired:['Retired','r'],alive:['On the way','a']};
     const runs=REC.runs.slice(0,10).map((r,i)=>{const bd=badge[r.outcome]||badge.alive;return `<li class="fame-run"><span class="rank">${i+1}</span><div class="fr-main"><div class="fr-party">${r.party.map(p=>sprCv(heroLook({cls:p.c,race:p.r}),32)).join('')}<b>${r.party.map(p=>esc(p.n.split(' ')[0])).join(', ')}</b></div>
-      <div class="lib-meta">${r.mode==='grand'?'Grand adventure · ':''}${LOCS[r.loc]?LOCS[r.loc].name:''} · chapter ${r.chapter}, depth ${r.depth} · ${r.kills} slain · ${(DIFF[r.diff]||DIFF.normal).name} · ${new Date(r.date).toLocaleDateString()}</div></div><div class="fr-side"><b class="y">${r.glory}</b><span>glory</span><em class="bd ${bd[1]}">${bd[0]}</em></div></li>`}).join('');
+      <div class="lib-meta">${r.mode==='grand'?'Epic adventure · ':''}${LOCS[r.loc]?LOCS[r.loc].name:''} · chapter ${r.chapter}, depth ${r.depth} · ${r.kills} slain · ${(DIFF[r.diff]||DIFF.normal).name} · ${new Date(r.date).toLocaleDateString()}</div></div><div class="fr-side"><b class="y">${r.glory}</b><span>glory</span><em class="bd ${bd[1]}">${bd[0]}</em></div></li>`}).join('');
     const H2={};REC.runs.forEach(r=>r.party.forEach(p=>{const k=p.n+'|'+p.r+'|'+p.c;const o=H2[k]||(H2[k]={n:p.n,r:p.r,c:p.c,l:0,glory:0,runs:0,wins:0});o.l=Math.max(o.l,p.l);o.glory+=Math.round(r.glory/r.party.length);o.runs++;if(r.outcome==='victory')o.wins++}));
-    const heroes=Object.values(H2).sort((a,b)=>b.glory-a.glory||b.l-a.l).slice(0,10).map((h,i)=>`<li class="fame-run"><span class="rank">${i+1}</span><div class="fr-main"><div class="fr-party">${sprCv(heroLook({cls:h.c,race:h.r}),32)}<b>${esc(h.n)}</b></div><div class="lib-meta">${RACE_SV[h.r]} ${CLS_SV[h.c]} · reached level ${h.l} · ${h.runs} adventure${h.runs===1?'':'s'}${h.wins?` · ${h.wins} grand win${h.wins===1?'':'s'}`:''}</div></div><div class="fr-side"><b class="y">${h.glory}</b><span>glory</span></div></li>`).join('');
+    const heroes=Object.values(H2).sort((a,b)=>b.glory-a.glory||b.l-a.l).slice(0,10).map((h,i)=>`<li class="fame-run"><span class="rank">${i+1}</span><div class="fr-main"><div class="fr-party">${sprCv(heroLook({cls:h.c,race:h.r}),32)}<b>${esc(h.n)}</b></div><div class="lib-meta">${RACE_SV[h.r]} ${CLS_SV[h.c]} · reached level ${h.l} · ${h.runs} adventure${h.runs===1?'':'s'}${h.wins?` · ${h.wins} epic win${h.wins===1?'':'s'}`:''}</div></div><div class="fr-side"><b class="y">${h.glory}</b><span>glory</span></div></li>`).join('');
     const slain=Object.entries(REC.slain).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([n,c])=>{const m=M.find(x=>x.n===n);return `<li>${m?sprCv(monLook(m),24):''}<span>${esc(n)}</span><b>${c}</b></li>`}).join('');
     body.innerHTML=`<div class="pan-scroll"><div class="fame-stats">${statRow}</div>
       <h4>Greatest parties</h4>${runs?`<ol class="fame-list">${runs}</ol>`:'<div class="gen-note">No adventures yet. Glory is the XP of every monster you defeat.</div>'}
