@@ -438,6 +438,8 @@ body.at-home header{align-items:center}
 .pick-head{display:flex;gap:12px;align-items:center}
 .pick-head h2{font-size:14px;color:var(--y)}
 .pick-head .btn{font-size:8px}
+.pick-head .btn{display:inline-flex;align-items:center;gap:8px;line-height:1}
+.back-ico{display:block;width:0;height:0;border-style:solid;border-width:4px 5px 4px 0;border-color:transparent currentColor transparent transparent;flex:none}
 .pick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .pick-card{background:var(--k);border:4px solid var(--g2);border-radius:8px;padding:8px;display:grid;gap:8px;text-align:left;color:var(--w)}
 .pick-card canvas{width:100%;aspect-ratio:192/70;image-rendering:pixelated;image-rendering:crisp-edges;border:2px solid var(--g3);border-radius:4px;display:block}
@@ -3699,7 +3701,7 @@ function homeAct(b){const a=b.dataset.home;
   if(a==='options'){openSettings();return}
 }
 function renderPick(){
-  $view.innerHTML=`<section class="pick"><div class="pick-head"><button class="btn" id="pickBack" type="button">◀ Back</button><h2>Choose a place</h2></div>
+  $view.innerHTML=`<section class="pick"><div class="pick-head"><button class="btn" id="pickBack" type="button"><span class="back-ico" aria-hidden="true"></span>Back</button><h2>Choose a place</h2></div>
     <div class="pick-grid">${Object.entries(LOCS).map(([k,l])=>`<button type="button" class="pick-card ${plan.mode==='adventure'&&plan.loc===k?'on':''}" data-loc="${k}"><canvas width="192" height="70" data-pick="${k}" aria-hidden="true"></canvas><b>${l.name}</b><small>${l.desc}</small></button>`).join('')}</div>
     <div class="gen-note">Every place has the same kind of rooms and monsters, with its own backdrop. Beat the boss to go a chapter deeper.</div></section>`;
   document.querySelectorAll('canvas[data-pick]').forEach(c=>drawHomeScene(c,c.dataset.pick,true));
@@ -3944,7 +3946,7 @@ function arnList(){const q=ARN.q.trim().toLowerCase();const c=champion();
   const ms=M.filter(m=>(!q||m.n.toLowerCase().includes(q))&&monActs(m).length).sort((a,b)=>a.cr-b.cr||a.n.localeCompare(b.n)).map(m=>`<button type="button" class="arn-opt" data-arn="set" data-k="mon" data-i="${m.i}"><span>${crTxt(m.cr)}</span><b>${esc(m.n)}</b><small>${m.s} ${m.t}</small></button>`).join('');
   return `${!q||(c&&c.n.toLowerCase().includes(q))?champ:''}${ms||'<div class="gen-note">No monster by that name.</div>'}`}
 function renderArena(){const sel=ARN.choose;
-  $view.innerHTML=`<section class="pick arena"><div class="pick-head"><button class="btn" id="arnBack" type="button">◀ Back</button><h2>Arena</h2></div>
+  $view.innerHTML=`<section class="pick arena"><div class="pick-head"><button class="btn" id="arnBack" type="button"><span class="back-ico" aria-hidden="true"></span>Back</button><h2>Arena</h2></div>
     <canvas id="arnCv" class="scene-cv" width="192" height="96" role="img" aria-label="The arena"></canvas>
     <div id="arnBody"></div></section>`;
   document.getElementById('arnBack').onclick=()=>{if(ARN.choose){ARN.choose=null;arnUI();return}ARN.tok++;ARN.busy=false;setView('home')};
