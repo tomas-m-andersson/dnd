@@ -1097,7 +1097,7 @@ function closeLib(){if(!libEl)return;libEl.hidden=true;document.body.classList.r
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&libEl&&!libEl.hidden)closeLib()});
 function libCard(m,i){
   const L=monLook(m),s=sprSize(L.key),many=!!L.swarm;const cw=many?Math.round(s.w*1.9):s.w,ch=many?Math.round(s.h*1.6):s.h;
-  const sc=Math.max(1,Math.min(Math.floor(150/cw),Math.floor(72/ch),6));
+  const sc=Math.max(1,Math.min(Math.floor(120/cw),Math.floor(72/ch),6));
   const dm=x=>x.map(t=>DMG[t]||t).join(', ');
   const ab=AB.map((k,j)=>({k,v:m.st[j]})),hi=ab.slice().sort((a,b)=>b.v-a.v)[0],lo=ab.slice().sort((a,b)=>a.v-b.v)[0];
   const atk=m.a.slice(0,3).map(a=>`${esc(a.n)} ${sgn(a.b)} · ${a.d.map(x=>`${x[0]} ${DMG[x[1]]||x[1]}`).join(' + ')}`).join('<br>');
@@ -1294,20 +1294,20 @@ snake:[
 ".......KmmKKmmKKmK",
 "........KmmmmK..K."],
 bear:[
-"..KK....KK............",
-".KmmKKKKmmK...........",
-".KmmmmmmmmK...........",
-"KmmemmmmemmK..........",
-"KmmmmmmmmmmmKKKKKKK...",
-"KmmKKKmmmmmmmmmmmmmKK.",
-".KKWWKmmmmmmmmmmmmmmmK",
-"..KKKmmmmmmmmmmmmmmmmK",
-"....KmmmmmmmmmmmmmmmmK",
-"....KmmmzzzzzzzzzmmmmK",
-"....KmmmK.KmmK.KmmmK..",
-"....KmmK..KmmK..KmmK..",
-"...KWKWK..KWKWK.KWKWK.",
-"...KKKKK..KKKKK.KKKKK."],
+".......KKKKKK..........",
+"..KK..KmmmmmmKKKKK.....",
+".KmmKKmmmmmmmmmmmmKKK..",
+".KmmmmmmmmmmmmmmmmmmmK.",
+"KmmmmmmKmmmmmmmmmmmmmK.",
+"KmemmmmKmmmmmmmmmmmmmK.",
+"KaaammmKmmmmmmmmmmmmmmK",
+"KKaaaaKmmmmmmmmmmmmmmmK",
+".KKKKKmmmmmmmmmmmmmmmmK",
+".....KmmmzzzzzzzzzzmmmK",
+".....KmmmK.......KmmmK.",
+".....KmmmK.......KmmmK.",
+"....KWmWmK......KWmWmK.",
+"....KKKKKK......KKKKKK."],
 owlbear:[
 "..K.....K.............",
 ".KaK...KaK............",
@@ -1550,6 +1550,37 @@ sword:[
 "..KnK..",
 ".KYYYK.",
 "..KKK.."],
+wyrmling:[
+"..........K....K....",
+".........KzK..KzK...",
+"..K.....KzzK.KzzK...",
+"..KK...KzzmKKzzmK...",
+".KmmKK.KzmmKzzmmK...",
+"KmYmmmKKmmmmmmmK....",
+"KmmmmmmKmmmmmmmmK...",
+"KWKWKmmmmmmmmmmmmK..",
+".KKK.KmaammmmmmmmmK.",
+".....KaaammmmmmmKmmK",
+".....KaammzzzmmK.KmK",
+".....KmmK...KmmK.KmK",
+"....KmmK...KmmK.KmK.",
+"....KWKWK..KWKWKKK..",
+"....KKKKK..KKKKK...."],
+dturtle:[
+"...........KKKKKKKKK..........",
+".........KKzmmzmmzmzKK........",
+".......KKzmmmzmmmzmmmzKK......",
+"......KzmmmmzmmmmzmmmmzmK.....",
+".....KzmmmmmzmmmmzmmmmmzmK....",
+"..KK.KzmmmmzmmmmmmzmmmmmzmK...",
+".KaaKKKKKKKKKKKKKKKKKKKKKKKK..",
+"KaYaaKaaaaaaaaaaaaaaaaaaaaaKK.",
+"KaaaaaKaaaaaaaaaaaaaaaaaaaKaaK",
+"KWKWaaaKKaaaaKKKKKKKKaaaaKKKaK",
+".KKKKKaKKaaaK......KaaaaK..KK.",
+"......KKaaaK......KaaaaK......",
+".......KaaK........KaaK.......",
+"........KK..........KK........"],
 harpy:[
 "K.......................K",
 "KaK...................KaK",
@@ -1728,26 +1759,28 @@ ghost:[
 "..KmK.KmK...",
 "...K...K...."],
 dragon:[
-"..............K.......K.....",
-".............KmK.....KmK....",
-"............KmmmK...KmmmK...",
-"..KK.KK....KmzzmmKKKmmzzmK..",
-".KmmKmmK...KmzzzmmmmmzzzmK..",
-"KmmmmmmmK..KmzzzmmmmmzzzmK..",
-"KmemmmmmmK.KmmzzmmmmmzzmmK..",
-"KmmmmmmmmmKKmmmmmmmmmmmmK...",
-".KWKWKmmmmmmKmmmmmmmmmmK....",
-"..KKKKKmmmmmmKKKKKKKKKK.....",
-"......KmmmmmmmmmmmmmmK......",
-".......KmmaaaaaammmmmmK.....",
-".......KmaaaaaaaammmmmmK....",
-".......KmaaaaaaaammmmmmmK...",
-".......KmmaaaaaammmmmmmmmK..",
-"........KmmmmmmmmmmmmmKmmmK.",
-"........KmmK.KmmK.KmmK.KmmK.",
-".......KmmK..KmmK..KmmmmmK..",
-".......KWKWK.KWKWK..KKKKK...",
-".......KKKKK.KKKKK.........."],
+"...............K........K......",
+"..............KzK......KzK.....",
+".............KzzK.....KzzK.....",
+"....KK......KzzzK....KzzzK.....",
+"...KWWK....KzzzzK...KzzzzK.....",
+"..KmmWKK..KzzzzmK..KzzzzmK.....",
+".KmmmmmK.KzzzzmmK.KzzzzmmK.....",
+"KmYmmmmmKKzzzmmmKKzzzmmmK......",
+"KmmmmmmmmKKzmmmmmKzmmmmK.......",
+"KWKWmmmmmmKKmmmmmmmmmmmK.......",
+".KKKKKmmmmmmmmmmmmmmmmmmK......",
+".....KKmmmmmmmmmmmmmmmmmmK.....",
+".......KmaaammmmmmmmmmmmmmKK...",
+".......KmaaaammmmmmmmmmmmmmmK..",
+"........KaaaammmmmmmmmmmmmmmmK.",
+"........KaaammmmzzzzmmmmmKmmmmK",
+"........KmmzzzK....KzmmmK.KKmmK",
+".......KmmK.KK.....KmmK.....KmK",
+".......KmK.........KmK......KmK",
+"......KWKWK.......KWKWK...KKmK.",
+"......KKKKK.......KKKKK..KmmK..",
+".........................KKK..."],
 fiend:[
 "..K.......K...",
 "..KK.....KK...",
@@ -2070,7 +2103,7 @@ function monLook(m){
   else if(has(/\bowl\b/)){key='owl';col='brown';extra={a:'#f0d0b0'}}
   else if(has(/scorpion/)){key='scorpion';col='sand'}
   else if(has(/centipede/)){key='centipede';col='red'}
-  else if(has(/dragon|wyrmling/)){key='dragon';col=colorWord(n)||'red';if(has(/turtle/))col='green'}
+  else if(has(/dragon|wyrmling/)){key=has(/turtle/)?'dturtle':has(/wyrmling|pseudo/)?'wyrmling':'dragon';col=colorWord(n)||'red';if(has(/turtle/))col='green'}
   else if(has(/mimic/)){key='mimic';col='brown'}
   else if(has(/gelatinous cube/)){key='cube';col='teal'}
   else if(t==='ooze'||has(/ooze|pudding|jelly/)){key='ooze';col=has(/black/)?'black':has(/gray/)?'gray':has(/ochre/)?'sand':'toxic'}
