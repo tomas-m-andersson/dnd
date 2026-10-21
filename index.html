@@ -3434,6 +3434,25 @@ function drawHomeScene(cv,loc,noParty){if(!cv||!cv.getContext)return;const x=cv.
   x.fillStyle=NP.K;x.fillRect(0,0,SW,10);ntext(x,LOCS[loc].name,4,2,NP.W);
 }
 let homeT=null;
+/* start screen: the party walks while the places slide by and fade into each other */
+const HOME_PER=7000,HOME_FADE=1400,HOMEBG={};
+function homeBg(loc){if(HOMEBG[loc])return HOMEBG[loc];if(!document.createElement)return null;
+  const t=document.createElement('canvas');t.width=SW;t.height=SH;const tx=t.getContext&&t.getContext('2d');if(!tx)return null;tx.imageSmoothingEnabled=false;
+  sceneBg(tx,WALLS[0],loc==='woods'||loc==='caves'?[{x:46,top:20,w:20},{x:146,top:20,w:20}]:[{x:46,top:18,w:22},{x:146,top:18,w:22}],loc);
+  if(loc!=='woods')[30,62,130,162].forEach(px=>drawSpr(tx,'torch',null,px-1,22,{scale:2}));
+  const c=document.createElement('canvas');c.width=SW*2;c.height=SH;const x=c.getContext('2d');x.imageSmoothingEnabled=false;
+  x.drawImage(t,0,0);x.save();x.translate(SW*2,0);x.scale(-1,1);x.drawImage(t,0,0);x.restore();return HOMEBG[loc]=c}
+function drawHomeAnim(cv,t0){if(!cv||!cv.getContext)return;const x=cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;
+  const now=performance.now(),keys=Object.keys(LOCS),el=Math.max(0,now-t0),i=Math.floor(el/HOME_PER)%keys.length,tin=el%HOME_PER;
+  const off=reduced?0:Math.floor(now/55)%(SW*2);
+  const paint=(loc,a)=>{const bg=homeBg(loc);if(!bg)return;x.globalAlpha=a;x.drawImage(bg,-off,0);x.drawImage(bg,SW*2-off,0);x.globalAlpha=1};
+  x.fillStyle=NP.K;x.fillRect(0,0,SW,SH);paint(keys[i],1);
+  let fa=0;if(tin>HOME_PER-HOME_FADE&&!reduced){fa=(tin-(HOME_PER-HOME_FADE))/HOME_FADE;const step=Math.round(fa*6)/6;paint(keys[(i+1)%keys.length],step)}
+  const xs=heroXs('center');party.forEach((h,j)=>{const L0=heroLook(h),sz=sprSize(L0.key),c=sprCanvas(L0.key,L0.pal);if(!c)return;
+    const ph=reduced?0:Math.floor(now/170+j*1.5)%4,bobY=ph%2?-2:0,leg=ph===1?2:ph===3?-2:0,px=xs[j]-sz.w,py=FEET-sz.h*2+bobY,cut=sz.h-3;
+    x.drawImage(c,0,0,sz.w,cut,px,py,sz.w*2,cut*2);x.drawImage(c,0,cut,sz.w,3,px+leg,py+cut*2,sz.w*2,6)});
+  const name=(fa>.5?LOCS[keys[(i+1)%keys.length]]:LOCS[keys[i]]).name;x.fillStyle=NP.K;x.fillRect(0,0,SW,10);ntext(x,name,4,2,NP.W);
+}
 function renderHome(){
   const live=adv&&adv.phase!=='dead';const runs=REC.runs.length;
   $view.innerHTML=`<section class="home">
@@ -3452,8 +3471,8 @@ function renderHome(){
     </nav>
     <div class="press" aria-hidden="true">- Press to start -</div>
   </section>`;
-  const keys=Object.keys(LOCS);let k=Math.max(0,keys.indexOf(locKey()));const cv=document.getElementById('homeCv');drawHomeScene(cv,keys[k]);
-  clearInterval(homeT);if(cv&&cv.getContext&&typeof setInterval==='function')homeT=setInterval(()=>{const c=document.getElementById('homeCv');if(!c||view!=='home'){clearInterval(homeT);return}SCN.f++;if(SCN.f%40===0)k=(k+1)%keys.length;drawHomeScene(c,keys[k])},220);
+  const keys=Object.keys(LOCS),k0=Math.max(0,keys.indexOf(locKey()));const cv=document.getElementById('homeCv');const t0=performance.now()-k0*HOME_PER;
+  drawHomeAnim(cv,t0);clearInterval(homeT);if(cv&&cv.getContext&&typeof setInterval==='function'&&!reduced)homeT=setInterval(()=>{const c=document.getElementById('homeCv');if(!c||view!=='home'){clearInterval(homeT);return}drawHomeAnim(c,t0)},70);
   document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>homeAct(b));
 }
 function confirmNew(b,go){if(adv&&adv.phase!=='dead'&&adv.phase!=='victory'&&!b.dataset.confirm){b.dataset.confirm='1';b.textContent='Sure? Tap again';return}if(adv)endRun();go()}
