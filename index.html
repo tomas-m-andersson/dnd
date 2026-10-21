@@ -441,7 +441,7 @@ body.at-home header{align-items:center}
 .fame-stats div::after{inset:3px;--c:linear-gradient(#fcfcfc,#fcfcfc);background-image:var(--c),var(--c),var(--c),var(--c);background-size:4px 4px;background-position:top left,top right,bottom left,bottom right}
 .fame-stats b{font-size:16px;color:#f8b800;text-shadow:2px 2px 0 #881400}
 .fame-stats span{font-size:7px;color:#fcfcfc;letter-spacing:.02em}
-.fame-stats .ico{justify-self:center;width:24px;height:24px}
+.fame-stats .ico{justify-self:center;width:24px;height:24px;margin:0}
 
 .fame-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
 .fame-run{font-size:7px;line-height:1.9;display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:center;border:3px solid var(--g2);border-radius:6px;padding:8px}
@@ -657,7 +657,7 @@ let REC=REC0();
 try{const r=JSON.parse(localStorage.getItem('nat20-records')||'null');if(r&&r.v===1){REC=Object.assign(REC0(),r);REC.stats=Object.assign(REC0().stats,r.stats||{});REC.slain=r.slain||{};REC.runs=Array.isArray(r.runs)?r.runs:[]}}catch(e){}
 /* Tiny pixel icons for the Hall of Fame plaques (8x8, drawn as SVG squares) */
 const FAME_ICO={
- 'Adventures':[".Y......",".GRRRR..",".GRRRRR.",".GRRRR..",".GR.....",".G......",".G......","YYY....."],
+ 'Adventures':["..Y.....","..GRRRR.","..GRRRRR","..GRRRR.","..GR....","..G.....","..G.....",".YYY...."],
  'Epic wins':["K..KK..K","YK.YY.KY","YYKYYKYY","YYYYYYYY","YRYYYYRY","YYYYYYYY","KKKKKKKK","........"],
  'Bosses slain':["R......R","RK.KK.KR",".KWWWWK.","KWKWWKWK","KWWWWWWK",".KWKKWK.","..KWWK..","...KK..."],
  'Monsters slain':[".......W","......WG",".....WG.","....WG..","Y..WG...",".YWG....","..YY....",".Y..Y..."],
