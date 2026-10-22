@@ -442,7 +442,11 @@ body.at-home header{align-items:center}
 .arn-opt span{grid-row:1/span 2;align-self:center}.arn-opt b{grid-column:2}.arn-opt small{grid-column:2}
 .arn-opt.open{background:#1c1c1c}.arn-opt.open:not(.champ){border-bottom-color:transparent}.arn-opt.open::after{border-width:0 4px 5px 4px;border-color:transparent transparent var(--y) transparent}
 .arn-peek{display:grid;gap:10px;padding:4px 4px 14px;border-bottom:2px solid var(--g3);background:#1c1c1c}
-.arn-peek .lib-card{background:var(--k)}.arn-peek .lib-key{display:none}
+.arn-peek .lib-card{background:var(--k);display:flow-root;padding:8px}
+.arn-peek .lib-card>*{margin:0 0 4px 104px}
+.arn-peek .lib-card>.lib-pic{float:left;width:92px;height:72px;margin:0;padding:4px}
+.arn-peek .lib-pic canvas{width:84px!important;height:64px!important;object-fit:contain}
+.arn-peek .lib-card h3,.arn-peek .lib-key{display:none}
 .arn-peek .arn-pick{background:#e45c10;border-color:var(--w);color:var(--w);font-size:9px;min-height:48px;box-shadow:0 4px 0 #a81000}
 @media (hover:hover){.arn-opt:hover{background:#1c1c1c}}
 .arn-log{max-height:280px}
