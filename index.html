@@ -2477,6 +2477,28 @@ sabretooth:[
 "...KmK..KmK..KmK.....K",
 "..KmmK.KmmK.KmmK......",
 "..KKKK.KKKK.KKKK......"],
+gorgon:[
+".................K..K..K............",
+"................KyKKyKKyK...........",
+"...KKK........KKaaaaaaKK............",
+"..KYYyK......KaammmzmmaaKKKKK.......",
+"..KYKyyK...KKKmmmmmzmmmmaaaaaKKKK...",
+"...K.KyyK.KaaammWmmzmmWmmzmmmaaaaK..",
+"......KyyKmmzmmmmmmzmmmmmzmmmzmmmmK.",
+"..KKKKKKyymmzmmmmmmzmmmmmzmWmzmmmKmK",
+".KmaaaaaaammzmmmmmmzmmmmmzmmmzmWmKmK",
+".KmKKKKKmmmmzmmmmmmzmmmmmzmmmzmmmKmK",
+".KmmLLLmmmmmzmmmWmmzmmWmmzmWmzmmmzzz",
+"KzzzzmmmmWmmzmmmmmmzmmmmmzmmmzmWmzzz",
+"zzzzzzmmmmmmzmmmmmmzmmmmmzmmmzmmmKKK",
+"zzzzzzmmWmmmKzzzzzzzzzzzzzzzzzzzzK..",
+"zVzzzzmmmmmmKKmmmKmmmKKKKKmmmKmmmK..",
+"zzzzzzKKKKKK.KmmmKmmmK...KmmmKmmmK..",
+"KKKKKK.......KmmmKmmmK...KmmmKmmmK..",
+"V............KmmmKmmmK...KmmmKmmmK..",
+".V...........KzzzKzzzK...KzzzKzzzK..",
+"V............KzzzKzzzK...KzzzKzzzK..",
+"..............KKK.KKK.....KKK.KKK..."],
 harpy:[
 "K.......................K",
 "KaK...................KaK",
@@ -3008,7 +3030,7 @@ function monLook(m){
   else if(has(/elephant|mammoth/)){key='elephant';col=has(/mammoth/)?'brown':'gray';extra={a:has(/mammoth/)?'#fca044':'#bcbcbc'}}
   else if(has(/tyrannosaurus|tarrasque/)){key='trex';col=has(/tarrasque/)?'bronze':'green';extra={a:has(/tarrasque/)?'#fce0a8':'#d8f878'}}
   else if(has(/plesiosaurus/)){key='plesio';col='teal'}
-  else if(has(/gorgon/)){key='bull';col='silver'}
+  else if(has(/gorgon/)){key='gorgon';col='gray';extra={L:'#58d854',V:'#58d854'}}
   else if(has(/manticore/)){key='manticore';col='orange';extra={S:'#fcbcb0',H:'#881400',e:'#000000'}}
   else if(has(/chimera/)){key='manticore';col='tan';extra={S:'#f0d0b0',H:'#503000',e:'#d82800',z:'#881400'}}
   else if(has(/sphinx/)){key='manticore';col='gold';extra={S:'#fca044',H:has(/gyno/)?'#503000':'#881400',e:'#000000',z:'#fcfcfc',m:'#f8b800'}}
