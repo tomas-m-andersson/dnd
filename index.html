@@ -938,6 +938,32 @@ function encounter(boss,opt){
   for(let i=1;i<n;i++)out.push(boss?pickMonster(l,false):same?main:pickMonster(l,false,{type:opt.type,bump:opt.bump}));
   return out;
 }
+/* the short text above the paths: varied, and partly different in each place */
+const SPLIT_TXT=[
+ 'The way splits. Each path hides something different.',
+ 'You stop where the way divides. Which one feels right?',
+ 'Two ways, or more. The clues say a little, not everything.',
+ 'The trail forks. Somewhere ahead, something is waiting.',
+ 'A choice. Read the signs, or press your ear close and listen.',
+ 'The paths look alike, but they are not. Choose carefully.',
+ 'You could listen first. Just keep it quiet.',
+ 'Every path leads somewhere. Not every place is friendly.',
+ 'The clues are vague. Trust them, or trust your luck.',
+ 'A quiet moment. Then you have to pick a way.'];
+const SPLIT_LOC={
+ castle:['The corridor splits into dark halls. Somewhere a door creaks.','Portraits watch you from the walls as the hallway divides.','Stairs lead up, a hall leads on. The castle is full of choices.','Cold air drifts from more than one doorway.'],
+ caves:['The tunnel forks. Water drips somewhere in the dark.','Your torchlight finds more than one opening in the rock.','The cave splits around a pillar of stone. Both sides are black.','Bones crunch underfoot where the tunnels meet.'],
+ woods:['The trail splits between the old trees. Something rustles nearby.','The paths wind off into the mist. None of them look friendly.','The undergrowth opens in more than one place. Which way?','An owl hoots. The paths ahead disappear into the dark.'],
+ hell:['The ground cracks open into several burning paths.','Smoke drifts across the crossroads. Every way smells of sulfur.','Chains rattle somewhere ahead. The path divides in the heat.','The lava light flickers over more than one bridge.']};
+const ONE_TXT=[
+ 'There is only one way forward. You can still listen first.',
+ 'A single path leads on. At least the choice is easy.',
+ 'No choice this time. Only one way on.',
+ 'The way narrows to one path. Something might be ahead.',
+ 'One road. Listen first, or just walk on.'];
+function doorIntro(n){const key=`${adv.chapter}.${adv.depth}.${n}`;if(adv.introKey===key&&adv.intro)return adv.intro;
+  const pool=n===1?ONE_TXT:[...(SPLIT_LOC[locKey()]||[]),...(SPLIT_LOC[locKey()]||[]),...SPLIT_TXT];
+  let t=pick(pool),k=0;while(t===adv.intro&&k++<6)t=pick(pool);adv.intro=t;adv.introKey=key;return t}
 function makeDoors(){
   if(adv.depth===DEPTH)return null;
   const r=Math.random(),n=r<.22?1:r<.75?2:3;
@@ -3619,7 +3645,7 @@ function renderAdv(){
     else{
       const n=adv.doors.length;const names=n===1?['Only way']:n===2?['Left path','Right path']:['Left path','Middle path','Right path'];const runes=['ᚲ','ᛟ','ᚱ'];
       const title=adv.depth===1&&(adv.chapter===1||adv.grand)?LOC().mouth:n===1?'A Narrow Passage':n===2?'Two Paths':'Three Paths';
-      const intro=n===1?'The passage only goes one way. There is nothing to choose, but you can listen first.':'The passage splits. The clues can mean different things. Listen if you want to know more, but something might hear you.';
+      const intro=doorIntro(n);
       stage=`<h2>${title}</h2><p>${intro}</p><div class="doors" style="grid-template-columns:repeat(${n===3?3:n},minmax(0,1fr))">${adv.doors.map((x,i)=>`<button class="door" type="button" data-act="enter" data-t="${i}"><span class="knob">${runes[n===1?1:n===2?i*2:i]}</span><span class="lbl">${names[i]}</span><span class="hint">${x.hint}</span>${x.known?`<span class="known">${knownTxt(x)}</span>`:''}</button>`).join('')}</div>
       ${adv.listened?'':whoHtml('Who listens?')}
       <div class="actions" style="margin-top:14px"><button class="btn" data-act="listen" ${adv.listened?'disabled':''}>${adv.listened?'You have already listened':'Listen at the doors'}<small>${adv.listened?'':chkSub('listen',cdc(12))+' · may wake something'}</small></button>${potBtns()}</div>`;
