@@ -372,6 +372,9 @@ body.tray-open{overflow:hidden}
 .diff-row{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center}
 .diff-row .nm{text-align:center;font-size:14px}
 .diff-desc{font-size:8px;line-height:1.9;text-align:center}
+.set-note{font-size:8px;line-height:2;color:var(--g1);display:grid;gap:10px}.set-note p{margin:0}.set-note b{color:var(--w)}
+.set-inst{font-size:8px;padding:10px 12px;min-height:44px;white-space:nowrap;background:#e45c10;border-color:var(--w);color:var(--w)}
+.set-link{font-size:8px;justify-self:start;text-decoration:none}
 .set-row{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:52px;border-bottom:2px solid var(--g3)}
 .set-row:last-child{border-bottom:0}
 .set-row b{display:block;font-size:10px}
@@ -1332,8 +1335,28 @@ function renderSettings(){
       <div class="set-row"><div><b>Speed</b><span>How long dice spin</span></div>${seg('speed',[['normal','Normal'],['quick','Quick']],SET.speed)}</div>
       <div class="set-row"><div><b>Sound</b><span>Rattle and clack</span></div>${seg('sound',[['1','On'],['0','Off']],SET.sound?'1':'0')}</div>
     </section>
+    ${installSec()}
     <button class="btn primary" type="button" data-set="close">Done</button>`;
 }
+/* install as an app (PWA): the browser's own prompt where it exists, otherwise short instructions */
+let INSTALL_EVT=null,INSTALL_HELP=false;
+try{window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();INSTALL_EVT=e;if(setEl&&!setEl.hidden)renderSettings()});
+  window.addEventListener('appinstalled',()=>{INSTALL_EVT=null;if(setEl&&!setEl.hidden)renderSettings()})}catch(e){}
+const GAME_URL='https://tomas-m-andersson.github.io/dnd/';
+function isStandalone(){try{return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}catch(e){return false}}
+function isIOS(){const u=navigator.userAgent||'';return /iphone|ipad|ipod/i.test(u)||(/macintosh/i.test(u)&&navigator.maxTouchPoints>1)}
+function installSec(){
+  if(isStandalone())return `<section class="set-sec"><div class="eyebrow">App</div><div class="set-note">Nat20 is installed. You are playing the app version.</div></section>`;
+  const onSite=/github\.io$/.test(location.hostname);
+  let help='';
+  if(INSTALL_HELP){
+    if(!onSite)help=`<p>Installing works from the game's own page. Open it, then tap <b>Install app</b> there.</p><a class="btn set-link" href="${GAME_URL}" target="_blank" rel="noopener">Open the game page</a>`;
+    else if(isIOS())help=`<p>In Safari: tap the <b>Share</b> button (the square with an arrow) at the bottom of the screen, scroll down and tap <b>Add to Home Screen</b>, then <b>Add</b>.</p>`;
+    else help=`<p>Open the browser menu (the <b>three dots</b> in a corner) and choose <b>Install app</b> or <b>Add to Home screen</b>.</p>`}
+  return `<section class="set-sec"><div class="eyebrow">App</div>
+    <div class="set-row"><div><b>Install Nat20</b><span>Play from your home screen, even offline</span></div><button class="btn set-inst" type="button" data-set="install">Install app</button></div>
+    ${help?`<div class="set-note">${help}</div>`:''}</section>`}
+async function doInstall(){if(INSTALL_EVT){const e=INSTALL_EVT;INSTALL_EVT=null;try{await e.prompt();await e.userChoice}catch(x){}INSTALL_HELP=false}else INSTALL_HELP=!INSTALL_HELP;renderSettings()}
 function openSettings(){if(!setEl||LOCK)return;renderSettings();setEl.hidden=false;document.body.classList.add('tray-open');setTimeout(()=>{const x=setEl.querySelector('[aria-checked="true"]');try{x&&x.focus({preventScroll:true})}catch(e){}},40)}
 function closeSettings(){if(!setEl)return;setEl.hidden=true;document.body.classList.remove('tray-open');render();const g=document.getElementById('gear');try{g&&g.focus({preventScroll:true})}catch(e){}}
 async function onSettingsClick(e){
@@ -1341,6 +1364,7 @@ async function onSettingsClick(e){
   const b=e.target.closest&&e.target.closest('[data-set]');if(!b)return;
   const k=b.dataset.set,v=b.dataset.v;
   if(k==='close'){closeSettings();return}
+  if(k==='install'){doInstall();return}
   if(k==='try'){setEl.hidden=true;const was=AUTO;AUTO=false;try{await rollDice({kind:'Test roll',title:'Try your dice',sub:`${(DICE_SETS.find(x=>x.id===SET.dice)||{}).name} dice`,groups:[{n:1,s:20}],d20:true,tone:'atk',judge:x=>x.nat===20?{txt:'Natural 20!',cls:'crit'}:x.nat===1?{txt:'Natural 1…',cls:'bad'}:{txt:`You rolled ${x.nat}`,cls:'good'}})}finally{AUTO=was}
     setTimeout(()=>{setEl.hidden=false;document.body.classList.add('tray-open')},140);return}
   if(k==='dice'){SET.dice=v;audio()&&soundLand(false)}
