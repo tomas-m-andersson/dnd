@@ -162,6 +162,10 @@ body.at-home header{justify-content:center;text-align:center}body.at-home header
 .press{text-align:center;font-size:8px;color:var(--y);animation:blink 1.2s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .gen-note{font-size:8px;color:var(--g1)}
+.tip{margin-top:14px;border:3px dashed var(--y);border-radius:6px;padding:10px 12px;font-size:8px;line-height:1.9;color:var(--w)}
+.tip b{color:var(--y);margin-right:6px}
+.arn-rec{color:var(--g1)}.arn-rec b{color:var(--y)}
+
 
 /* adventure */
 .adv{display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;align-items:start}
@@ -586,7 +590,7 @@ body.at-home header{align-items:center}
 
   <main id="view"></main>
 
-  <footer>Races, classes, weapons, armor, spells and monsters from <a href="https://www.dnd5eapi.co/" target="_blank" rel="noopener">D&amp;D 5e SRD API</a> (5e-bits), System Reference Document 5.1. The rules are simplified for a quick adventure.</footer>
+  <footer>Monsters &amp; rules from the <a href="https://www.dnd5eapi.co/" target="_blank" rel="noopener">D&amp;D 5e SRD</a>.</footer>
 </div>
 
 <script id="hdata" type="application/json">{"classes":[{"i":"barbarian","n":"Barbarian","hd":12,"sv":["str","con"],"w":["battleaxe","club","crossbow-light","dagger","dart","flail","glaive","greataxe","greatclub","greatsword","halberd","handaxe","javelin","lance","light-hammer","longsword","mace","maul","morningstar","pike","quarterstaff","rapier","scimitar","shortbow","shortsword","sickle","sling","spear","trident","war-pick","warhammer","whip"],"ar":[],"sa":null},{"i":"bard","n":"Bard","hd":8,"sv":["dex","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","longsword","mace","quarterstaff","rapier","shortbow","sickle","sling","spear"],"ar":["leather-armor"],"sa":"cha"},{"i":"cleric","n":"Cleric","hd":8,"sv":["wis","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","sickle","sling","spear","warhammer"],"ar":["chain-mail","leather-armor","scale-mail","shield"],"sa":"wis"},{"i":"druid","n":"Druid","hd":8,"sv":["int","wis"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","scimitar","shortbow","sickle","sling","spear"],"ar":["leather-armor","shield"],"sa":"wis"},{"i":"fighter","n":"Fighter","hd":10,"sv":["str","con"],"w":["battleaxe","blowgun","crossbow-hand","crossbow-heavy","crossbow-light","flail","glaive","greataxe","greatsword","halberd","handaxe","lance","longbow","longsword","maul","morningstar","pike","rapier","scimitar","shortsword","trident","war-pick","warhammer","whip"],"ar":["chain-mail","leather-armor","shield"],"sa":null},{"i":"monk","n":"Monk","hd":8,"sv":["str","dex"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","shortsword","sickle","sling","spear"],"ar":[],"sa":null},{"i":"paladin","n":"Paladin","hd":10,"sv":["wis","cha"],"w":["battleaxe","blowgun","club","crossbow-hand","crossbow-heavy","crossbow-light","dagger","dart","flail","glaive","greataxe","greatclub","greatsword","halberd","handaxe","javelin","lance","light-hammer","longbow","longsword","mace","maul","morningstar","pike","quarterstaff","rapier","scimitar","shortbow","shortsword","sickle","sling","spear","trident","war-pick","warhammer","whip"],"ar":["chain-mail","shield"],"sa":null},{"i":"ranger","n":"Ranger","hd":10,"sv":["str","dex"],"w":["club","dagger","greatclub","handaxe","javelin","light-hammer","longbow","mace","quarterstaff","shortsword","sickle","spear"],"ar":["leather-armor","scale-mail"],"sa":null},{"i":"rogue","n":"Rogue","hd":8,"sv":["dex","int"],"w":["dagger","rapier","shortbow","shortsword"],"ar":["leather-armor"],"sa":null},{"i":"sorcerer","n":"Sorcerer","hd":6,"sv":["con","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","sickle","sling","spear"],"ar":[],"sa":"cha"},{"i":"warlock","n":"Warlock","hd":8,"sv":["wis","cha"],"w":["club","crossbow-light","dagger","dart","greatclub","handaxe","javelin","light-hammer","mace","quarterstaff","shortbow","sickle","sling","spear"],"ar":["leather-armor"],"sa":"cha"},{"i":"wizard","n":"Wizard","hd":6,"sv":["int","wis"],"w":["dagger","quarterstaff"],"ar":[],"sa":"int"}],"races":[{"i":"dwarf","n":"Dwarf","b":{"con":2},"sp":25,"tr":["Darkvision","Dwarven Resilience","Stonecunning","Dwarven Combat Training","Tool Proficiency"]},{"i":"elf","n":"Elf","b":{"dex":2},"sp":30,"tr":["Darkvision","Fey Ancestry","Trance","Keen Senses"]},{"i":"halfling","n":"Halfling","b":{"dex":2},"sp":25,"tr":["Brave","Halfling Nimbleness","Lucky"]},{"i":"human","n":"Human","b":{"str":1,"dex":1,"con":1,"int":1,"wis":1,"cha":1},"sp":30,"tr":[]},{"i":"dragonborn","n":"Dragonborn","b":{"str":2,"cha":1},"sp":30,"tr":["Draconic Ancestry","Breath Weapon","Damage Resistance"]},{"i":"gnome","n":"Gnome","b":{"int":2},"sp":25,"tr":["Darkvision","Gnome Cunning"]},{"i":"half-elf","n":"Half-Elf","b":{"cha":2},"sp":30,"tr":["Darkvision","Fey Ancestry","Skill Versatility"]},{"i":"half-orc","n":"Half-Orc","b":{"str":2,"con":1},"sp":30,"tr":["Darkvision","Savage Attacks","Relentless Endurance","Menacing"]},{"i":"tiefling","n":"Tiefling","b":{"int":1,"cha":2},"sp":30,"tr":["Darkvision","Hellish Resistance","Infernal Legacy"]}],"weapons":{"trident":{"n":"Trident","d":"1d6","t":"piercing","r":0,"f":0,"c":"Martial"},"sling":{"n":"Sling","d":"1d4","t":"bludgeoning","r":1,"f":0,"c":"Simple"},"warhammer":{"n":"Warhammer","d":"1d8","t":"bludgeoning","r":0,"f":0,"c":"Martial"},"pike":{"n":"Pike","d":"1d10","t":"piercing","r":0,"f":0,"c":"Martial"},"javelin":{"n":"Javelin","d":"1d6","t":"piercing","r":0,"f":0,"c":"Simple"},"whip":{"n":"Whip","d":"1d4","t":"slashing","r":0,"f":1,"c":"Martial"},"maul":{"n":"Maul","d":"2d6","t":"bludgeoning","r":0,"f":0,"c":"Martial"},"scimitar":{"n":"Scimitar","d":"1d6","t":"slashing","r":0,"f":1,"c":"Martial"},"longsword":{"n":"Longsword","d":"1d8","t":"slashing","r":0,"f":0,"c":"Martial"},"war-pick":{"n":"War pick","d":"1d8","t":"piercing","r":0,"f":0,"c":"Martial"},"shortsword":{"n":"Shortsword","d":"1d6","t":"piercing","r":0,"f":1,"c":"Martial"},"dart":{"n":"Dart","d":"1d4","t":"piercing","r":1,"f":1,"c":"Simple"},"light-hammer":{"n":"Light hammer","d":"1d4","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"spear":{"n":"Spear","d":"1d6","t":"piercing","r":0,"f":0,"c":"Simple"},"morningstar":{"n":"Morningstar","d":"1d8","t":"piercing","r":0,"f":0,"c":"Martial"},"handaxe":{"n":"Handaxe","d":"1d6","t":"slashing","r":0,"f":0,"c":"Simple"},"greataxe":{"n":"Greataxe","d":"1d12","t":"slashing","r":0,"f":0,"c":"Martial"},"lance":{"n":"Lance","d":"1d12","t":"piercing","r":0,"f":0,"c":"Martial"},"mace":{"n":"Mace","d":"1d6","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"flail":{"n":"Flail","d":"1d8","t":"bludgeoning","r":0,"f":0,"c":"Martial"},"quarterstaff":{"n":"Quarterstaff","d":"1d6","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"greatsword":{"n":"Greatsword","d":"2d6","t":"slashing","r":0,"f":0,"c":"Martial"},"sickle":{"n":"Sickle","d":"1d4","t":"slashing","r":0,"f":0,"c":"Simple"},"rapier":{"n":"Rapier","d":"1d8","t":"piercing","r":0,"f":1,"c":"Martial"},"dagger":{"n":"Dagger","d":"1d4","t":"piercing","r":0,"f":1,"c":"Simple"},"glaive":{"n":"Glaive","d":"1d10","t":"slashing","r":0,"f":0,"c":"Martial"},"crossbow-light":{"n":"Crossbow, light","d":"1d8","t":"piercing","r":1,"f":0,"c":"Simple"},"shortbow":{"n":"Shortbow","d":"1d6","t":"piercing","r":1,"f":0,"c":"Simple"},"greatclub":{"n":"Greatclub","d":"1d8","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"battleaxe":{"n":"Battleaxe","d":"1d8","t":"slashing","r":0,"f":0,"c":"Martial"},"halberd":{"n":"Halberd","d":"1d10","t":"slashing","r":0,"f":0,"c":"Martial"},"club":{"n":"Club","d":"1d4","t":"bludgeoning","r":0,"f":0,"c":"Simple"},"crossbow-heavy":{"n":"Crossbow, heavy","d":"1d10","t":"piercing","r":1,"f":0,"c":"Martial"},"crossbow-hand":{"n":"Crossbow, hand","d":"1d6","t":"piercing","r":1,"f":0,"c":"Martial"},"longbow":{"n":"Longbow","d":"1d8","t":"piercing","r":1,"f":0,"c":"Martial"},"blowgun":{"n":"Blowgun","d":"1","t":"piercing","r":1,"f":0,"c":"Martial"}},"armor":{"leather-armor":{"n":"Leather Armor","c":"Light","b":11,"dx":1,"mx":null},"shield":{"n":"Shield","c":"Shield","b":2,"dx":0,"mx":null},"chain-mail":{"n":"Chain Mail","c":"Heavy","b":16,"dx":0,"mx":null},"scale-mail":{"n":"Scale Mail","c":"Medium","b":14,"dx":1,"mx":2}},"spells":[{"i":"acid-splash","n":"Acid Splash","l":0,"c":["sorcerer","wizard"],"t":"acid","d":{"1":"1d6","5":"2d6","11":"3d6","17":"4d6"},"dc":"dex","hf":0},{"i":"burning-hands","n":"Burning Hands","l":1,"c":["sorcerer","wizard"],"t":"fire","d":"3d6","dc":"dex","hf":1},{"i":"chill-touch","n":"Chill Touch","l":0,"c":["sorcerer","warlock","wizard"],"t":"necrotic","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"cure-wounds","n":"Cure Wounds","l":1,"c":["bard","cleric","druid","paladin","ranger"],"h":"1d8+MOD"},{"i":"divine-favor","n":"Divine Favor","l":1,"c":["paladin"],"t":"radiant","d":"1d4","auto":1},{"i":"eldritch-blast","n":"Eldritch Blast","l":0,"c":["warlock"],"t":"force","d":{"1":"1d10","5":"1d10","11":"1d10","17":"1d10"},"at":1},{"i":"false-life","n":"False Life","l":1,"c":["sorcerer","wizard"],"h":"1d4+4"},{"i":"fire-bolt","n":"Fire Bolt","l":0,"c":["sorcerer","wizard"],"t":"fire","d":{"1":"1d10","5":"2d10","11":"3d10","17":"4d10"},"at":1},{"i":"guiding-bolt","n":"Guiding Bolt","l":1,"c":["cleric"],"t":"radiant","d":"4d6","at":1},{"i":"healing-word","n":"Healing Word","l":1,"c":["bard","cleric","druid"],"h":"1d4+MOD"},{"i":"hellish-rebuke","n":"Hellish Rebuke","l":1,"c":["warlock"],"t":"fire","d":"2d10","dc":"dex","hf":1},{"i":"inflict-wounds","n":"Inflict Wounds","l":1,"c":["cleric"],"t":"necrotic","d":"3d10","at":1},{"i":"magic-missile","n":"Magic Missile","l":1,"c":["sorcerer","wizard"],"t":"force","d":"3d4+3","auto":1},{"i":"poison-spray","n":"Poison Spray","l":0,"c":["sorcerer","warlock","wizard","druid"],"t":"poison","d":{"1":"1d12","5":"2d12","11":"3d12","17":"4d12"},"dc":"con","hf":0},{"i":"produce-flame","n":"Produce Flame","l":0,"c":["druid"],"t":"fire","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"ray-of-frost","n":"Ray of Frost","l":0,"c":["sorcerer","wizard"],"t":"cold","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"sacred-flame","n":"Sacred Flame","l":0,"c":["cleric"],"t":"radiant","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"dc":"dex","hf":0},{"i":"shocking-grasp","n":"Shocking Grasp","l":0,"c":["sorcerer","wizard"],"t":"lightning","d":{"1":"1d8","5":"2d8","11":"3d8","17":"4d8"},"at":1},{"i":"thunderwave","n":"Thunderwave","l":1,"c":["bard","druid","sorcerer","wizard"],"t":"thunder","d":"2d8","dc":"con","hf":1},{"i":"vicious-mockery","n":"Vicious Mockery","l":0,"c":["bard"],"t":"psychic","d":{"1":"1d4","5":"2d4","11":"3d4","17":"4d4"},"dc":"wis","hf":0}]}</script>
@@ -808,7 +812,6 @@ function renderGen(){
         <button class="btn" id="reroll" type="button" ${inAdv?'disabled':''}>Roll abilities</button>
         <button class="btn" id="randAll" type="button" ${inAdv?'disabled':''}>Randomize hero</button>
         ${party.length>1&&!inAdv?`<button class="btn" id="removeHero" type="button">Remove from party</button>`:''}
-        <button class="btn" id="openLib" type="button">Monster library<small>Every monster, its strengths and weaknesses</small></button>
       </div>
       <div class="win plan-bar"><div><span class="eyebrow">${inAdv?'On the way':'Next adventure'}</span><b>${inAdv?(adv.grand?'Epic adventure · '+LOC().name:LOC().name):planName()}</b></div>${inAdv?'':`<button class="btn" id="changePlan" type="button">Change</button>`}</div>
     </div></div>
@@ -835,7 +838,6 @@ function renderGen(){
   document.querySelectorAll('.arr[data-cyc]').forEach(b=>b.onclick=()=>{const sel=document.getElementById(b.dataset.cyc);if(!sel||sel.disabled)return;const n=sel.options.length;sel.selectedIndex=(sel.selectedIndex+ +b.dataset.d+n)%n;sel.onchange({target:sel});const nb=document.querySelector(`.arr[data-cyc="${b.dataset.cyc}"][data-d="${b.dataset.d}"]`);try{nb&&nb.focus({preventScroll:true})}catch(e){}});
   document.getElementById('selCls').onchange=e=>{party[edit]=newHero({name:hero.name,race:hero.race,cls:e.target.value,rolls:hero.rolls});save();render()};
   document.getElementById('reroll').onclick=async()=>{if(LOCK)return;LOCK=true;try{const rolls=await rollAbilityTray();party[edit]=newHero({name:hero.name,race:hero.race,cls:hero.cls,rolls});save();render()}finally{LOCK=false}};
-  document.getElementById('openLib').onclick=openLib;
   document.getElementById('randAll').onclick=()=>{party[edit]=newHero({skip:hero});save();render()};
   const cp=document.getElementById('changePlan');if(cp)cp.onclick=()=>setView('pick');
 }
@@ -1261,9 +1263,10 @@ function rollDice(o){
     setTimeout(()=>{try{btn.focus({preventScroll:true})}catch(e){}},40);
   });
 }
+function buzz(nat){if(!SET.sound||nat!==20&&nat!==1)return;try{navigator.vibrate&&navigator.vibrate(nat===20?[40,60,40,60,120]:[220])}catch(e){}}
 async function heroD20(o){
   const r=await rollDice(Object.assign({kind:'d20 roll',groups:[{n:1,s:20}],d20:true,lucky:hero.race==='halfling',onLucky:()=>log('note',`Halfling luck! The 1 is rerolled.`,'↻')},o));
-  REC.stats.rolls++;if(r.nat===20)REC.stats.nat20++;if(r.nat===1)REC.stats.nat1++;saveRec();
+  REC.stats.rolls++;if(r.nat===20)REC.stats.nat20++;if(r.nat===1)REC.stats.nat1++;saveRec();buzz(r.nat);
   return r.nat;
 }
 /* parts: dice strings like '1d8' or '2d6+3'; returns {total, sums:[per part]} */
@@ -1350,8 +1353,7 @@ function renderSettings(){
       <div class="diff-desc">${D().desc}<br>${D().pot} potion${D().pot===1?'':'s'} per hero.</div>
     </section>
     <section class="set-sec"><div class="eyebrow">Rolling</div>
-      <div class="set-row"><div><b>Who rolls</b><span>Auto plays faster</span></div>${seg('auto',[['0','You'],['1','Auto']],AUTO?'1':'0')}</div>
-      <div class="set-row"><div><b>Speed</b><span>How long dice spin</span></div>${seg('speed',[['normal','Normal'],['quick','Quick']],SET.speed)}</div>
+      <div class="set-row"><div><b>Who rolls</b><span>Auto plays faster</span></div>${seg('roll',[['me','You'],['auto','Auto'],['fast','Fast']],!AUTO?'me':SET.speed==='quick'?'fast':'auto')}</div>
       <div class="set-row"><div><b>Sound</b><span>Rattle and clack</span></div>${seg('sound',[['1','On'],['0','Off']],SET.sound?'1':'0')}</div>
     </section>
     ${installSec()}
@@ -1387,8 +1389,7 @@ async function onSettingsClick(e){
   if(k==='try'){setEl.hidden=true;const was=AUTO;AUTO=false;try{await rollDice({kind:'Test roll',title:'Try your dice',sub:`${(DICE_SETS.find(x=>x.id===SET.dice)||{}).name} dice`,groups:[{n:1,s:20}],d20:true,tone:'atk',judge:x=>x.nat===20?{txt:'Natural 20!',cls:'crit'}:x.nat===1?{txt:'Natural 1…',cls:'bad'}:{txt:`You rolled ${x.nat}`,cls:'good'}})}finally{AUTO=was}
     setTimeout(()=>{setEl.hidden=false;document.body.classList.add('tray-open')},140);return}
   if(k==='dice'){const ds=DICE_SETS.find(x=>x.id===v);if(!ds||!diceOk(ds))return;SET.dice=v;audio()&&soundLand(false)}
-  else if(k==='auto'){setAuto(v==='1')}
-  else if(k==='speed')SET.speed=v;
+  else if(k==='roll'){setAuto(v!=='me');SET.speed=v==='fast'?'quick':'normal'}
   else if(k==='sound'){SET.sound=v==='1';if(SET.sound)soundLand(false)}
   else if(k==='theme')SET.theme=v;
   else if(k==='diff'){if(!DIFF[v])return;SET.diff=v}
@@ -3641,7 +3642,22 @@ function gainXp(h,n){
   }
 }
 function die(){adv.phase='dead';adv.busy=false;recStat('fallen',party.length);recordRun('fallen');log('sep',party.length>1?'The party has fallen':'The hero has fallen')}
-function retry(){const o={mode:adv.grand?'grand':'adventure',loc:adv.grand?'castle':adv.loc};party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure(o);save();render()}
+/* short tips, each shown only the first time you meet that kind of room */
+const TIP_TXT={
+  doors:'Each path has a clue. Listen at the doors to learn more, but the noise can wake a monster.',
+  fight:'Tap an enemy to pick your target, then choose an attack or a spell. Potions heal whoever is hurt the most.',
+  trap:'Traps test one hero at a time. Rogues and monks are the best at dodging.',
+  merchant:'Gold buys potions and upgrades. Choose who gets the upgrade before you buy.',
+  camp:'Resting heals your heroes. A longer rest heals more, but something may find you.',
+  well:'The well is a gamble. If your heroes are healthy, you can simply move on.',
+  sleeper:'Sneaking past is the safe choice. An ambush gives you the first strike.',
+  chest:'Rogues are the best at picking locks. Forcing a chest open is risky.'};
+let TIPS={};try{TIPS=JSON.parse(localStorage.getItem('nat20-tips')||'{}')||{}}catch(e){}
+function tipHtml(P,t,done){let k=P==='doors'&&adv.depth<DEPTH?'doors':P==='fight'?'fight':P==='room'&&t==='trap'?'trap':P==='room'&&!done&&TIP_TXT[t]?t:null;if(!k||!TIP_TXT[k])return'';
+  const here=`${adv.id||0}.${adv.chapter}.${adv.depth}`;if(TIPS[k]&&TIPS[k]!==here)return'';
+  if(!TIPS[k]){TIPS[k]=here;try{localStorage.setItem('nat20-tips',JSON.stringify(TIPS))}catch(e){}}
+  return `<div class="tip"><b>Tip</b> ${TIP_TXT[k]}</div>`}
+async function retry(){if(LOCK)return;const o={mode:adv.grand?'grand':'adventure',loc:adv.grand?'castle':adv.loc};party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure(o);save();render();if(adv.grand){LOCK=true;try{await showTravel('village','castle')}finally{LOCK=false}}}
 function newOne(){adv=null;party=[];party=[newHero()];edit=0;hero=party[0];setView('home')}
 function endRun(){if(adv&&adv.phase!=='dead'&&adv.phase!=='victory'&&adv.kills>0)recordRun('retired');if(adv&&adv.phase==='victory')party.forEach(h=>{h.hp=h.hpMax;h.raging=false;h.bless=0;h.curse=0});else party=adv&&adv.start?JSON.parse(JSON.stringify(adv.start)):party;adv=null;edit=0;hero=party[0]}
 
@@ -3728,8 +3744,9 @@ function renderAdv(){
   }else if(P==='victory'){
     stage=`<div class="banner"><span class="big">Epic adventure complete!</span>${partyNames()} fought through the castle, the caves, the woods and Hell itself, and defeated the ${esc(adv.lastFoe)}. ${adv.kills} enemies defeated. <b class="you">${adv.glory} glory</b>.</div><p>Your names are written in the Hall of Fame.</p>${adv.newGold?`<div class="gold-unlock" data-dice="gold"><span class="die d20 mini">${d20Svg(20)}</span><div><div class="eyebrow">Secret unlocked!</div><b>Super special golden dice</b><span>Only true heroes get these. ${SET.dice==='gold'?'You are rolling them now.':'Pick them under Options, or use them right away.'}</span>${SET.dice==='gold'?'':`<button class="btn" data-act="usegold" type="button">Use the golden dice</button>`}</div></div>`:''}<div class="actions"><button class="btn primary" data-act="fame">See the Hall of Fame</button><button class="btn" data-act="abandon">Back to the start screen</button></div>`;
   }else if(P==='dead'){
-    stage=`<div class="banner dead"><span class="big">${party.length>1?'The party has fallen':esc(h.name)+' has fallen'}</span>at depth ${adv.depth} in chapter ${adv.chapter}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">${party.length>1?'Same party':'Same hero'}, try again</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
+    stage=`<div class="banner dead"><span class="big">${party.length>1?'The party has fallen':esc(h.name)+' has fallen'}</span>at depth ${adv.depth} in chapter ${adv.chapter}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">Play again<small>${party.length>1?'same party':'same hero'} · ${adv.grand?'epic adventure':esc(LOC().name)}</small></button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
   }
+  stage+=tipHtml(P,adv.room&&adv.room.t,adv.room&&adv.room.done);
   const logHtml=adv.log.map(e=>e.c==='sep'?`<li class="sep">${e.h}</li>`:`<li class="${e.c}"><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('');
   $view.innerHTML=`<div class="adv">${status}<section class="scene">
     <canvas id="scene" class="scene-cv" width="192" height="96" role="img" aria-label="${esc(sceneText().filter(Boolean).join(' '))}"></canvas>
@@ -3967,6 +3984,9 @@ function arnFighter(sel,side){if(!sel)return null;
     return{side,hero:h,nm:String(h.name).split(' ')[0],full:String(h.name),ac:ac(h),hp:h.hpMax,max:h.hpMax,look:heroLook(h),dex:mod(scores(h).dex),pots:2,opts:heroOpts(h),sub:`Champion · level ${h.lvl} ${RACE_SV[h.race]||h.race} ${CLS_SV[h.cls]||h.cls}`}}
   const m=M.find(x=>x.i===sel.i);if(!m)return null;
   return{side,m,nm:m.n,full:m.n,ac:m.ac,hp:m.hp,max:m.hp,look:monLook(m),dex:mod(m.st[1]),charged:!!m.sv,sub:`CR ${crTxt(m.cr)} · ${m.s} ${m.t}`}}
+let ARN_REC={};try{ARN_REC=JSON.parse(localStorage.getItem('nat20-arena-rec')||'{}')||{}}catch(e){}
+function arnRecord(win,lose){[[win,0],[lose,1]].forEach(([F,j])=>{if(!F||!F.m)return;const r=ARN_REC[F.m.i]||(ARN_REC[F.m.i]=[0,0]);r[j]++});try{localStorage.setItem('nat20-arena-rec',JSON.stringify(ARN_REC))}catch(e){}}
+function arnRecTxt(id){const r=ARN_REC[id];if(!r)return'<div class="arn-rec">Arena: no fights yet</div>';return `<div class="arn-rec">Arena: <b>${r[0]}</b> win${r[0]===1?'':'s'} · <b>${r[1]}</b> loss${r[1]===1?'':'es'}</div>`}
 function arnReset(F){if(!F)return;F.hp=F.max;F.pots=2;F.charged=!!(F.m&&F.m.sv)}
 function arnTypeMod(T,n,type){if(T.m){const m=T.m;if(m.im&&m.im.includes(type))return[0,`immune to ${type}`];if(m.rs&&m.rs.includes(type))return[Math.floor(n/2),`resists ${type}`];if(m.vu&&m.vu.includes(type))return[n*2,`vulnerable to ${type}!`];return[n,'']}
   const h=T.hero;const rs=(h.race==='dwarf'&&type==='poison')||(h.race==='tiefling'&&type==='fire')||(h.dragon&&h.dragon===type)||(h.cls==='barbarian'&&['bludgeoning','piercing','slashing'].includes(type));return rs?[Math.floor(n/2),`resists ${type}`]:[n,'']}
@@ -4011,7 +4031,7 @@ async function arnFight(){if(ARN.busy)return;const A=ARN.fa,B=ARN.fb;if(!A||!B)r
   while(A.hp>0&&B.hp>0&&ARN.round<30){ARN.round++;arnLog(`Round ${ARN.round}`,'·','sep');
     for(const F of order){const T=F===A?B:A;if(F.hp<=0||T.hp<=0)break;await arnTurn(F,T);if(tok!==ARN.tok)return;arnUI();await arnWait(700);if(tok!==ARN.tok)return}}
   let win;if(A.hp<=0)win=B;else if(B.hp<=0)win=A;else win=(A.hp/A.max>=B.hp/B.max)?A:B;const lose=win===A?B:A;
-  ARN.winner=win.side;if(lose.hp<=0)ARN.ko={side:lose.side,t:performance.now()};
+  ARN.winner=win.side;arnRecord(win,lose);if(lose.hp<=0)ARN.ko={side:lose.side,t:performance.now()};
   arnLog(lose.hp<=0?`${arnTag(lose)} falls! <b>${arnTag(win)} wins</b> after ${ARN.round} round${ARN.round===1?'':'s'}.`:`Time is up after ${ARN.round} rounds! ${arnTag(win)} has more health left and <b>wins on points</b>.`,'★','crit');
   ARN.msg=`${win.nm} wins!`;ARN.big=[];arnFx(win.side,'winner!',NP.Y);ARN.busy=false;arnUI()}
 /* the TV: a colosseum with a cheering crowd */
@@ -4057,7 +4077,7 @@ function arnPeekHero(){const F=ARN.champPrev||(ARN.champPrev=arnFighter({k:'hero
 function arnList(){const q=ARN.q.trim().toLowerCase();const c=champion();const op=ARN.open;
   const champ=c?`<button type="button" class="arn-opt champ${op==='hero'?' open':''}" data-arn="peek" data-k="hero" aria-expanded="${op==='hero'}"><span>★</span><b>${esc(c.n)}</b><small>Hall of Fame champion · level ${c.l}</small></button>${op==='hero'?arnPeekHero():''}`:`<div class="gen-note">No champion yet. Finish an adventure and the hero with the most glory will be crowned here.</div>`;
   const ms=M.map((m,i)=>({m,i})).filter(({m})=>(!q||m.n.toLowerCase().includes(q))&&monActs(m).length).sort((a,b)=>a.m.cr-b.m.cr||a.m.n.localeCompare(b.m.n)).map(({m,i})=>{const on=op===m.i;
-    return `<button type="button" class="arn-opt${on?' open':''}" data-arn="peek" data-i="${m.i}" aria-expanded="${on}"><span>${crTxt(m.cr)}</span><b>${esc(m.n)}</b><small>${m.s} ${m.t}</small></button>${on?`<div class="arn-peek">${libCard(m,i)}<button class="btn arn-pick" type="button" data-arn="set" data-k="mon" data-i="${m.i}">Choose ${esc(m.n)}</button></div>`:''}`}).join('');
+    return `<button type="button" class="arn-opt${on?' open':''}" data-arn="peek" data-i="${m.i}" aria-expanded="${on}"><span>${crTxt(m.cr)}</span><b>${esc(m.n)}</b><small>${m.s} ${m.t}</small></button>${on?`<div class="arn-peek">${libCard(m,i).replace('</article>',arnRecTxt(m.i)+'</article>')}<button class="btn arn-pick" type="button" data-arn="set" data-k="mon" data-i="${m.i}">Choose ${esc(m.n)}</button></div>`:''}`}).join('');
   return `${!q||(c&&c.n.toLowerCase().includes(q))?champ:''}${ms||'<div class="gen-note">No monster by that name.</div>'}`}
 function arnListPaint(){const l=document.getElementById('arnList');if(!l)return;l.innerHTML=arnList();libDraw(l);
   l.querySelectorAll('canvas[data-spr]').forEach(cv=>{const L0=JSON.parse(cv.dataset.spr);const x=cv.getContext&&cv.getContext('2d');if(!x)return;x.imageSmoothingEnabled=false;drawSpr(x,L0.key,L0.pal,0,0,{})})}
