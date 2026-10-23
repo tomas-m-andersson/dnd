@@ -3657,7 +3657,7 @@ function tipHtml(P,t,done){let k=P==='doors'&&adv.depth<DEPTH?'doors':P==='fight
   const here=`${adv.id||0}.${adv.chapter}.${adv.depth}`;if(TIPS[k]&&TIPS[k]!==here)return'';
   if(!TIPS[k]){TIPS[k]=here;try{localStorage.setItem('nat20-tips',JSON.stringify(TIPS))}catch(e){}}
   return `<div class="tip"><b>Tip</b> ${TIP_TXT[k]}</div>`}
-async function retry(){if(LOCK)return;const o={mode:adv.grand?'grand':'adventure',loc:adv.grand?'castle':adv.loc};party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure(o);save();render();if(adv.grand){LOCK=true;try{await showTravel('village','castle')}finally{LOCK=false}}}
+async function retry(){const o={mode:adv.grand?'grand':'adventure',loc:adv.grand?'castle':adv.loc};party=JSON.parse(JSON.stringify(adv.start));edit=0;hero=party[0];startAdventure(o);save();render();if(adv.grand)await showTravel('village','castle')}
 function newOne(){adv=null;party=[];party=[newHero()];edit=0;hero=party[0];setView('home')}
 function endRun(){if(adv&&adv.phase!=='dead'&&adv.phase!=='victory'&&adv.kills>0)recordRun('retired');if(adv&&adv.phase==='victory')party.forEach(h=>{h.hp=h.hpMax;h.raging=false;h.bless=0;h.curse=0});else party=adv&&adv.start?JSON.parse(JSON.stringify(adv.start)):party;adv=null;edit=0;hero=party[0]}
 
