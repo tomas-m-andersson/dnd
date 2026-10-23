@@ -318,6 +318,18 @@ footer a{color:var(--g1)}
 [data-dice="bone"]{--die-a:#fdf6e4;--die-m:#cdb98e;--die-in:#f1e4c3;--die-ink:#3b2a17}
 [data-dice="venom"]{--die-a:#c6f77a;--die-m:#36a224;--die-in:#a6e861;--die-ink:#0d2205}
 [data-dice="blood"]{--die-a:#e2484c;--die-m:#6e0b13;--die-in:#ad1f29;--die-ink:#fff2ef}
+[data-dice="gold"]{--die-a:#fffbd8;--die-m:#c47c00;--die-in:#f8c830;--die-ink:#4a2000}
+[data-dice="gold"] .die.d20,.tray[data-dice="gold"] .die.d20{filter:drop-shadow(0 0 3px #f8d040) drop-shadow(0 0 9px rgba(248,184,0,.55))}
+[data-dice="gold"] .die.d20::after{content:"";position:absolute;width:8%;height:8%;left:24%;top:22%;background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.35);animation:goldGlint 2.6s steps(1) infinite;pointer-events:none}
+@keyframes goldGlint{0%,70%{opacity:0}75%,90%{opacity:1}}
+@media (prefers-reduced-motion:reduce){[data-dice="gold"] .die.d20::after{animation:none;opacity:.8}}
+[data-dice="locked"]{--die-a:#7c7c7c;--die-m:#202020;--die-in:#3c3c3c;--die-ink:#bcbcbc}
+.dice-opt.locked{opacity:.75;cursor:not-allowed;border-style:dashed}
+.gold-unlock{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:center;border:4px solid #f8b800;border-radius:8px;padding:12px;background:#1c1400;box-shadow:0 0 0 3px var(--k),0 0 18px rgba(248,184,0,.35);margin:12px 0}
+.gold-unlock .die.mini{width:64px;height:64px}
+.gold-unlock>div{display:grid;gap:8px;font-size:8px;line-height:1.9}
+.gold-unlock .eyebrow{color:#f8b800}.gold-unlock b{font-size:11px;color:#fff4b0;line-height:1.5}.gold-unlock span{color:var(--g1)}
+.gold-unlock .btn{justify-self:start;font-size:8px}
 .tray[data-dice="ember"][data-tone="heal"]{--die-a:#b8f8b8;--die-m:#00a800;--die-in:#58d854;--die-ink:#002800}
 .tray[data-dice="ember"][data-tone="magic"]{--die-a:#a4e4fc;--die-m:#0058f8;--die-in:#3cbcfc;--die-ink:#001840}
 .tray[data-dice="ember"][data-tone="save"],.tray[data-dice="ember"][data-tone="check"],.tray[data-dice="ember"][data-tone="crit"]{--die-a:#fce0a8;--die-m:#e45c10;--die-in:#f8b800;--die-ink:#3c1800}
@@ -1278,11 +1290,18 @@ const DICE_SETS=[
   {id:'frost',name:'Frost',desc:'Ice crystal'},
   {id:'bone',name:'Bone',desc:'Old-school ivory'},
   {id:'venom',name:'Venom',desc:'Toxic green'},
-  {id:'blood',name:'Blood',desc:'Deep red, white numbers'}
+  {id:'blood',name:'Blood',desc:'Deep red, white numbers'},
+  {id:'gold',name:'Golden',desc:'Super special golden dice',secret:true}
 ];
+/* secret unlocks, kept apart from the records so a Hall of Fame reset does not take them away */
+let UNL={gold:false};
+try{const u=JSON.parse(localStorage.getItem('nat20-unlocks')||'null');if(u&&typeof u==='object')UNL=Object.assign(UNL,u)}catch(e){}
+function saveUnl(){try{localStorage.setItem('nat20-unlocks',JSON.stringify(UNL))}catch(e){}}
+try{if(!UNL.gold&&REC.runs.some(r=>r.mode==='grand'&&r.outcome==='victory'&&r.diff&&r.diff!=='easy')){UNL.gold=true;saveUnl()}}catch(e){}
+const diceOk=x=>!x.secret||UNL[x.id];
 let SET={dice:'ember',speed:'normal',sound:true,theme:'system',diff:'normal'};
 try{const s=JSON.parse(localStorage.getItem('nat20-settings')||'null');if(s&&typeof s==='object')SET=Object.assign(SET,s)}catch(e){}
-if(!DICE_SETS.some(x=>x.id===SET.dice))SET.dice='ember';if(!DIFF[SET.diff])SET.diff='normal';
+if(!DICE_SETS.some(x=>x.id===SET.dice&&diceOk(x)))SET.dice='ember';if(!DIFF[SET.diff])SET.diff='normal';
 function saveSettings(){try{localStorage.setItem('nat20-settings',JSON.stringify(SET))}catch(e){}}
 function applySettings(){
   if(trayEl&&trayEl.dataset)trayEl.dataset.dice=SET.dice;
@@ -1323,7 +1342,7 @@ function renderSettings(){
   card.innerHTML=`
     <div class="set-head"><h3 id="setTitle">Options</h3><button class="btn set-x" type="button" data-set="close" aria-label="Close options">X</button></div>
     <section class="set-sec"><div class="eyebrow">Dice design</div>
-      <div class="dice-grid" role="radiogroup" aria-label="Dice design">${DICE_SETS.map(x=>`<button type="button" class="dice-opt" role="radio" aria-checked="${x.id===SET.dice}" data-set="dice" data-v="${x.id}" data-dice="${x.id}" title="${x.desc}"><span class="die d20 mini">${d20Svg(20)}</span><span class="nm">${x.name}</span><span class="ds">${x.desc}</span></button>`).join('')}</div>
+      <div class="dice-grid" role="radiogroup" aria-label="Dice design">${DICE_SETS.map(x=>diceOk(x)?`<button type="button" class="dice-opt" role="radio" aria-checked="${x.id===SET.dice}" data-set="dice" data-v="${x.id}" data-dice="${x.id}" title="${x.desc}"><span class="die d20 mini">${d20Svg(20)}</span><span class="nm">${x.name}</span><span class="ds">${x.desc}</span></button>`:`<button type="button" class="dice-opt locked" disabled data-dice="locked" title="A secret. Only true heroes will find it."><span class="die d20 mini">${d20Svg('?')}</span><span class="nm">???</span></button>`).join('')}</div>
       <button class="set-try" type="button" data-set="try">Try a roll</button>
     </section>
     <section class="set-sec blue"><div class="eyebrow">Difficulty</div>
@@ -1367,7 +1386,7 @@ async function onSettingsClick(e){
   if(k==='install'){doInstall();return}
   if(k==='try'){setEl.hidden=true;const was=AUTO;AUTO=false;try{await rollDice({kind:'Test roll',title:'Try your dice',sub:`${(DICE_SETS.find(x=>x.id===SET.dice)||{}).name} dice`,groups:[{n:1,s:20}],d20:true,tone:'atk',judge:x=>x.nat===20?{txt:'Natural 20!',cls:'crit'}:x.nat===1?{txt:'Natural 1…',cls:'bad'}:{txt:`You rolled ${x.nat}`,cls:'good'}})}finally{AUTO=was}
     setTimeout(()=>{setEl.hidden=false;document.body.classList.add('tray-open')},140);return}
-  if(k==='dice'){SET.dice=v;audio()&&soundLand(false)}
+  if(k==='dice'){const ds=DICE_SETS.find(x=>x.id===v);if(!ds||!diceOk(ds))return;SET.dice=v;audio()&&soundLand(false)}
   else if(k==='auto'){setAuto(v==='1')}
   else if(k==='speed')SET.speed=v;
   else if(k==='sound'){SET.sound=v==='1';if(SET.sound)soundLand(false)}
@@ -3605,7 +3624,7 @@ function winFight(){
     else if(h.hp<h.hpMax){const got=healHero(h,Math.round((d(CL[h.cls].hd)+mod(scores(h).con))*D().heal));log('',`<b class="you">${first(h)}</b> catches their breath and binds their wounds. <span class="heal">+${got} HP</span>.`,'✚','heal')}});
   party.forEach(h=>gainXp(h,share));
   const boss=adv.room.t==='boss';adv.foes=[];F=null;
-  if(boss){recStat('bosses');adv.phase=adv.grand&&adv.loc==='hell'?'victory':'won';adv.room.loot=rollLoot();adv.room.loot.push({k:'gpot',n:'Potion of Greater Healing',sv:''});takeLootSilent();if(adv.phase==='victory'){recStat('grandWins');recordRun('victory')}else recordRun('alive');}
+  if(boss){recStat('bosses');adv.phase=adv.grand&&adv.loc==='hell'?'victory':'won';adv.room.loot=rollLoot();adv.room.loot.push({k:'gpot',n:'Potion of Greater Healing',sv:''});takeLootSilent();if(adv.phase==='victory'){recStat('grandWins');recordRun('victory');if(SET.diff!=='easy'&&!UNL.gold){UNL.gold=true;saveUnl();adv.newGold=true}}else recordRun('alive');}
   else if(adv.room.afterLoot){adv.phase='room';adv.room.done=false;adv.room.t='treasure';adv.room.loot=rollLoot(true);log('note',`The chest they were guarding stands open.`,'¤','heal')}
   else{adv.phase='room';adv.room.done=true;adv.room.t='fight';if(Math.random()<.3){adv.room.loot=rollLoot().slice(0,1);takeLootSilent()}}
   save();render();
@@ -3707,7 +3726,7 @@ function renderAdv(){
   }else if(P==='won'){
     stage=`<div class="banner"><span class="big">Chapter ${adv.chapter} complete!</span>${partyNames()} defeated the ${esc(adv.lastFoe)} and became the ${party.length>1?'heroes':'hero'} of ${LOC().the}. ${adv.kills} enemies defeated in total.</div><p>${adv.grand?`Next stop: <b>${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}</b>. You rest fully before the journey.`:'Further in there are more passages, and more dangerous monsters. You rest fully before going on.'}</p><div class="actions"><button class="btn primary" data-act="next">${adv.grand?`Travel to ${LOCS[GRAND[GRAND.indexOf(adv.loc)+1]].name}`:`Descend to chapter ${adv.chapter+1}`}</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="abandon">End the adventure here</button></div>`;
   }else if(P==='victory'){
-    stage=`<div class="banner"><span class="big">Epic adventure complete!</span>${partyNames()} fought through the castle, the caves, the woods and Hell itself, and defeated the ${esc(adv.lastFoe)}. ${adv.kills} enemies defeated. <b class="you">${adv.glory} glory</b>.</div><p>Your names are written in the Hall of Fame.</p><div class="actions"><button class="btn primary" data-act="fame">See the Hall of Fame</button><button class="btn" data-act="abandon">Back to the start screen</button></div>`;
+    stage=`<div class="banner"><span class="big">Epic adventure complete!</span>${partyNames()} fought through the castle, the caves, the woods and Hell itself, and defeated the ${esc(adv.lastFoe)}. ${adv.kills} enemies defeated. <b class="you">${adv.glory} glory</b>.</div><p>Your names are written in the Hall of Fame.</p>${adv.newGold?`<div class="gold-unlock" data-dice="gold"><span class="die d20 mini">${d20Svg(20)}</span><div><div class="eyebrow">Secret unlocked!</div><b>Super special golden dice</b><span>Only true heroes get these. ${SET.dice==='gold'?'You are rolling them now.':'Pick them under Options, or use them right away.'}</span>${SET.dice==='gold'?'':`<button class="btn" data-act="usegold" type="button">Use the golden dice</button>`}</div></div>`:''}<div class="actions"><button class="btn primary" data-act="fame">See the Hall of Fame</button><button class="btn" data-act="abandon">Back to the start screen</button></div>`;
   }else if(P==='dead'){
     stage=`<div class="banner dead"><span class="big">${party.length>1?'The party has fallen':esc(h.name)+' has fallen'}</span>at depth ${adv.depth} in chapter ${adv.chapter}, after defeating ${adv.kills} enemies.</div><div class="actions"><button class="btn primary" data-act="retry">${party.length>1?'Same party':'Same hero'}, try again</button><button class="btn" data-act="fame">Hall of Fame</button><button class="btn" data-act="newone">Start over with a new hero</button></div>`;
   }
@@ -3916,10 +3935,10 @@ $view.addEventListener('click',e=>{
   if(a==='tgt'){adv.tgt=+b.dataset.i;save();render();return}
   const fn=({dice:()=>{setAuto(!AUTO);render()},enter:()=>enterRoom(b.dataset.t),atk:()=>doAttack(b.dataset.w),spell:()=>doSpell(b.dataset.s),sw:doSecondWind,rage:doRage,lay:doLay,breath:doBreath,
     pot:()=>doPotion(false),gpot:()=>doPotion(true),flee:doFlee,take:takeLoot,restFull,restLight,well:drinkWell,listen,sneak:sneakPast,ambush:ambushSleeper,force:forceChest,picklock:pickChest,pray,offer,give:givePotion,talk,buy:()=>buy(b.dataset.k),next:()=>adv.phase==='won'&&adv.grand&&GRAND.indexOf(adv.loc)<GRAND.length-1?travelOn():nextRoom(),retry,newone:newOne,
-    abandon:()=>{if(b.dataset.confirm){endRun();setView('home')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}},home:()=>setView('home'),fame:()=>openPanel('fame')
+    usegold:()=>{SET.dice='gold';saveSettings();applySettings();render()},abandon:()=>{if(b.dataset.confirm){endRun();setView('home')}else{b.dataset.confirm='1';b.textContent='Sure? Tap again'}},home:()=>setView('home'),fame:()=>openPanel('fame')
   })[a];
   if(!fn)return;
-  if(a==='abandon'||a==='dice'||a==='home'||a==='fame'){fn();return}
+  if(a==='usegold'||a==='abandon'||a==='dice'||a==='home'||a==='fame'){fn();return}
   if(LOCK)return;LOCK=true;
   if(adv.phase==='fight'&&(FIGHT_ACTS.has(a)||a==='pot'||a==='gpot')&&adv.turn>=0)hero=party[adv.turn];
   Promise.resolve().then(fn).catch(err=>console.error(err)).finally(()=>{LOCK=false;render()});
@@ -4074,7 +4093,7 @@ function render(){document.body.classList.toggle('in-adv',view==='adv'&&!!adv);d
 render();
 trayInit();settingsInit();libInit();panelInit();travelInit();
 /* test hooks */
-window.__M=M;window.__t={setView,pickMonster,fitsLoc,get plan(){return plan},set plan(v){plan=v},get REC(){return REC},openPanel,drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,doRage,doLay,
+window.__M=M;window.__t={winFight,get UNL(){return UNL},setView,pickMonster,fitsLoc,get plan(){return plan},set plan(v){plan=v},get REC(){return REC},openPanel,drawScene,setAuto,doSecondWind,listen,restFull,restLight,sneakPast,ambushSleeper,forceChest,pickChest,pray,offer,givePotion,talk,buy,shopList,doBreath,newHero,doRage,doLay,
   startAdventure:o=>{startAdventure(o)},get hero(){return hero},set hero(v){hero=v},get party(){return party},set party(v){party=v},get adv(){return adv},get bag(){return bag},SET,
   enterRoom,doAttack,doSpell,nextRoom,takeLoot,drinkWell,doPotion,doFlee,monstersTurn,actor:()=>{if(adv.turn>=0)hero=party[adv.turn];return hero}};
 })();
