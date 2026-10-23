@@ -789,7 +789,7 @@ function renderGen(){
         <div><b>d${c.hd}</b><span>Hit die</span></div>
         <div><b>${r.sp}</b><span>Speed</span></div>
       </div>
-      ${inAdv?`<div class="gen-note">Your ${party.length>1?'party is':'hero is'} on an adventure. End the adventure to make changes.</div>`:''}
+      ${inAdv?`<div class="gen-note">Your ${party.length>1?'party is':'hero is'} on an adventure. Give up and return home to make changes.</div>`:''}
     </section>
     <div class="gen-actions">
       <div class="win menu" aria-label="Commands">
@@ -3716,7 +3716,7 @@ function renderAdv(){
     <canvas id="scene" class="scene-cv" width="192" height="96" role="img" aria-label="${esc(sceneText().filter(Boolean).join(' '))}"></canvas>
     <div class="depth" aria-label="How deep you are">${steps}</div>
     <div class="win stage">${stage}</div>
-    <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn" data-act="abandon" type="button">End adventure</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
+    <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn" data-act="abandon" type="button">Give up and return home</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
   </section></div>`;
   const lg=document.getElementById('log');lg.scrollTop=lg.scrollHeight;adv.shake=null;
   drawHeroIcons();
