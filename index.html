@@ -949,10 +949,38 @@ function pickMonster(l,boss,opt){
   return pick(pool);
 }
 /* one monster per hero: a group of the same kind, or a mix. A boss brings helpers. */
-function encounter(boss,opt){
-  opt=opt||{};const n=Math.max(1,party.length),l=effLvl();const main=pickMonster(l,boss,opt);const out=[main];
-  const same=Math.random()<.6;
-  for(let i=1;i<n;i++)out.push(boss?pickMonster(l,false):same?main:pickMonster(l,false,{type:opt.type,bump:opt.bump}));
+/* Encounters are built from an XP budget, like the D&D 5e encounter rules: each hero adds to the budget
+   (easy / medium / hard / deadly per level), and groups count extra because many monsters are worse than one. */
+const XPB={1:[25,50,75,100],2:[50,100,150,200],3:[75,150,225,400],4:[125,250,375,500],5:[250,500,750,1100],6:[300,600,900,1400],7:[350,750,1100,1700],8:[450,900,1400,2100],9:[550,1100,1600,2400],10:[600,1200,1900,2800]};
+const GROUP_X=k=>k<=1?1:k===2?1.5:2;
+function encTier(boss,opt){const dk=SET.diff,dp=adv?adv.depth:1,r=Math.random();let t;
+  if(boss)t=dk==='easy'?1:dk==='hard'?3:2;
+  else if(dk==='easy')t=dp>=5&&r<.3?1:0;
+  else if(dk==='hard')t=dp>=5&&r<.4?2:1;
+  else t=dp<=2||r<.25?0:1;
+  if(opt&&opt.bump)t+=opt.bump;return Math.min(3,t)}
+/* a lone hero gets a little less, a full party of three a little more (more heroes act more often) */
+function encBudget(tier){const f=[.85,1,1.2][Math.min(3,party.length)-1]||1;return f*party.reduce((s,h)=>s+(XPB[Math.min(10,Math.max(1,h.lvl))]||XPB[1])[tier],0)}
+function encPick(maxXp,boss,opt){opt=opt||{};
+  let base=M;if(opt.type){const f=M.filter(m=>m.t===opt.type);if(f.length)base=f}
+  let pool=base.filter(m=>m.xp<=maxXp&&m.xp>=maxXp*.4);
+  if(pool.length<3)pool=base.filter(m=>m.xp<=maxXp&&m.xp>=maxXp*.15);
+  if(!pool.length)pool=base.filter(m=>m.xp<=maxXp);
+  if(!pool.length){const lo=Math.min(...base.map(m=>m.xp));pool=base.filter(m=>m.xp===lo)}
+  if(boss){const fav=pool.filter(m=>(BOSS_T[locKey()]||BOSS_T.castle).includes(m.t));if(fav.length)pool=fav;const big=pool.filter(m=>m.xp>=maxXp*.6);if(big.length)pool=big}
+  if(!opt.type&&Math.random()<(boss?.9:.75)){const th=pool.filter(m=>fitsLoc(m,locKey()));if(th.length)pool=th}
+  return pick(pool)}
+function encounter(boss,opt){opt=opt||{};const n=Math.max(1,party.length);const budget=encBudget(encTier(boss,opt));
+  let k;const r=Math.random();
+  if(boss)k=n;
+  else if(n===1)k=r<.75?1:2;
+  else if(n===2)k=r<.35?1:r<.85?2:3;
+  else k=r<.25?1:r<.6?2:3;
+  const share=budget/GROUP_X(k);
+  if(boss){const main=encPick(k>1?share*.6:share,true,opt);const out=[main];const rest=(share-main.xp)/Math.max(1,k-1);
+    for(let i=1;i<k;i++)out.push(encPick(Math.max(10,rest),false,{}));return out}
+  const per=share/k;const main=encPick(per,false,opt);const out=[main];const same=Math.random()<.6;
+  for(let i=1;i<k;i++)out.push(same?main:encPick(per,false,{type:opt.type}));
   return out;
 }
 /* the short text above the paths: varied, and partly different in each place */
