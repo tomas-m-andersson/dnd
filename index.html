@@ -203,6 +203,17 @@ body.at-home header{justify-content:center;text-align:center}body.at-home header
 .more[open] summary::before{transform:rotate(90deg)}
 
 .scene{display:grid;gap:14px}
+.adv-top{display:grid;gap:10px;position:sticky;top:0;z-index:5;background:var(--k);padding-top:env(safe-area-inset-top,0px);max-height:100vh;overflow-y:auto}
+.adv-top .scene-cv{max-width:calc(100% - 8px)}
+@media (min-width:861px){.adv{grid-template-columns:360px minmax(0,1fr)}.adv-top{top:12px;padding-top:0;max-height:calc(100vh - 24px)}}
+@media (max-width:860px){.adv-top{margin:0 -4px;padding-left:4px;padding-right:4px;padding-bottom:6px;box-shadow:0 6px 0 var(--k);gap:8px}
+  .adv-top .status{padding:6px 10px;gap:4px}.adv-top .party{gap:2px}
+  .adv-top .pm{grid-template-columns:8px 18px minmax(0,1fr);gap:6px;padding:0}.adv-top .pm-ico{width:14px;height:16px}
+  .adv-top .pm-main{grid-template-columns:30% minmax(40px,1fr) auto;align-items:center;gap:8px}.adv-top .pm-top{min-width:0}.adv-top .pm-top b{overflow:hidden;text-overflow:ellipsis}
+  .adv-top .pm-cls,.adv-top .pm-ac,.adv-top .pm-sub .pips{display:none}.adv-top .pm-top b{font-size:9px}
+  .adv-top .pm .bar{height:6px}.adv-top .pm-sub{font-size:7px;white-space:nowrap}
+  .adv-top .more summary{padding:6px 0 0;min-height:26px}.adv-top .more[open] .more-in{max-height:40vh;overflow-y:auto}}
+
 .scene-cv{display:block;width:100%;max-width:640px;margin:0 auto;aspect-ratio:2/1;height:auto;image-rendering:pixelated;image-rendering:crisp-edges;background:#000;border:4px solid var(--w);border-radius:8px;box-sizing:content-box;max-width:calc(100% - 8px)}
 .depth{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:8px}
 .depth::before{content:"DEPTH";color:var(--g1);margin-right:2px}
@@ -3776,8 +3787,9 @@ function renderAdv(){
   }
   stage+=tipHtml(P,adv.room&&adv.room.t,adv.room&&adv.room.done);
   const logHtml=adv.log.map(e=>e.c==='sep'?`<li class="sep">${e.h}</li>`:`<li class="${e.c}"><span class="chip ${e.cc||''}">${e.ch??'·'}</span><div>${e.h}</div></li>`).join('');
-  $view.innerHTML=`<div class="adv">${status}<section class="scene">
+  $view.innerHTML=`<div class="adv"><div class="adv-top" id="advTop">
     <canvas id="scene" class="scene-cv" width="192" height="96" role="img" aria-label="${esc(sceneText().filter(Boolean).join(' '))}"></canvas>
+    ${status}</div><section class="scene">
     <div class="depth" aria-label="How deep you are">${steps}</div>
     <div class="win stage">${stage}</div>
     <div><div class="log-head"><h3>Chronicle</h3><span class="lh-btns"><button class="btn" data-act="abandon" type="button">Give up and return home</button></span></div><ol class="log" id="log">${logHtml}</ol></div>
@@ -3787,7 +3799,7 @@ function renderAdv(){
   sceneSync();{const cv=document.getElementById('scene');if(cv)drawScene(cv)}sceneStart();
   const more=document.getElementById('more');if(more&&!wide)more.addEventListener('toggle',()=>{adv.moreOpen=more.open});
   const key=adv.phase+'|'+adv.depth+'|'+adv.chapter+'|'+(adv.room&&adv.room.t);
-  if(!wide&&key!==lastKey&&lastKey!==null){const stg=document.querySelector('.status')||document.getElementById('scene');const top=stg.getBoundingClientRect().top,off=10;if(Math.abs(top-off)>4)window.scrollTo({top:scrollY+top-off,behavior:reduced?'auto':'smooth'})}
+  if(key!==lastKey&&lastKey!==null){const stg=document.querySelector('.stage'),tp=document.getElementById('advTop');if(stg&&tp){const th=wide?0:tp.getBoundingClientRect().height,y=Math.max(0,scrollY+stg.getBoundingClientRect().top-th-12);const vis=stg.getBoundingClientRect().top;if(vis<th||vis>innerHeight*.6)window.scrollTo({top:y,behavior:reduced?'auto':'smooth'})}}
   lastKey=key;
 }
 
